@@ -1,14 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
- import React from 'react';
+import * as React from 'react'
  import {
    SafeAreaView,
    ScrollView,
@@ -26,6 +16,8 @@
    LearnMoreLinks,
    ReloadInstructions,
  } from 'react-native/Libraries/NewAppScreen';
+import stackContainer from './container/stackContainer/stackContainer'
+
 
  const Section: React.FC<{
    title: string;
@@ -65,15 +57,15 @@
    return (
      <SafeAreaView style={backgroundStyle}>
        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+       <Header></Header>
        <ScrollView
          contentInsetAdjustmentBehavior="automatic"
-         style={backgroundStyle}>
-         <Header />
+         style={backgroundStyle}> 
          <View
            style={{
              backgroundColor: isDarkMode ? Colors.black : Colors.white,
            }}>
-           <Section title="Step One">
+           <Section title=":v a Beth">
              Edit <Text style={styles.highlight}>App.js</Text> to change this
              screen and then come back to see your edits.
            </Section>
