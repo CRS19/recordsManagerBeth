@@ -16,7 +16,7 @@ export enum tipoAborto {
 export enum estadoReproductivo {
   ABORTO = 'Aborto',
   VACIA = 'Vacia',
-  PREÑADA = 'Preñada',
+  PRENADA = 'Preñada',
   PRECENTINA = 'Precentina',
   SECA = 'Seca',
 }
@@ -35,6 +35,13 @@ export enum Categoria {
   VACA_SECA = 'Vaca seca',
 }
 
+export type estadoProductivoType =
+  | 'Vaca con alta producción'
+  | 'Vaca con media producción'
+  | 'Vaca con baja producción'
+  | 'Novilla no lactante'
+  | 'Reproductor'
+  | 'Descarte';
 export interface ICow {
   idVaca: string;
   nombre: string;
@@ -43,13 +50,7 @@ export interface ICow {
   fechaDeNacimiento: number;
   raza: string;
   pesoNacimiento: number;
-  estadoProductivo:
-    | 'Vaca con alta producción'
-    | 'Vaca con media producción'
-    | 'Vaca con baja producción'
-    | 'Novilla no lactante'
-    | 'Reproductor'
-    | 'Descarte';
+  estadoProductivo: estadoProductivoType;
   estadoReproductivo: 'Aborto' | 'Vacia' | 'Preñada' | 'Precentina' | 'Seca';
   tipoAborto?: 'Aborto Normal' | 'Placenta retenida' | 'Metritis puerperal';
   categoria:
@@ -71,6 +72,7 @@ export interface ICow {
   diasDeGestacion: number;
   fechaDeParto: number;
   numeroDeCrias: number;
+  imagenPath: string; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
 }
 
 export interface registroPeso {

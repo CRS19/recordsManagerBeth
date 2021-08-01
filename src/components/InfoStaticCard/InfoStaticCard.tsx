@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {styles} from '../../theme/GlobalStyles';
 import {InfoText} from './InfoText';
+import {COLORPRODUCCTION} from '../../constants/colorEnum';
 
 export const InfoStaticCard = () => {
   return (
@@ -10,26 +11,34 @@ export const InfoStaticCard = () => {
         <InfoText
           title1={'Vaca con '}
           title2={' alta producción'}
-          IconColor="#01890E"
+          IconColor={COLORPRODUCCTION.altaProduccion}
         />
         <InfoText
           title1={'Vaca con '}
           title2={' baja producción'}
-          IconColor="#CC0202"
+          IconColor={COLORPRODUCCTION.bajaProduccion}
         />
-        <InfoText title1={' Toro '} title2={' '} IconColor="#0098EE" />
+        <InfoText
+          title1={' Toro '}
+          title2={' '}
+          IconColor={COLORPRODUCCTION.toro}
+        />
 
         <InfoText
           title1={'Vaca con '}
           title2={' media producción'}
-          IconColor="#FFEE52"
+          IconColor={COLORPRODUCCTION.mediaProduccion}
         />
         <InfoText
           title1={' Novilla no'}
           title2={' lactante'}
-          IconColor="#9B51E0"
+          IconColor={COLORPRODUCCTION.noLactante}
         />
-        <InfoText title1={'Descarte '} title2={''} IconColor="#121212" />
+        <InfoText
+          title1={'Descarte '}
+          title2={''}
+          IconColor={COLORPRODUCCTION.descarte}
+        />
       </View>
     </View>
   );

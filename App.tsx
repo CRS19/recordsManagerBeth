@@ -10,10 +10,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <StatusBar hidden={true} />
-      {/**<TopBar title="estación experimental tunshi" />**/}
+      {<TopBar title="Datos Individuales" />}
       {/**<StationScreen />**/}
       {/**<LogIn />**/}
-      <IndividualRecords />
+      {<IndividualRecords />}
     </NavigationContainer>
   );
 };

@@ -190,7 +190,6 @@ export const styles = StyleSheet.create({
   },
   IndividualRecordsLeftContainer: {
     flex: 1,
-    backgroundColor: 'pink',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -199,6 +198,14 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.12)',
     borderRadius: 10,
+    elevation: 20,
+    width: 344,
+    height: 382,
+  },
+  touchableCowCardContainer: {
+    borderRadius: 10,
+    alignSelf: 'center',
+    backgroundColor: 'white',
     width: 344,
     height: 382,
     margin: 20,
