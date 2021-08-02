@@ -20,11 +20,13 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     textTransform: 'uppercase',
   },
+  TapBarBackIcon: {
+    width: 73,
+    alignItems: 'center',
+  },
   TopBarTitlePosition: {
     paddingTop: 16,
-    paddingLeft: 72,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   AvatarPosition: {
     width: 40,
