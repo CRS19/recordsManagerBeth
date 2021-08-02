@@ -5,15 +5,17 @@ import {TopBar} from './src/components/TopBar';
 import {StationScreen} from './src/screens/StationScreen';
 import {LogIn} from './src/screens/LogIn/LogIn';
 import {IndividualRecords} from './src/screens/IndividualRecords';
+import {LogInStack} from './src/navigation/LogInStack';
 
 const App = () => {
   return (
     <NavigationContainer>
       <StatusBar hidden={true} />
-      {<TopBar title="Datos Individuales" />}
+      {/**<TopBar title="Datos Individuales" />**/}
       {/**<StationScreen />**/}
       {/**<LogIn />**/}
-      {<IndividualRecords />}
+      {/**<IndividualRecords />**/}
+      {<LogInStack />}
     </NavigationContainer>
   );
 };

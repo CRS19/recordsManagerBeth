@@ -1,3 +1,4 @@
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Text, TouchableNativeFeedback, View} from 'react-native';
 
@@ -8,11 +9,14 @@ interface IGeneralButtom {
   color: string;
   Icon: JSX.Element;
   titleColor?: string;
+  navigateTo: string;
 }
 
 export const GeneralButtom = (props: IGeneralButtom) => {
+  const navigation = useNavigation();
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback
+      onPress={() => navigation.navigate(props.navigateTo)}>
       <View
         style={[styles.GeneralButtomContainer, {backgroundColor: props.color}]}>
         <View style={styles.GeneralButtonIconPosition}>{props.Icon}</View>

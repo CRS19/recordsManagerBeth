@@ -9,7 +9,7 @@ import {styles} from '../theme/GlobalStyles';
 import {vacas} from '../VaquitasPrueba/vacas';
 
 export const IndividualRecords = () => {
-  console.log(JSON.stringify(vacas, null, 3));
+  console.log('OPTIMIZATION: IndividualRecords render');
   return (
     <View style={{flexDirection: 'row'}}>
       <View style={styles.IndividualRecordsContainer}>
@@ -62,3 +62,5 @@ export const IndividualRecords = () => {
     </View>
   );
 };
+
+export const MemoizedIndividualRecords = React.memo(IndividualRecords);

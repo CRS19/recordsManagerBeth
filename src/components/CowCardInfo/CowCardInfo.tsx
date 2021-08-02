@@ -6,14 +6,16 @@ import {COLORPRODUCCTION} from '../../constants/colorEnum';
 import {estadoProductivoType, ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {CowCardFooterInfo} from './CowCardFooterInfo';
+import {useCowCardInfo} from './state/useCowCardInfo';
 
 interface ICowCardInfo {
   default?: boolean;
-  cow?: ICow;
+  cow: ICow;
 }
 
 export const CowCardInfo = (props: ICowCardInfo) => {
   const isDefaultCard = get(props, 'default', false);
+  const {openCowNavigation} = useCowCardInfo(props.cow);
 
   const getProductionColor = (
     estadoProductivo: estadoProductivoType,
@@ -47,6 +49,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
     return (
       <TouchableOpacity
         style={styles.touchableCowCardContainer}
+        onPress={openCowNavigation}
         activeOpacity={0.8}>
         <View style={styles.CowCardContainer}>
           <View style={styles.CowCardHeader}>
@@ -93,6 +96,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
     return (
       <TouchableOpacity
         style={styles.touchableCowCardContainer}
+        onPress={openCowNavigation}
         activeOpacity={0.8}>
         <View style={styles.CowCardContainer}>
           <View style={styles.CowCardHeader}>
