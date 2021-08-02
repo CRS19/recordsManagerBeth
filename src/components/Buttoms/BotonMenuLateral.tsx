@@ -16,22 +16,46 @@ interface IBotonMenuLateral {
 export const BotonMenuLateral = (props: IBotonMenuLateral) => {
   return (
     <TouchableOpacity
-      style={{backgroundColor: '#4D4D4D4D'}}
       onPress={() =>
         props.navegation.navegationFuntion.navigate(
           props.navegation.destination,
         )
       }>
-      <View style={{flexDirection: 'row'}}>
-        <View style={{width: 100, height: 100}}>{props.icono}</View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            width: 90,
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {props.icono}
+        </View>
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'flex-start',
           }}>
-          <Text style={{fontSize: 30, color: 'black'}}>{props.label}</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: 'black',
+              fontFamily: 'Roboto',
+              letterSpacing: 0.4,
+              textTransform: 'uppercase',
+            }}>
+            {props.label}
+          </Text>
         </View>
+      </View>
+      <View style={{alignItems: 'flex-end'}}>
+        <View style={{backgroundColor: 'black', height: 2, width: 311}} />
       </View>
     </TouchableOpacity>
   );

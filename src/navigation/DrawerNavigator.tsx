@@ -6,11 +6,12 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {useWindowDimensions} from 'react-native';
-import {StationScreen} from '../screens/StationScreen';
 import {MilkDailyRegister} from '../screens/MilkDailyRegister';
 import {BotonMenuLateral} from '../components/Buttoms/BotonMenuLateral';
-import {TestIcon} from '../assets/TestIcon';
 import {GeneralAppStack} from './GeneralAppStack';
+import {MilkDrawerIcon} from '../assets/MilkDrawerIcon';
+import {StationIcon} from '../assets/StationIcon';
+import {QrIconDrawer} from '../assets/QrIconDrawer';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,21 +37,29 @@ export const DrawerNavigator = () => {
 const MenuContent = (
   props: DrawerContentComponentProps<DrawerContentOptions>,
 ) => (
-  <DrawerContentScrollView style={{}}>
+  <DrawerContentScrollView style={{backgroundColor: '#03DAC5'}}>
     <BotonMenuLateral
-      icono={<TestIcon width="250" heigth="250" />}
-      label="Navegación"
+      icono={<StationIcon />}
+      label="Estación"
       navegation={{
         navegationFuntion: props.navigation,
         destination: 'GeneralAppStack',
       }}
     />
     <BotonMenuLateral
-      icono={<TestIcon width="250" heigth="250" />}
-      label="Ajustes"
+      icono={<MilkDrawerIcon />}
+      label="Ingreso registro de leche"
       navegation={{
         navegationFuntion: props.navigation,
         destination: 'MilkDailyRegister',
+      }}
+    />
+    <BotonMenuLateral
+      icono={<QrIconDrawer />}
+      label="Buscar por código qr"
+      navegation={{
+        navegationFuntion: props.navigation,
+        destination: 'IndividualRecords',
       }}
     />
   </DrawerContentScrollView>
