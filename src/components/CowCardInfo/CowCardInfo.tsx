@@ -1,8 +1,9 @@
 import {get} from 'lodash';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {NewCow} from '../../assets/NewCow';
 import {COLORPRODUCCTION} from '../../constants/colorEnum';
+import {FadeInImage} from '../../custom/FadeInImage';
 import {estadoProductivoType, ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {CowCardFooterInfo} from './CowCardFooterInfo';
@@ -14,6 +15,7 @@ interface ICowCardInfo {
 }
 
 export const CowCardInfo = (props: ICowCardInfo) => {
+  console.log('OPTIMIZATION: CowCard rendered');
   const isDefaultCard = get(props, 'default', false);
   const {openCowNavigation} = useCowCardInfo(props.cow);
 
@@ -117,8 +119,8 @@ export const CowCardInfo = (props: ICowCardInfo) => {
             </View>
           </View>
           <View style={{width: 344, height: 194}}>
-            <Image
-              source={{uri: props.cow?.imagenPath}}
+            <FadeInImage
+              uri={props.cow.imagenPath}
               style={{
                 width: 344,
                 height: 194,
@@ -156,3 +158,5 @@ export const CowCardInfo = (props: ICowCardInfo) => {
     );
   }
 };
+
+export const MemoizedCard = React.memo(CowCardInfo);

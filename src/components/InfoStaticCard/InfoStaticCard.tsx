@@ -9,36 +9,24 @@ export const InfoStaticCard = () => {
     <View style={styles.InfoStaticCard}>
       <View style={styles.InfoComponentMargin}>
         <InfoText
-          title1={'Vaca con '}
-          title2={' alta producción'}
+          title1={'Alta producción'}
           IconColor={COLORPRODUCCTION.altaProduccion}
         />
         <InfoText
-          title1={'Vaca con '}
-          title2={' baja producción'}
+          title1={'Baja producción'}
           IconColor={COLORPRODUCCTION.bajaProduccion}
         />
-        <InfoText
-          title1={' Toro '}
-          title2={' '}
-          IconColor={COLORPRODUCCTION.toro}
-        />
+        <InfoText title1={' Reproductor '} IconColor={COLORPRODUCCTION.toro} />
 
         <InfoText
-          title1={'Vaca con '}
-          title2={' media producción'}
+          title1={'Media producción'}
           IconColor={COLORPRODUCCTION.mediaProduccion}
         />
         <InfoText
-          title1={' Novilla no'}
-          title2={' lactante'}
+          title1={' Novilla no lactante'}
           IconColor={COLORPRODUCCTION.noLactante}
         />
-        <InfoText
-          title1={'Descarte '}
-          title2={''}
-          IconColor={COLORPRODUCCTION.descarte}
-        />
+        <InfoText title1={' Descarte '} IconColor={COLORPRODUCCTION.descarte} />
       </View>
     </View>
   );

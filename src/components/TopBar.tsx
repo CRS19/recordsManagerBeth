@@ -11,32 +11,45 @@ import {useNavigation} from '@react-navigation/native';
 import {HamburgerIcon} from '../assets/HamburgerIcon';
 import {styles} from '../theme/GlobalStyles';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {get} from 'lodash';
+import {BackDrawerIcon} from '../assets/BackDrawerIcon';
 
 interface ITopBar {
   title: string;
   findIcon?: boolean;
+  backIcon?: boolean;
   navigation: DrawerNavigationProp<any, any>;
 }
 
 export const TopBar = (props: ITopBar) => {
   const {width} = useWindowDimensions();
   const navigation = useNavigation();
+  const hasBackIcon = get(props, 'backIcon', false);
 
   return (
     <View style={{width}}>
       <View style={styles.TopBar}>
         <View style={styles.TopBarTitlePosition}>
           <View style={styles.TapBarBackIcon}>
-            <TouchableOpacity
-              style={{top: 9}}
-              activeOpacity={0.8}
-              onPress={() => {
-                console.log('abrir drawer');
-                //@ts-ignore
-                navigation.toggleDrawer();
-              }}>
-              <HamburgerIcon />
-            </TouchableOpacity>
+            {hasBackIcon ? (
+              <TouchableOpacity
+                style={{top: 5}}
+                activeOpacity={0.8}
+                onPress={() => navigation.goBack()}>
+                <BackDrawerIcon />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={{top: 9}}
+                activeOpacity={0.8}
+                onPress={() => {
+                  console.log('abrir drawer');
+                  //@ts-ignore
+                  navigation.toggleDrawer();
+                }}>
+                <HamburgerIcon />
+              </TouchableOpacity>
+            )}
           </View>
           <Text style={styles.TopBarTitle}>{props.title}</Text>
 
