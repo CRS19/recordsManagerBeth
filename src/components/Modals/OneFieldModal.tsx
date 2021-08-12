@@ -1,133 +1,102 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import {Button, Modal, Text, TouchableOpacity, View} from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {
+  Button,
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
+  View,
+} from 'react-native';
+import {TextInput} from 'react-native-paper';
 import {LogoHembra} from '../../assets/LogoHembra';
 import {LogoMacho} from '../../assets/LogoMacho';
+import {styles} from '../../theme/GlobalStyles';
+import {BorderButtom} from '../Buttoms/BorderButtom';
 
 interface IOneFieldModal {
   title: string;
   openCloseModal: boolean;
-  onCloseModal: Dispatch<SetStateAction<boolean>>;
+  closeModal: (value: number) => void;
+  setOpenCloseModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const OneFieldModal = (props: IOneFieldModal) => {
-  const {openCloseModal, onCloseModal} = props;
+  const {title, openCloseModal, closeModal, setOpenCloseModal} = props;
+
+  //Coloar el precio actual sacado del store aquí
+  const [precio, setPrecio] = useState('');
+
+  const [keyboardSize, setKeyboardSize] = React.useState(0);
+
+  const {width, height} = useWindowDimensions();
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', e => {
+      setKeyboardSize(e.endCoordinates.height);
+    });
+
+    Keyboard.addListener('keyboardDidHide', e => {
+      setKeyboardSize(e.endCoordinates.height);
+    });
+
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow');
+      Keyboard.removeAllListeners('keyboardDidHide');
+    };
+  }, []);
 
   return (
-    <Modal
-      animationType="fade"
-      visible={openCloseModal}
-      transparent={true}
-      statusBarTranslucent>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'rgba(0,0,0,0.3)',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            width: 320,
-            height: 275,
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            shadowOffset: {
-              width: 0,
-              height: 10,
-            },
-            elevation: 10,
-          }}>
-          <View
-            style={{
-              width: 320,
-              height: 275,
-              paddingHorizontal: 18.5,
-              paddingTop: 19,
-              paddingBottom: 17,
-            }}>
-            <Text
-              style={{
-                fontFamily: 'Roboto',
-                fontWeight: 'normal',
-                fontStyle: 'normal',
-                fontSize: 18,
-                letterSpacing: 0.4,
-                textTransform: 'uppercase',
-              }}>
-              Seleccione el sexo
-            </Text>
-            <View style={{flex: 1}}>
-              <View
-                style={{
-                  paddingTop: 13,
-                  paddingHorizontal: 25.5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <LogoHembra></LogoHembra>
-                <LogoMacho></LogoMacho>
-              </View>
-              <View
-                style={{
-                  paddingVertical: 13,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <TouchableOpacity>
-                  <View
-                    style={{
-                      backgroundColor: '#6FCF97',
-                      width: 133,
-                      height: 58,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 10,
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto',
-                        fontStyle: 'normal',
-                        fontSize: 18,
-                        letterSpacing: 1.25,
-                        color: 'white',
-                        fontWeight: '500',
-                        textTransform: 'uppercase',
-                      }}>
-                      hembra
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View
-                    style={{
-                      backgroundColor: '#6FCF97',
-                      width: 133,
-                      height: 58,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 10,
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'Roboto',
-                        fontStyle: 'normal',
-                        fontSize: 18,
-                        letterSpacing: 1.25,
-                        color: 'white',
-                        fontWeight: '500',
-                        textTransform: 'uppercase',
-                      }}>
-                      Macho
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+    <ScrollView>
+      <Modal
+        animationType="fade"
+        visible={openCloseModal}
+        onRequestClose={() => setOpenCloseModal(false)}
+        transparent={true}
+        statusBarTranslucent>
+        <TouchableOpacity
+          onPress={() => setOpenCloseModal(false)}
+          style={[styles.ModalGeneralStyle, {marginBottom: keyboardSize}]}>
+          <TouchableWithoutFeedback
+            style={{backgroundColor: 'red'}}
+            onPress={() => console.log('no cerrar')}>
+            <View style={styles.ModalOneFieldContainer}>
+              <View style={styles.ModalOneFieldInputPosition}>
+                <Text style={styles.ModalOneFieldTitle}>{title}</Text>
+                <TextInput
+                  style={{
+                    width: 179,
+                    marginTop: 10,
+                    marginBottom: 10,
+                    elevation: 20,
+                  }}
+                  label="PRECIO USD"
+                  value={precio}
+                  onChangeText={text => setPrecio(text)}
+                  mode="outlined"
+                  outlineColor="#2B9336"
+                  selectionColor="#2B9336"
+                  underlineColor="#2B9336"
+                  theme={{
+                    colors: {primary: '#2B9336'},
+                  }}
+                  keyboardType="decimal-pad"
+                />
+                <BorderButtom
+                  title="Guardar"
+                  onPress={() => closeModal(Number(precio))}
+                />
               </View>
             </View>
-            <Button title="cerrar modal" onPress={() => onCloseModal(false)} />
-          </View>
-        </View>
-      </View>
-    </Modal>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
+    </ScrollView>
   );
 };

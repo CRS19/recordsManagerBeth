@@ -1,21 +1,39 @@
 import React, {useState} from 'react';
 import {View, FlatList, SafeAreaView} from 'react-native';
-import {FillButton} from '../components/Buttoms/FillButton';
-import {QRReaderButtom} from '../components/Buttoms/QRReaderButtom';
-import {CowCardInfo, MemoizedCard} from '../components/CowCardInfo/CowCardInfo';
-import {InfoStaticCard} from '../components/InfoStaticCard/InfoStaticCard';
-import {TopBar} from '../components/TopBar';
-import {styles} from '../theme/GlobalStyles';
-import {vacas} from '../VaquitasPrueba/vacas';
+import {FillButton} from '../../components/Buttoms/FillButton';
+import {QRReaderButtom} from '../../components/Buttoms/QRReaderButtom';
+import {
+  CowCardInfo,
+  MemoizedCard,
+} from '../../components/CowCardInfo/CowCardInfo';
+import {InfoStaticCard} from '../../components/InfoStaticCard/InfoStaticCard';
+import {TopBar} from '../../components/TopBar';
+import {styles} from '../../theme/GlobalStyles';
+import {vacas} from '../../VaquitasPrueba/vacas';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import {OneFieldModal} from '../components/Modals/OneFieldModal';
+import {OneFieldModal} from '../../components/Modals/OneFieldModal';
+import {useIndividualRecords} from './state/useIndividualRecords';
+import {CowCardSkeleton} from '../../components/Skeletons/CowCardSkeleton';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
   console.log('OPTIMIZATION: IndividualRecords render');
 
-  const [openCloseModalCarne, setOpenCloseModalCarne] = useState(false);
+  const {
+    precioCarne,
+    precioLeche,
+    guardarPrecioCarne,
+    openCloseModalCarne,
+    openCloseModalLeche,
+    setOpenCloseModalCarne,
+    guardarPrecioLeche,
+    setOpenCloseModalLeche,
+  } = useIndividualRecords();
+
+  console.log('DEBUG: precio carne: ', precioCarne);
+  console.log('DEBUG: precio leche: ', precioLeche);
 
   return (
     <View>
@@ -45,14 +63,16 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                   title="Precio KG Carne"
                   onPress={() => {
                     console.log('precio carne');
-
                     setOpenCloseModalCarne(true);
                   }}
                 />
               </View>
               <FillButton
                 title="Precio LT leche"
-                onPress={() => console.log('precio leche')}
+                onPress={() => {
+                  console.log('precio leche');
+                  setOpenCloseModalLeche(true);
+                }}
               />
             </View>
           </View>
@@ -64,13 +84,21 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
         </View>
       </View>
       <OneFieldModal
-        title="Carne"
+        title="Ingrese precio kg carne"
         openCloseModal={openCloseModalCarne}
-        onCloseModal={setOpenCloseModalCarne}
+        setOpenCloseModal={setOpenCloseModalCarne}
+        closeModal={guardarPrecioCarne}
+      />
+      <OneFieldModal
+        title="Ingrese precio kg leche"
+        openCloseModal={openCloseModalLeche}
+        setOpenCloseModal={setOpenCloseModalLeche}
+        closeModal={guardarPrecioLeche}
       />
     </View>
   );
 };
+
 //Memoized Component
 const CardList = () => {
   return (
@@ -78,7 +106,6 @@ const CardList = () => {
       numColumns={2}
       data={vacas}
       keyExtractor={(item, iterator) => {
-        console.log('OPTIMIZATION: flatlist ', iterator);
         return item.idVaca.concat(String(iterator));
       }}
       renderItem={vaca => (

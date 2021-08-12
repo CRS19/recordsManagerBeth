@@ -3,6 +3,7 @@ import React, {useMemo} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {NewCow} from '../../assets/NewCow';
 import {COLORPRODUCCTION} from '../../constants/colorEnum';
+import {FadeInImage} from '../../custom/FadeInImage';
 import {estadoProductivoType, ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {CowCardFooterInfo} from './CowCardFooterInfo';
@@ -118,8 +119,8 @@ export const CowCardInfo = (props: ICowCardInfo) => {
             </View>
           </View>
           <View style={{width: 344, height: 194}}>
-            <Image
-              source={{uri: props.cow?.imagenPath}}
+            <FadeInImage
+              uri={props.cow.imagenPath}
               style={{
                 width: 344,
                 height: 194,

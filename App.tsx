@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {TopBar} from './src/components/TopBar';
 import {StationScreen} from './src/screens/StationScreen';
 import {LogIn} from './src/screens/LogIn/LogIn';
-import {IndividualRecords} from './src/screens/IndividualRecords';
+import {IndividualRecords} from './src/screens/IndividualRecords/IndividualRecords';
 import {LogInStack} from './src/navigation/LogInStack';
 
 const App = () => {

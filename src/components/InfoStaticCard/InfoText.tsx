@@ -4,7 +4,6 @@ import {styles} from '../../theme/GlobalStyles';
 
 interface IinfoText {
   title1: string;
-  title2: string;
   IconColor: string;
 }
 
@@ -14,11 +13,7 @@ export const InfoText = (props: IinfoText) => {
       <View
         style={{...styles.InfoIcon, backgroundColor: props.IconColor}}></View>
       <View style={styles.InfoTextContiner}>
-        <Text style={styles.InfoText}>
-          {props.title1}
-          {'\n'}
-          {props.title2}
-        </Text>
+        <Text style={styles.InfoText}>{props.title1}</Text>
       </View>
       <View style={styles.InfoCardDivider} />
     </View>

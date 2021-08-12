@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StationScreen} from '../screens/StationScreen';
 import {ReproductoresScreen} from '../screens/Reproductors/ReproductoresScreen';
-import {MemoizedIndividualRecords} from '../screens/IndividualRecords';
+import {MemoizedIndividualRecords} from '../screens/IndividualRecords/IndividualRecords';
 import {InventoryScreen} from '../screens/Inventory/InventoryScreen';
 import {ReproductiveStatus} from '../screens/ReproductiveStatus/ReproductiveStatus';
 import {GlobalProduction} from '../screens/GlobalProduction/GlobalProduction';
