@@ -28,7 +28,10 @@
     "react-native-screens": "^3.4.0",
     "react-native-skeleton-placeholder": "^5.0.0",
     "react-native-svg": "^12.1.1",
-    "react-native-svg-uri": "^1.2.3"
+    "react-native-svg-uri": "^1.2.3",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

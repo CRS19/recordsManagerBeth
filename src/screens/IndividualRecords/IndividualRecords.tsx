@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, FlatList, SafeAreaView} from 'react-native';
+import {
+  View,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {FillButton} from '../../components/Buttoms/FillButton';
 import {QRReaderButtom} from '../../components/Buttoms/QRReaderButtom';
 import {
@@ -15,6 +21,7 @@ import {OneFieldModal} from '../../components/Modals/OneFieldModal';
 import {useIndividualRecords} from './state/useIndividualRecords';
 import {CowCardSkeleton} from '../../components/Skeletons/CowCardSkeleton';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {TextInput} from 'react-native-gesture-handler';
 
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
 
@@ -30,6 +37,7 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
     setOpenCloseModalCarne,
     guardarPrecioLeche,
     setOpenCloseModalLeche,
+    printState,
   } = useIndividualRecords();
 
   console.log('DEBUG: precio carne: ', precioCarne);
@@ -75,7 +83,11 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                 }}
               />
             </View>
+            <TouchableOpacity onPress={printState}>
+              <Text>imprimir estado</Text>
+            </TouchableOpacity>
           </View>
+          {/* rigth part */}
           <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
               <MemoizedCardList />
@@ -88,12 +100,14 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
         openCloseModal={openCloseModalCarne}
         setOpenCloseModal={setOpenCloseModalCarne}
         closeModal={guardarPrecioCarne}
+        initialPrice={precioCarne}
       />
       <OneFieldModal
         title="Ingrese precio kg leche"
         openCloseModal={openCloseModalLeche}
         setOpenCloseModal={setOpenCloseModalLeche}
         closeModal={guardarPrecioLeche}
+        initialPrice={precioLeche}
       />
     </View>
   );
