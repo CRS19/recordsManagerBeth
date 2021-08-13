@@ -1,4 +1,4 @@
-import React, {Dispatch, useEffect, useState} from 'react';
+import React, {createRef, Dispatch, useEffect, useState} from 'react';
 import {
   Keyboard,
   Modal,
@@ -10,10 +10,9 @@ import {
   View,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {useSelector} from 'react-redux';
-import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
+import TextInputMask from 'react-native-text-input-mask';
 
 interface IOneFieldModal {
   title: string;
@@ -30,7 +29,8 @@ export const OneFieldModal = (props: IOneFieldModal) => {
   const [precio, setPrecio] = useState(String(initialPrice));
 
   const [keyboardSize, setKeyboardSize] = React.useState(0);
-
+  // @ts-ignore
+  const ref = createRef<TextInput>();
   const {width, height} = useWindowDimensions();
 
   useEffect(() => {
@@ -76,15 +76,25 @@ export const OneFieldModal = (props: IOneFieldModal) => {
                   }}
                   label="PRECIO USD"
                   value={precio}
-                  onChangeText={text => setPrecio(text)}
                   mode="outlined"
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"
                   underlineColor="#2B9336"
+                  ref={ref}
                   theme={{
                     colors: {primary: '#2B9336'},
                   }}
                   keyboardType="decimal-pad"
+                  render={props => (
+                    <TextInputMask
+                      {...props}
+                      ref={ref}
+                      mask="$[09].[99]"
+                      onChangeText={(text, text2) => {
+                        setPrecio(text.slice(1));
+                      }}
+                    />
+                  )}
                 />
                 <BorderButtom
                   title="Guardar"
