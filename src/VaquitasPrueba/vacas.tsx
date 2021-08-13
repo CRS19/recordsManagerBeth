@@ -2,7 +2,7 @@ import {ICow} from '../interfaces/CowInterface';
 
 export const vaca0: ICow = {
   idVaca: '007xD',
-  nombre: 'Dana',
+  nombre: 'Noname',
   sexo: 'Hembra',
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
@@ -82,7 +82,7 @@ export const vaca2: ICow = {
 };
 
 export const vaca3: ICow = {
-  idVaca: '123',
+  idVaca: '1234',
   nombre: 'Hella',
   sexo: 'Hembra',
   numeroDeArete: '546',
@@ -108,8 +108,8 @@ export const vaca3: ICow = {
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 export const vaca4: ICow = {
-  idVaca: '123',
-  nombre: 'Hella',
+  idVaca: '1235',
+  nombre: 'VANESSA',
   sexo: 'Hembra',
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
@@ -134,8 +134,8 @@ export const vaca4: ICow = {
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 export const vaca5: ICow = {
-  idVaca: '123',
-  nombre: 'Hella',
+  idVaca: '1236',
+  nombre: 'CRISTINA',
   sexo: 'Hembra',
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
@@ -161,8 +161,8 @@ export const vaca5: ICow = {
 };
 
 export const vaca6: ICow = {
-  idVaca: '123',
-  nombre: 'Hella',
+  idVaca: '1237',
+  nombre: 'CARMINA',
   sexo: 'Hembra',
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,

@@ -227,6 +227,7 @@ export const styles = StyleSheet.create({
   CowCardHeaderName: {
     fontFamily: 'Roboto',
     fontSize: 14,
+    textTransform: 'capitalize',
   },
   CowCardFoter: {
     marginVertical: 15,

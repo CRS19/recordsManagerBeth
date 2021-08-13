@@ -1,40 +1,36 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {createRef, Dispatch, useEffect, useState} from 'react';
 import {
-  Button,
   Keyboard,
-  KeyboardAvoidingView,
   Modal,
-  Platform,
-  SafeAreaView,
   ScrollView,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {LogoHembra} from '../../assets/LogoHembra';
-import {LogoMacho} from '../../assets/LogoMacho';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
+import TextInputMask from 'react-native-text-input-mask';
 
 interface IOneFieldModal {
   title: string;
   openCloseModal: boolean;
   closeModal: (value: number) => void;
   setOpenCloseModal: Dispatch<React.SetStateAction<boolean>>;
+  initialPrice: number;
 }
 
 export const OneFieldModal = (props: IOneFieldModal) => {
-  const {title, openCloseModal, closeModal, setOpenCloseModal} = props;
+  const {title, openCloseModal, closeModal, setOpenCloseModal, initialPrice} =
+    props;
 
-  //Coloar el precio actual sacado del store aquí
-  const [precio, setPrecio] = useState('');
+  const [precio, setPrecio] = useState(String(initialPrice));
 
   const [keyboardSize, setKeyboardSize] = React.useState(0);
-
+  // @ts-ignore
+  const ref = createRef<TextInput>();
   const {width, height} = useWindowDimensions();
 
   useEffect(() => {
@@ -61,9 +57,11 @@ export const OneFieldModal = (props: IOneFieldModal) => {
         transparent={true}
         statusBarTranslucent>
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() => setOpenCloseModal(false)}
           style={[styles.ModalGeneralStyle, {marginBottom: keyboardSize}]}>
           <TouchableWithoutFeedback
+            touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
             onPress={() => console.log('no cerrar')}>
             <View style={styles.ModalOneFieldContainer}>
@@ -78,15 +76,25 @@ export const OneFieldModal = (props: IOneFieldModal) => {
                   }}
                   label="PRECIO USD"
                   value={precio}
-                  onChangeText={text => setPrecio(text)}
                   mode="outlined"
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"
                   underlineColor="#2B9336"
+                  ref={ref}
                   theme={{
                     colors: {primary: '#2B9336'},
                   }}
                   keyboardType="decimal-pad"
+                  render={props => (
+                    <TextInputMask
+                      {...props}
+                      ref={ref}
+                      mask="$[09].[99]"
+                      onChangeText={(text, text2) => {
+                        setPrecio(text.slice(1));
+                      }}
+                    />
+                  )}
                 />
                 <BorderButtom
                   title="Guardar"
