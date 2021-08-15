@@ -1,9 +1,15 @@
 import React from 'react';
 import Svg, {Path, Rect, Defs, Pattern, Use, Image} from 'react-native-svg';
+import {ITabIcon} from './TabReproductionIcon';
 
-export const StationIcon = () => {
+export const StationIcon = ({isSelected = false, bottom = 0}: ITabIcon) => {
   return (
-    <Svg width="84" height="61" viewBox="0 0 84 61" fill="none">
+    <Svg
+      width="84"
+      height="61"
+      viewBox="0 0 84 61"
+      fill="none"
+      style={{bottom}}>
       <Rect x="9" width="75" height="61" fill="url(#pattern0)" />
       <Path
         fill-rule="evenodd"

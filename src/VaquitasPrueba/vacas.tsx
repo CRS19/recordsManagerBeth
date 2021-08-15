@@ -83,7 +83,7 @@ export const vaca2: ICow = {
 
 export const vaca3: ICow = {
   idVaca: '1234',
-  nombre: 'Hella',
+  nombre: 'ADELINA',
   sexo: 'Hembra',
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,

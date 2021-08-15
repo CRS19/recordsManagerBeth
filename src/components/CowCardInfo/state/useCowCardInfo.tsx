@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICow} from '../../../interfaces/CowInterface';
@@ -10,10 +11,12 @@ interface IuseCowCardInfo {
 
 export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const openCowNavigation = () => {
     console.log('Abrir navegación con vaca: ', props.nombre, props.imagenPath);
     console.log('seteando vaquita...');
+    navigation.navigate('TabNavigatorCow');
     dispatch(setCow(props));
   };
 
