@@ -12,12 +12,13 @@ interface ITabNavigationButtom {
   index: number;
   navigateTo?: string;
   ReturnTo?: string;
+  disable: boolean;
   title: string;
   icon?: JSX.Element;
 }
 
 export const TabNavigationButtom = (params: ITabNavigationButtom) => {
-  const {props, index, navigateTo, icon, title, ReturnTo} = params;
+  const {props, index, navigateTo, icon, title, ReturnTo, disable} = params;
   const returnTo = useNavigation();
 
   const screenToNavigate = (): void => {
@@ -30,6 +31,7 @@ export const TabNavigationButtom = (params: ITabNavigationButtom) => {
 
   return (
     <TouchableNativeFeedback
+      disabled={disable}
       style={{flex: 1}}
       onPress={() => screenToNavigate()}>
       <View

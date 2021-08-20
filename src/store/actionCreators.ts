@@ -20,3 +20,10 @@ export const setPrice = (payload: IPrices): IAppAction => {
     Prices: payload,
   };
 };
+
+export const setInsertNewCow = (payload: boolean): IAppAction => {
+  return {
+    type: ActionTypes.SET_INSERT_NEW_COW,
+    insertNewCow: payload,
+  };
+};

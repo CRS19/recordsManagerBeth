@@ -7,6 +7,14 @@ export enum estadoProductivo {
   DESCARTE = 'Descarte',
 }
 
+export enum diasGestación {
+  DG_HOLSTEIN = 283,
+  DG_BRAW_SWISS = 283,
+  DG_JERSEY = 283,
+  DG_AYRSHIRE = 283,
+  DG_GYRHOLANDO = 283,
+}
+
 export enum tipoAborto {
   NORMAL = 'Aborto Normal',
   PLACENTA_RETENIDA = 'Placenta retenida',
@@ -49,6 +57,7 @@ export interface ICow {
   numeroDeArete: string;
   fechaDeNacimiento: number;
   raza: string;
+  diasGestación: number;
   pesoNacimiento: number;
   estadoProductivo: estadoProductivoType;
   estadoReproductivo: 'Aborto' | 'Vacia' | 'Preñada' | 'Precentina' | 'Seca';

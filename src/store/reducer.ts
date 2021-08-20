@@ -9,11 +9,13 @@ export const INITIAL_STATE: IAppState = {
     meatPrice: 10.5,
     milkPrice: 15.4,
   },
+  insertNewCow: false,
 };
 
 export interface IAppState {
   CurrentCow?: ICow;
   Prices?: IPrices;
+  insertNewCow?: boolean;
 }
 
 export const reducer = (
@@ -30,6 +32,11 @@ export const reducer = (
       return {
         ...state,
         Prices: action.Prices,
+      };
+    case ActionTypes.SET_INSERT_NEW_COW:
+      return {
+        ...state,
+        insertNewCow: action.insertNewCow,
       };
     default:
       return state;

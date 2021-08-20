@@ -361,4 +361,46 @@ export const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textAlign: 'center',
   },
+  GenericTabContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  LeftGenericTabContainer: {
+    width: 392,
+  },
+  RigthGenericTabContainer: {
+    flex: 1,
+    width: 798,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: 'orange',
+  },
+  RegisterTitleGeneric: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontStyle: 'normal',
+    lineHeight: 24,
+    textAlign: 'center',
+    letterSpacing: 0.15,
+    textTransform: 'uppercase',
+  },
+  RegisterTitleUnderLine: {
+    backgroundColor: '#D8B285',
+    height: 3,
+    width: 333,
+  },
+  ModalInputLogoContainer: {
+    width: 52,
+    height: 52,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ModalInputDivider: {
+    position: 'absolute',
+    height: 2,
+    width: 268,
+    bottom: 0,
+    left: 5,
+    backgroundColor: '#6200EE',
+  },
 });

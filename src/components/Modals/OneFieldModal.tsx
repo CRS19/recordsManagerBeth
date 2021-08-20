@@ -27,7 +27,6 @@ export const OneFieldModal = (props: IOneFieldModal) => {
     props;
 
   const [precio, setPrecio] = useState(String(initialPrice));
-
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
