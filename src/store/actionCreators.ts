@@ -27,3 +27,10 @@ export const setInsertNewCow = (payload: boolean): IAppAction => {
     insertNewCow: payload,
   };
 };
+
+export const setNewCow = (payload: ICow): IAppAction => {
+  return {
+    type: ActionTypes.SET_NEW_COW,
+    newCow: payload,
+  };
+};

@@ -49,7 +49,32 @@ export type estadoProductivoType =
   | 'Vaca con baja producción'
   | 'Novilla no lactante'
   | 'Reproductor'
-  | 'Descarte';
+  | 'Descarte'
+  | '';
+
+export type estadoReproductivoType =
+  | 'Aborto'
+  | 'Vacia'
+  | 'Preñada'
+  | 'Precentina'
+  | 'Seca'
+  | '';
+
+export type tipoAbortoType =
+  | 'Aborto Normal'
+  | 'Placenta retenida'
+  | 'Metritis puerperal'
+  | '';
+
+export type categoriaType =
+  | 'Ternera'
+  | 'Vaca media'
+  | 'Vaca fierro'
+  | 'Vaca vientre'
+  | 'Vaca'
+  | 'Vaca seca'
+  | '';
+
 export interface ICow {
   idVaca: string;
   nombre: string;
@@ -60,15 +85,9 @@ export interface ICow {
   diasGestación: number;
   pesoNacimiento: number;
   estadoProductivo: estadoProductivoType;
-  estadoReproductivo: 'Aborto' | 'Vacia' | 'Preñada' | 'Precentina' | 'Seca';
-  tipoAborto?: 'Aborto Normal' | 'Placenta retenida' | 'Metritis puerperal';
-  categoria:
-    | 'Ternera'
-    | 'Vaca media'
-    | 'Vaca fierro'
-    | 'Vaca vientre'
-    | 'Vaca'
-    | 'Vaca seca';
+  estadoReproductivo: estadoReproductivoType;
+  tipoAborto?: tipoAbortoType;
+  categoria: categoriaType;
   valorDelBovino: number;
   nombreDeMadre: string;
   numeroAreteMadre: string;

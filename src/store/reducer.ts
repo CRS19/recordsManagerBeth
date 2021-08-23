@@ -2,6 +2,7 @@ import {IPrices} from './../interfaces/PricesInterface';
 import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
 import {IAppAction} from './actionCreators';
+import {emptyCow} from '../VaquitasPrueba/vacas';
 
 export const INITIAL_STATE: IAppState = {
   CurrentCow: undefined,
@@ -10,12 +11,14 @@ export const INITIAL_STATE: IAppState = {
     milkPrice: 15.4,
   },
   insertNewCow: false,
+  newCow: emptyCow,
 };
 
 export interface IAppState {
   CurrentCow?: ICow;
   Prices?: IPrices;
   insertNewCow?: boolean;
+  newCow?: ICow;
 }
 
 export const reducer = (
@@ -37,6 +40,11 @@ export const reducer = (
       return {
         ...state,
         insertNewCow: action.insertNewCow,
+      };
+    case ActionTypes.SET_NEW_COW:
+      return {
+        ...state,
+        newCow: action.newCow,
       };
     default:
       return state;

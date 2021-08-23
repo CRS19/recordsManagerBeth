@@ -10,18 +10,22 @@ import {
 import {orange100} from 'react-native-paper/lib/typescript/styles/colors';
 import {LogoHembra} from '../../assets/LogoHembra';
 import {LogoMacho} from '../../assets/LogoMacho';
+import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
+import {CowCardSkeleton} from '../Skeletons/CowCardSkeleton';
 
 interface IChooseSexModal {
   openCloseModal: boolean;
+  cow: ICow;
   onCloseModal: Dispatch<React.SetStateAction<boolean>>;
-  setSexo: React.Dispatch<React.SetStateAction<string>>;
+  setProperty: React.Dispatch<React.SetStateAction<ICow>>;
 }
 
 export const ChooseSexModal = ({
+  cow,
   openCloseModal,
   onCloseModal,
-  setSexo,
+  setProperty,
 }: IChooseSexModal) => {
   return (
     <Modal
@@ -50,7 +54,7 @@ export const ChooseSexModal = ({
                   <View style={styles.ModalSexBottomContainer}>
                     <TouchableOpacity
                       onPress={() => {
-                        setSexo('HEMBRA');
+                        setProperty({...cow!, sexo: 'HEMBRA'});
                         onCloseModal(false);
                       }}>
                       <View style={styles.ModalSexButtom}>
@@ -59,7 +63,7 @@ export const ChooseSexModal = ({
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        setSexo('MACHO');
+                        setProperty({...cow!, sexo: 'MACHO'});
                         onCloseModal(false);
                       }}>
                       <View style={styles.ModalSexButtom}>

@@ -17,14 +17,17 @@ import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
 import {InputCard} from '../../components/InputCard/InputCard';
 import {ChooseSexModal} from '../../components/Modals/ChooseSexModal';
 import {TopBar} from '../../components/TopBar';
+import {ICow} from '../../interfaces/CowInterface';
+import {setCow} from '../../store/actionCreators';
 import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
+import {emptyCow} from '../../VaquitasPrueba/vacas';
 
 export const MainRecord = () => {
   const currentCow = useSelector((state: IAppState) => state.CurrentCow);
   const icon = require('../../assets/Images/registro/p.png');
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
-  const [sexo, setSexo] = useState('');
+  const [newCow, setNewCow] = useState<ICow>(emptyCow);
 
   return (
     <View style={{flexDirection: 'column'}}>
@@ -41,7 +44,7 @@ export const MainRecord = () => {
             <AddImage />
             <TouchableOpacity
               onPress={() => {
-                setOpenChooseSexModal(true);
+                console.log(JSON.stringify(newCow, null, 3));
               }}>
               <Text>abrir modal</Text>
             </TouchableOpacity>
@@ -70,13 +73,17 @@ export const MainRecord = () => {
                   <View>
                     <View
                       style={{
-                        backgroundColor: 'black',
+                        backgroundColor: '#03DAC5',
                         width: 340,
                         height: 430,
                         marginLeft: 40,
                         marginBottom: 20,
                       }}>
-                      <InputCard />
+                      <InputCard
+                        value={newCow!}
+                        setValue={setNewCow}
+                        openSexChooseModal={setOpenChooseSexModal}
+                      />
                     </View>
                     <View
                       style={{
@@ -115,7 +122,8 @@ export const MainRecord = () => {
       <ChooseSexModal
         openCloseModal={openChooseSexModal}
         onCloseModal={setOpenChooseSexModal}
-        setSexo={setSexo}
+        setProperty={setNewCow}
+        cow={newCow}
       />
     </View>
   );

@@ -1,5 +1,34 @@
 import {ICow} from '../interfaces/CowInterface';
 
+export const emptyCow: ICow = {
+  idVaca: '',
+  nombre: '',
+  sexo: '',
+  numeroDeArete: '',
+  fechaDeNacimiento: 99999999,
+  raza: '',
+  diasGestación: 0,
+  pesoNacimiento: 0,
+  estadoProductivo: '',
+  estadoReproductivo: '',
+  tipoAborto: '',
+  categoria: '',
+  valorDelBovino: 123,
+  nombreDeMadre: 'Elina',
+  numeroAreteMadre: '1233',
+  nombreDePadre: 'Papa',
+  numeroAretePadre: '098',
+  fechaDestete: 123213123,
+  pesoAlDestete: 32.2,
+  pesoActual: 0,
+  numeroDeAbortos: 0,
+  diasDeGestacion: 0,
+  fechaDeParto: 0,
+  numeroDeCrias: 0,
+  // coloar url de imagen por defecto
+  imagenPath: '',
+};
+
 export const vaca0: ICow = {
   idVaca: '007xD',
   nombre: 'Noname',

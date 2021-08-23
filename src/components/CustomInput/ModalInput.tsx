@@ -1,7 +1,9 @@
 import React, {createRef, useState} from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import TextInputMask from 'react-native-text-input-mask';
+import {ICowKeys} from '../../constants/ICowKeysEnum';
+import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 
 interface IModalInput {
@@ -9,16 +11,31 @@ interface IModalInput {
   logo: JSX.Element;
   hasMask: boolean;
   mask?: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  initialValue: string;
+  property: ICowKeys;
+  setValue: React.Dispatch<React.SetStateAction<ICow>>;
+  initialValue: ICow;
   openModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  numKeyboard?: boolean;
 }
 
 export const ModalInput = (props: IModalInput) => {
   // @ts-ignore
   const ref = createRef<TextInput>();
 
-  const {mask, hasMask, setValue, initialValue, openModal} = props;
+  const {
+    mask,
+    hasMask,
+    setValue,
+    initialValue,
+    openModal,
+    property,
+    numKeyboard,
+  } = props;
+
+  const modal = () => {
+    openModal!(true);
+    console.log('desfocusear');
+  };
 
   return (
     <View style={{flexDirection: 'row'}}>
@@ -26,17 +43,13 @@ export const ModalInput = (props: IModalInput) => {
 
       {hasMask ? (
         <TextInput
-          style={{height: 52, width: 221, backgroundColor: 'white'}}
+          style={{height: 52, width: 221, backgroundColor: '#03DAC5'}}
           mode="flat"
-          value={initialValue}
+          value={initialValue[property]!.toString()}
           label={props.label}
-          onFocus={() => {
-            console.log('abrir modal');
-            openModal ? openModal(true) : console.log('no hay na que abrir');
-          }}
           selectionColor="#6200EE"
           underlineColor="#6200EE"
-          showSoftInputOnFocus={false}
+          keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
           ref={ref}
           theme={{
             colors: {primary: '#6200EE'},
@@ -47,31 +60,30 @@ export const ModalInput = (props: IModalInput) => {
               ref={ref}
               mask={mask}
               onChangeText={(text, text2) => {
-                setValue(text);
+                setValue!({...initialValue, [property]: text2});
               }}
             />
           )}
         />
       ) : (
-        <TextInput
-          style={{height: 52, width: 221, backgroundColor: 'white'}}
-          mode="flat"
-          label={props.label}
-          selectionColor="#6200EE"
-          underlineColor="#6200EE"
-          showSoftInputOnFocus={false}
-          value={initialValue}
-          onChangeText={text => {
-            setValue(text);
-          }}
-          theme={{
-            colors: {primary: '#6200EE'},
-          }}
-          onFocus={() => {
-            console.log('abrir modal');
-            openModal ? openModal(true) : console.log('no hay na que abrir');
-          }}
-        />
+        <TouchableOpacity onPress={() => modal()}>
+          <TextInput
+            style={{height: 52, width: 221, backgroundColor: '#03DAC5'}}
+            mode="flat"
+            label={props.label}
+            selectionColor="#6200EE"
+            underlineColor="#6200EE"
+            showSoftInputOnFocus={false}
+            editable={false}
+            value={initialValue[property]!.toString()}
+            onChangeText={text => {
+              setValue!({...initialValue, [property]: text});
+            }}
+            theme={{
+              colors: {primary: '#6200EE', placeholder: '#6200EE'},
+            }}
+          />
+        </TouchableOpacity>
       )}
       <View style={styles.ModalInputDivider} />
     </View>
