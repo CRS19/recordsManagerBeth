@@ -17,7 +17,7 @@ interface ICowCardInfo {
 export const CowCardInfo = (props: ICowCardInfo) => {
   console.log('OPTIMIZATION: CowCard rendered');
   const isDefaultCard = get(props, 'default', false);
-  const {openCowNavigation} = useCowCardInfo(props.cow);
+  const {openCowNavigation, openInsertNewCow} = useCowCardInfo(props.cow);
 
   const getProductionColor = (
     estadoProductivo: estadoProductivoType,
@@ -51,7 +51,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
     return (
       <TouchableOpacity
         style={styles.touchableCowCardContainer}
-        onPress={openCowNavigation}
+        onPress={openInsertNewCow}
         activeOpacity={0.8}>
         <View style={styles.CowCardContainer}>
           <View style={styles.CowCardHeader}>

@@ -18,7 +18,8 @@ interface ITopBar {
   title: string;
   findIcon?: boolean;
   backIcon?: boolean;
-  navigation: DrawerNavigationProp<any, any>;
+  hamburguerDisplay?: 'none' | 'flex';
+  navigation?: DrawerNavigationProp<any, any>;
 }
 
 export const TopBar = (props: ITopBar) => {
@@ -40,7 +41,13 @@ export const TopBar = (props: ITopBar) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                style={{top: 9}}
+                style={{
+                  top: 9,
+                  display:
+                    props.hamburguerDisplay === undefined
+                      ? 'flex'
+                      : props.hamburguerDisplay,
+                }}
                 activeOpacity={0.8}
                 onPress={() => {
                   console.log('abrir drawer');

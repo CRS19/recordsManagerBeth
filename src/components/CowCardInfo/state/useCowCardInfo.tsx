@@ -2,11 +2,12 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICow} from '../../../interfaces/CowInterface';
-import {setCow} from '../../../store/actionCreators';
+import {setCow, setInsertNewCow} from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 interface IuseCowCardInfo {
   openCowNavigation: () => void;
   printState: () => void;
+  openInsertNewCow: () => void;
 }
 
 export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
@@ -16,8 +17,16 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
   const openCowNavigation = () => {
     console.log('Abrir navegación con vaca: ', props.nombre, props.imagenPath);
     console.log('seteando vaquita...');
-    navigation.navigate('TabNavigatorCow');
     dispatch(setCow(props));
+    dispatch(setInsertNewCow(false));
+    navigation.navigate('TabNavigatorCow');
+  };
+
+  const openInsertNewCow = () => {
+    console.log('Abrir flujo de insert new cow...');
+    dispatch(setCow(props));
+    dispatch(setInsertNewCow(true));
+    navigation.navigate('TabNavigatorCow');
   };
 
   const printState = () => {
@@ -29,5 +38,6 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
   return {
     openCowNavigation,
     printState,
+    openInsertNewCow,
   };
 };

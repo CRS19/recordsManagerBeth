@@ -30,10 +30,13 @@ import {Sanity} from '../screens/TabsCowScreen/Sanity';
 import {Alerts} from '../screens/TabsCowScreen/Alerts';
 import {SanityTabIcon} from '../assets/SanityTabIcon';
 import {AlertsTabIcon} from '../assets/AlertsTabIcon';
+import {useSelector} from 'react-redux';
+import {IAppState} from '../store/reducer';
 
 const Tab = createBottomTabNavigator();
 
 export const TabNavigatorCow = () => {
+  console.log('OPTIMIZATION: tabs render!');
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -50,19 +53,23 @@ export const TabNavigatorCow = () => {
 };
 
 const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
-  console.log(props.state.index!);
-  console.log(props.activeBackgroundColor);
+  console.log('DEBUG: tabs render!', '.. Current index: ', props.state.index!);
+  const isInsertingNewCow = useSelector(
+    (state: IAppState) => state.insertNewCow!,
+  );
 
   return (
     <View style={{flexDirection: 'row'}}>
       <TabNavigationButtom
         props={props}
+        disable={isInsertingNewCow}
         index={5}
         ReturnTo={'StationScreen'}
         title={'Estación'}
         icon={<StationIcon isSelected={true} bottom={12} />}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={6}
         ReturnTo={'IndividualRecords'}
@@ -70,6 +77,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
         title={'Animales'}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={0}
         navigateTo={'MainRecord'}
@@ -79,6 +87,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
         title={'R. master'}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={1}
         navigateTo={'ProductionScreen'}
@@ -88,6 +97,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
         title={'producción'}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={2}
         navigateTo={'Reproduction'}
@@ -101,6 +111,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
         title={'Reproducción'}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={3}
         navigateTo={'Sanity'}
@@ -110,6 +121,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
         title={'Sanidad'}
       />
       <TabNavigationButtom
+        disable={isInsertingNewCow}
         props={props}
         index={4}
         navigateTo={'Alerts'}
