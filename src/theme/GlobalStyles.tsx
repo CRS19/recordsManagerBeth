@@ -373,7 +373,6 @@ export const styles = StyleSheet.create({
     width: 798,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'orange',
   },
   RegisterTitleGeneric: {
     fontFamily: 'Roboto',
@@ -402,5 +401,56 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: 5,
     backgroundColor: '#6200EE',
+  },
+  ModalDatePickerContainer: {
+    backgroundColor: 'white',
+    width: 534,
+    height: 484,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 10,
+  },
+  ModalDatePickerInputPosition: {
+    width: 500,
+    alignItems: 'center',
+  },
+  ModalRazaPickerModalContainer: {
+    backgroundColor: 'white',
+    width: 250,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 10,
+  },
+  ModalRazPickerModalPosition: {
+    width: 500,
+    alignItems: 'center',
+  },
+  ModalRazaPickerItem: {
+    width: 197,
+    height: 48,
+    justifyContent: 'center',
+  },
+  ModalRazaPickerItemTitle: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontStyle: 'normal',
+    lineHeight: 24,
+    letterSpacing: 0.15,
+    textTransform: 'uppercase',
+  },
+  InputCardCaracteristic: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 10,
   },
 });

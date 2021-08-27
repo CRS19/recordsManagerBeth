@@ -12,7 +12,7 @@ export const emptyCow: ICow = {
   estadoProductivo: '',
   estadoReproductivo: '',
   tipoAborto: '',
-  categoria: '',
+  categoria: 'Ternera',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
   numeroAreteMadre: '1233',
