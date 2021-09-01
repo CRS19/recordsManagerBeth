@@ -5,7 +5,7 @@ export const emptyCow: ICow = {
   nombre: '',
   sexo: '',
   numeroDeArete: '',
-  fechaDeNacimiento: 99999999,
+  fechaDeNacimiento: 1597439118000,
   raza: '',
   diasGestación: 0,
   pesoNacimiento: 0,

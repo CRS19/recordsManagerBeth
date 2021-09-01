@@ -1,12 +1,14 @@
 import React, {createRef, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, Text} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import TextInputMask from 'react-native-text-input-mask';
 import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
+import {LeftButtomInput} from '../../assets/LeftButtomInput';
 import moment from 'moment';
 import {useRef} from 'react';
+import {AgeEnum} from '../../constants/ageTypeEnum';
 
 interface IModalInput {
   label: string;
@@ -20,6 +22,10 @@ interface IModalInput {
   numKeyboard?: boolean;
   isNumber?: boolean;
   editable?: boolean;
+  defaultValue?: string;
+  hasLeftButtom?: boolean;
+  ageType?: AgeEnum;
+  changeAge?: React.Dispatch<React.SetStateAction<AgeEnum>>;
 }
 
 export const ModalInput = (props: IModalInput) => {
@@ -36,17 +42,45 @@ export const ModalInput = (props: IModalInput) => {
     property,
     numKeyboard,
     isNumber,
-    editable,
+    editable, // USARLA PARA EL SOLO VIEW COMO FALSE
+    defaultValue,
+    hasLeftButtom,
+    ageType,
+    changeAge,
   } = props;
 
   const modal = () => {
-    openModal!(true);
-    console.log('desfocusear');
+    if (!!openModal) {
+      openModal!(true);
+      console.log('desfocusear');
+    }
+    console.log('No abre');
+  };
+
+  const leftButtomAction = (): void => {
+    switch (ageType) {
+      case AgeEnum.ANOS_MESES:
+        changeAge!(AgeEnum.MESES_DIAS);
+        break;
+      case AgeEnum.MESES_DIAS:
+        changeAge!(AgeEnum.ANOS_MESES);
+        break;
+    }
   };
 
   const getValue = (): string => {
-    if (property.includes('fecha')) {
+    if (!!defaultValue) {
+      return defaultValue!;
+    } else if (property.includes('fecha')) {
       return moment(initialValue[property]).format('DD/MM/YYYY');
+    } else if (property.includes('nombreDeMadre')) {
+      return `${initialValue.nombreDeMadre.toUpperCase()} / ${
+        initialValue.numeroAreteMadre
+      }`;
+    } else if (property.includes('nombreDePadre')) {
+      return `${initialValue.nombreDePadre.toUpperCase()} / ${
+        initialValue.numeroAretePadre
+      }`;
     } else if (property.includes('peso') && endEditing) {
       console.log(
         'concatena',
@@ -54,7 +88,7 @@ export const ModalInput = (props: IModalInput) => {
       );
       return initialValue[property]!.toString().concat(' Kg');
     } else {
-      return initialValue[property]!.toString();
+      return initialValue[property]!.toString().toUpperCase();
     }
   };
 
@@ -64,7 +98,7 @@ export const ModalInput = (props: IModalInput) => {
 
       {hasMask ? (
         <TextInput
-          style={{height: 52, width: 221, backgroundColor: 'white'}}
+          style={{height: 52, width: 221, backgroundColor: 'transparent'}}
           mode="flat"
           value={getValue()}
           label={props.label}
@@ -97,9 +131,12 @@ export const ModalInput = (props: IModalInput) => {
           )}
         />
       ) : (
-        <TouchableOpacity onPress={() => modal()}>
+        <TouchableOpacity
+          style={{alignItems: 'flex-end'}}
+          onPress={() => modal()}
+          disabled={!editable}>
           <TextInput
-            style={{height: 52, width: 221, backgroundColor: 'white'}}
+            style={{height: 52, width: 221, backgroundColor: 'transparent'}}
             mode="flat"
             label={props.label}
             selectionColor="#6200EE"
@@ -115,6 +152,18 @@ export const ModalInput = (props: IModalInput) => {
               colors: {primary: '#6200EE', placeholder: '#6200EE'},
             }}
           />
+          {!!hasLeftButtom ? (
+            <View style={{position: 'absolute', right: 15, top: 20}}>
+              <TouchableOpacity
+                onPress={() => {
+                  leftButtomAction();
+                }}>
+                <LeftButtomInput />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View />
+          )}
         </TouchableOpacity>
       )}
       <View style={styles.ModalInputDivider} />

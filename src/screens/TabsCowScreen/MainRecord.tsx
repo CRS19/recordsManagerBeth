@@ -22,7 +22,7 @@ import {RazaPickerModal} from '../../components/Modals/RazaPickerModal';
 import {TopBar} from '../../components/TopBar';
 import {RAZAS} from '../../constants/Razas';
 import {ICow} from '../../interfaces/CowInterface';
-import {setCow} from '../../store/actionCreators';
+import {setCow, setNewCow} from '../../store/actionCreators';
 import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {emptyCow} from '../../VaquitasPrueba/vacas';
@@ -34,16 +34,20 @@ export const MainRecord = () => {
   const icon = require('../../assets/Images/registro/p.png');
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
+  // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
+  const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
   const [openRazaPickerModal, setOpenRazaPickerModal] =
     useState<boolean>(false);
-  const [newCow, setNewCow] = useState<ICow>(emptyCow);
+  const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const onSaveIdentification = () => {
     console.log('guardar identificación');
+    //LLAMADA AXIOS PARA GUARDAR LA INFO
+    dispatch(setNewCow(insertCow));
+    setInfoCardFinish(true);
   };
   const onSaveCaracteristics = () => {
-    dispatch(newCow);
+    dispatch(setNewCow(insertCow));
   };
-
   const onSaveDestete = () => {
     console.log('guardar caracteristicas');
   };
@@ -63,7 +67,7 @@ export const MainRecord = () => {
             <AddImage />
             <TouchableOpacity
               onPress={() => {
-                console.log(JSON.stringify(newCow, null, 3));
+                console.log(JSON.stringify(insertCow, null, 3));
               }}>
               <Text>abrir modal</Text>
             </TouchableOpacity>
@@ -98,8 +102,9 @@ export const MainRecord = () => {
                         marginBottom: 20,
                       }}>
                       <InputCard
-                        value={newCow!}
-                        setValue={setNewCow}
+                        isSaved={infoCardFinish}
+                        value={insertCow!}
+                        setValue={setInsertCow}
                         openSexChooseModal={setOpenChooseSexModal}
                         openDatePickerModal={setOpenDatePickModal}
                         openRazaPickerModal={setOpenRazaPickerModal}
@@ -125,8 +130,8 @@ export const MainRecord = () => {
                         marginBottom: 20,
                       }}>
                       <InputCardCaracteristics
-                        value={newCow!}
-                        setValue={setNewCow}
+                        value={insertCow!}
+                        setValue={setInsertCow}
                         onSave={onSaveCaracteristics}
                       />
                     </View>
@@ -149,16 +154,16 @@ export const MainRecord = () => {
       <ChooseSexModal
         openCloseModal={openChooseSexModal}
         onCloseModal={setOpenChooseSexModal}
-        setProperty={setNewCow}
-        cow={newCow}
+        setProperty={setInsertCow}
+        cow={insertCow}
       />
       <DatePickerModal
         title={'SELECCIONE FECHA DE NACIMIENTO'}
         openCloseModal={openDatePickModal}
         onCloseModal={() => {}}
         setOpenCloseModal={setOpenDatePickModal}
-        cow={newCow}
-        setProperty={setNewCow}
+        cow={insertCow}
+        setProperty={setInsertCow}
       />
       <RazaPickerModal
         title={'SELECCIONE UNA RAZA'}
@@ -166,8 +171,8 @@ export const MainRecord = () => {
         onCloseModal={() => {}}
         openCloseModal={openRazaPickerModal}
         setOpenCloseModal={setOpenRazaPickerModal}
-        cow={newCow}
-        setProperty={setNewCow}
+        cow={insertCow}
+        setProperty={setInsertCow}
       />
     </View>
   );
