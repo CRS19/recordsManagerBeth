@@ -30,6 +30,7 @@ interface IInputCard {
   openRazaPickerModal: Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<ICow>>;
   onSave: () => void;
+  isSaved: boolean;
 }
 
 export const InputCard = (props: IInputCard) => {
@@ -40,10 +41,15 @@ export const InputCard = (props: IInputCard) => {
     openDatePickerModal,
     openRazaPickerModal,
     onSave,
+    isSaved,
   } = props;
 
   return (
-    <View style={styles.InputCardCaracteristic}>
+    <View
+      style={{
+        ...styles.InputCardCaracteristic,
+        backgroundColor: isSaved ? '#03DAC5' : 'white',
+      }}>
       <View>
         <ModalInput
           logo={
@@ -60,6 +66,7 @@ export const InputCard = (props: IInputCard) => {
           hasMask={false}
           mask="[A][-----------------------------------------------------]"
           openModal={openSexChooseModal}
+          editable={!isSaved}
         />
         <ModalInput
           logo={<NameInputLabel />}
@@ -69,6 +76,7 @@ export const InputCard = (props: IInputCard) => {
           setValue={setValue}
           hasMask={true}
           mask="[A][-----------------------------------------------------]"
+          editable={!isSaved}
         />
         <ModalInput
           logo={<NumeroAreteInput />}
@@ -79,6 +87,7 @@ export const InputCard = (props: IInputCard) => {
           hasMask={true}
           mask="[0][----------]"
           numKeyboard={true}
+          editable={!isSaved}
         />
         <ModalInput
           logo={<BirthDateInput />}
@@ -88,6 +97,7 @@ export const InputCard = (props: IInputCard) => {
           setValue={setValue}
           hasMask={false}
           openModal={openDatePickerModal}
+          editable={!isSaved}
         />
         <ModalInput
           logo={<RazaLogoInput />}
@@ -97,6 +107,7 @@ export const InputCard = (props: IInputCard) => {
           setValue={setValue}
           hasMask={false}
           openModal={openRazaPickerModal}
+          editable={!isSaved}
         />
         <ModalInput
           logo={<PesoLogoInput />}
@@ -108,16 +119,21 @@ export const InputCard = (props: IInputCard) => {
           mask=""
           numKeyboard={true}
           isNumber={true}
+          editable={!isSaved}
         />
       </View>
-      <View style={{marginTop: 15}}>
-        <BorderButtom
-          title="Guardar"
-          onPress={() => {
-            onSave();
-          }}
-        />
-      </View>
+      {!isSaved ? (
+        <View style={{marginTop: 15}}>
+          <BorderButtom
+            title="Guardar"
+            onPress={() => {
+              onSave();
+            }}
+          />
+        </View>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
