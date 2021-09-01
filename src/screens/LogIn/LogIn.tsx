@@ -2,16 +2,11 @@ import React, {useRef, useState} from 'react';
 import {
   Text,
   View,
-  Image,
   useWindowDimensions,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   ScrollView,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   FlatList,
-  Button,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {BorderButtom} from '../../components/Buttoms/BorderButtom';
@@ -48,9 +43,7 @@ export const LogIn = () => {
           </View>
           <View style={styles.LogInBodyContainer}>
             <View style={styles.LogInTitleContainer}>
-              <Text style={styles.LogInTitle}>
-                Te damos la{'\n'}bienvenida a Beth
-              </Text>
+              <Text style={styles.LogInTitle}>BIENVENIDO</Text>
             </View>
             <View style={styles.LogInFormContainer}>
               <View>
