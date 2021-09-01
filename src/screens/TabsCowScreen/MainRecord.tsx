@@ -19,7 +19,9 @@ import {InputCardCaracteristics} from '../../components/InputCard/InputCardCarac
 import {ChooseSexModal} from '../../components/Modals/ChooseSexModal';
 import {DatePickerModal} from '../../components/Modals/DatePickerModal';
 import {RazaPickerModal} from '../../components/Modals/RazaPickerModal';
+import {TwoFieldModal} from '../../components/Modals/TwoFieldModal';
 import {TopBar} from '../../components/TopBar';
+import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {RAZAS} from '../../constants/Razas';
 import {ICow} from '../../interfaces/CowInterface';
 import {setCow, setNewCow} from '../../store/actionCreators';
@@ -34,8 +36,12 @@ export const MainRecord = () => {
   const icon = require('../../assets/Images/registro/p.png');
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
-  // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
+  const [openMomDataModal, setOpenMomDataModal] = useState<boolean>(false);
+  const [openDadDataModal, setOpenDadDataModal] = useState<boolean>(false);
   const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
+  // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
+  const [hasMomDad, setHasMomDad] = useState<boolean>(false);
+
   const [openRazaPickerModal, setOpenRazaPickerModal] =
     useState<boolean>(false);
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
@@ -133,6 +139,9 @@ export const MainRecord = () => {
                         value={insertCow!}
                         setValue={setInsertCow}
                         onSave={onSaveCaracteristics}
+                        hasMomDad={hasMomDad}
+                        openMomDataModal={setOpenMomDataModal}
+                        setOpenDadDataModal={setOpenDadDataModal}
                       />
                     </View>
                     <View
@@ -173,6 +182,26 @@ export const MainRecord = () => {
         setOpenCloseModal={setOpenRazaPickerModal}
         cow={insertCow}
         setProperty={setInsertCow}
+      />
+      <TwoFieldModal
+        title="Ingrese datos de la Madre"
+        openCloseModal={openMomDataModal}
+        setOpenCloseModal={setOpenMomDataModal}
+        onCloseModal={() => console.log('guardar')}
+        cow={insertCow}
+        setProperty={setInsertCow}
+        propertyOne={ICowKeys.nombreDeMadre}
+        propertyTwo={ICowKeys.numeroAreteMadre}
+      />
+      <TwoFieldModal
+        title="Ingrese datos del Padre"
+        openCloseModal={openDadDataModal}
+        setOpenCloseModal={setOpenDadDataModal}
+        onCloseModal={() => console.log('guardar')}
+        cow={insertCow}
+        setProperty={setInsertCow}
+        propertyOne={ICowKeys.nombreDePadre}
+        propertyTwo={ICowKeys.numeroAretePadre}
       />
     </View>
   );
