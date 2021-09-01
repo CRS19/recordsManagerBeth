@@ -15,15 +15,22 @@ import {useGetPrice} from '../../utils/useGetPrice';
 
 interface IInputCardCaracteristics {
   value: ICow;
-  //openSexChooseModal: Dispatch<React.SetStateAction<boolean>>;
-  //openDatePickerModal: Dispatch<React.SetStateAction<boolean>>;
-  //openRazaPickerModal: Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<ICow>>;
+  openMomDataModal: Dispatch<React.SetStateAction<boolean>>;
+  setOpenDadDataModal: Dispatch<React.SetStateAction<boolean>>;
+  hasMomDad: boolean;
   onSave: () => void;
 }
 
 export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
-  const {value, setValue, onSave} = props;
+  const {
+    value,
+    setValue,
+    onSave,
+    hasMomDad,
+    openMomDataModal,
+    setOpenDadDataModal,
+  } = props;
   const {edadDias, edadAños, edadMeses, edadMesesA, edadDiasM} = useGetOld({
     birtdayTiemstamp: value.fechaDeNacimiento,
   });
@@ -80,6 +87,8 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         setValue={setValue}
         hasMask={false}
         mask="[A][-----------------------------------------------------]"
+        editable={!hasMomDad}
+        openModal={openMomDataModal}
       />
       <ModalInput
         logo={<DadNameIconLabel />}
@@ -89,6 +98,8 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         setValue={setValue}
         hasMask={false}
         mask="[A][-----------------------------------------------------]"
+        editable={!hasMomDad}
+        openModal={setOpenDadDataModal}
       />
     </View>
   );
