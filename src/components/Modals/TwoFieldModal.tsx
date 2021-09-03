@@ -44,6 +44,8 @@ export const TwoFieldModal = (props: ITwoFieldModal) => {
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
+  // @ts-ignore
+  const ref2 = createRef<TextInput>();
   const {width, height} = useWindowDimensions();
 
   useEffect(() => {
@@ -121,7 +123,7 @@ export const TwoFieldModal = (props: ITwoFieldModal) => {
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"
                   underlineColor="#2B9336"
-                  ref={ref}
+                  ref={ref2}
                   theme={{
                     colors: {primary: '#2B9336'},
                   }}
@@ -129,7 +131,7 @@ export const TwoFieldModal = (props: ITwoFieldModal) => {
                   render={props => (
                     <TextInputMask
                       {...props}
-                      ref={ref}
+                      ref={ref2}
                       mask="[000000]"
                       onChangeText={(text, text2) => {
                         setParentArete(text2!);

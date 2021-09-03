@@ -1,4 +1,4 @@
-import React, {Dispatch, useState} from 'react';
+import React, {Dispatch, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,12 @@ import {RazaLogoInput} from '../../assets/RazaLogoInput';
 import {PesoLogoInput} from '../../assets/PesoLogoInput';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {styles} from '../../theme/GlobalStyles';
+import {
+  IdentificationCardInputForm,
+  initialForm,
+} from '../../interfaces/newCowForm';
+import {get} from 'lodash';
+import {useInputCardState} from './state/useInputCardState';
 
 interface IInputCard {
   value: ICow;
@@ -43,6 +49,18 @@ export const InputCard = (props: IInputCard) => {
     onSave,
     isSaved,
   } = props;
+  const form = useRef(initialForm);
+  const {validateForm} = useInputCardState({value, form});
+
+  const onSaveForm = () => {
+    validateForm();
+    console.log(form);
+    console.log(Object.entries(form.current).some(el => el[1] === true));
+
+    if (!Object.entries(form.current).some(el => el[1] === true)) {
+      onSave();
+    }
+  };
 
   return (
     <View
@@ -67,6 +85,8 @@ export const InputCard = (props: IInputCard) => {
           mask="[A][-----------------------------------------------------]"
           openModal={openSexChooseModal}
           editable={!isSaved}
+          errorText="Seleccione un sexo"
+          error={form.current.sexo}
         />
         <ModalInput
           logo={<NameInputLabel />}
@@ -77,6 +97,8 @@ export const InputCard = (props: IInputCard) => {
           hasMask={true}
           mask="[A][-----------------------------------------------------]"
           editable={!isSaved}
+          errorText="Ingrese un nombre"
+          error={form.current.nombre}
         />
         <ModalInput
           logo={<NumeroAreteInput />}
@@ -88,6 +110,8 @@ export const InputCard = (props: IInputCard) => {
           mask="[0][----------]"
           numKeyboard={true}
           editable={!isSaved}
+          errorText="Ingrese un Arete"
+          error={form.current.numeroDeArete}
         />
         <ModalInput
           logo={<BirthDateInput />}
@@ -98,6 +122,8 @@ export const InputCard = (props: IInputCard) => {
           hasMask={false}
           openModal={openDatePickerModal}
           editable={!isSaved}
+          errorText="Seleccione una fecha"
+          error={form.current.fechaDeNacimiento}
         />
         <ModalInput
           logo={<RazaLogoInput />}
@@ -108,6 +134,8 @@ export const InputCard = (props: IInputCard) => {
           hasMask={false}
           openModal={openRazaPickerModal}
           editable={!isSaved}
+          errorText="Seleccione una raza"
+          error={form.current.raza}
         />
         <ModalInput
           logo={<PesoLogoInput />}
@@ -120,6 +148,8 @@ export const InputCard = (props: IInputCard) => {
           numKeyboard={true}
           isNumber={true}
           editable={!isSaved}
+          errorText="Ingrese un peso"
+          error={form.current.pesoActual}
         />
       </View>
       {!isSaved ? (
@@ -127,7 +157,7 @@ export const InputCard = (props: IInputCard) => {
           <BorderButtom
             title="Guardar"
             onPress={() => {
-              onSave();
+              onSaveForm();
             }}
           />
         </View>

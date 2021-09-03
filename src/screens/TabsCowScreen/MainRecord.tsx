@@ -31,6 +31,7 @@ import {emptyCow} from '../../VaquitasPrueba/vacas';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
+  const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
   const currentCow = useSelector((state: IAppState) => state.CurrentCow);
   const icon = require('../../assets/Images/registro/p.png');
@@ -41,10 +42,11 @@ export const MainRecord = () => {
   const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
   // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
   const [hasMomDad, setHasMomDad] = useState<boolean>(false);
+  const [validInfoCard, setValidInfoCard] = useState<boolean>(false);
 
   const [openRazaPickerModal, setOpenRazaPickerModal] =
     useState<boolean>(false);
-  const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
+
   const onSaveIdentification = () => {
     console.log('guardar identificación');
     //LLAMADA AXIOS PARA GUARDAR LA INFO
@@ -125,6 +127,18 @@ export const MainRecord = () => {
                         marginLeft: 40,
                         marginBottom: 20,
                       }}></View>
+                    {insertCow.sexo === 'HEMBRA' ? (
+                      <View
+                        style={{
+                          backgroundColor: '#00FFD5',
+                          width: 340,
+                          height: 264,
+                          marginLeft: 40,
+                          marginBottom: 20,
+                        }}></View>
+                    ) : (
+                      <View />
+                    )}
                   </View>
                   <View>
                     <View
@@ -152,6 +166,19 @@ export const MainRecord = () => {
                         marginLeft: 40,
                         marginBottom: 20,
                       }}></View>
+
+                    {insertCow.sexo === 'HEMBRA' ? (
+                      <View
+                        style={{
+                          backgroundColor: '#FF0000',
+                          width: 337,
+                          height: 312,
+                          marginLeft: 40,
+                          marginBottom: 20,
+                        }}></View>
+                    ) : (
+                      <View />
+                    )}
                     <View style={{height: 200, width: 300}} />
                   </View>
                 </View>

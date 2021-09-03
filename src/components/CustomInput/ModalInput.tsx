@@ -26,6 +26,8 @@ interface IModalInput {
   hasLeftButtom?: boolean;
   ageType?: AgeEnum;
   changeAge?: React.Dispatch<React.SetStateAction<AgeEnum>>;
+  errorText?: string;
+  error?: boolean;
 }
 
 export const ModalInput = (props: IModalInput) => {
@@ -47,6 +49,8 @@ export const ModalInput = (props: IModalInput) => {
     hasLeftButtom,
     ageType,
     changeAge,
+    errorText,
+    error,
   } = props;
 
   const modal = () => {
@@ -93,80 +97,88 @@ export const ModalInput = (props: IModalInput) => {
   };
 
   return (
-    <View style={{flexDirection: 'row'}}>
-      <View style={styles.ModalInputLogoContainer}>{props.logo}</View>
-
-      {hasMask ? (
-        <TextInput
-          style={{height: 52, width: 221, backgroundColor: 'transparent'}}
-          mode="flat"
-          value={getValue()}
-          label={props.label}
-          selectionColor="#6200EE"
-          selectTextOnFocus={true}
-          editable={editable}
-          onFocus={() => setEndEditing(false)}
-          onEndEditing={() => setEndEditing(true)}
-          underlineColor="#6200EE"
-          keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
-          ref={ref}
-          theme={{
-            colors: {
-              primary: '#6200EE',
-              placeholder: '#6200EE',
-              disabled: '#6200EE',
-            },
-          }}
-          render={props => (
-            <TextInputMask
-              {...props}
-              ref={ref}
-              mask={mask}
-              onChangeText={(text, text2) => {
-                isNumber
-                  ? setValue!({...initialValue, [property]: Number(text)})
-                  : setValue!({...initialValue, [property]: text2});
-              }}
-            />
-          )}
-        />
-      ) : (
-        <TouchableOpacity
-          style={{alignItems: 'flex-end'}}
-          onPress={() => modal()}
-          disabled={!editable}>
+    <View>
+      <View style={{flexDirection: 'row'}}>
+        <View style={styles.ModalInputLogoContainer}>{props.logo}</View>
+        {hasMask ? (
           <TextInput
             style={{height: 52, width: 221, backgroundColor: 'transparent'}}
             mode="flat"
+            value={getValue()}
             label={props.label}
             selectionColor="#6200EE"
-            underlineColor="#6200EE"
-            showSoftInputOnFocus={false}
             selectTextOnFocus={true}
-            editable={false}
-            value={getValue()}
-            onChangeText={text => {
-              setValue!({...initialValue, [property]: text});
-            }}
+            editable={editable}
+            onFocus={() => setEndEditing(false)}
+            onEndEditing={() => setEndEditing(true)}
+            underlineColor="#6200EE"
+            keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
+            ref={ref}
             theme={{
-              colors: {primary: '#6200EE', placeholder: '#6200EE'},
+              colors: {
+                primary: '#6200EE',
+                placeholder: '#6200EE',
+                disabled: '#6200EE',
+              },
             }}
+            render={props => (
+              <TextInputMask
+                {...props}
+                ref={ref}
+                mask={mask}
+                onChangeText={(text, text2) => {
+                  isNumber
+                    ? setValue!({...initialValue, [property]: Number(text)})
+                    : setValue!({...initialValue, [property]: text2});
+                }}
+              />
+            )}
           />
-          {!!hasLeftButtom ? (
-            <View style={{position: 'absolute', right: 15, top: 20}}>
-              <TouchableOpacity
-                onPress={() => {
-                  leftButtomAction();
-                }}>
-                <LeftButtomInput />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View />
-          )}
-        </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{alignItems: 'flex-end'}}
+            onPress={() => modal()}
+            disabled={!editable}>
+            <TextInput
+              style={{height: 52, width: 221, backgroundColor: 'transparent'}}
+              mode="flat"
+              label={props.label}
+              selectionColor="#6200EE"
+              underlineColor="#6200EE"
+              showSoftInputOnFocus={false}
+              selectTextOnFocus={true}
+              editable={false}
+              value={getValue()}
+              onChangeText={text => {
+                setValue!({...initialValue, [property]: text});
+              }}
+              theme={{
+                colors: {primary: '#6200EE', placeholder: '#6200EE'},
+              }}
+            />
+            {!!hasLeftButtom ? (
+              <View style={{position: 'absolute', right: 15, top: 20}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    leftButtomAction();
+                  }}>
+                  <LeftButtomInput />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View />
+            )}
+          </TouchableOpacity>
+        )}
+        <View style={styles.ModalInputDivider} />
+      </View>
+      {!!error ? (
+        <View style={{position: 'absolute', right: -10, bottom: 0}}>
+          <Text style={styles.ErrorTextHelper}>{errorText}</Text>
+        </View>
+      ) : (
+        <View />
       )}
-      <View style={styles.ModalInputDivider} />
     </View>
   );
 };
