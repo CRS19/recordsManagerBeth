@@ -453,4 +453,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 10,
   },
+  ErrorTextHelper: {
+    color: 'red',
+  },
 });
