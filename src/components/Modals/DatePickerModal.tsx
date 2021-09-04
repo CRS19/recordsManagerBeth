@@ -14,6 +14,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import moment from 'moment';
 import {ECU_5_GTM} from '../../constants/EcuTimestamp';
+import {ICowKeys} from '../../constants/ICowKeysEnum';
 
 interface IDatePickerModal {
   title: string;
@@ -21,6 +22,7 @@ interface IDatePickerModal {
   onCloseModal: () => void;
   setOpenCloseModal: Dispatch<React.SetStateAction<boolean>>;
   cow: ICow;
+  property: ICowKeys;
   setProperty: React.Dispatch<React.SetStateAction<ICow>>;
 }
 
@@ -32,14 +34,14 @@ export const DatePickerModal = (props: IDatePickerModal) => {
     setOpenCloseModal,
     cow,
     setProperty,
+    property,
   } = props;
   const [markedDate, setMarkedDate] = useState({});
   const [timestamp, setTimestamp] = useState(0);
   const date = moment().format('YYYY-MM-DD');
 
   const setDate = () => {
-    console.log(timestamp);
-    setProperty({...cow, fechaDeNacimiento: timestamp});
+    setProperty({...cow, [property]: timestamp});
   };
 
   return (
@@ -68,14 +70,7 @@ export const DatePickerModal = (props: IDatePickerModal) => {
                   onDayPress={day => {
                     const {dateString} = day;
                     const time = day.timestamp + ECU_5_GTM;
-
                     setTimestamp(time);
-                    console.log(JSON.stringify(day, null, 3));
-                    console.log(time);
-                    console.log(
-                      'Fecha moment: ',
-                      moment(time).format('YYYY-MM-DD'),
-                    );
                     setMarkedDate({
                       [dateString]: {
                         selected: true,

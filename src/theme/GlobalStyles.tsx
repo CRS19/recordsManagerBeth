@@ -448,12 +448,31 @@ export const styles = StyleSheet.create({
   },
   InputCardCaracteristic: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#03DAC5',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 10,
   },
   ErrorTextHelper: {
     color: 'red',
+  },
+  RedTitleContainer: {
+    width: 105,
+    height: 56,
+    backgroundColor: '#EB5757',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  RedTitleText: {
+    fontFamily: 'Roboto',
+    fontSize: 18,
+    color: 'white',
+    letterSpacing: 0.4,
+  },
+  RowTextPeso: {
+    flexDirection: 'row',
+    alignContent: 'space-between',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

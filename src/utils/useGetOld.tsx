@@ -34,12 +34,6 @@ export const useGetOld = ({birtdayTiemstamp}: IUseGetOldProps): IUseGetOld => {
   const edadMesesNum = Number(edadMeses);
   const edadAñosNum = Number(edadAños);
 
-  console.log('*****************************************');
-  console.log(currenTimestamp);
-  console.log('age: ', currenTimestamp.diff(birtdayTiemstamp, 'days'));
-  console.log('age: ', currenTimestamp.diff(birtdayTiemstamp, 'months'));
-  console.log('age: ', currenTimestamp.diff(birtdayTiemstamp, 'years'));
-
   return {
     edadDias,
     edadDiasM,

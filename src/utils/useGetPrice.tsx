@@ -18,8 +18,6 @@ export const useGetPrice = (): IUseGetPrice => {
 
   const currentCowPrice = meatPrice * currentWeigthCurrentCow;
   const newCowPrice = meatPrice * currentWeigthNewCow;
-  console.log(currentWeigthNewCow);
-  console.log(currentWeigthCurrentCow);
 
   return {
     currentCowPrice,

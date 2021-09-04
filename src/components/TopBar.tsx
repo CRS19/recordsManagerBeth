@@ -50,7 +50,6 @@ export const TopBar = (props: ITopBar) => {
                 }}
                 activeOpacity={0.8}
                 onPress={() => {
-                  console.log('abrir drawer');
                   //@ts-ignore
                   navigation.toggleDrawer();
                 }}>

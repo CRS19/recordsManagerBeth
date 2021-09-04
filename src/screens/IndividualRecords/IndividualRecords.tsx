@@ -70,7 +70,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                 <FillButton
                   title="Precio KG Carne"
                   onPress={() => {
-                    console.log('precio carne');
                     setOpenCloseModalCarne(true);
                   }}
                 />
@@ -78,7 +77,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
               <FillButton
                 title="Precio LT leche"
                 onPress={() => {
-                  console.log('precio leche');
                   setOpenCloseModalLeche(true);
                 }}
               />
