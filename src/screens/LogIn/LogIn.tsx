@@ -68,7 +68,7 @@ export const LogIn = () => {
                   textContentType="password"
                   onChangeText={text => setPassword(text)}
                   mode="outlined"
-                  secureTextEntry={true}
+                  secureTextEntry={true} //Agregar un estado para cambiar y hacer visible y no visible el pass
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"
                   underlineColor="#2B9336"

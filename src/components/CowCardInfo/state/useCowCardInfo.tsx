@@ -15,15 +15,12 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
   const navigation = useNavigation();
 
   const openCowNavigation = () => {
-    console.log('Abrir navegación con vaca: ', props.nombre, props.imagenPath);
-    console.log('seteando vaquita...');
     dispatch(setCow(props));
     dispatch(setInsertNewCow(false));
     navigation.navigate('TabNavigatorCow');
   };
 
   const openInsertNewCow = () => {
-    console.log('Abrir flujo de insert new cow...');
     dispatch(setCow(props));
     dispatch(setInsertNewCow(true));
     navigation.navigate('TabNavigatorCow');

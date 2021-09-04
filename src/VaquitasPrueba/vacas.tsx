@@ -19,7 +19,7 @@ export const emptyCow: ICow = {
   nombreDePadre: 'Papa',
   numeroAretePadre: '098',
   fechaDestete: 123213123,
-  pesoAlDestete: 32.2,
+  pesoAlDestete: 0,
   pesoActual: 0,
   numeroDeAbortos: 0,
   diasDeGestacion: 0,

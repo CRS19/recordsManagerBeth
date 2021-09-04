@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react';
+import React, {createRef, Dispatch, useState} from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import TextInputMask from 'react-native-text-input-mask';
@@ -26,6 +26,7 @@ interface IModalInput {
   hasLeftButtom?: boolean;
   ageType?: AgeEnum;
   changeAge?: React.Dispatch<React.SetStateAction<AgeEnum>>;
+  setPropertyFecha?: Dispatch<React.SetStateAction<ICowKeys>>;
   errorText?: string;
   error?: boolean;
 }
@@ -51,14 +52,14 @@ export const ModalInput = (props: IModalInput) => {
     changeAge,
     errorText,
     error,
+    setPropertyFecha,
   } = props;
 
   const modal = () => {
     if (!!openModal) {
+      if (!!setPropertyFecha) setPropertyFecha!(property);
       openModal!(true);
-      console.log('desfocusear');
     }
-    console.log('No abre');
   };
 
   const leftButtomAction = (): void => {
@@ -85,11 +86,13 @@ export const ModalInput = (props: IModalInput) => {
       return `${initialValue.nombreDePadre.toUpperCase()} / ${
         initialValue.numeroAretePadre
       }`;
-    } else if (property.includes('peso') && endEditing) {
+    } else if (property === 'pesoAlDestete' && endEditing) {
       console.log(
         'concatena',
         initialValue[property]!.toString().concat(' Kg'),
       );
+      return initialValue[property]!.toString().concat(' Kg');
+    } else if (property.includes('peso') && endEditing) {
       return initialValue[property]!.toString().concat(' Kg');
     } else {
       return initialValue[property]!.toString().toUpperCase();

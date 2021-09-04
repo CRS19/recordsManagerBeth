@@ -1,6 +1,7 @@
 import React, {Dispatch, useState} from 'react';
 import {Text, View} from 'react-native';
 import {styles} from '../../theme/GlobalStyles';
+import {Chip} from 'react-native-paper';
 import {ModalInput} from '../CustomInput/ModalInput';
 import {CategoryLogoInput} from '../../assets/CategoryLogoInput';
 import {ICow} from '../../interfaces/CowInterface';
@@ -36,8 +37,6 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
   });
   const {newCowPrice} = useGetPrice();
   const [ageType, setageType] = useState<AgeEnum>(AgeEnum.MESES_DIAS);
-
-  console.log('edad en años: ', edadAños);
 
   return (
     <View style={styles.InputCardCaracteristic}>
@@ -101,6 +100,11 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         editable={!hasMomDad}
         openModal={setOpenDadDataModal}
       />
+      <Chip
+        style={{
+          marginTop: 10,
+          backgroundColor: '#05CBB8',
+        }}>{`    16   `}</Chip>
     </View>
   );
 };

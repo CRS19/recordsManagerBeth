@@ -5,7 +5,11 @@ import {
   initialForm,
 } from '../../../interfaces/newCowForm';
 
-interface IUseCardInputState {}
+interface IUseCardInputState {
+  isValidForm: boolean;
+  form: MutableRefObject<IdentificationCardInputForm>;
+  validateForm: () => void;
+}
 
 interface IUseCardInputStateProps {
   value: ICow;
