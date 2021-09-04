@@ -27,6 +27,8 @@ export enum estadoReproductivo {
   PRENADA = 'Preñada',
   PRECENTINA = 'Precentina',
   SECA = 'Seca',
+  TERNERO = 'Ternero',
+  REPRODUCTOR = 'Reproductor',
 }
 
 export enum tipoMonta {
@@ -82,11 +84,7 @@ export interface ICow {
   numeroDeArete: string;
   fechaDeNacimiento: number;
   raza: string;
-  diasGestación: number;
   pesoNacimiento: number;
-  estadoProductivo: estadoProductivoType;
-  estadoReproductivo: estadoReproductivoType;
-  tipoAborto?: tipoAbortoType;
   categoria: categoriaType;
   valorDelBovino: number;
   nombreDeMadre: string;
@@ -96,11 +94,32 @@ export interface ICow {
   fechaDestete: number;
   pesoAlDestete: number;
   pesoActual: number;
-  numeroDeAbortos: number;
-  diasDeGestacion: number;
-  fechaDeParto: number;
-  numeroDeCrias: number;
+  estadoReproductivo: estadoReproductivoType;
+  vacaInfo?: vacaInfo;
+  toroInfo?: toroInfo;
   imagenPath: string; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
+}
+
+export interface vacaInfo {
+  estadoProductivo: estadoProductivoType; // vaca
+  tipoAborto?: tipoAbortoType; // vaca
+  diasGestación: number; // solo las vacas
+  numeroDeAbortos: number; // vaca
+  fechaDeParto: number; // vaca
+  numeroDeCrias: number; // vacas
+  numeroDePartos: number; // vaca
+  diasGestaciónPromedio?: number; // vaca
+  edadPrimerParto?: number; // vaca
+  fechaUltimoParto?: number; // vaca
+  numeroLactancias?: number; // vaca
+  duraciónLactanciaPromedio?: number; // vaca
+  produccionPromedioLactancias?: number; // vaca
+  díasSecosTotales?: number; // vaca
+}
+
+export interface toroInfo {
+  numeroHijos?: number; // toro
+  numeroHijas?: number; // toro
 }
 
 export interface registroPeso {

@@ -7,11 +7,7 @@ export const emptyCow: ICow = {
   numeroDeArete: '',
   fechaDeNacimiento: 1597439118000,
   raza: '',
-  diasGestación: 0,
   pesoNacimiento: 0,
-  estadoProductivo: '',
-  estadoReproductivo: '',
-  tipoAborto: '',
   categoria: 'Ternera',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -21,10 +17,27 @@ export const emptyCow: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 0,
   pesoActual: 0,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: '',
+  vacaInfo: {
+    estadoProductivo: '', // vaca
+    tipoAborto: '', // vaca
+    diasGestación: 0, // solo las vacas
+    numeroDeAbortos: 0, // vaca
+    fechaDeParto: 0, // vaca
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
+  toroInfo: {
+    numeroHijos: 0, // toro
+    numeroHijas: 0, // toro
+  },
   // coloar url de imagen por defecto
   imagenPath: '',
 };
@@ -64,11 +77,9 @@ export const vaca1: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
+
   pesoNacimiento: 123,
-  estadoProductivo: 'Descarte',
-  estadoReproductivo: 'Aborto',
-  tipoAborto: 'Aborto Normal',
+
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -78,10 +89,23 @@ export const vaca1: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Aborto',
+  vacaInfo: {
+    estadoProductivo: 'Descarte',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
 };
 
@@ -92,11 +116,7 @@ export const vaca2: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Novilla no lactante',
-  estadoReproductivo: 'Vacia',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -106,10 +126,23 @@ export const vaca2: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Vacia',
+  vacaInfo: {
+    estadoProductivo: 'Novilla no lactante',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 
@@ -120,11 +153,7 @@ export const vaca3: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con alta producción',
-  estadoReproductivo: 'Preñada',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -134,10 +163,23 @@ export const vaca3: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Preñada',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con alta producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 export const vaca4: ICow = {
@@ -147,11 +189,7 @@ export const vaca4: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con media producción',
-  estadoReproductivo: 'Precentina',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -161,10 +199,23 @@ export const vaca4: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Precentina',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con media producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 export const vaca5: ICow = {
@@ -174,11 +225,7 @@ export const vaca5: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con baja producción',
-  estadoReproductivo: 'Seca',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -188,10 +235,23 @@ export const vaca5: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Seca',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con baja producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 
@@ -199,14 +259,10 @@ export const vaca6: ICow = {
   idVaca: '1237',
   nombre: 'CARMINA',
   sexo: 'Hembra',
-  diasGestación: 283,
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
   pesoNacimiento: 123,
-  estadoProductivo: 'Reproductor',
-  estadoReproductivo: 'Preñada',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -216,10 +272,23 @@ export const vaca6: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: 'Preñada',
+  vacaInfo: {
+    estadoProductivo: 'Reproductor',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: 0, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    díasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
 

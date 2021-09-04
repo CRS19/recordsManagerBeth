@@ -17,6 +17,7 @@ import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
 import {InputCard} from '../../components/InputCard/InputCard';
 import {InputCardCaracteristics} from '../../components/InputCard/InputCardCaracteristics';
 import {InputCardDestete} from '../../components/InputCard/InputCardDestete';
+import {LactanciaInputCard} from '../../components/InputCard/LactanciaInputCard';
 import {ChooseSexModal} from '../../components/Modals/ChooseSexModal';
 import {DatePickerModal} from '../../components/Modals/DatePickerModal';
 import {RazaPickerModal} from '../../components/Modals/RazaPickerModal';
@@ -147,7 +148,13 @@ export const MainRecord = () => {
                           height: 264,
                           marginLeft: 40,
                           marginBottom: 20,
-                        }}></View>
+                        }}>
+                        <LactanciaInputCard
+                          value={insertCow}
+                          setValue={setInsertCow}
+                          onSave={() => console.log('guardar')}
+                        />
+                      </View>
                     ) : (
                       <View />
                     )}

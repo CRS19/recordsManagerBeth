@@ -14,6 +14,7 @@ import {BorderButtom} from '../Buttoms/BorderButtom';
 import {styles} from '../../theme/GlobalStyles';
 import {initialForm} from '../../interfaces/newCowForm';
 import {useInputCardState} from './state/useInputCardState';
+import {ChooseSexIcon} from '../../assets/ChooseSexIcon';
 
 interface IInputCard {
   value: ICow;
@@ -56,7 +57,9 @@ export const InputCard = (props: IInputCard) => {
       <View>
         <ModalInput
           logo={
-            value.sexo === '' || value.sexo === 'MACHO' ? (
+            value.sexo === '' ? (
+              <ChooseSexIcon />
+            ) : value.sexo === 'MACHO' ? (
               <LogoMachoInput />
             ) : (
               <LogoHembraInput />
@@ -125,8 +128,8 @@ export const InputCard = (props: IInputCard) => {
         />
         <ModalInput
           logo={<PesoLogoInput />}
-          label="PESO"
-          property={ICowKeys.pesoActual}
+          label="PESO AL NACIMIENTO"
+          property={ICowKeys.pesoNacimiento}
           initialValue={value}
           setValue={setValue}
           hasMask={true}
@@ -135,7 +138,7 @@ export const InputCard = (props: IInputCard) => {
           isNumber={true}
           editable={!isSaved}
           errorText="Ingrese un peso"
-          error={form.current.pesoActual}
+          error={form.current.pesoNacimiento}
         />
       </View>
       {!isSaved ? (

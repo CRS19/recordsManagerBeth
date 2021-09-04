@@ -4,7 +4,7 @@ export interface IdentificationCardInputForm {
   numeroDeArete: boolean;
   fechaDeNacimiento: boolean;
   raza: boolean;
-  pesoActual: boolean;
+  pesoNacimiento: boolean;
 }
 
 export const initialForm: IdentificationCardInputForm = {
@@ -13,7 +13,7 @@ export const initialForm: IdentificationCardInputForm = {
   numeroDeArete: false,
   fechaDeNacimiento: false,
   raza: false,
-  pesoActual: false,
+  pesoNacimiento: false,
 };
 
 export interface IDesteteForm {

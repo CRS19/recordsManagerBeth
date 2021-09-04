@@ -100,11 +100,17 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         editable={!hasMomDad}
         openModal={setOpenDadDataModal}
       />
-      <Chip
-        style={{
-          marginTop: 10,
-          backgroundColor: '#05CBB8',
-        }}>{`    16   `}</Chip>
+      {value.sexo === 'MACHO' ? (
+        <View>
+          <Chip
+            style={{
+              marginTop: 10,
+              backgroundColor: '#05CBB8',
+            }}>{`    16   `}</Chip>
+        </View>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

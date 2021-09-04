@@ -94,7 +94,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
       </TouchableOpacity>
     );
   } else {
-    const color = getProductionColor(props.cow?.estadoProductivo!);
+    const color = getProductionColor(props.cow.vacaInfo!.estadoProductivo!);
     return (
       <TouchableOpacity
         style={styles.touchableCowCardContainer}
@@ -138,7 +138,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
               isDefault={false}
               title="Estado reprod."
               color={color}
-              data={props.cow?.estadoReproductivo}
+              data={props.cow!.estadoReproductivo}
             />
             <CowCardFooterInfo
               isDefault={false}
