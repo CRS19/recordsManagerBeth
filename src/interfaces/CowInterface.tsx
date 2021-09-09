@@ -108,13 +108,17 @@ export interface vacaInfo {
   fechaDeParto: number; // vaca
   numeroDeCrias: number; // vacas
   numeroDePartos: number; // vaca
-  diasGestaciónPromedio?: number; // vaca
-  edadPrimerParto?: number; // vaca
-  fechaUltimoParto?: number; // vaca
-  numeroLactancias?: number; // vaca
-  duraciónLactanciaPromedio?: number; // vaca
-  produccionPromedioLactancias?: number; // vaca
-  díasSecosTotales?: number; // vaca
+  diasGestaciónPromedio: number; // vaca
+  edadPrimerParto: {
+    years: number;
+    months: number;
+    days: number;
+  }; // vaca
+  fechaUltimoParto: number; // vaca
+  numeroLactancias: number; // vaca
+  duraciónLactanciaPromedio: number; // vaca
+  produccionPromedioLactancias: number; // vaca
+  diasSecosTotales: number; // vaca
 }
 
 export interface toroInfo {

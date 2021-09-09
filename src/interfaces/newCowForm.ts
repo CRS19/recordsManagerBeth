@@ -25,3 +25,32 @@ export const initialFormDestete: IDesteteForm = {
   fechaDestete: false,
   pesoAlDestete: false,
 };
+
+export interface ILactanciaForm {
+  numeroLactancias: boolean;
+  duraciónLactanciaPromedio: boolean;
+  produccionPromedioLactancias: boolean;
+  diasSecosTotales: boolean;
+}
+
+export const initialFormLactancia: ILactanciaForm = {
+  numeroLactancias: false,
+  duraciónLactanciaPromedio: false,
+  produccionPromedioLactancias: false,
+  diasSecosTotales: false,
+};
+export interface IGestationForm {
+  numeroDeAbortos: boolean;
+  numeroDePartos: boolean;
+  diasGestaciónPromedio: boolean;
+  edadPrimerParto: boolean;
+  fechaUltimoParto: boolean;
+}
+
+export const initialFormGestation: IGestationForm = {
+  numeroDeAbortos: false,
+  numeroDePartos: false,
+  diasGestaciónPromedio: false,
+  edadPrimerParto: false,
+  fechaUltimoParto: false,
+};

@@ -14,6 +14,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
+import {GestacionInputCard} from '../../components/InputCard/GestacionInputCard';
 import {InputCard} from '../../components/InputCard/InputCard';
 import {InputCardCaracteristics} from '../../components/InputCard/InputCardCaracteristics';
 import {InputCardDestete} from '../../components/InputCard/InputCardDestete';
@@ -21,6 +22,7 @@ import {LactanciaInputCard} from '../../components/InputCard/LactanciaInputCard'
 import {ChooseSexModal} from '../../components/Modals/ChooseSexModal';
 import {DatePickerModal} from '../../components/Modals/DatePickerModal';
 import {RazaPickerModal} from '../../components/Modals/RazaPickerModal';
+import {ThreeFieldModal} from '../../components/Modals/ThreeFieldModal';
 import {TwoFieldModal} from '../../components/Modals/TwoFieldModal';
 import {InputPeso} from '../../components/PesoHistory/InputPeso';
 import {GeneralTitle} from '../../components/Titles/GeneralTitle';
@@ -43,8 +45,13 @@ export const MainRecord = () => {
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
   const [openMomDataModal, setOpenMomDataModal] = useState<boolean>(false);
   const [openDadDataModal, setOpenDadDataModal] = useState<boolean>(false);
+  const [openEdadPartoModal, setOpenEdadPartoModal] = useState<boolean>(false);
   const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
+  const [infoCardLactanciasFinish, setInfoCardLactanciasFinish] =
+    useState<boolean>(false);
   const [infoCardDesteteFinish, setInfoCardDesteteFinish] =
+    useState<boolean>(false);
+  const [infoCardGestationFinish, setInfoCardGestationFinish] =
     useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
     ICowKeys.fechaDeNacimiento,
@@ -57,7 +64,7 @@ export const MainRecord = () => {
     useState<boolean>(false);
 
   const handleWeigth = () => {
-    insertCow.pesoNacimiento = insertCow.pesoActual;
+    insertCow.pesoActual = insertCow.pesoNacimiento;
   };
 
   const onSaveIdentification = () => {
@@ -153,6 +160,7 @@ export const MainRecord = () => {
                           value={insertCow}
                           setValue={setInsertCow}
                           onSave={() => console.log('guardar')}
+                          isSaved={infoCardLactanciasFinish}
                         />
                       </View>
                     ) : (
@@ -203,7 +211,17 @@ export const MainRecord = () => {
                           height: 312,
                           marginLeft: 40,
                           marginBottom: 20,
-                        }}></View>
+                        }}>
+                        <GestacionInputCard
+                          value={insertCow}
+                          setValue={setInsertCow}
+                          openEdadPrimerPartoModal={setOpenEdadPartoModal}
+                          setPropertyFecha={setPropertyFecha}
+                          onSave={() => console.log('guardar en el main')}
+                          isSaved={infoCardGestationFinish}
+                          openDatePickerModal={setOpenDatePickModal}
+                        />
+                      </View>
                     ) : (
                       <View />
                     )}
@@ -258,6 +276,14 @@ export const MainRecord = () => {
         setProperty={setInsertCow}
         propertyOne={ICowKeys.nombreDePadre}
         propertyTwo={ICowKeys.numeroAretePadre}
+      />
+      <ThreeFieldModal
+        title="Ingrese edad al primer parto"
+        openCloseModal={openEdadPartoModal}
+        setOpenCloseModal={setOpenEdadPartoModal}
+        onCloseModal={() => {}}
+        cow={insertCow}
+        setProperty={setInsertCow}
       />
     </View>
   );
