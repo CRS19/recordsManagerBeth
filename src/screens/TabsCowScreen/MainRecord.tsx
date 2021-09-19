@@ -13,6 +13,8 @@ import {
 } from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
+import {DescarteBottom} from '../../components/Buttoms/DescarteBottom';
+import {PrintQrButtom} from '../../components/Buttoms/PrintQrButtom';
 import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCard} from '../../components/InputCard/GestacionInputCard';
 import {InputCard} from '../../components/InputCard/InputCard';
@@ -79,6 +81,15 @@ export const MainRecord = () => {
   };
   const onSaveDestete = () => {
     console.log('guardar caracteristicas :C');
+    setInfoCardDesteteFinish(true);
+  };
+  const onSaveLactancia = () => {
+    console.log('guardar lactancia');
+    setInfoCardLactanciasFinish(true);
+  };
+
+  const onSaveGestacion = () => {
+    setInfoCardGestationFinish(true);
   };
 
   return (
@@ -105,8 +116,10 @@ export const MainRecord = () => {
 
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
-              <View>
+              <View style={{alignItems: 'center'}}>
                 <Text>hola como ess</Text>
+                <DescarteBottom />
+                <PrintQrButtom />
               </View>
               <View>
                 <GeneralTitle title={'Identificación'} />
@@ -159,7 +172,7 @@ export const MainRecord = () => {
                         <LactanciaInputCard
                           value={insertCow}
                           setValue={setInsertCow}
-                          onSave={() => console.log('guardar')}
+                          onSave={onSaveLactancia}
                           isSaved={infoCardLactanciasFinish}
                         />
                       </View>
@@ -217,7 +230,7 @@ export const MainRecord = () => {
                           setValue={setInsertCow}
                           openEdadPrimerPartoModal={setOpenEdadPartoModal}
                           setPropertyFecha={setPropertyFecha}
-                          onSave={() => console.log('guardar en el main')}
+                          onSave={onSaveGestacion}
                           isSaved={infoCardGestationFinish}
                           openDatePickerModal={setOpenDatePickModal}
                         />

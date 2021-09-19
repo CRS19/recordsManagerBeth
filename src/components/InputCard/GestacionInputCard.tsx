@@ -46,10 +46,9 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
 
   const onSaveForm = () => {
     validateForm();
-    //if (!Object.entries(form.current).some(el => el[1] === true)) {
-    //  onSave();
-    //}
-    console.log('guardar :v ');
+    if (!Object.entries(form.current).some(el => el[1] === true)) {
+      onSave();
+    }
   };
 
   return (

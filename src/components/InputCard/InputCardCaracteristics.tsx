@@ -13,6 +13,7 @@ import {AgeEnum} from '../../constants/ageTypeEnum';
 import {MomNameIconLabel} from '../../assets/MomNameIconLabel';
 import {DadNameIconLabel} from '../../assets/DadNameIconLabel';
 import {useGetPrice} from '../../utils/useGetPrice';
+import {LabelChip} from '../LabelChip/LabelChip';
 
 interface IInputCardCaracteristics {
   value: ICow;
@@ -100,17 +101,7 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         editable={!hasMomDad}
         openModal={setOpenDadDataModal}
       />
-      {value.sexo === 'MACHO' ? (
-        <View>
-          <Chip
-            style={{
-              marginTop: 10,
-              backgroundColor: '#05CBB8',
-            }}>{`    16   `}</Chip>
-        </View>
-      ) : (
-        <View />
-      )}
+      {value.sexo === 'MACHO' ? <LabelChip text={'16'} width={50} /> : <View />}
     </View>
   );
 };
