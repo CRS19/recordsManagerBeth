@@ -41,7 +41,14 @@ export const DatePickerModal = (props: IDatePickerModal) => {
   const date = moment().format('YYYY-MM-DD');
 
   const setDate = () => {
-    setProperty({...cow, [property]: timestamp});
+    if (property.includes('fechaUltimoParto')) {
+      setProperty({
+        ...cow,
+        vacaInfo: {...cow.vacaInfo!, fechaUltimoParto: timestamp},
+      });
+    } else {
+      setProperty({...cow, [property]: timestamp});
+    }
   };
 
   return (

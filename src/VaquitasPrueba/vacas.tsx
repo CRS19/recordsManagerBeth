@@ -21,18 +21,22 @@ export const emptyCow: ICow = {
   vacaInfo: {
     estadoProductivo: '', // vaca
     tipoAborto: '', // vaca
-    diasGestación: 0, // solo las vacas
-    numeroDeAbortos: 0, // vaca
-    fechaDeParto: 0, // vaca
-    numeroDeCrias: 0, // vacas
-    numeroDePartos: 0, // vaca
-    diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    diasGestación: 999, // solo las vacas
+    numeroDeAbortos: 999, // vaca
+    fechaDeParto: 1597439118000, // vaca
+    numeroDeCrias: 999, // vacas
+    numeroDePartos: 999, // vaca
+    diasGestaciónPromedio: 999, // vaca
+    edadPrimerParto: {
+      years: 999,
+      months: 999,
+      days: 999,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
-    numeroLactancias: 0, // vaca
-    duraciónLactanciaPromedio: 0, // vaca
-    produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    numeroLactancias: 999, // vaca
+    duraciónLactanciaPromedio: 999, // vaca
+    produccionPromedioLactancias: 999, // vaca
+    diasSecosTotales: 999, // vaca
   },
   toroInfo: {
     numeroHijos: 0, // toro
@@ -49,11 +53,8 @@ export const vaca0: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Descarte',
   estadoReproductivo: 'Aborto',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -63,10 +64,26 @@ export const vaca0: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  vacaInfo: {
+    estadoProductivo: '', // vaca
+    tipoAborto: '', // vaca
+    diasGestación: 0, // solo las vacas
+    numeroDeAbortos: 0, // vaca
+    fechaDeParto: 0, // vaca
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 999, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
   imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
 };
 
@@ -99,12 +116,16 @@ export const vaca1: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
 };
@@ -136,12 +157,16 @@ export const vaca2: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
@@ -173,12 +198,16 @@ export const vaca3: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
@@ -209,12 +238,16 @@ export const vaca4: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
@@ -245,12 +278,16 @@ export const vaca5: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
@@ -282,12 +319,16 @@ export const vaca6: ICow = {
     numeroDeCrias: 0, // vacas
     numeroDePartos: 0, // vaca
     diasGestaciónPromedio: 0, // vaca
-    edadPrimerParto: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
     numeroLactancias: 0, // vaca
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
-    díasSecosTotales: 0, // vaca
+    diasSecosTotales: 0, // vaca
   },
   imagenPath: 'https://i.imgur.com/nFhPmoo.png',
 };
