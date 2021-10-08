@@ -1,20 +1,11 @@
 import React, {useState} from 'react';
-import {
-  Image,
-  KeyboardAvoidingView,
-  KeyboardAvoidingViewBase,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Snackbar} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../components/Buttoms/DescarteBottom';
 import {PrintQrButtom} from '../../components/Buttoms/PrintQrButtom';
+import {SaveButtom} from '../../components/Buttoms/SaveButtom';
 import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCard} from '../../components/InputCard/GestacionInputCard';
 import {InputCard} from '../../components/InputCard/InputCard';
@@ -32,7 +23,7 @@ import {TopBar} from '../../components/TopBar';
 import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {RAZAS} from '../../constants/Razas';
 import {ICow} from '../../interfaces/CowInterface';
-import {setCow, setNewCow} from '../../store/actionCreators';
+import {insertNewCow, setCow, setNewCow} from '../../store/actionCreators';
 import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {emptyCow} from '../../VaquitasPrueba/vacas';
@@ -67,6 +58,39 @@ export const MainRecord = () => {
 
   const handleWeigth = () => {
     insertCow.pesoActual = insertCow.pesoNacimiento;
+  };
+
+  const verifyFormCompleted = () => {
+    return infoCardFinish === true &&
+      infoCardGestationFinish === true &&
+      infoCardLactanciasFinish === true &&
+      infoCardDesteteFinish === true
+      ? true
+      : false;
+  };
+
+  const showAlert = (title: string, message: string) => {
+    Alert.alert(title, message);
+  };
+
+  const saveNewCow = () => {
+    if (insertCow.sexo === 'HEMBRA') {
+      if (verifyFormCompleted()) {
+        console.log('INSERTAR: ', insertCow);
+      } else {
+        showAlert(
+          'Formulario Incompleto',
+          'Porfavor, asegurese de llenar todo el formulario.',
+        );
+      }
+    } else {
+      infoCardFinish === true && infoCardDesteteFinish === true
+        ? dispatch(insertNewCow(insertCow))
+        : showAlert(
+            'Formulario Incompleto',
+            'Porfavor, asegurese de llenar todo el formulario.',
+          );
+    }
   };
 
   const onSaveIdentification = () => {
@@ -120,6 +144,7 @@ export const MainRecord = () => {
                 <Text>hola como ess</Text>
                 <DescarteBottom />
                 <PrintQrButtom />
+                <SaveButtom onPress={saveNewCow} />
               </View>
               <View>
                 <GeneralTitle title={'Identificación'} />
