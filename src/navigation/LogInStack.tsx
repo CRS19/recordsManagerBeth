@@ -4,6 +4,7 @@ import {LoadingScreen} from '../screens/LoadingScreen';
 import {LogIn} from '../screens/LogIn/LogIn';
 import {DrawerNavigator} from './DrawerNavigator';
 import {TabNavigatorCow} from './TabNavigatorCow';
+import {Text, View} from 'react-native';
 
 const Stack = createStackNavigator();
 
