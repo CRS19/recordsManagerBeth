@@ -3,6 +3,7 @@ import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Snackbar} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
+import {NewCow} from '../../assets/NewCow';
 import {DescarteBottom} from '../../components/Buttoms/DescarteBottom';
 import {PrintQrButtom} from '../../components/Buttoms/PrintQrButtom';
 import {SaveButtom} from '../../components/Buttoms/SaveButtom';
@@ -127,8 +128,8 @@ export const MainRecord = () => {
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
           <View style={styles.LeftGenericTabContainer}>
-            <AddImage />
-            <AddImage />
+            <AddImage index={0} newCow={insertCow} />
+            <AddImage index={1} newCow={insertCow} />
             <TouchableOpacity
               onPress={() => {
                 console.log(JSON.stringify(insertCow, null, 3));

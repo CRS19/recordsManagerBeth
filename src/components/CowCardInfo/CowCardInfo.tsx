@@ -120,7 +120,7 @@ export const CowCardInfo = (props: ICowCardInfo) => {
           </View>
           <View style={{width: 344, height: 194}}>
             <FadeInImage
-              uri={props.cow.imagenPath}
+              uri={props.cow.imagenPath[0]}
               style={{
                 width: 344,
                 height: 194,
