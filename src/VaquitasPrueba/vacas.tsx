@@ -43,7 +43,7 @@ export const emptyCow: ICow = {
     numeroHijas: 0, // toro
   },
   // coloar url de imagen por defecto
-  imagenPath: '',
+  imagenPath: ['1', '2'],
 };
 
 export const vaca0: ICow = {
@@ -84,7 +84,7 @@ export const vaca0: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
+  imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
 
 export const vaca1: ICow = {
@@ -127,7 +127,7 @@ export const vaca1: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
+  imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
 
 export const vaca2: ICow = {
@@ -168,7 +168,7 @@ export const vaca2: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 
 export const vaca3: ICow = {
@@ -209,7 +209,7 @@ export const vaca3: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 export const vaca4: ICow = {
   idVaca: '1235',
@@ -249,7 +249,7 @@ export const vaca4: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 export const vaca5: ICow = {
   idVaca: '1236',
@@ -289,7 +289,7 @@ export const vaca5: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 
 export const vaca6: ICow = {
@@ -330,7 +330,7 @@ export const vaca6: ICow = {
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
   },
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png', ''],
 };
 
 export const vacas: ICow[] = [vaca0, vaca1, vaca2, vaca3, vaca4, vaca5, vaca6];

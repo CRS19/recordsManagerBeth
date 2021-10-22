@@ -7,8 +7,17 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {useDispatch} from 'react-redux';
+import {setUploadImage} from '../../../store/actionCreators';
+import {ICow} from '../../../interfaces/CowInterface';
 
-export const AddImage = () => {
+interface AddImageProps {
+  index: number;
+  newCow: ICow;
+}
+
+export const AddImage = (props: AddImageProps) => {
+  const dispatch = useDispatch();
   const img = require('../../../assets/Images/registro/p.png');
   const [tempUri, setTempUri] = useState('empty');
 
@@ -39,14 +48,16 @@ export const AddImage = () => {
           launchCamera(
             {
               mediaType: 'photo',
-              quality: 0.8,
+              quality: 1,
               maxHeight: 286,
               maxWidth: 400,
             },
             (resp: ImagePickerResponse) => {
               if (resp.didCancel) return;
               if (!resp.assets![0].uri) console.log(resp);
+              console.log(JSON.stringify(resp, null, 3));
               setTempUri(resp.assets![0].uri!);
+              dispatch(setUploadImage(resp, props.index, props.newCow));
             },
           )
         }></TouchableOpacity>

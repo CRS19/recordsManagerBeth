@@ -97,7 +97,7 @@ export interface ICow {
   estadoReproductivo: estadoReproductivoType;
   vacaInfo?: vacaInfo;
   toroInfo?: toroInfo;
-  imagenPath: string; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
+  imagenPath: string[]; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
 }
 
 export interface vacaInfo {
