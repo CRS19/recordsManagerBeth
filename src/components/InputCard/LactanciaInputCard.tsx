@@ -1,13 +1,10 @@
-import React, {Dispatch, useRef, useState} from 'react';
-import {Text, View} from 'react-native';
+import React, {useRef} from 'react';
+import {View} from 'react-native';
 import {styles} from '../../theme/GlobalStyles';
 import {ModalInput} from '../CustomInput/ModalInput';
-import {CategoryLogoInput} from '../../assets/CategoryLogoInput';
 import {ICow} from '../../interfaces/CowInterface';
 import {ICowKeys} from '../../constants/ICowKeysEnum';
-import {CigueniaIcon} from '../../assets/CigueniaIcon';
 import {LactanciaIcon} from '../../assets/LactanciaIcon';
-import {GeneralIcon} from '../../assets/GeneralIcon';
 import {initialFormLactancia} from '../../interfaces/newCowForm';
 import {useLactanciaInputCard} from './state/useLactanciaInputCard';
 import {BorderButtom} from '../Buttoms/BorderButtom';
@@ -52,6 +49,7 @@ export const LactanciaInputCard = (props: ILactanciaInputCard) => {
           mask=""
           numKeyboard={true}
           isNumber={true}
+          editable={!isSaved}
           errorText="Ingrese numero de lactancias"
           error={form.current.numeroLactancias}
         />
@@ -65,6 +63,7 @@ export const LactanciaInputCard = (props: ILactanciaInputCard) => {
           mask=""
           numKeyboard={true}
           isNumber={true}
+          editable={!isSaved}
           errorText="Ingrese días promedio"
           error={form.current.duraciónLactanciaPromedio}
         />
@@ -78,6 +77,7 @@ export const LactanciaInputCard = (props: ILactanciaInputCard) => {
           mask=""
           numKeyboard={true}
           isNumber={true}
+          editable={!isSaved}
           errorText="Ingrese promedio de lactancia"
           error={form.current.produccionPromedioLactancias}
         />
@@ -91,6 +91,7 @@ export const LactanciaInputCard = (props: ILactanciaInputCard) => {
           mask=""
           numKeyboard={true}
           isNumber={true}
+          editable={!isSaved}
           errorText="Ingrese días secos totales"
           error={form.current.diasSecosTotales}
         />

@@ -10,11 +10,11 @@ import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {ICow} from '../../interfaces/CowInterface';
 import {initialFormGestation} from '../../interfaces/newCowForm';
 import {styles} from '../../theme/GlobalStyles';
-import {BorderButtom} from '../Buttoms/BorderButtom';
 import {ModalInput} from '../CustomInput/ModalInput';
-import {useGestacionInputCard} from './state/useGestacionInputCard';
+import {ViewInput} from '../ViewInput/ViewInput';
+import moment from 'moment';
 
-interface IGestacionInputCard {
+interface IGestacionInputCardView {
   value: ICow;
   openEdadPrimerPartoModal: Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<ICow>>;
@@ -24,16 +24,8 @@ interface IGestacionInputCard {
   isSaved: boolean;
 }
 
-export const GestacionInputCard = (props: IGestacionInputCard) => {
-  const {
-    value,
-    setValue,
-    openEdadPrimerPartoModal,
-    onSave,
-    isSaved,
-    setPropertyFecha,
-    openDatePickerModal,
-  } = props;
+export const GestacionInputCardView = (props: IGestacionInputCardView) => {
+  const {value, setValue, openEdadPrimerPartoModal, onSave, isSaved} = props;
 
   const edadMeses = value.vacaInfo!.edadPrimerParto.months;
   const edadAños = value.vacaInfo!.edadPrimerParto.years;
@@ -42,14 +34,6 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
 
   const [ageType, setageType] = useState<AgeEnum>(AgeEnum.MESES_DIAS);
   const form = useRef(initialFormGestation);
-  const {validateForm} = useGestacionInputCard({value, form});
-
-  const onSaveForm = () => {
-    validateForm();
-    if (!Object.entries(form.current).some(el => el[1] === true)) {
-      onSave();
-    }
-  };
 
   return (
     <View
@@ -58,47 +42,20 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
         backgroundColor: isSaved ? '#03DAC5' : 'white',
       }}>
       <View>
-        <ModalInput
+        <ViewInput
           logo={<AbortosIcon />}
           label="N° DE ABORTOS"
-          property={ICowKeys.numeroDeAbortos}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={true}
-          mask=""
-          numKeyboard={true}
-          isNumber={true}
-          editable={!isSaved}
-          errorText="Ingrese un número"
-          error={form.current.numeroDeAbortos}
+          value={`${value.vacaInfo!.numeroDeAbortos}`}
         />
-        <ModalInput
+        <ViewInput
           logo={<CigueniaIcon />}
           label="N° DE PARTOS"
-          property={ICowKeys.numeroDePartos}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={true}
-          mask=""
-          numKeyboard={true}
-          isNumber={true}
-          editable={!isSaved}
-          errorText="Ingrese un peso"
-          error={form.current.numeroDePartos}
+          value={`${value.vacaInfo!.numeroDePartos}`}
         />
-        <ModalInput
+        <ViewInput
           logo={<GestaciónDaysIcon />}
           label="DIAS DE GESTACIÓN PROM"
-          property={ICowKeys.diasGestaciónPromedio}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={true}
-          mask=""
-          numKeyboard={true}
-          isNumber={true}
-          editable={!isSaved}
-          errorText="Ingrese un peso"
-          error={form.current.diasGestaciónPromedio}
+          value={`${value.vacaInfo?.diasGestaciónPromedio} DIAS`}
         />
         <ModalInput
           logo={<AgeFirstPart />}
@@ -115,38 +72,18 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
           hasLeftButtom={true}
           ageType={ageType}
           changeAge={setageType}
-          editable={!isSaved}
+          editable={false}
           openModal={openEdadPrimerPartoModal}
           errorText="Ingrese edad"
           error={form.current.edadPrimerParto}
           mask="[A][-----------------------------------------------------]"
         />
-        <ModalInput
+        <ViewInput
           logo={<FechaUltimoPartoIcon />}
           label="FECHA ULTIMO PARTO"
-          property={ICowKeys.fechaUltimoParto}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={false}
-          openModal={openDatePickerModal}
-          editable={!isSaved}
-          setPropertyFecha={setPropertyFecha}
-          errorText="Seleccione una fecha"
-          error={form.current.fechaUltimoParto}
+          value={moment(value.vacaInfo!.fechaUltimoParto).format('DD/MM/YYYY')}
         />
       </View>
-      {!isSaved ? (
-        <View style={{marginTop: 15}}>
-          <BorderButtom
-            title="Guardar"
-            onPress={() => {
-              onSaveForm();
-            }}
-          />
-        </View>
-      ) : (
-        <View />
-      )}
     </View>
   );
 };

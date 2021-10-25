@@ -98,6 +98,7 @@ export interface ICow {
   vacaInfo?: vacaInfo;
   toroInfo?: toroInfo;
   imagenPath: string[]; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
+  [k: string]: any;
 }
 
 export interface vacaInfo {

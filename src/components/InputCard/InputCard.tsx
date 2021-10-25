@@ -139,6 +139,7 @@ export const InputCard = (props: IInputCard) => {
           editable={!isSaved}
           errorText="Ingrese un peso"
           error={form.current.pesoNacimiento}
+          defaultValue={`${value.pesoNacimiento} Kg`}
         />
       </View>
       {!isSaved ? (

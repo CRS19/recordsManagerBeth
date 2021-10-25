@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   FlatList,
@@ -8,10 +8,7 @@ import {
 } from 'react-native';
 import {FillButton} from '../../components/Buttoms/FillButton';
 import {QRReaderButtom} from '../../components/Buttoms/QRReaderButtom';
-import {
-  CowCardInfo,
-  MemoizedCard,
-} from '../../components/CowCardInfo/CowCardInfo';
+import {MemoizedCard} from '../../components/CowCardInfo/CowCardInfo';
 import {InfoStaticCard} from '../../components/InfoStaticCard/InfoStaticCard';
 import {TopBar} from '../../components/TopBar';
 import {styles} from '../../theme/GlobalStyles';
@@ -19,11 +16,14 @@ import {vacas} from '../../VaquitasPrueba/vacas';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {OneFieldModal} from '../../components/Modals/OneFieldModal';
 import {useIndividualRecords} from './state/useIndividualRecords';
-import {CowCardSkeleton} from '../../components/Skeletons/CowCardSkeleton';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {TextInput} from 'react-native-gesture-handler';
+import {ICow} from '../../interfaces/CowInterface';
+import {ActivityIndicator} from 'react-native-paper';
 
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
+
+export interface IMemoCardProps {
+  cows: ICow[];
+}
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
   console.log('OPTIMIZATION: IndividualRecords render');
@@ -31,6 +31,8 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
   const {
     precioCarne,
     precioLeche,
+    cowList,
+    isLoading,
     guardarPrecioCarne,
     openCloseModalCarne,
     openCloseModalLeche,
@@ -88,7 +90,17 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
           {/* rigth part */}
           <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
-              <MemoizedCardList />
+              {isLoading ? (
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <ActivityIndicator
+                    animating={true}
+                    size={'large'}
+                    color={'#32AC96'}
+                  />
+                </View>
+              ) : (
+                <MemoizedCardList cows={cowList} />
+              )}
             </SafeAreaView>
           </View>
         </View>
@@ -112,11 +124,11 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
 };
 
 //Memoized Component
-const CardList = () => {
+const CardList = (props: IMemoCardProps) => {
   return (
     <FlatList
       numColumns={2}
-      data={vacas}
+      data={props.cows}
       keyExtractor={(item, iterator) => {
         return item.idVaca.concat(String(iterator));
       }}
