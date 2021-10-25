@@ -24,7 +24,7 @@ import {DrawerNavigator} from './DrawerNavigator';
 import {StationIcon} from '../assets/StationIcon';
 import {AnimalsIcon} from '../assets/AnimalsIcon';
 import {MainRecordIcon} from '../assets/MainRecordIcon';
-import {MainRecord} from '../screens/TabsCowScreen/MainRecord';
+import {MainRecord} from '../screens/TabsCowScreen/MainRecords/MainRecord';
 import {ProductionTabIcon} from '../assets/ProductionTabIcon';
 import {Sanity} from '../screens/TabsCowScreen/Sanity';
 import {Alerts} from '../screens/TabsCowScreen/Alerts';
@@ -32,6 +32,7 @@ import {SanityTabIcon} from '../assets/SanityTabIcon';
 import {AlertsTabIcon} from '../assets/AlertsTabIcon';
 import {useSelector} from 'react-redux';
 import {IAppState} from '../store/reducer';
+import {MainRecordSwitch} from '../screens/TabsCowScreen/MainRecords/MainRecordSwitch';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ export const TabNavigatorCow = () => {
         activeBackgroundColor: '#C22321',
       }}
       tabBar={props => <MisTabs {...props} />}>
-      <Tab.Screen name="MainRecord" component={MainRecord} />
+      <Tab.Screen name="MainRecord" component={MainRecordSwitch} />
       <Tab.Screen name="ProductionScreen" component={ProductionScreen} />
       <Tab.Screen name="Reproduction" component={Reproduction} />
       <Tab.Screen name="Sanity" component={Sanity} />

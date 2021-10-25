@@ -146,7 +146,7 @@ export const vaca2: ICow = {
   numeroAretePadre: '098',
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
-  pesoActual: 40,
+  pesoActual: 90,
   estadoReproductivo: 'Vacia',
   vacaInfo: {
     estadoProductivo: 'Novilla no lactante',
@@ -284,9 +284,9 @@ export const vaca5: ICow = {
       days: 14,
     }, // vaca
     fechaUltimoParto: 1597439118000, // vaca
-    numeroLactancias: 0, // vaca
-    duraciónLactanciaPromedio: 0, // vaca
-    produccionPromedioLactancias: 0, // vaca
+    numeroLactancias: 15, // vaca
+    duraciónLactanciaPromedio: 4, // vaca
+    produccionPromedioLactancias: 15, // vaca
     diasSecosTotales: 0, // vaca
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png'],

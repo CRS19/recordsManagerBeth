@@ -1,40 +1,38 @@
 import React, {useState} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Snackbar} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import {NewCow} from '../../assets/NewCow';
-import {DescarteBottom} from '../../components/Buttoms/DescarteBottom';
-import {PrintQrButtom} from '../../components/Buttoms/PrintQrButtom';
-import {SaveButtom} from '../../components/Buttoms/SaveButtom';
-import {AddImage} from '../../components/Images/AddImagesButtom/AddImage';
-import {GestacionInputCard} from '../../components/InputCard/GestacionInputCard';
-import {InputCard} from '../../components/InputCard/InputCard';
-import {InputCardCaracteristics} from '../../components/InputCard/InputCardCaracteristics';
-import {InputCardDestete} from '../../components/InputCard/InputCardDestete';
-import {LactanciaInputCard} from '../../components/InputCard/LactanciaInputCard';
-import {ChooseSexModal} from '../../components/Modals/ChooseSexModal';
-import {DatePickerModal} from '../../components/Modals/DatePickerModal';
-import {RazaPickerModal} from '../../components/Modals/RazaPickerModal';
-import {ThreeFieldModal} from '../../components/Modals/ThreeFieldModal';
-import {TwoFieldModal} from '../../components/Modals/TwoFieldModal';
-import {InputPeso} from '../../components/PesoHistory/InputPeso';
-import {GeneralTitle} from '../../components/Titles/GeneralTitle';
-import {TopBar} from '../../components/TopBar';
-import {ICowKeys} from '../../constants/ICowKeysEnum';
-import {RAZAS} from '../../constants/Razas';
-import {ICow} from '../../interfaces/CowInterface';
-import {insertNewCow, setCow, setNewCow} from '../../store/actionCreators';
-import {IAppState} from '../../store/reducer';
-import {styles} from '../../theme/GlobalStyles';
-import {emptyCow} from '../../VaquitasPrueba/vacas';
+import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
+import {PrintQrButtom} from '../../../components/Buttoms/PrintQrButtom';
+import {SaveButtom} from '../../../components/Buttoms/SaveButtom';
+import {AddImage} from '../../../components/Images/AddImagesButtom/AddImage';
+import {GestacionInputCard} from '../../../components/InputCard/GestacionInputCard';
+import {InputCard} from '../../../components/InputCard/InputCard';
+import {InputCardCaracteristics} from '../../../components/InputCard/InputCardCaracteristics';
+import {InputCardDestete} from '../../../components/InputCard/InputCardDestete';
+import {LactanciaInputCard} from '../../../components/InputCard/LactanciaInputCard';
+import {ChooseSexModal} from '../../../components/Modals/ChooseSexModal';
+import {DatePickerModal} from '../../../components/Modals/DatePickerModal';
+import {RazaPickerModal} from '../../../components/Modals/RazaPickerModal';
+import {ThreeFieldModal} from '../../../components/Modals/ThreeFieldModal';
+import {TwoFieldModal} from '../../../components/Modals/TwoFieldModal';
+import {InputPeso} from '../../../components/PesoHistory/InputPeso';
+import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
+import {TopBar} from '../../../components/TopBar';
+import {ICowKeys} from '../../../constants/ICowKeysEnum';
+import {RAZAS} from '../../../constants/Razas';
+import {ICow} from '../../../interfaces/CowInterface';
+import {insertNewCow, setCow, setNewCow} from '../../../store/actionCreators';
+import {IAppState} from '../../../store/reducer';
+import {styles} from '../../../theme/GlobalStyles';
+import {emptyCow} from '../../../VaquitasPrueba/vacas';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
-  const currentCow = useSelector((state: IAppState) => state.CurrentCow);
-  const icon = require('../../assets/Images/registro/p.png');
+  const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
+  console.log(JSON.stringify(currentCow, null, 3));
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
   const [openMomDataModal, setOpenMomDataModal] = useState<boolean>(false);
@@ -78,6 +76,7 @@ export const MainRecord = () => {
     if (insertCow.sexo === 'HEMBRA') {
       if (verifyFormCompleted()) {
         console.log('INSERTAR: ', insertCow);
+        dispatch(insertNewCow(insertCow));
       } else {
         showAlert(
           'Formulario Incompleto',
@@ -222,6 +221,7 @@ export const MainRecord = () => {
                         hasMomDad={hasMomDad}
                         openMomDataModal={setOpenMomDataModal}
                         setOpenDadDataModal={setOpenDadDataModal}
+                        isInsert={true}
                       />
                     </View>
                     <View

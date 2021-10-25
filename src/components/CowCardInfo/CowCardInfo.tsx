@@ -1,4 +1,3 @@
-import {get} from 'lodash';
 import React, {useMemo} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {NewCow} from '../../assets/NewCow';
@@ -8,6 +7,8 @@ import {estadoProductivoType, ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {CowCardFooterInfo} from './CowCardFooterInfo';
 import {useCowCardInfo} from './state/useCowCardInfo';
+import {get} from 'lodash';
+import {API_BASE_PATH} from '../../env/environment';
 
 interface ICowCardInfo {
   default?: boolean;
@@ -94,7 +95,9 @@ export const CowCardInfo = (props: ICowCardInfo) => {
       </TouchableOpacity>
     );
   } else {
-    const color = getProductionColor(props.cow.vacaInfo!.estadoProductivo!);
+    const color = getProductionColor(
+      get(props.cow, 'vacaInfo.estadoProductivo', 'Reproductor'),
+    );
     return (
       <TouchableOpacity
         style={styles.touchableCowCardContainer}
@@ -120,7 +123,9 @@ export const CowCardInfo = (props: ICowCardInfo) => {
           </View>
           <View style={{width: 344, height: 194}}>
             <FadeInImage
-              uri={props.cow.imagenPath[0]}
+              uri={`${API_BASE_PATH}/cow/getImage/${
+                props.cow.imagenPath[1].split('/')[2]
+              }`}
               style={{
                 width: 344,
                 height: 194,
