@@ -25,7 +25,7 @@ export enum estadoReproductivo {
   ABORTO = 'Aborto',
   VACIA = 'Vacia',
   PRENADA = 'Preñada',
-  PRECENTINA = 'Precentina',
+  Recentina = 'Recentina',
   SECA = 'Seca',
   TERNERO = 'Ternero',
   REPRODUCTOR = 'Reproductor',
@@ -43,6 +43,8 @@ export enum Categoria {
   VACA_VIENTRE = 'Vaca vientre',
   VACA = 'Vaca',
   VACA_SECA = 'Vaca seca',
+  TORO = 'Toro',
+  TORETE = 'Torete',
 }
 
 export type estadoProductivoType =
