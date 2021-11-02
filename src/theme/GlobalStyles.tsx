@@ -475,4 +475,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  RegisterListTitle: {
+    textTransform: 'uppercase',
+    fontSize: 16,
+    marginBottom: 14,
+  },
+  RegisterDivider: {
+    width: 362,
+    height: 2,
+    backgroundColor: '#C22321',
+  },
 });

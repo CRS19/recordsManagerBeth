@@ -23,6 +23,8 @@ interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
 
 export interface IMemoCardProps {
   cows: ICow[];
+  loadCows: () => void;
+  endList: boolean;
 }
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
@@ -33,6 +35,8 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
     precioLeche,
     cowList,
     isLoading,
+    loadCows,
+    endList,
     guardarPrecioCarne,
     openCloseModalCarne,
     openCloseModalLeche,
@@ -91,15 +95,25 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
           <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
               {isLoading ? (
-                <View style={{flex: 1, justifyContent: 'center'}}>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <ActivityIndicator
                     animating={true}
                     size={'large'}
                     color={'#32AC96'}
                   />
+                  <Text>Cargando...</Text>
                 </View>
               ) : (
-                <MemoizedCardList cows={cowList} />
+                <MemoizedCardList
+                  cows={cowList}
+                  loadCows={loadCows}
+                  endList={endList}
+                />
               )}
             </SafeAreaView>
           </View>
@@ -138,8 +152,12 @@ const CardList = (props: IMemoCardProps) => {
           cow={vaca.item}
         />
       )}
-      ListFooterComponent={<View style={{height: 10}}></View>}
-      ListFooterComponentStyle={{height: 100}}
+      ListFooterComponent={
+        props.endList ? <View /> : <ActivityIndicator color={'#32AC96'} />
+      }
+      ListFooterComponentStyle={{height: 200}}
+      onEndReached={props.loadCows}
+      onEndReachedThreshold={0.4}
     />
   );
 };
