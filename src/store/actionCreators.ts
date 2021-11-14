@@ -8,6 +8,9 @@ import {API_BASE_PATH} from '../env/environment';
 import {ImagePickerResponse} from 'react-native-image-picker';
 import {set, get} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
+import {IGetReproductionRecordResponse} from '../interfaces/getReproductionRecord';
+import {IReproductionRecord} from '../interfaces/ReproductionRecord';
+import {reproductionTemplate} from '../utils/recordsTemplates/reproduction_template';
 
 export type IAppAction = {
   type: string;
@@ -41,6 +44,15 @@ export const setNewCow = (payload: ICow): IAppAction => {
   };
 };
 
+export const setReproductionRecord = (
+  payload: IReproductionRecord,
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_REPRODUCTION_RECORD,
+    reproductionRecord: payload,
+  };
+};
+
 export const insertNewCow = (
   payload: ICow,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
@@ -49,10 +61,59 @@ export const insertNewCow = (
   ): Promise<void> => {
     const path = `${API_BASE_PATH}/cow/create`;
 
-    console.log('Intentando llamada al endpoint...');
+    console.log(
+      'ENPOINT CALL: creando registro master, idVaca',
+      payload.idVaca,
+    );
     try {
       const response = await axios.post(path, payload);
       console.log(response);
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+    }
+  };
+};
+
+export const getReproductionRecord = (payload: {
+  idVaca: string;
+}): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/reproduction-register/get/${payload.idVaca}`;
+
+    console.log('trayendo registro de repoducción', payload);
+
+    try {
+      const response = await axios.get(path);
+      const reproductionRecord: IGetReproductionRecordResponse = response.data;
+
+      dispatch(setReproductionRecord(reproductionRecord.record));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+    }
+  };
+};
+
+export const createReproductionRecord = (payload: {
+  idVaca: string;
+}): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/reproduction-register/create`;
+
+    console.log(
+      'ENPOINT CALL: creando registro de reproducción, idVaca:',
+      payload.idVaca,
+    );
+
+    try {
+      set(reproductionTemplate, 'idVaca', payload.idVaca);
+      const resposne = await axios.post(path, reproductionTemplate);
+      console.log('INFO: registro de reproducción creado exitosamente');
     } catch (e) {
       // @ts-ignore
       console.log(e.response.request._response);

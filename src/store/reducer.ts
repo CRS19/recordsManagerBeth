@@ -3,6 +3,7 @@ import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
 import {IAppAction} from './actionCreators';
 import {emptyCow} from '../VaquitasPrueba/vacas';
+import {IReproductionRecord} from '../interfaces/ReproductionRecord';
 
 export const INITIAL_STATE: IAppState = {
   CurrentCow: undefined,
@@ -12,6 +13,7 @@ export const INITIAL_STATE: IAppState = {
   },
   insertNewCow: false,
   newCow: emptyCow,
+  reproductionRecord: undefined,
 };
 
 export interface IAppState {
@@ -19,6 +21,7 @@ export interface IAppState {
   Prices?: IPrices;
   insertNewCow?: boolean;
   newCow?: ICow;
+  reproductionRecord?: IReproductionRecord;
 }
 
 export const reducer = (
@@ -45,6 +48,11 @@ export const reducer = (
       return {
         ...state,
         newCow: action.newCow,
+      };
+    case ActionTypes.SET_REPRODUCTION_RECORD:
+      return {
+        ...state,
+        reproductionRecord: action.reproductionRecord,
       };
     default:
       return state;

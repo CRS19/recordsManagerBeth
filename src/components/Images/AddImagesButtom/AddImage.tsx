@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {AddImageIcon} from '../../../assets/AddImageIcon';
 import {styles} from '../../../theme/GlobalStyles';
@@ -20,6 +20,10 @@ export const AddImage = (props: AddImageProps) => {
   const dispatch = useDispatch();
   const img = require('../../../assets/Images/registro/p.png');
   const [tempUri, setTempUri] = useState('empty');
+
+  useEffect(() => {
+    setTempUri('empty');
+  }, [props.newCow]);
 
   return (
     <View
