@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, AlertButton, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
@@ -22,13 +22,21 @@ import {TopBar} from '../../../components/TopBar';
 import {ICowKeys} from '../../../constants/ICowKeysEnum';
 import {RAZAS} from '../../../constants/Razas';
 import {ICow} from '../../../interfaces/CowInterface';
-import {insertNewCow, setCow, setNewCow} from '../../../store/actionCreators';
+import {
+  createReproductionRecord,
+  insertNewCow,
+  setCow,
+  setNewCow,
+} from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
+import {isEmpty} from 'lodash';
+import {useNavigation} from '@react-navigation/core';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
+  const navigation = useNavigation();
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
   const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
@@ -68,15 +76,24 @@ export const MainRecord = () => {
       : false;
   };
 
-  const showAlert = (title: string, message: string) => {
-    Alert.alert(title, message);
+  const showAlert = (
+    title: string,
+    message: string,
+    buttons?: AlertButton[],
+  ) => {
+    isEmpty(buttons)
+      ? Alert.alert(title, message)
+      : Alert.alert(title, message, buttons);
   };
 
   const saveNewCow = () => {
+    const idVaca = `${insertCow.nombre.toLowerCase()}-${
+      insertCow.numeroDeArete
+    }`;
     if (insertCow.sexo === 'HEMBRA') {
       if (verifyFormCompleted()) {
         console.log('INSERTAR: ', insertCow);
-        dispatch(insertNewCow(insertCow));
+        SaveCow(idVaca);
       } else {
         showAlert(
           'Formulario Incompleto',
@@ -85,12 +102,46 @@ export const MainRecord = () => {
       }
     } else {
       infoCardFinish === true && infoCardDesteteFinish === true
-        ? dispatch(insertNewCow(insertCow))
+        ? SaveCow(idVaca)
         : showAlert(
             'Formulario Incompleto',
             'Porfavor, asegurese de llenar todo el formulario.',
           );
     }
+  };
+
+  const SaveCow = (idVaca: string) => {
+    //Agregar aquí la creación de los demas regístros
+    dispatch(insertNewCow(insertCow));
+    dispatch(
+      createReproductionRecord({
+        idVaca,
+      }),
+    );
+    showAlert(
+      `Animal: ${idVaca} ingresado exitosamente`,
+      '¿Desea ingresar un nuevo animal?',
+      [
+        {
+          text: 'No',
+          onPress: () => navigation.goBack(),
+          style: 'cancel',
+        },
+        {
+          text: 'Si',
+          onPress: () => clearPage(),
+          style: 'default',
+        },
+      ],
+    );
+  };
+
+  const clearPage = () => {
+    setInfoCardFinish(false);
+    setInfoCardLactanciasFinish(false);
+    setInfoCardDesteteFinish(false);
+    setInfoCardGestationFinish(false);
+    setInsertCow(emptyCow);
   };
 
   const onSaveIdentification = () => {

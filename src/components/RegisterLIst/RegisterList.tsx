@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  createReproductionRecord,
+  getReproductionRecord,
+} from '../../store/actionCreators';
+import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {RegisterListButtom} from '../Buttoms/RegisterListButtom';
 
@@ -9,6 +15,10 @@ export interface IRegisterListProps {
 
 export const RegisterList = ({title}: IRegisterListProps) => {
   const registroGeneral = ['1', '2', '3', '4', '5'];
+
+  const dispatch = useDispatch();
+
+  const record = useSelector((state: IAppState) => state.reproductionRecord);
 
   return (
     <View
@@ -27,6 +37,14 @@ export const RegisterList = ({title}: IRegisterListProps) => {
           )}
         />
       </View>
+      <TouchableOpacity
+        onPress={() => dispatch(getReproductionRecord({idVaca: 'Dana-52'}))}>
+        <Text>Traer registro</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => console.log(JSON.stringify(record, null, 3))}>
+        <Text>Ver registro del store</Text>
+      </TouchableOpacity>
     </View>
   );
 };
