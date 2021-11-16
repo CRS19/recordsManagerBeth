@@ -295,7 +295,7 @@ export const styles = StyleSheet.create({
   ModalOneFieldContainer: {
     backgroundColor: 'white',
     width: 320,
-    height: 275,
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: {
@@ -373,6 +373,11 @@ export const styles = StyleSheet.create({
     width: 798,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    //backgroundColor: 'pink',
+  },
+  RigthAdditionalTabContainer: {
+    flex: 1,
+    backgroundColor: 'blue',
   },
   RegisterTitleGeneric: {
     fontFamily: 'Roboto',
@@ -478,11 +483,35 @@ export const styles = StyleSheet.create({
   RegisterListTitle: {
     textTransform: 'uppercase',
     fontSize: 16,
-    marginBottom: 14,
+    marginBottom: 5,
   },
   RegisterDivider: {
     width: 362,
     height: 2,
     backgroundColor: '#C22321',
+  },
+  ListRecordButtom: {
+    backgroundColor: 'red',
+    width: 56,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    margin: 10,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 5,
+  },
+  LabelChipIcon: {
+    flexDirection: 'row',
+    margin: 15,
+    backgroundColor: '#05CBB8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start', // ajusta el witdh dependiendo del contenido
+    height: 52,
+    borderRadius: 16,
   },
 });

@@ -99,8 +99,15 @@ export interface ICow {
   estadoReproductivo: estadoReproductivoType;
   vacaInfo?: vacaInfo;
   toroInfo?: toroInfo;
-  imagenPath: string[]; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
+  historialPeso: IHistorialPeso[];
+  imagenPath: string[];
   [k: string]: any;
+}
+
+export interface IHistorialPeso {
+  timestamp: number;
+  // las unidades siempre estan en Kg
+  peso: number;
 }
 
 export interface vacaInfo {

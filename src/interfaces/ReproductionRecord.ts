@@ -38,16 +38,18 @@ export interface RegistroPalp {
 }
 
 export interface Record {
+  _id?: string;
   montaType: MontaTypeEnum;
   registrosPalp: RegistroPalp[];
   recordType: RecordReproductionType;
   idReproductor: string;
   fechaPosibleParto: number;
   gestationDays: number;
+  inseminadorName?: string;
 }
 
 export interface IReproductionRecord {
   idVaca: string;
-  estadoReproductivoSubType: EstadoReproductivoSubType;
+  estadoReproductivoSubType: EstadoReproductivoSubType | '';
   records: Record[];
 }

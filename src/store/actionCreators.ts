@@ -11,6 +11,9 @@ import {UploadImageResponse} from '../interfaces/UploadImageResponse';
 import {IGetReproductionRecordResponse} from '../interfaces/getReproductionRecord';
 import {IReproductionRecord} from '../interfaces/ReproductionRecord';
 import {reproductionTemplate} from '../utils/recordsTemplates/reproduction_template';
+import {Alert} from 'react-native';
+import {IGetReproductorsListResponse} from '../interfaces/getReproductorsListResponse';
+import {IReproductoresList} from '../interfaces/ReproductoresList';
 
 export type IAppAction = {
   type: string;
@@ -41,6 +44,15 @@ export const setNewCow = (payload: ICow): IAppAction => {
   return {
     type: ActionTypes.SET_NEW_COW,
     newCow: payload,
+  };
+};
+
+export const setReproductoresList = (
+  payload: IReproductoresList[],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_REPRODUCTORES_LIST,
+    reproductoresList: payload,
   };
 };
 
@@ -75,6 +87,30 @@ export const insertNewCow = (
   };
 };
 
+export const getReproductorsList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    try {
+      const path = `${API_BASE_PATH}/cow/onlyReproductors`;
+
+      const response = await axios.get(path);
+      const reproductorsList: IGetReproductorsListResponse = response.data;
+
+      dispatch(setReproductoresList(reproductorsList.list));
+
+      console.log(JSON.stringify(reproductorsList, null, 3));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const getReproductionRecord = (payload: {
   idVaca: string;
 }): ThunkAction<void, IAppState, undefined, IAppAction> => {
@@ -91,8 +127,47 @@ export const getReproductionRecord = (payload: {
 
       dispatch(setReproductionRecord(reproductionRecord.record));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /reproduction-register/get/${payload.idVaca} : ${e.response.request._response}`,
+      );
+      Alert.alert(
+        'Error de base de datos',
+        `Error al conseguir el registro de repducción del rumiante: ${payload.idVaca}`,
+      );
+    }
+  };
+};
+
+export const updateReproductionRecord = (
+  payload: IReproductionRecord,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const pathToUpdate = `${API_BASE_PATH}/reproduction-register/updateOne`;
+    const pathToGet = `${API_BASE_PATH}/reproduction-register/get/${payload.idVaca}`;
+    try {
+      console.log('ENPOINT CALL: actualizando registro');
+      const response = await axios.post(pathToUpdate, payload);
+
+      console.log(
+        'INFO: registro de reproducción actualizado exitosamente',
+        response.data,
+      );
+
+      const getResponse = await axios.get(pathToGet);
+
+      console.log(
+        'INFO: registro actualizado obtenido exitosamente',
+        getResponse.data,
+      );
+    } catch (e) {
+      console.log(e);
+      Alert.alert(
+        'Error de base de datos',
+        `no se ha podido ingresar el registro, revise su conexión a internet`,
+      );
     }
   };
 };
