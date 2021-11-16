@@ -18,6 +18,7 @@ export const emptyCow: ICow = {
   pesoAlDestete: 0,
   pesoActual: 0,
   estadoReproductivo: '',
+  historialPeso: [],
   vacaInfo: {
     estadoProductivo: '', // vaca
     tipoAborto: '', // vaca
@@ -64,6 +65,7 @@ export const vaca0: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
+  historialPeso: [],
   vacaInfo: {
     estadoProductivo: '', // vaca
     tipoAborto: '', // vaca
@@ -96,7 +98,7 @@ export const vaca1: ICow = {
   raza: 'holstein',
 
   pesoNacimiento: 123,
-
+  historialPeso: [],
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -134,6 +136,7 @@ export const vaca2: ICow = {
   idVaca: '123',
   nombre: 'Hella',
   sexo: 'Hembra',
+  historialPeso: [],
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
@@ -178,6 +181,7 @@ export const vaca3: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
+  historialPeso: [],
   pesoNacimiento: 123,
   categoria: 'Vaca seca',
   valorDelBovino: 123,
@@ -221,6 +225,7 @@ export const vaca4: ICow = {
   pesoNacimiento: 123,
   categoria: 'Vaca seca',
   valorDelBovino: 123,
+  historialPeso: [],
   nombreDeMadre: 'Elina',
   numeroAreteMadre: '1233',
   nombreDePadre: 'Papa',
@@ -266,6 +271,7 @@ export const vaca5: ICow = {
   nombreDePadre: 'Papa',
   numeroAretePadre: '098',
   fechaDestete: 123213123,
+  historialPeso: [],
   pesoAlDestete: 32.2,
   pesoActual: 40,
   estadoReproductivo: 'Seca',
@@ -302,6 +308,7 @@ export const vaca6: ICow = {
   pesoNacimiento: 123,
   categoria: 'Vaca seca',
   valorDelBovino: 123,
+  historialPeso: [],
   nombreDeMadre: 'Elina',
   numeroAreteMadre: '1233',
   nombreDePadre: 'Papa',

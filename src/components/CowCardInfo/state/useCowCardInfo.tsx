@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
   getReproductionRecord,
+  getReproductorsList,
   setCow,
   setInsertNewCow,
 } from '../../../store/actionCreators';
@@ -25,6 +26,7 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
     //Agregar aqui la llamada de todos los registros
     dispatch(getReproductionRecord({idVaca}));
     navigation.navigate('TabNavigatorCow');
+    dispatch(getReproductorsList());
   };
 
   const openInsertNewCow = () => {

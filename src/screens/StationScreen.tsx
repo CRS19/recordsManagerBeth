@@ -8,8 +8,8 @@ import {InventarioIcon} from '../assets/InventarioIcon';
 import {ProoduccionGlobalIcon} from '../assets/ProoduccionGlobalIcon';
 import {ReproductoresIcon} from '../assets/ReproductoresIcon';
 import {BasicFooter} from '../components/BasicFooter';
-import {GeneralButtom} from '../components/GeneralButtom';
 import {TopBar} from '../components/TopBar';
+import {GeneralButtom} from '../components/GeneralButtom';
 
 interface Props extends DrawerScreenProps<any, any> {}
 
