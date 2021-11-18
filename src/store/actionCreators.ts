@@ -9,11 +9,12 @@ import {ImagePickerResponse} from 'react-native-image-picker';
 import {set, get} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
 import {IGetReproductionRecordResponse} from '../interfaces/getReproductionRecord';
-import {IReproductionRecord} from '../interfaces/ReproductionRecord';
+import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
 import {reproductionTemplate} from '../utils/recordsTemplates/reproduction_template';
 import {Alert} from 'react-native';
 import {IGetReproductorsListResponse} from '../interfaces/getReproductorsListResponse';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
+import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 
 export type IAppAction = {
   type: string;
@@ -65,6 +66,15 @@ export const setReproductionRecord = (
   };
 };
 
+export const setReproductionRecordsSplited = (
+  payload: Record[][],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_REPRODUCTION_RECORDS_SPLITED,
+    reproductionRecordsSplited: payload,
+  };
+};
+
 export const insertNewCow = (
   payload: ICow,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
@@ -103,8 +113,6 @@ export const getReproductorsList = (): ThunkAction<
       const reproductorsList: IGetReproductorsListResponse = response.data;
 
       dispatch(setReproductoresList(reproductorsList.list));
-
-      console.log(JSON.stringify(reproductorsList, null, 3));
     } catch (e) {
       console.log(e);
     }
@@ -126,6 +134,11 @@ export const getReproductionRecord = (payload: {
       const reproductionRecord: IGetReproductionRecordResponse = response.data;
 
       dispatch(setReproductionRecord(reproductionRecord.record));
+      dispatch(
+        setReproductionRecordsSplited(
+          splitReproductionRecords(reproductionRecord.record),
+        ),
+      );
     } catch (e) {
       console.log(
         // @ts-ignore
@@ -161,6 +174,15 @@ export const updateReproductionRecord = (
       console.log(
         'INFO: registro actualizado obtenido exitosamente',
         getResponse.data,
+      );
+
+      const reproductionRecord: IGetReproductionRecordResponse =
+        getResponse.data;
+
+      dispatch(
+        setReproductionRecordsSplited(
+          splitReproductionRecords(reproductionRecord.record),
+        ),
       );
     } catch (e) {
       console.log(e);

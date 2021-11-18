@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -17,6 +17,7 @@ import {
 } from '../../../interfaces/ReproductionRecord';
 import {useCenterView} from './states/useCenterView';
 import {isNil} from 'lodash';
+import {Palpation} from '../../../components/Palpation/Palpation';
 
 export interface CenterViewReproductionProps {
   cow: ICow;
@@ -24,6 +25,7 @@ export interface CenterViewReproductionProps {
   isLoading: boolean;
   currentRecord: Record | undefined;
   openCloseIaModal: (isOpen: boolean) => void;
+  setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CenterView = ({
@@ -32,6 +34,7 @@ export const CenterView = ({
   isLoading,
   currentRecord,
   openCloseIaModal,
+  setIsOpenPalpationTypeModal,
 }: CenterViewReproductionProps) => {
   const {controlGinecologico, controlServicio, controlMonta} = useCenterView({
     openCloseIaModal,
@@ -40,6 +43,10 @@ export const CenterView = ({
   const labelChipProps = {
     name: cow.nombre,
     areteNumber: cow.numeroDeArete,
+  };
+
+  const palpationProps = {
+    setIsOpenPalpationTypeModal,
   };
 
   return (
@@ -53,13 +60,14 @@ export const CenterView = ({
       </View>
       {/**  Elementos renderizados dependiendo de los botones ginecologicos **/}
       <View style={{alignItems: 'flex-start'}}>
-        {controlGinecologico.isCeloBtnActive ? (
+        {controlGinecologico.isCeloBtnActive && (
           <GeneralControl {...controlServicio} />
-        ) : null}
-        {controlServicio.isClikedBtn1 ? (
-          <GeneralControl {...controlMonta} />
-        ) : null}
+        )}
+        {controlServicio.isClikedBtn1 && <GeneralControl {...controlMonta} />}
       </View>
+      {controlGinecologico.isChequeoBtnActive && isNil(currentRecord) && (
+        <Palpation {...palpationProps} />
+      )}
       <Text>... construyendo parte del centro</Text>
       {isNil(currentRecord) ? null : <Text>{currentRecord.idReproductor}</Text>}
       {isLoading ? (

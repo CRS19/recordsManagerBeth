@@ -492,8 +492,8 @@ export const styles = StyleSheet.create({
   },
   ListRecordButtom: {
     backgroundColor: 'red',
-    width: 56,
-    height: 56,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,

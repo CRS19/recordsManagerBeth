@@ -30,6 +30,7 @@ export enum EstadoReproductivoSubType {
 export enum RecordReproductionType {
   PARTO = 'parto',
   ABORTO = 'aborto',
+  GENERAL = 'general',
 }
 
 export interface RegistroPalp {

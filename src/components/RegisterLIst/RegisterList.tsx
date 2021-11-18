@@ -14,31 +14,29 @@ import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {RegisterListButtom} from '../Buttoms/RegisterListButtom';
 import {reduce, size} from 'lodash';
+import {ReproductionColor} from '../../constants/ReoproductionRecordColor';
 
 export interface IRegisterListProps {
   title: string;
   record: IReproductionRecord;
   currentRecord: Record;
+  recordsList: Record[];
   recordType: RecordReproductionType;
-  onSelectCurrentRecord: (id: string) => void;
+  onSelectCurrentRecord: (id: string | undefined) => void;
 }
 
 export const RegisterList = ({
   title,
   record,
   recordType,
+  recordsList,
   currentRecord,
   onSelectCurrentRecord,
 }: IRegisterListProps) => {
-  const recordTypeList = record.records.filter(
-    record => record.recordType === recordType,
-  );
-
-  const recordsIndex = Array.from(Array(size(recordTypeList)).keys());
+  const recordsIndex = Array.from(Array(size(recordsList)).keys());
 
   return (
-    <View
-      style={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <Text style={styles.RegisterListTitle}>{title}</Text>
       <View style={styles.RegisterDivider} />
       <View
@@ -48,7 +46,7 @@ export const RegisterList = ({
           alignItems: 'center',
         }}>
         <ArrowList rigth={true} />
-        <View style={{marginHorizontal: 15, width: 250, height: 'auto'}}>
+        <View style={{marginHorizontal: 15, width: 300, height: 'auto'}}>
           <FlatList
             horizontal={true}
             data={recordsIndex}
@@ -57,9 +55,11 @@ export const RegisterList = ({
             }}
             renderItem={registro => (
               <RegisterListButtom
-                recordTypeList={recordTypeList}
+                recordTypeList={recordsList}
                 listNumber={registro.item}
-                bgcolor={'#5DCEF3'}
+                bgcolor={
+                  ReproductionColor[recordsList[registro.item].recordType]
+                }
                 currentRecord={currentRecord}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
