@@ -1,6 +1,7 @@
 import React, {Dispatch, useState} from 'react';
 import {Text, View} from 'react-native';
 import {styles} from '../../theme/GlobalStyles';
+import {Chip} from 'react-native-paper';
 import {ModalInput} from '../CustomInput/ModalInput';
 import {CategoryLogoInput} from '../../assets/CategoryLogoInput';
 import {ICow} from '../../interfaces/CowInterface';
@@ -12,6 +13,7 @@ import {AgeEnum} from '../../constants/ageTypeEnum';
 import {MomNameIconLabel} from '../../assets/MomNameIconLabel';
 import {DadNameIconLabel} from '../../assets/DadNameIconLabel';
 import {useGetPrice} from '../../utils/useGetPrice';
+import {LabelChip} from '../LabelChip/LabelChip';
 
 interface IInputCardCaracteristics {
   value: ICow;
@@ -20,6 +22,7 @@ interface IInputCardCaracteristics {
   setOpenDadDataModal: Dispatch<React.SetStateAction<boolean>>;
   hasMomDad: boolean;
   onSave: () => void;
+  isInsert?: boolean;
 }
 
 export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
@@ -30,14 +33,13 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
     hasMomDad,
     openMomDataModal,
     setOpenDadDataModal,
+    isInsert,
   } = props;
   const {edadDias, edadAños, edadMeses, edadMesesA, edadDiasM} = useGetOld({
     birtdayTiemstamp: value.fechaDeNacimiento,
   });
-  const {newCowPrice} = useGetPrice();
+  const {newCowPrice, currentCowPrice} = useGetPrice();
   const [ageType, setageType] = useState<AgeEnum>(AgeEnum.MESES_DIAS);
-
-  console.log('edad en años: ', edadAños);
 
   return (
     <View style={styles.InputCardCaracteristic}>
@@ -70,13 +72,13 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
       />
       <ModalInput
         logo={<ValueLogoInput />}
-        label="VALOR DEL BOVINO"
+        label="VALOR DEL BOVINO" // El valor del bobino no se está guardando en la base de datos, es auto calculado
         property={ICowKeys.valorDelBovino}
         initialValue={value}
         setValue={setValue}
         hasMask={false}
         mask="[A][-----------------------------------------------------]"
-        defaultValue={`${newCowPrice} $`}
+        defaultValue={isInsert ? `${newCowPrice} $` : `${currentCowPrice} $`}
         editable={false}
       />
       <ModalInput
@@ -101,6 +103,7 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         editable={!hasMomDad}
         openModal={setOpenDadDataModal}
       />
+      {value.sexo === 'MACHO' ? <LabelChip text={'16'} width={50} /> : <View />}
     </View>
   );
 };

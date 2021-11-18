@@ -7,11 +7,7 @@ export const emptyCow: ICow = {
   numeroDeArete: '',
   fechaDeNacimiento: 1597439118000,
   raza: '',
-  diasGestación: 0,
   pesoNacimiento: 0,
-  estadoProductivo: '',
-  estadoReproductivo: '',
-  tipoAborto: '',
   categoria: 'Ternera',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -19,14 +15,36 @@ export const emptyCow: ICow = {
   nombreDePadre: 'Papa',
   numeroAretePadre: '098',
   fechaDestete: 123213123,
-  pesoAlDestete: 32.2,
+  pesoAlDestete: 0,
   pesoActual: 0,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
+  estadoReproductivo: '',
+  historialPeso: [],
+  vacaInfo: {
+    estadoProductivo: '', // vaca
+    tipoAborto: '', // vaca
+    diasGestación: 999, // solo las vacas
+    numeroDeAbortos: 999, // vaca
+    fechaDeParto: 1597439118000, // vaca
+    numeroDeCrias: 999, // vacas
+    numeroDePartos: 999, // vaca
+    diasGestaciónPromedio: 999, // vaca
+    edadPrimerParto: {
+      years: 999,
+      months: 999,
+      days: 999,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 999, // vaca
+    duraciónLactanciaPromedio: 999, // vaca
+    produccionPromedioLactancias: 999, // vaca
+    diasSecosTotales: 999, // vaca
+  },
+  toroInfo: {
+    numeroHijos: 0, // toro
+    numeroHijas: 0, // toro
+  },
   // coloar url de imagen por defecto
-  imagenPath: '',
+  imagenPath: ['1', '2'],
 };
 
 export const vaca0: ICow = {
@@ -36,11 +54,8 @@ export const vaca0: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Descarte',
   estadoReproductivo: 'Aborto',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -50,11 +65,28 @@ export const vaca0: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
+  historialPeso: [],
+  vacaInfo: {
+    estadoProductivo: '', // vaca
+    tipoAborto: '', // vaca
+    diasGestación: 0, // solo las vacas
+    numeroDeAbortos: 0, // vaca
+    fechaDeParto: 0, // vaca
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 999, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
 
 export const vaca1: ICow = {
@@ -64,11 +96,9 @@ export const vaca1: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
+
   pesoNacimiento: 123,
-  estadoProductivo: 'Descarte',
-  estadoReproductivo: 'Aborto',
-  tipoAborto: 'Aborto Normal',
+  historialPeso: [],
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -78,25 +108,39 @@ export const vaca1: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/FQ8Yzq4.png',
+  estadoReproductivo: 'Aborto',
+  vacaInfo: {
+    estadoProductivo: 'Descarte',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
 
 export const vaca2: ICow = {
   idVaca: '123',
   nombre: 'Hella',
   sexo: 'Hembra',
+  historialPeso: [],
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Novilla no lactante',
-  estadoReproductivo: 'Vacia',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -105,12 +149,29 @@ export const vaca2: ICow = {
   numeroAretePadre: '098',
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
-  pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  pesoActual: 90,
+  estadoReproductivo: 'Vacia',
+  vacaInfo: {
+    estadoProductivo: 'Novilla no lactante',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 
 export const vaca3: ICow = {
@@ -120,11 +181,8 @@ export const vaca3: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
+  historialPeso: [],
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con alta producción',
-  estadoReproductivo: 'Preñada',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -134,11 +192,28 @@ export const vaca3: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  estadoReproductivo: 'Preñada',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con alta producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 export const vaca4: ICow = {
   idVaca: '1235',
@@ -147,13 +222,10 @@ export const vaca4: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con media producción',
-  estadoReproductivo: 'Precentina',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
+  historialPeso: [],
   nombreDeMadre: 'Elina',
   numeroAreteMadre: '1233',
   nombreDePadre: 'Papa',
@@ -161,11 +233,28 @@ export const vaca4: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  estadoReproductivo: 'Precentina',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con media producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 export const vaca5: ICow = {
   idVaca: '1236',
@@ -174,11 +263,7 @@ export const vaca5: ICow = {
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
-  diasGestación: 283,
   pesoNacimiento: 123,
-  estadoProductivo: 'Vaca con baja producción',
-  estadoReproductivo: 'Seca',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -186,29 +271,44 @@ export const vaca5: ICow = {
   nombreDePadre: 'Papa',
   numeroAretePadre: '098',
   fechaDestete: 123213123,
+  historialPeso: [],
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  estadoReproductivo: 'Seca',
+  vacaInfo: {
+    estadoProductivo: 'Vaca con baja producción',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 15, // vaca
+    duraciónLactanciaPromedio: 4, // vaca
+    produccionPromedioLactancias: 15, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
 
 export const vaca6: ICow = {
   idVaca: '1237',
   nombre: 'CARMINA',
   sexo: 'Hembra',
-  diasGestación: 283,
   numeroDeArete: '546',
   fechaDeNacimiento: 12333123,
   raza: 'holstein',
   pesoNacimiento: 123,
-  estadoProductivo: 'Reproductor',
-  estadoReproductivo: 'Preñada',
-  tipoAborto: 'Aborto Normal',
   categoria: 'Vaca seca',
   valorDelBovino: 123,
+  historialPeso: [],
   nombreDeMadre: 'Elina',
   numeroAreteMadre: '1233',
   nombreDePadre: 'Papa',
@@ -216,11 +316,28 @@ export const vaca6: ICow = {
   fechaDestete: 123213123,
   pesoAlDestete: 32.2,
   pesoActual: 40,
-  numeroDeAbortos: 0,
-  diasDeGestacion: 0,
-  fechaDeParto: 0,
-  numeroDeCrias: 0,
-  imagenPath: 'https://i.imgur.com/nFhPmoo.png',
+  estadoReproductivo: 'Preñada',
+  vacaInfo: {
+    estadoProductivo: 'Reproductor',
+    tipoAborto: 'Aborto Normal',
+    diasGestación: 283,
+    numeroDeAbortos: 0,
+    fechaDeParto: 0,
+    numeroDeCrias: 0, // vacas
+    numeroDePartos: 0, // vaca
+    diasGestaciónPromedio: 0, // vaca
+    edadPrimerParto: {
+      years: 1,
+      months: 3,
+      days: 14,
+    }, // vaca
+    fechaUltimoParto: 1597439118000, // vaca
+    numeroLactancias: 0, // vaca
+    duraciónLactanciaPromedio: 0, // vaca
+    produccionPromedioLactancias: 0, // vaca
+    diasSecosTotales: 0, // vaca
+  },
+  imagenPath: ['https://i.imgur.com/nFhPmoo.png', ''],
 };
 
 export const vacas: ICow[] = [vaca0, vaca1, vaca2, vaca3, vaca4, vaca5, vaca6];

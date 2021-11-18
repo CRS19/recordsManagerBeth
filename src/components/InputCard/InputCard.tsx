@@ -1,33 +1,20 @@
-import React, {Dispatch, useEffect, useRef, useState} from 'react';
-import {
-  View,
-  Text,
-  TextInputBase,
-  TextInputComponent,
-  TouchableOpacity,
-} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import {Value} from 'react-native-reanimated';
+import React, {Dispatch, useRef} from 'react';
+import {View} from 'react-native';
 import {LogoHembraInput} from '../../assets/LogoHembraInput';
-import {LogoMacho} from '../../assets/LogoMacho';
 import {LogoMachoInput} from '../../assets/LogoMachoInput';
 import {NameInputLabel} from '../../assets/NameInputLabel';
 import {NumeroAreteInput} from '../../assets/NumeroAreteInput';
 import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {ICow} from '../../interfaces/CowInterface';
 import {ModalInput} from '../CustomInput/ModalInput';
-import {ChooseSexModal} from '../Modals/ChooseSexModal';
 import {BirthDateInput} from '../../assets/BirthDateInput';
 import {RazaLogoInput} from '../../assets/RazaLogoInput';
 import {PesoLogoInput} from '../../assets/PesoLogoInput';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {styles} from '../../theme/GlobalStyles';
-import {
-  IdentificationCardInputForm,
-  initialForm,
-} from '../../interfaces/newCowForm';
-import {get} from 'lodash';
+import {initialForm} from '../../interfaces/newCowForm';
 import {useInputCardState} from './state/useInputCardState';
+import {ChooseSexIcon} from '../../assets/ChooseSexIcon';
 
 interface IInputCard {
   value: ICow;
@@ -35,6 +22,7 @@ interface IInputCard {
   openDatePickerModal: Dispatch<React.SetStateAction<boolean>>;
   openRazaPickerModal: Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<ICow>>;
+  setPropertyFecha: Dispatch<React.SetStateAction<ICowKeys>>;
   onSave: () => void;
   isSaved: boolean;
 }
@@ -48,15 +36,13 @@ export const InputCard = (props: IInputCard) => {
     openRazaPickerModal,
     onSave,
     isSaved,
+    setPropertyFecha,
   } = props;
   const form = useRef(initialForm);
   const {validateForm} = useInputCardState({value, form});
 
   const onSaveForm = () => {
     validateForm();
-    console.log(form);
-    console.log(Object.entries(form.current).some(el => el[1] === true));
-
     if (!Object.entries(form.current).some(el => el[1] === true)) {
       onSave();
     }
@@ -71,7 +57,9 @@ export const InputCard = (props: IInputCard) => {
       <View>
         <ModalInput
           logo={
-            value.sexo === '' || value.sexo === 'MACHO' ? (
+            value.sexo === '' ? (
+              <ChooseSexIcon />
+            ) : value.sexo === 'MACHO' ? (
               <LogoMachoInput />
             ) : (
               <LogoHembraInput />
@@ -123,6 +111,7 @@ export const InputCard = (props: IInputCard) => {
           openModal={openDatePickerModal}
           editable={!isSaved}
           errorText="Seleccione una fecha"
+          setPropertyFecha={setPropertyFecha}
           error={form.current.fechaDeNacimiento}
         />
         <ModalInput
@@ -139,8 +128,8 @@ export const InputCard = (props: IInputCard) => {
         />
         <ModalInput
           logo={<PesoLogoInput />}
-          label="PESO"
-          property={ICowKeys.pesoActual}
+          label="PESO AL NACIMIENTO"
+          property={ICowKeys.pesoNacimiento}
           initialValue={value}
           setValue={setValue}
           hasMask={true}
@@ -149,7 +138,8 @@ export const InputCard = (props: IInputCard) => {
           isNumber={true}
           editable={!isSaved}
           errorText="Ingrese un peso"
-          error={form.current.pesoActual}
+          error={form.current.pesoNacimiento}
+          defaultValue={`${value.pesoNacimiento} Kg`}
         />
       </View>
       {!isSaved ? (

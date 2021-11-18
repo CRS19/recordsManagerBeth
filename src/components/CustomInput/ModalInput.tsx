@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react';
+import React, {createRef, Dispatch} from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import TextInputMask from 'react-native-text-input-mask';
@@ -6,9 +6,8 @@ import {ICowKeys} from '../../constants/ICowKeysEnum';
 import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {LeftButtomInput} from '../../assets/LeftButtomInput';
-import moment from 'moment';
-import {useRef} from 'react';
 import {AgeEnum} from '../../constants/ageTypeEnum';
+import {useModalInput} from './state/useModalInput';
 
 interface IModalInput {
   label: string;
@@ -26,14 +25,15 @@ interface IModalInput {
   hasLeftButtom?: boolean;
   ageType?: AgeEnum;
   changeAge?: React.Dispatch<React.SetStateAction<AgeEnum>>;
+  setPropertyFecha?: Dispatch<React.SetStateAction<ICowKeys>>;
   errorText?: string;
   error?: boolean;
+  validate?: () => void;
 }
 
 export const ModalInput = (props: IModalInput) => {
   // @ts-ignore
   const ref = createRef<TextInput>();
-  const [endEditing, setEndEditing] = useState(false);
 
   const {
     mask,
@@ -51,50 +51,28 @@ export const ModalInput = (props: IModalInput) => {
     changeAge,
     errorText,
     error,
+    setPropertyFecha,
+    validate,
   } = props;
 
-  const modal = () => {
-    if (!!openModal) {
-      openModal!(true);
-      console.log('desfocusear');
-    }
-    console.log('No abre');
-  };
-
-  const leftButtomAction = (): void => {
-    switch (ageType) {
-      case AgeEnum.ANOS_MESES:
-        changeAge!(AgeEnum.MESES_DIAS);
-        break;
-      case AgeEnum.MESES_DIAS:
-        changeAge!(AgeEnum.ANOS_MESES);
-        break;
-    }
-  };
-
-  const getValue = (): string => {
-    if (!!defaultValue) {
-      return defaultValue!;
-    } else if (property.includes('fecha')) {
-      return moment(initialValue[property]).format('DD/MM/YYYY');
-    } else if (property.includes('nombreDeMadre')) {
-      return `${initialValue.nombreDeMadre.toUpperCase()} / ${
-        initialValue.numeroAreteMadre
-      }`;
-    } else if (property.includes('nombreDePadre')) {
-      return `${initialValue.nombreDePadre.toUpperCase()} / ${
-        initialValue.numeroAretePadre
-      }`;
-    } else if (property.includes('peso') && endEditing) {
-      console.log(
-        'concatena',
-        initialValue[property]!.toString().concat(' Kg'),
-      );
-      return initialValue[property]!.toString().concat(' Kg');
-    } else {
-      return initialValue[property]!.toString().toUpperCase();
-    }
-  };
+  const {
+    setEndEditing,
+    getValue,
+    saveWithOutMask,
+    saveWithMask,
+    leftButtomAction,
+    modal,
+  } = useModalInput({
+    setValue,
+    initialValue,
+    openModal,
+    property,
+    isNumber,
+    defaultValue,
+    ageType,
+    changeAge,
+    setPropertyFecha,
+  });
 
   return (
     <View>
@@ -111,6 +89,7 @@ export const ModalInput = (props: IModalInput) => {
             editable={editable}
             onFocus={() => setEndEditing(false)}
             onEndEditing={() => setEndEditing(true)}
+            onBlur={() => (!!validate ? validate() : console.log(''))}
             underlineColor="#6200EE"
             keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
             ref={ref}
@@ -126,11 +105,7 @@ export const ModalInput = (props: IModalInput) => {
                 {...props}
                 ref={ref}
                 mask={mask}
-                onChangeText={(text, text2) => {
-                  isNumber
-                    ? setValue!({...initialValue, [property]: Number(text)})
-                    : setValue!({...initialValue, [property]: text2});
-                }}
+                onChangeText={(text, text2) => saveWithMask(text, text2)}
               />
             )}
           />
@@ -149,9 +124,7 @@ export const ModalInput = (props: IModalInput) => {
               selectTextOnFocus={true}
               editable={false}
               value={getValue()}
-              onChangeText={text => {
-                setValue!({...initialValue, [property]: text});
-              }}
+              onChangeText={text => saveWithOutMask(text)}
               theme={{
                 colors: {primary: '#6200EE', placeholder: '#6200EE'},
               }}

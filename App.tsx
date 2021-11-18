@@ -7,10 +7,11 @@ import {StationScreen} from './src/screens/StationScreen';
 import {LogIn} from './src/screens/LogIn/LogIn';
 import {IndividualRecords} from './src/screens/IndividualRecords/IndividualRecords';
 import {LogInStack} from './src/navigation/LogInStack';
-import {createStore, Store} from 'redux';
+import {applyMiddleware, createStore, Store} from 'redux';
 import {reducer} from './src/store/reducer';
+import thunk from 'redux-thunk';
 
-const store: Store = createStore(reducer);
+const store: Store = createStore(reducer, applyMiddleware(thunk));
 
 const App = () => {
   return (

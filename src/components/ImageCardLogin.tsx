@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, View} from 'react-native';
+import {API_BASE_PATH} from '../env/environment';
 import {styles} from '../theme/GlobalStyles';
 
 interface ICardImage {

@@ -25,8 +25,10 @@ export enum estadoReproductivo {
   ABORTO = 'Aborto',
   VACIA = 'Vacia',
   PRENADA = 'Preñada',
-  PRECENTINA = 'Precentina',
+  Recentina = 'Recentina',
   SECA = 'Seca',
+  TERNERO = 'Ternero',
+  REPRODUCTOR = 'Reproductor',
 }
 
 export enum tipoMonta {
@@ -41,6 +43,8 @@ export enum Categoria {
   VACA_VIENTRE = 'Vaca vientre',
   VACA = 'Vaca',
   VACA_SECA = 'Vaca seca',
+  TORO = 'Toro',
+  TORETE = 'Torete',
 }
 
 export type estadoProductivoType =
@@ -82,11 +86,7 @@ export interface ICow {
   numeroDeArete: string;
   fechaDeNacimiento: number;
   raza: string;
-  diasGestación: number;
   pesoNacimiento: number;
-  estadoProductivo: estadoProductivoType;
-  estadoReproductivo: estadoReproductivoType;
-  tipoAborto?: tipoAbortoType;
   categoria: categoriaType;
   valorDelBovino: number;
   nombreDeMadre: string;
@@ -96,11 +96,44 @@ export interface ICow {
   fechaDestete: number;
   pesoAlDestete: number;
   pesoActual: number;
-  numeroDeAbortos: number;
-  diasDeGestacion: number;
-  fechaDeParto: number;
-  numeroDeCrias: number;
-  imagenPath: string; //RECORDAR HACER EL ENDPOINT PARA TRAER IMAGENES
+  estadoReproductivo: estadoReproductivoType;
+  vacaInfo?: vacaInfo;
+  toroInfo?: toroInfo;
+  historialPeso: IHistorialPeso[];
+  imagenPath: string[];
+  [k: string]: any;
+}
+
+export interface IHistorialPeso {
+  timestamp: number;
+  // las unidades siempre estan en Kg
+  peso: number;
+}
+
+export interface vacaInfo {
+  estadoProductivo: estadoProductivoType; // vaca
+  tipoAborto?: tipoAbortoType; // vaca
+  diasGestación: number; // solo las vacas
+  numeroDeAbortos: number; // vaca
+  fechaDeParto: number; // vaca
+  numeroDeCrias: number; // vacas
+  numeroDePartos: number; // vaca
+  diasGestaciónPromedio: number; // vaca
+  edadPrimerParto: {
+    years: number;
+    months: number;
+    days: number;
+  }; // vaca
+  fechaUltimoParto: number; // vaca
+  numeroLactancias: number; // vaca
+  duraciónLactanciaPromedio: number; // vaca
+  produccionPromedioLactancias: number; // vaca
+  diasSecosTotales: number; // vaca
+}
+
+export interface toroInfo {
+  numeroHijos?: number; // toro
+  numeroHijas?: number; // toro
 }
 
 export interface registroPeso {

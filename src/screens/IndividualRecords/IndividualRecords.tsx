@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   FlatList,
@@ -8,10 +8,7 @@ import {
 } from 'react-native';
 import {FillButton} from '../../components/Buttoms/FillButton';
 import {QRReaderButtom} from '../../components/Buttoms/QRReaderButtom';
-import {
-  CowCardInfo,
-  MemoizedCard,
-} from '../../components/CowCardInfo/CowCardInfo';
+import {MemoizedCard} from '../../components/CowCardInfo/CowCardInfo';
 import {InfoStaticCard} from '../../components/InfoStaticCard/InfoStaticCard';
 import {TopBar} from '../../components/TopBar';
 import {styles} from '../../theme/GlobalStyles';
@@ -19,11 +16,16 @@ import {vacas} from '../../VaquitasPrueba/vacas';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {OneFieldModal} from '../../components/Modals/OneFieldModal';
 import {useIndividualRecords} from './state/useIndividualRecords';
-import {CowCardSkeleton} from '../../components/Skeletons/CowCardSkeleton';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {TextInput} from 'react-native-gesture-handler';
+import {ICow} from '../../interfaces/CowInterface';
+import {ActivityIndicator} from 'react-native-paper';
 
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
+
+export interface IMemoCardProps {
+  cows: ICow[];
+  loadCows: () => void;
+  endList: boolean;
+}
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
   console.log('OPTIMIZATION: IndividualRecords render');
@@ -31,6 +33,10 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
   const {
     precioCarne,
     precioLeche,
+    cowList,
+    isLoading,
+    loadCows,
+    endList,
     guardarPrecioCarne,
     openCloseModalCarne,
     openCloseModalLeche,
@@ -70,7 +76,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                 <FillButton
                   title="Precio KG Carne"
                   onPress={() => {
-                    console.log('precio carne');
                     setOpenCloseModalCarne(true);
                   }}
                 />
@@ -78,7 +83,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
               <FillButton
                 title="Precio LT leche"
                 onPress={() => {
-                  console.log('precio leche');
                   setOpenCloseModalLeche(true);
                 }}
               />
@@ -90,7 +94,27 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
           {/* rigth part */}
           <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
-              <MemoizedCardList />
+              {isLoading ? (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <ActivityIndicator
+                    animating={true}
+                    size={'large'}
+                    color={'#32AC96'}
+                  />
+                  <Text>Cargando...</Text>
+                </View>
+              ) : (
+                <MemoizedCardList
+                  cows={cowList}
+                  loadCows={loadCows}
+                  endList={endList}
+                />
+              )}
             </SafeAreaView>
           </View>
         </View>
@@ -114,11 +138,11 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
 };
 
 //Memoized Component
-const CardList = () => {
+const CardList = (props: IMemoCardProps) => {
   return (
     <FlatList
       numColumns={2}
-      data={vacas}
+      data={props.cows}
       keyExtractor={(item, iterator) => {
         return item.idVaca.concat(String(iterator));
       }}
@@ -128,8 +152,12 @@ const CardList = () => {
           cow={vaca.item}
         />
       )}
-      ListFooterComponent={<View style={{height: 10}}></View>}
-      ListFooterComponentStyle={{height: 100}}
+      ListFooterComponent={
+        props.endList ? <View /> : <ActivityIndicator color={'#32AC96'} />
+      }
+      ListFooterComponentStyle={{height: 200}}
+      onEndReached={props.loadCows}
+      onEndReachedThreshold={0.4}
     />
   );
 };
