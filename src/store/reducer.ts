@@ -3,7 +3,7 @@ import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
 import {IAppAction} from './actionCreators';
 import {emptyCow} from '../VaquitasPrueba/vacas';
-import {IReproductionRecord} from '../interfaces/ReproductionRecord';
+import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 
 export const INITIAL_STATE: IAppState = {
@@ -16,6 +16,7 @@ export const INITIAL_STATE: IAppState = {
   newCow: emptyCow,
   reproductionRecord: undefined,
   reproductoresList: undefined,
+  reproductionRecordsSplited: undefined,
 };
 
 export interface IAppState {
@@ -25,6 +26,7 @@ export interface IAppState {
   newCow?: ICow;
   reproductionRecord?: IReproductionRecord;
   reproductoresList?: IReproductoresList[];
+  reproductionRecordsSplited?: Record[][];
 }
 
 export const reducer = (
@@ -61,6 +63,11 @@ export const reducer = (
       return {
         ...state,
         reproductoresList: action.reproductoresList,
+      };
+    case ActionTypes.SET_REPRODUCTION_RECORDS_SPLITED:
+      return {
+        ...state,
+        reproductionRecordsSplited: action.reproductionRecordsSplited,
       };
     default:
       return state;

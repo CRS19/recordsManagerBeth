@@ -4,9 +4,10 @@ import {styles} from '../../theme/GlobalStyles';
 
 interface IGeneralTitleProps {
   title: string;
+  width?: number;
 }
 
-export const GeneralTitle = (props: IGeneralTitleProps) => {
+export const GeneralTitle = ({title, width = 333}: IGeneralTitleProps) => {
   return (
     <View
       style={{
@@ -14,8 +15,8 @@ export const GeneralTitle = (props: IGeneralTitleProps) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text style={styles.RegisterTitleGeneric}>{props.title}</Text>
-      <View style={styles.RegisterTitleUnderLine} />
+      <Text style={styles.RegisterTitleGeneric}>{title}</Text>
+      <View style={{...styles.RegisterTitleUnderLine, width}} />
     </View>
   );
 };

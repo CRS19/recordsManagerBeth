@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {MonataIaModal} from '../../components/Modals/MonataIaModal';
+import {SelectModal} from '../../components/Modals/SelectModal';
 import {RegisterList} from '../../components/RegisterLIst/RegisterList';
 import {TopBar} from '../../components/TopBar';
+import {
+  PALPATION_TYPES,
+  VACIA_OVARIOS,
+  VACIA_UTERO,
+} from '../../constants/palpationConstants';
 import {useTime} from '../../custom/useTime';
 import {RecordReproductionType} from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
@@ -25,13 +25,20 @@ export const Reproduction = () => {
     record,
     isLoading,
     isOpenIaModal,
+    isOpenVaciaTypeModal,
+    isOpenPalpationTypeModal,
+    recordsSplited,
     openCloseModal,
     currentRecord,
     reproductoresList,
     onSelectCurrentRecord,
     setIsOpenIaModal,
     setRecordToUpdate,
+    setIsOpenPalpationTypeModal,
     setIsLoading,
+    onPalpTypePress,
+    onVaciaTypePress,
+    setIsOpenVaciaTypeModal,
   } = useReproduction();
 
   const {getPosiblePartoDay} = useTime();
@@ -71,30 +78,51 @@ export const Reproduction = () => {
               }}
               enableSwipeMonths={true}
             />
-            <View>
+
+            <View style={{marginTop: 6}}>
               <RegisterList
-                title={'Registro de partos'}
+                title={'Registro de chequeo general'}
                 record={recordToUpdate}
+                recordsList={recordsSplited[2]}
+                recordType={RecordReproductionType.GENERAL}
+                currentRecord={currentRecord!}
+                onSelectCurrentRecord={onSelectCurrentRecord}
+              />
+            </View>
+            <View style={{marginTop: 3}}>
+              <RegisterList
+                title={'Registro de aprto'}
+                record={recordToUpdate}
+                recordsList={recordsSplited[0]}
                 recordType={RecordReproductionType.PARTO}
                 currentRecord={currentRecord!}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
-            <View>
+            <View style={{marginTop: 3}}>
               <RegisterList
-                title={'Registro de abortos'}
+                title={'Registro de aborto'}
                 record={recordToUpdate}
-                currentRecord={currentRecord!}
+                recordsList={recordsSplited[1]}
                 recordType={RecordReproductionType.ABORTO}
+                currentRecord={currentRecord!}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
+
             <TouchableOpacity
               onPress={() => {
                 console.log(JSON.stringify(recordToUpdate, null, 3));
                 getPosiblePartoDay();
               }}>
               <Text>Ver registro del store</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                console.log(JSON.stringify(currentRecord, null, 3));
+              }}>
+              <Text>Ver current registro en el store</Text>
             </TouchableOpacity>
           </View>
           {/** CENTER **/}
@@ -111,6 +139,7 @@ export const Reproduction = () => {
                 isLoading={isLoading}
                 openCloseIaModal={openCloseModal}
                 currentRecord={currentRecord}
+                setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
               />
             </View>
             <View style={{height: 200}} />
@@ -130,6 +159,22 @@ export const Reproduction = () => {
         recordToUpdate={recordToUpdate}
         getPosiblePartoDay={getPosiblePartoDay}
         setIsLoading={setIsLoading}
+      />
+      <SelectModal
+        title={'Seleccione tipo'}
+        dataOptions={PALPATION_TYPES}
+        openCloseModal={isOpenPalpationTypeModal}
+        onCloseModal={onPalpTypePress}
+        setOpenCloseModal={setIsOpenPalpationTypeModal}
+      />
+      <SelectModal
+        title={'Ovarios'}
+        title2={'Utero'}
+        dataOptions={VACIA_OVARIOS}
+        dataOptions2={VACIA_UTERO}
+        openCloseModal={isOpenVaciaTypeModal}
+        onCloseModal={onVaciaTypePress}
+        setOpenCloseModal={setIsOpenVaciaTypeModal}
       />
     </View>
   );
