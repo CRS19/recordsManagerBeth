@@ -20,3 +20,13 @@ export const recordMontaIa: Record = {
   gestationDays: 0,
   inseminadorName: '',
 };
+
+export const recordSinTipo: Record = {
+  montaType: MontaTypeEnum.EMPTY,
+  registrosPalp: [],
+  recordType: RecordReproductionType.CURRENT,
+  idReproductor: '',
+  fechaPosibleParto: 0,
+  gestationDays: 0,
+  inseminadorName: '',
+};

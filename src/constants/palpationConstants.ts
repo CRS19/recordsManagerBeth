@@ -21,3 +21,9 @@ export const VACIA_UTERO: string[] = [
   'NORMAL',
   'FREE MARTIN',
 ];
+
+export const ABORTO_TYPE: string[] = [
+  'normal',
+  'placenta retenida',
+  'metritis peuperal',
+];

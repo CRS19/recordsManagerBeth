@@ -1,5 +1,6 @@
 import React, {Dispatch} from 'react';
 import {Text, View} from 'react-native';
+import {RegistroPalp} from '../../interfaces/ReproductionRecord';
 import {BallButtom} from '../Buttoms/BallButtom';
 import {GeneralTitle} from '../Titles/GeneralTitle';
 

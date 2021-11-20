@@ -12,4 +12,5 @@ export enum reproductionRecordsColor {
   PARTO = '#5DCEF3',
   GENERAL = '#3C853F',
   SELECTED = '#F3CB53',
+  CURRENT = 'white',
 }

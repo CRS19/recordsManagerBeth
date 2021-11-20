@@ -25,7 +25,7 @@ export enum estadoReproductivo {
   ABORTO = 'Aborto',
   VACIA = 'Vacia',
   PRENADA = 'Preñada',
-  Recentina = 'Recentina',
+  PRECENTINA = 'PRECENTINA',
   SECA = 'Seca',
   TERNERO = 'Ternero',
   REPRODUCTOR = 'Reproductor',

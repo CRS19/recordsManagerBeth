@@ -14,6 +14,7 @@ import {ICow} from '../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   Record,
+  RegistroPalp,
 } from '../../../interfaces/ReproductionRecord';
 import {useCenterView} from './states/useCenterView';
 import {isNil} from 'lodash';
@@ -23,21 +24,29 @@ export interface CenterViewReproductionProps {
   cow: ICow;
   record: IReproductionRecord;
   isLoading: boolean;
+  recordsList: Record[];
   currentRecord: Record | undefined;
   openCloseIaModal: (isOpen: boolean) => void;
   setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CenterView = ({
   cow,
   record,
   isLoading,
+  recordsList,
   currentRecord,
   openCloseIaModal,
   setIsOpenPalpationTypeModal,
+  setIsLoading,
 }: CenterViewReproductionProps) => {
   const {controlGinecologico, controlServicio, controlMonta} = useCenterView({
     openCloseIaModal,
+    currentRecordSinType: recordsList[0],
+    record,
+    currentRecord,
+    setIsLoading,
   });
 
   const labelChipProps = {
@@ -85,6 +94,12 @@ export const CenterView = ({
           <Text>Cargando...</Text>
         </View>
       ) : null}
+      {controlGinecologico.isChequeoBtnActive && !isNil(recordsList[0]) && (
+        <View>
+          <Text>{recordsList[0].recordType}</Text>
+          <Text>{JSON.stringify(recordsList[0].registrosPalp, null, 3)}</Text>
+        </View>
+      )}
     </View>
   );
 };
