@@ -76,7 +76,7 @@ export const DatePickerModal = (props: IDatePickerModal) => {
                   markedDates={markedDate}
                   onDayPress={day => {
                     const {dateString} = day;
-                    const time = day.timestamp + ECU_5_GTM;
+                    const time = day.timestamp - ECU_5_GTM;
                     setTimestamp(time);
                     setMarkedDate({
                       [dateString]: {

@@ -6,4 +6,6 @@ export const ReproductionLabel: Record<estadoReproductivo, string> = {
   [estadoReproductivo.PRENADA]: 'Preñada',
   [estadoReproductivo.SECA]: 'Seca',
   [estadoReproductivo.VACIA]: 'Vacia',
+  [estadoReproductivo.TERNERO]: 'Ternero',
+  [estadoReproductivo.REPRODUCTOR]: 'Reproductor',
 };

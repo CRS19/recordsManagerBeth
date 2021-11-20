@@ -1,6 +1,15 @@
-import {useState} from 'react';
+import {cloneDeep, isNil} from 'lodash';
+import {Dispatch, useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {IControlGinecologicoProps} from '../../../../components/ReproductionComponents/ControlGinecologico';
 import {IGeneralControlProps} from '../../../../components/ReproductionComponents/GeneralControl';
+import {
+  IReproductionRecord,
+  Record,
+  RegistroPalp,
+} from '../../../../interfaces/ReproductionRecord';
+import {updateReproductionRecord} from '../../../../store/actionCreators';
+import {recordSinTipo} from '../../../../utils/recordsTemplates/reproduction_template';
 
 interface IUseCenterView {
   controlGinecologico: IControlGinecologicoProps;
@@ -10,11 +19,20 @@ interface IUseCenterView {
 
 interface IUseCenterViewProps {
   openCloseIaModal: (isOpen: boolean) => void;
+  currentRecordSinType: Record;
+  record: IReproductionRecord;
+  currentRecord: Record | undefined;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const useCenterView = ({
   openCloseIaModal,
+  currentRecordSinType,
+  record,
+  currentRecord,
+  setIsLoading,
 }: IUseCenterViewProps): IUseCenterView => {
+  const dispatch = useDispatch();
   const [isCeloBtnActive, setIsCeloBtnActive] = useState<boolean>(false);
   const [isChequeoBtnActive, setIsChequeoBtnActive] = useState<boolean>(false);
 
@@ -30,6 +48,20 @@ export const useCenterView = ({
 
   const onChequeoCliked = () => {
     setIsChequeoBtnActive(!isChequeoBtnActive);
+
+    if (isNil(currentRecordSinType)) {
+      console.log('DEBUG: llamado al endpoint');
+      const newRecord = cloneDeep(recordSinTipo);
+      setIsLoading(true);
+      record.records.push(newRecord);
+      dispatch(updateReproductionRecord(record));
+      setIsLoading(false);
+    } else {
+      console.log(
+        'EL REGISTRO ES: ',
+        JSON.stringify(currentRecordSinType, null, 3),
+      );
+    }
   };
 
   const onServicioYesCliked = () => {
@@ -52,6 +84,12 @@ export const useCenterView = ({
     setIsServicioYes(false);
     setIsCeloBtnActive(false);
   };
+
+  useEffect(() => {
+    if (!isNil(currentRecord)) {
+      setIsChequeoBtnActive(false);
+    }
+  }, [currentRecord]);
 
   return {
     controlGinecologico: {

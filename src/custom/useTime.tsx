@@ -1,10 +1,9 @@
-import React from 'react';
 import {ECU_5_GTM} from '../constants/EcuTimestamp';
-import moment from 'moment';
 import {getCurrentTime} from '../utils/useGetOld';
+import moment from 'moment';
 
 interface IuseTime {
-  getEcuatorTimestamp: (timestampToECUTime: number) => number;
+  getEcuatorTimestamp: () => number;
   getPosiblePartoDay: () => number;
 }
 
@@ -13,8 +12,8 @@ interface IuseTimeProps {
 }
 
 export const useTime = (props?: IuseTimeProps): IuseTime => {
-  const getEcuatorTimestamp = (timestampToECUTime: number) => {
-    return timestampToECUTime + ECU_5_GTM;
+  const getEcuatorTimestamp = () => {
+    return Number(moment.now());
   };
 
   const getPosiblePartoDay = (): number => {

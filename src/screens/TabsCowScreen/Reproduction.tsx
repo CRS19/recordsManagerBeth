@@ -6,6 +6,7 @@ import {SelectModal} from '../../components/Modals/SelectModal';
 import {RegisterList} from '../../components/RegisterLIst/RegisterList';
 import {TopBar} from '../../components/TopBar';
 import {
+  ABORTO_TYPE,
   PALPATION_TYPES,
   VACIA_OVARIOS,
   VACIA_UTERO,
@@ -25,20 +26,25 @@ export const Reproduction = () => {
     record,
     isLoading,
     isOpenIaModal,
+    currentPalpations,
     isOpenVaciaTypeModal,
+    isOpenAbortoTypeModal,
     isOpenPalpationTypeModal,
-    recordsSplited,
     openCloseModal,
+    recordsSplited,
     currentRecord,
     reproductoresList,
     onSelectCurrentRecord,
     setIsOpenIaModal,
-    setRecordToUpdate,
     setIsOpenPalpationTypeModal,
-    setIsLoading,
+    onAbortoTypePress,
+    setRecordToUpdate,
     onPalpTypePress,
     onVaciaTypePress,
+    insertPalpation,
+    setIsLoading,
     setIsOpenVaciaTypeModal,
+    setIsOpenAbortoTypeModal,
   } = useReproduction();
 
   const {getPosiblePartoDay} = useTime();
@@ -109,21 +115,6 @@ export const Reproduction = () => {
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                console.log(JSON.stringify(recordToUpdate, null, 3));
-                getPosiblePartoDay();
-              }}>
-              <Text>Ver registro del store</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                console.log(JSON.stringify(currentRecord, null, 3));
-              }}>
-              <Text>Ver current registro en el store</Text>
-            </TouchableOpacity>
           </View>
           {/** CENTER **/}
           <ScrollView>
@@ -139,8 +130,36 @@ export const Reproduction = () => {
                 isLoading={isLoading}
                 openCloseIaModal={openCloseModal}
                 currentRecord={currentRecord}
+                recordsList={recordsSplited[3]}
                 setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
+                setIsLoading={setIsLoading}
               />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(recordToUpdate, null, 3));
+                  getPosiblePartoDay();
+                }}>
+                <Text>Ver registro del store</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(currentRecord, null, 3));
+                }}>
+                <Text>Ver current registro en el store</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(currentPalpations, null, 3));
+                }}>
+                <Text>Ver current palpations </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(recordsSplited[3], null, 3));
+                }}>
+                <Text>Ver current record sin tipo de registro </Text>
+              </TouchableOpacity>
             </View>
             <View style={{height: 200}} />
           </ScrollView>
@@ -175,6 +194,13 @@ export const Reproduction = () => {
         openCloseModal={isOpenVaciaTypeModal}
         onCloseModal={onVaciaTypePress}
         setOpenCloseModal={setIsOpenVaciaTypeModal}
+      />
+      <SelectModal
+        title={'Tipo de Aborto'}
+        dataOptions={ABORTO_TYPE}
+        openCloseModal={isOpenAbortoTypeModal}
+        onCloseModal={onAbortoTypePress}
+        setOpenCloseModal={setIsOpenAbortoTypeModal}
       />
     </View>
   );
