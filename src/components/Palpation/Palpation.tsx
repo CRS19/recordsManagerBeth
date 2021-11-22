@@ -1,23 +1,48 @@
 import React, {Dispatch} from 'react';
 import {Text, View} from 'react-native';
-import {RegistroPalp} from '../../interfaces/ReproductionRecord';
+import {Record, RegistroPalp} from '../../interfaces/ReproductionRecord';
 import {BallButtom} from '../Buttoms/BallButtom';
+import {PalpationCard} from '../PalpationCard/PalpationCard';
 import {GeneralTitle} from '../Titles/GeneralTitle';
+import {isEmpty, get} from 'lodash';
 
 export interface IPalpationProps {
-  setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
+  recordsList: Record;
+  setIsOpenPalpationTypeModal?: Dispatch<React.SetStateAction<boolean>>;
+  isInsertComponent: boolean;
 }
 
-export const Palpation = ({setIsOpenPalpationTypeModal}: IPalpationProps) => {
+export const Palpation = ({
+  setIsOpenPalpationTypeModal,
+  recordsList,
+  isInsertComponent,
+}: IPalpationProps) => {
   return (
-    <View
-      style={{backgroundColor: 'white', alignItems: 'center', marginTop: 10}}>
+    <View style={{alignItems: 'center', marginTop: 15}}>
       <GeneralTitle title={'Registro de palpación'} width={440} />
-      <BallButtom
-        onPress={() => setIsOpenPalpationTypeModal(true)}
-        title={'+'}
-      />
-      <Text>palpación</Text>
+      <View style={{flexDirection: 'row'}}>
+        <View>
+          {!isEmpty(get(recordsList, 'registrosPalp', [])) &&
+            recordsList.registrosPalp
+              .slice()
+              .reverse()
+              .map((record, index) => (
+                <PalpationCard
+                  index={index}
+                  key={`${record.registroPalpacion}-${index}`}
+                  PalpationRecord={record}
+                />
+              ))}
+        </View>
+        <View>
+          {isInsertComponent && (
+            <BallButtom
+              onPress={() => setIsOpenPalpationTypeModal!(true)}
+              title={'+'}
+            />
+          )}
+        </View>
+      </View>
     </View>
   );
 };

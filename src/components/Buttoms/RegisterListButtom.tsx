@@ -1,16 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableNativeFeedback} from 'react-native';
-import {IReproductionRecord, Record} from '../../interfaces/ReproductionRecord';
+import {Record} from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
 import {get, isNil} from 'lodash';
 import {reproductionRecordsColor} from '../../constants/colorEnum';
+import {useDispatch, useSelector} from 'react-redux';
+import {IAppState} from '../../store/reducer';
+import {setIsUsingControlGinecologico} from '../../store/actionCreators';
 
 interface IRegisterListButtomProps {
   recordTypeList: Record[];
   listNumber: number;
   bgcolor: string;
   currentRecord: Record;
-  onSelectCurrentRecord: (id: string | undefined) => void;
+  onSelectCurrentRecord: (id: string | undefined, index: number) => void;
 }
 
 export const RegisterListButtom = ({
@@ -20,9 +23,13 @@ export const RegisterListButtom = ({
   currentRecord,
   onSelectCurrentRecord,
 }: IRegisterListButtomProps) => {
+  const dispatch = useDispatch();
+  const isUsingControlGinecologico = useSelector(
+    (state: IAppState) => state.isUsingControlGinecologico!,
+  );
   const [isClicked, setIsClicked] = useState(false);
   const [color, setColor] = useState(bgcolor);
-  const flag: boolean =
+  let flag: boolean =
     get(currentRecord, '_id', '') === recordTypeList[listNumber]._id;
 
   const handleOffFocus = () => {
@@ -37,11 +44,19 @@ export const RegisterListButtom = ({
   }, [currentRecord]);
 
   useEffect(() => {
+    if (isUsingControlGinecologico === true) {
+      flag = true;
+      setIsClicked(false);
+      dispatch(setIsUsingControlGinecologico(false));
+    }
+  }, [isUsingControlGinecologico]);
+
+  useEffect(() => {
     if (isClicked === true) {
-      onSelectCurrentRecord(recordTypeList[listNumber]._id!);
+      onSelectCurrentRecord(recordTypeList[listNumber]._id!, listNumber);
       setColor(reproductionRecordsColor.SELECTED);
     } else {
-      if (flag) onSelectCurrentRecord(undefined);
+      if (flag) onSelectCurrentRecord(undefined, 0);
       setColor(bgcolor);
     }
   }, [isClicked]);

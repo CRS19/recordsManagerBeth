@@ -14,18 +14,22 @@ import {ICow} from '../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   Record,
+  RecordReproductionType,
   RegistroPalp,
 } from '../../../interfaces/ReproductionRecord';
 import {useCenterView} from './states/useCenterView';
-import {isNil} from 'lodash';
+import {isNil, get} from 'lodash';
 import {Palpation} from '../../../components/Palpation/Palpation';
+import {ReproRecordView} from '../../../components/ReproductionRecordView/ReproRecordView';
+import {SaveReproductionRecordButtom} from '../../../components/Buttoms/SaveReproductionRecordButtom';
 
 export interface CenterViewReproductionProps {
   cow: ICow;
   record: IReproductionRecord;
   isLoading: boolean;
-  recordsList: Record[];
-  currentRecord: Record | undefined;
+  currentRecord: Record;
+  selectedRecord: Record | undefined;
+  recordNumber: number;
   openCloseIaModal: (isOpen: boolean) => void;
   setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
@@ -35,17 +39,18 @@ export const CenterView = ({
   cow,
   record,
   isLoading,
-  recordsList,
   currentRecord,
+  selectedRecord,
   openCloseIaModal,
+  recordNumber,
   setIsOpenPalpationTypeModal,
   setIsLoading,
 }: CenterViewReproductionProps) => {
   const {controlGinecologico, controlServicio, controlMonta} = useCenterView({
     openCloseIaModal,
-    currentRecordSinType: recordsList[0],
+    currentRecordSinType: currentRecord,
     record,
-    currentRecord,
+    selectedRecord,
     setIsLoading,
   });
 
@@ -56,6 +61,8 @@ export const CenterView = ({
 
   const palpationProps = {
     setIsOpenPalpationTypeModal,
+    recordsList: currentRecord,
+    isInsertComponent: true,
   };
 
   return (
@@ -74,12 +81,24 @@ export const CenterView = ({
         )}
         {controlServicio.isClikedBtn1 && <GeneralControl {...controlMonta} />}
       </View>
-      {controlGinecologico.isChequeoBtnActive && isNil(currentRecord) && (
-        <Palpation {...palpationProps} />
+      {isNil(selectedRecord) && !isNil(currentRecord) && (
+        <View>
+          {currentRecord.recordType !== RecordReproductionType.CURRENT &&
+            !isNil(currentRecord) && (
+              <View>
+                <SaveReproductionRecordButtom />
+                <ReproRecordView recordNumber={0} record={currentRecord} />
+              </View>
+            )}
+          <Palpation {...palpationProps} />
+        </View>
       )}
       <Text>... construyendo parte del centro</Text>
-      {isNil(currentRecord) ? null : <Text>{currentRecord.idReproductor}</Text>}
-      {isLoading ? (
+
+      {!isNil(selectedRecord) && (
+        <ReproRecordView recordNumber={recordNumber} record={selectedRecord} />
+      )}
+      {isLoading && (
         <View
           style={{
             flex: 1,
@@ -92,12 +111,6 @@ export const CenterView = ({
             color={'#32AC96'}
           />
           <Text>Cargando...</Text>
-        </View>
-      ) : null}
-      {controlGinecologico.isChequeoBtnActive && !isNil(recordsList[0]) && (
-        <View>
-          <Text>{recordsList[0].recordType}</Text>
-          <Text>{JSON.stringify(recordsList[0].registrosPalp, null, 3)}</Text>
         </View>
       )}
     </View>

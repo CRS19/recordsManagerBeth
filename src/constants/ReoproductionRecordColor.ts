@@ -7,3 +7,10 @@ export const ReproductionColor: Record<RecordReproductionType, string> = {
   [RecordReproductionType.GENERAL]: reproductionRecordsColor.GENERAL,
   [RecordReproductionType.CURRENT]: reproductionRecordsColor.CURRENT,
 };
+
+export const ReproductionViewColor: Record<RecordReproductionType, string> = {
+  [RecordReproductionType.ABORTO]: '#F2899C',
+  [RecordReproductionType.PARTO]: '#F4FBA2',
+  [RecordReproductionType.GENERAL]: reproductionRecordsColor.GENERAL,
+  [RecordReproductionType.CURRENT]: reproductionRecordsColor.CURRENT,
+};

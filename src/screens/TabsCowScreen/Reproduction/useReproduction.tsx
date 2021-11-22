@@ -35,10 +35,11 @@ interface IUseReproduction {
   isOpenAbortoTypeModal: boolean;
   recordsSplited: Record[][];
   currentPalpations: RegistroPalp[];
+  recordNumber: React.MutableRefObject<number>;
   openCloseModal: (isOpen: boolean) => void;
-  currentRecord: Record | undefined;
+  selectedRecord: Record | undefined;
   reproductoresList: IReproductoresList[];
-  onSelectCurrentRecord: (id: string | undefined) => void;
+  onSelectCurrentRecord: (id: string | undefined, index: number) => void;
   onPalpTypePress: (palpType: string) => void;
   onVaciaTypePress: (vaciaType: string) => void;
   insertPalpation: (newPalpation: RegistroPalp) => void;
@@ -62,10 +63,7 @@ export const useReproduction = (): IUseReproduction => {
   const recordsSplited: Record[][] = useSelector(
     (state: IAppState) => state.reproductionRecordsSplited!,
   );
-  console.log(
-    'DEBUG: el registro cargado desde el store es: ',
-    JSON.stringify(recordsSplited[3][0], null, 3),
-  );
+
   const [isOpenIaModal, setIsOpenIaModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenPalpationTypeModal, setIsOpenPalpationTypeModal] =
@@ -76,11 +74,12 @@ export const useReproduction = (): IUseReproduction => {
     useState<boolean>(false);
   const [recordToUpdate, setRecordToUpdate] =
     useState<IReproductionRecord>(record);
-  const [currentRecord, setCurrentRecord] = useState<Record | undefined>();
+  const [selectedRecord, setSelectedRecord] = useState<Record | undefined>();
   const [currentPalpations, setCurrentPalpations] = useState<RegistroPalp[]>(
     get(recordsSplited[3][0], 'registrosPalp', []),
   );
   const updateControl = useRef(false);
+  const recordNumber = useRef(0);
 
   const {getEcuatorTimestamp} = useTime();
 
@@ -88,26 +87,20 @@ export const useReproduction = (): IUseReproduction => {
     setIsOpenIaModal(!isOpenIaModal);
   };
 
-  const onSelectCurrentRecord = (id: string | undefined) => {
+  const onSelectCurrentRecord = (id: string | undefined, index: number) => {
+    recordNumber.current = index;
     isNil(id)
-      ? setCurrentRecord(undefined)
-      : setCurrentRecord(record.records.find(record => record._id === id));
-  };
-
-  const onCloseSelectPalpationTypeModal = () => {
-    console.log('hace algo con el elmento guardado');
+      ? setSelectedRecord(undefined)
+      : setSelectedRecord(record.records.find(record => record._id === id));
   };
 
   const onPalpTypePress = (palpType: string) => {
-    console.log('el elemento selecionado es: ', palpType);
     console.log(getEcuatorTimestamp());
     console.log(moment(getEcuatorTimestamp()).format('DD/MM/YYYY'));
 
     if (palpType === PalpEnum.VACIA) {
-      console.log('abrir el otro modal');
       setIsOpenVaciaTypeModal(true);
     } else if (palpType === PalpEnum.ABORTO) {
-      console.log('abrir el otro modal');
       setIsOpenAbortoTypeModal(true);
     } else {
       insertPalpation({
@@ -119,7 +112,6 @@ export const useReproduction = (): IUseReproduction => {
   };
 
   const onVaciaTypePress = (vaciaType: string) => {
-    console.log(vaciaType);
     setIsOpenVaciaTypeModal(false);
     insertPalpation({
       registroPalpacion: PALPATION_SUB_TYPE[vaciaType as VACIA_SUB_TYPES],
@@ -128,7 +120,6 @@ export const useReproduction = (): IUseReproduction => {
   };
 
   const onAbortoTypePress = (abortoType: string) => {
-    console.log('Typo de aborto: ', abortoType);
     insertPalpation({
       registroPalpacion:
         PALPATION_SUB_TYPE_ABORTO[abortoType as ABORTO_SUB_TYPE],
@@ -141,10 +132,6 @@ export const useReproduction = (): IUseReproduction => {
     let Palpation = cloneDeep(currentPalpations);
     Palpation.push(newPalpation);
     setCurrentPalpations(Palpation);
-    console.log(
-      'DEBUG: insertar en el record splited -> ',
-      JSON.stringify(recordsSplited[3][0], null, 3),
-    );
     updateControl.current = true;
   };
 
@@ -182,8 +169,9 @@ export const useReproduction = (): IUseReproduction => {
     isOpenPalpationTypeModal,
     openCloseModal,
     recordsSplited,
-    currentRecord,
+    selectedRecord,
     reproductoresList,
+    recordNumber,
     onSelectCurrentRecord,
     setIsOpenIaModal,
     setIsOpenPalpationTypeModal,

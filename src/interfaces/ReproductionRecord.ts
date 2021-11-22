@@ -62,7 +62,9 @@ export interface Record {
   idReproductor: string;
   fechaPosibleParto: number;
   gestationDays: number;
+  isCurrentRecord: boolean;
   inseminadorName?: string;
+  recordNumber?: number;
 }
 
 export interface IReproductionRecord {
