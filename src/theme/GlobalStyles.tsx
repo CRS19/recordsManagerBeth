@@ -514,4 +514,46 @@ export const styles = StyleSheet.create({
     height: 52,
     borderRadius: 16,
   },
+  PalpationCardContainer: {
+    marginVertical: 10,
+    width: 341,
+    height: 168,
+    backgroundColor: '#03DAC5',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 5,
+  },
+  LabelNumberContainer: {
+    position: 'absolute',
+    right: 2,
+    top: 5,
+    width: 56,
+    height: 56,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ReproductionMainViewContainer: {
+    width: 316,
+    height: 272,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 5,
+  },
+  ReproductionMainItem: {
+    marginTop: 10,
+    marginLeft: 20,
+  },
+  SaveReproRecordContainer: {
+    position: 'absolute',
+    right: 120,
+    top: 10,
+    width: 22.5,
+    height: 21,
+  },
 });

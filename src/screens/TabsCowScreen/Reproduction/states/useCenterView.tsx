@@ -8,7 +8,10 @@ import {
   Record,
   RegistroPalp,
 } from '../../../../interfaces/ReproductionRecord';
-import {updateReproductionRecord} from '../../../../store/actionCreators';
+import {
+  setIsUsingControlGinecologico,
+  updateReproductionRecord,
+} from '../../../../store/actionCreators';
 import {recordSinTipo} from '../../../../utils/recordsTemplates/reproduction_template';
 
 interface IUseCenterView {
@@ -21,7 +24,7 @@ interface IUseCenterViewProps {
   openCloseIaModal: (isOpen: boolean) => void;
   currentRecordSinType: Record;
   record: IReproductionRecord;
-  currentRecord: Record | undefined;
+  selectedRecord: Record | undefined;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -29,10 +32,13 @@ export const useCenterView = ({
   openCloseIaModal,
   currentRecordSinType,
   record,
-  currentRecord,
+  selectedRecord,
   setIsLoading,
 }: IUseCenterViewProps): IUseCenterView => {
   const dispatch = useDispatch();
+  const [existCurrentRecord, setExistCurrentRecord] = useState<boolean>(
+    !isNil(currentRecordSinType),
+  );
   const [isCeloBtnActive, setIsCeloBtnActive] = useState<boolean>(false);
   const [isChequeoBtnActive, setIsChequeoBtnActive] = useState<boolean>(false);
 
@@ -44,24 +50,20 @@ export const useCenterView = ({
 
   const onCeloClicked = () => {
     setIsCeloBtnActive(!isCeloBtnActive);
+    dispatch(setIsUsingControlGinecologico(true));
   };
 
   const onChequeoCliked = () => {
     setIsChequeoBtnActive(!isChequeoBtnActive);
 
     if (isNil(currentRecordSinType)) {
-      console.log('DEBUG: llamado al endpoint');
       const newRecord = cloneDeep(recordSinTipo);
       setIsLoading(true);
       record.records.push(newRecord);
       dispatch(updateReproductionRecord(record));
       setIsLoading(false);
-    } else {
-      console.log(
-        'EL REGISTRO ES: ',
-        JSON.stringify(currentRecordSinType, null, 3),
-      );
     }
+    dispatch(setIsUsingControlGinecologico(true));
   };
 
   const onServicioYesCliked = () => {
@@ -86,13 +88,29 @@ export const useCenterView = ({
   };
 
   useEffect(() => {
-    if (!isNil(currentRecord)) {
+    if (!isNil(selectedRecord)) {
       setIsChequeoBtnActive(false);
+      setIsCeloBtnActive(false);
+      setIsServicioYes(false);
+      setIsServicioNo(false);
+      setIsMontaMonta(false);
+      setIsMontaIa(false);
     }
-  }, [currentRecord]);
+  }, [selectedRecord]);
+
+  useEffect(() => {
+    if (!isNil(currentRecordSinType)) {
+      console.log('DEBUG: entre al false del use effect -> true');
+      setExistCurrentRecord(true);
+    } else {
+      console.log('DEBUG: entre al true del use effect -> false');
+      setExistCurrentRecord(false);
+    }
+  }, [currentRecordSinType]);
 
   return {
     controlGinecologico: {
+      existCurrentRecord,
       isCeloBtnActive,
       isChequeoBtnActive,
       onCeloClicked,

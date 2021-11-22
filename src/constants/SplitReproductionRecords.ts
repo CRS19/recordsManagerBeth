@@ -16,8 +16,5 @@ export const splitReproductionRecords = (cowRecord: IReproductionRecord) => {
       }),
     );
   }
-
-  console.log(JSON.stringify(recordsSplited[3][0], null, 3));
-
   return recordsSplited;
 };

@@ -1,36 +1,29 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import {ArrowList} from '../../assets/arrowList';
 import {
   IReproductionRecord,
   Record,
   RecordReproductionType,
 } from '../../interfaces/ReproductionRecord';
-import {
-  createReproductionRecord,
-  getReproductionRecord,
-} from '../../store/actionCreators';
-import {IAppState} from '../../store/reducer';
 import {styles} from '../../theme/GlobalStyles';
 import {RegisterListButtom} from '../Buttoms/RegisterListButtom';
-import {reduce, size} from 'lodash';
+import {size} from 'lodash';
 import {ReproductionColor} from '../../constants/ReoproductionRecordColor';
 
 export interface IRegisterListProps {
   title: string;
   record: IReproductionRecord;
-  currentRecord: Record;
+  selectedRecord: Record;
   recordsList: Record[];
   recordType: RecordReproductionType;
-  onSelectCurrentRecord: (id: string | undefined) => void;
+  onSelectCurrentRecord: (id: string | undefined, index: number) => void;
 }
 
 export const RegisterList = ({
   title,
-  record,
-  recordType,
   recordsList,
-  currentRecord,
+  selectedRecord,
   onSelectCurrentRecord,
 }: IRegisterListProps) => {
   const recordsIndex = Array.from(Array(size(recordsList)).keys());
@@ -60,7 +53,7 @@ export const RegisterList = ({
                 bgcolor={
                   ReproductionColor[recordsList[registro.item].recordType]
                 }
-                currentRecord={currentRecord}
+                currentRecord={selectedRecord}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             )}

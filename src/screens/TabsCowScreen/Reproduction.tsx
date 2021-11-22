@@ -32,8 +32,9 @@ export const Reproduction = () => {
     isOpenPalpationTypeModal,
     openCloseModal,
     recordsSplited,
-    currentRecord,
+    selectedRecord,
     reproductoresList,
+    recordNumber,
     onSelectCurrentRecord,
     setIsOpenIaModal,
     setIsOpenPalpationTypeModal,
@@ -91,7 +92,7 @@ export const Reproduction = () => {
                 record={recordToUpdate}
                 recordsList={recordsSplited[2]}
                 recordType={RecordReproductionType.GENERAL}
-                currentRecord={currentRecord!}
+                selectedRecord={selectedRecord!}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
@@ -101,7 +102,7 @@ export const Reproduction = () => {
                 record={recordToUpdate}
                 recordsList={recordsSplited[0]}
                 recordType={RecordReproductionType.PARTO}
-                currentRecord={currentRecord!}
+                selectedRecord={selectedRecord!}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
@@ -111,7 +112,7 @@ export const Reproduction = () => {
                 record={recordToUpdate}
                 recordsList={recordsSplited[1]}
                 recordType={RecordReproductionType.ABORTO}
-                currentRecord={currentRecord!}
+                selectedRecord={selectedRecord!}
                 onSelectCurrentRecord={onSelectCurrentRecord}
               />
             </View>
@@ -126,11 +127,12 @@ export const Reproduction = () => {
               }}>
               <CenterView
                 cow={cow}
+                recordNumber={recordNumber.current}
                 record={recordToUpdate}
                 isLoading={isLoading}
                 openCloseIaModal={openCloseModal}
-                currentRecord={currentRecord}
-                recordsList={recordsSplited[3]}
+                selectedRecord={selectedRecord}
+                currentRecord={recordsSplited[3][0]}
                 setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
                 setIsLoading={setIsLoading}
               />
@@ -144,9 +146,9 @@ export const Reproduction = () => {
 
               <TouchableOpacity
                 onPress={() => {
-                  console.log(JSON.stringify(currentRecord, null, 3));
+                  console.log(JSON.stringify(selectedRecord, null, 3));
                 }}>
-                <Text>Ver current registro en el store</Text>
+                <Text>Ver Selected registro en el store</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {

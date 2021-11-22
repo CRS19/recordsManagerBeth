@@ -75,6 +75,13 @@ export const setReproductionRecordsSplited = (
   };
 };
 
+export const setIsUsingControlGinecologico = (payload: boolean): IAppAction => {
+  return {
+    type: ActionTypes.SET_IS_USING_CONTROL_GINECOLOGICO,
+    isUsingControlGinecologico: payload,
+  };
+};
+
 export const insertNewCow = (
   payload: ICow,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
