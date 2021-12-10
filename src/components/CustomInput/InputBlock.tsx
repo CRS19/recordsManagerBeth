@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
 import {Text, TextInput, TextInputBase, View} from 'react-native';
 
-export const InputBlock = () => {
+export interface IInputBlockProps {
+  initialValue: string;
+  setPeso: Dispatch<React.SetStateAction<string>>;
+}
+
+export const InputBlock = ({initialValue, setPeso}: IInputBlockProps) => {
   return (
     <View
       style={{
@@ -13,7 +18,11 @@ export const InputBlock = () => {
         alignItems: 'center',
         flexDirection: 'row',
       }}>
-      <TextInput style={{fontSize: 18, fontWeight: 'normal'}} value={'30'} />
+      <TextInput
+        style={{fontSize: 18, fontWeight: 'normal'}}
+        value={initialValue}
+        onChangeText={text => setPeso(text)}
+      />
       <Text style={{fontSize: 18, fontWeight: 'normal'}}>Kg</Text>
     </View>
   );

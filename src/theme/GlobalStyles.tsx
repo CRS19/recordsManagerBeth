@@ -377,7 +377,7 @@ export const styles = StyleSheet.create({
   },
   RigthAdditionalTabContainer: {
     flex: 1,
-    backgroundColor: 'blue',
+    alignItems: 'center',
   },
   RegisterTitleGeneric: {
     fontFamily: 'Roboto',
@@ -538,7 +538,7 @@ export const styles = StyleSheet.create({
   },
   ReproductionMainViewContainer: {
     width: 316,
-    height: 272,
+    paddingBottom: 30,
     shadowOffset: {
       width: 0,
       height: 10,

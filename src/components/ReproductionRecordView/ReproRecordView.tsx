@@ -7,6 +7,7 @@ import {
 } from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
 import {IPalpationProps, Palpation} from '../Palpation/Palpation';
+import {ReproductionRecordCard} from '../ReproductionComponents/ReproductionRecordCard';
 import {GeneralTitle} from '../Titles/GeneralTitle';
 import {InputTextView} from '../Views/InputTextView';
 import {InputViewDate} from '../Views/InputViewDate';
@@ -29,36 +30,8 @@ export const ReproRecordView = ({record, recordNumber}: IReproRecordView) => {
             : `${record.recordType} N° ${recordNumber + 1}`
         }
       />
-      <View
-        style={{
-          ...styles.ReproductionMainViewContainer,
-          backgroundColor: ReproductionViewColor[record.recordType],
-        }}>
-        <View style={styles.ReproductionMainItem}>
-          <InputTextView label="Monta/Ia" value={record.montaType} />
-        </View>
-        <View style={styles.ReproductionMainItem}>
-          <InputTextView
-            label="Nombre y N° toro"
-            value={record.idReproductor}
-          />
-        </View>
-        <View style={styles.ReproductionMainItem}>
-          <InputViewDate
-            label="Fecha posible parto"
-            value={record.fechaPosibleParto}
-          />
-        </View>
-        <View style={styles.ReproductionMainItem}>
-          <InputTextView
-            label="días de gestación"
-            value={record.gestationDays.toString()}
-          />
-        </View>
-      </View>
-      {!isInsertCurrentRecord && (
-        <Palpation recordsList={record} isInsertComponent={false} />
-      )}
+      <ReproductionRecordCard record={record} />
+      <Palpation recordsList={record} isInsertComponent={false} />
     </View>
   );
 };

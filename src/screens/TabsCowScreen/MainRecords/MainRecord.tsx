@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, AlertButton, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,21 +26,30 @@ import {
   createReproductionRecord,
   insertNewCow,
   setCow,
+  setInsertNewCow,
+  setIsNewborn,
   setNewCow,
+  updateReproductionRecord,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
-import {isEmpty} from 'lodash';
+import {cloneDeep, isEmpty, set} from 'lodash';
 import {useNavigation} from '@react-navigation/core';
+import {LoadingModal} from '../../../components/Modals/LoadingModal';
+import {useTime} from '../../../custom/useTime';
+import {RecordReproductionType} from '../../../interfaces/ReproductionRecord';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
   const navigation = useNavigation();
+  const {getEcuatorTimestamp} = useTime();
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
+  const isNewBorn = useSelector((state: IAppState) => state.isNewBorn!);
   const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
   console.log(JSON.stringify(currentCow, null, 3));
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
   const [openMomDataModal, setOpenMomDataModal] = useState<boolean>(false);
@@ -55,6 +64,9 @@ export const MainRecord = () => {
     useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
     ICowKeys.fechaDeNacimiento,
+  );
+  const reproductionRecord = useSelector(
+    (state: IAppState) => state.reproductionRecord!,
   );
   // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
   const [hasMomDad, setHasMomDad] = useState<boolean>(false);
@@ -110,21 +122,49 @@ export const MainRecord = () => {
     }
   };
 
+  const finishMotherReproductionRecord = () => {
+    const record = cloneDeep(reproductionRecord);
+    set(
+      record.records[record.records.length - 1],
+      'nombreYNumeroDeLaCria',
+      `${insertCow.nombre.toLowerCase()}-${insertCow.numeroDeArete}`,
+    );
+    set(
+      record.records[record.records.length - 1],
+      'pesoDeLaCria',
+      `${insertCow.pesoNacimiento}`,
+    );
+    set(
+      record.records[record.records.length - 1],
+      'recordType',
+      RecordReproductionType.PARTO,
+    );
+
+    dispatch(updateReproductionRecord(record));
+  };
+
   const SaveCow = (idVaca: string) => {
     //Agregar aquí la creación de los demas regístros
+    setIsLoading(true);
     dispatch(insertNewCow(insertCow));
     dispatch(
       createReproductionRecord({
         idVaca,
       }),
     );
+    if (isNewBorn) finishMotherReproductionRecord();
+    dispatch(setIsNewborn(false));
+    setIsLoading(false);
     showAlert(
       `Animal: ${idVaca} ingresado exitosamente`,
       '¿Desea ingresar un nuevo animal?',
       [
         {
           text: 'No',
-          onPress: () => navigation.goBack(),
+          onPress: () => {
+            dispatch(setInsertNewCow(false));
+            navigation.goBack();
+          },
           style: 'cancel',
         },
         {
@@ -166,6 +206,26 @@ export const MainRecord = () => {
   const onSaveGestacion = () => {
     setInfoCardGestationFinish(true);
   };
+
+  useEffect(() => {
+    if (isNewBorn) {
+      const updateCow = cloneDeep(insertCow);
+
+      const nombreMadreArete = reproductionRecord.idVaca.split('-');
+      const nombrePadreArete =
+        reproductionRecord.records[
+          reproductionRecord.records.length - 1
+        ].idReproductor.split('-');
+
+      set(updateCow, 'nombreDeMadre', nombreMadreArete[0]);
+      set(updateCow, 'numeroAreteMadre', nombreMadreArete[1]);
+      set(updateCow, 'nombreDePadre', nombrePadreArete[0]);
+      set(updateCow, 'numeroAretePadre', nombrePadreArete[1]);
+      set(updateCow, 'fechaDeNacimiento', getEcuatorTimestamp());
+
+      setInsertCow(updateCow);
+    }
+  }, [isNewBorn]);
 
   return (
     <View style={{flexDirection: 'column'}}>
@@ -375,6 +435,9 @@ export const MainRecord = () => {
         cow={insertCow}
         setProperty={setInsertCow}
       />
+      {isLoading && (
+        <LoadingModal openCloseModal={isLoading} title={'Cargando...'} />
+      )}
     </View>
   );
 };

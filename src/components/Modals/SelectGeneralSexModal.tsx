@@ -8,32 +8,29 @@ import {
 } from 'react-native';
 import {LogoHembra} from '../../assets/LogoHembra';
 import {LogoMacho} from '../../assets/LogoMacho';
-import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 
-interface IChooseSexModal {
+interface ISelectGeneralSexModal {
   openCloseModal: boolean;
-  cow: ICow;
-  onCloseModal: Dispatch<React.SetStateAction<boolean>>;
-  setProperty: React.Dispatch<React.SetStateAction<ICow>>;
+  onSelectSex: (sex: string) => void;
+  setOpenModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ChooseSexModal = ({
-  cow,
+export const SelectGeneralSexModal = ({
   openCloseModal,
-  onCloseModal,
-  setProperty,
-}: IChooseSexModal) => {
+  onSelectSex,
+  setOpenModal,
+}: ISelectGeneralSexModal) => {
   return (
     <Modal
       animationType="fade"
       visible={openCloseModal}
-      onRequestClose={() => onCloseModal(false)}
+      onRequestClose={() => setOpenModal(false)}
       transparent={true}
       statusBarTranslucent>
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => onCloseModal(false)}
+        onPress={() => setOpenModal(false)}
         style={styles.ModalGeneralStyle}>
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
@@ -51,8 +48,7 @@ export const ChooseSexModal = ({
                   <View style={styles.ModalSexBottomContainer}>
                     <TouchableOpacity
                       onPress={() => {
-                        setProperty({...cow!, sexo: 'HEMBRA'});
-                        onCloseModal(false);
+                        onSelectSex('HEMBRA');
                       }}>
                       <View style={styles.ModalSexButtom}>
                         <Text style={styles.ModalSexButtomTitle}>hembra</Text>
@@ -60,8 +56,7 @@ export const ChooseSexModal = ({
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        setProperty({...cow!, sexo: 'MACHO'});
-                        onCloseModal(false);
+                        onSelectSex('MACHO');
                       }}>
                       <View style={styles.ModalSexButtom}>
                         <Text style={styles.ModalSexButtomTitle}>Macho</Text>

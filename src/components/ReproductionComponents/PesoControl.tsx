@@ -1,10 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {IReproductionRecord} from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {InputBlock} from '../CustomInput/InputBlock';
+import moment from 'moment';
+import {cloneDeep, get, set} from 'lodash';
+import {updateReproductionRecord} from '../../store/actionCreators';
 
-export const PesoControl = () => {
+export interface IPesoControlProps {
+  record: IReproductionRecord;
+  currentPeso: number;
+}
+
+export const PesoControl = ({record, currentPeso}: IPesoControlProps) => {
+  const dispatch = useDispatch();
+  const [peso, setPeso] = useState<string>(`${currentPeso}`);
+
+  const updatePeso = () => {
+    const recordToUpdate = cloneDeep(record);
+
+    set(recordToUpdate, 'historicoPeso', get(record, 'historicoPeso', []));
+
+    recordToUpdate.historicoPeso!.push({
+      peso: Number(peso),
+      timestamp: moment.now(),
+    });
+    dispatch(updateReproductionRecord(recordToUpdate));
+  };
+
   return (
     <View style={{alignItems: 'center', marginHorizontal: 20}}>
       <View style={{flexDirection: 'row'}}>
@@ -20,13 +45,10 @@ export const PesoControl = () => {
       <View style={{...styles.RegisterDivider, width: 205}} />
       <View style={{flexDirection: 'row', marginTop: 10}}>
         <View style={{marginHorizontal: 3.5}}>
-          <InputBlock />
+          <InputBlock initialValue={peso} setPeso={setPeso} />
         </View>
         <View style={{marginHorizontal: 3.5, justifyContent: 'center'}}>
-          <BorderButtom
-            title="Modificar"
-            onPress={() => console.log('press')}
-          />
+          <BorderButtom title="Modificar" onPress={updatePeso} />
         </View>
       </View>
     </View>
