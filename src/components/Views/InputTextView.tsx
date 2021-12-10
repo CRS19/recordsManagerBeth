@@ -1,3 +1,4 @@
+import {isNil} from 'lodash';
 import React from 'react';
 import {View} from 'react-native';
 import {TextInput} from 'react-native-paper';
@@ -7,9 +8,19 @@ import {styles} from '../../theme/GlobalStyles';
 export interface IInputTextViewProps {
   label: string;
   value: string;
+  labelUnidad?: string;
 }
 
-export const InputTextView = ({label, value}: IInputTextViewProps) => {
+export const InputTextView = ({
+  label,
+  value,
+  labelUnidad = '',
+}: IInputTextViewProps) => {
+  const text =
+    labelUnidad === ''
+      ? value.toUpperCase()
+      : `${value.toUpperCase()} ${labelUnidad}`;
+
   return (
     <View>
       <View style={{flexDirection: 'row'}}>
@@ -25,7 +36,7 @@ export const InputTextView = ({label, value}: IInputTextViewProps) => {
           showSoftInputOnFocus={false}
           selectTextOnFocus={true}
           editable={false}
-          value={value.toUpperCase()}
+          value={text}
           theme={{
             colors: {primary: '#6200EE', placeholder: '#6200EE'},
           }}

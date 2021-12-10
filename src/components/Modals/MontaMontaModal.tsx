@@ -1,4 +1,4 @@
-import React, {Dispatch, useEffect, useState, createRef, useRef} from 'react';
+import React, {Dispatch, useEffect, useState, createRef} from 'react';
 import {
   Keyboard,
   Modal,
@@ -6,26 +6,23 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  useWindowDimensions,
   View,
 } from 'react-native';
-import {TextInput} from 'react-native-paper';
-import TextInputMask from 'react-native-text-input-mask';
-import {IReproductionRecord} from '../../interfaces/ReproductionRecord';
+import {
+  IReproductionRecord,
+  RecordReproductionType,
+} from '../../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../../interfaces/ReproductoresList';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {Picker} from '@react-native-picker/picker';
-import {recordMontaIa} from '../../utils/recordsTemplates/reproduction_template';
+import {recordMontaMonta} from '../../utils/recordsTemplates/reproduction_template';
 import {set} from 'lodash';
 import {useDispatch} from 'react-redux';
-import {
-  getReproductionRecord,
-  updateReproductionRecord,
-} from '../../store/actionCreators';
+import {updateReproductionRecord} from '../../store/actionCreators';
 import {cloneDeep} from 'lodash';
 
-interface IMonataIaModal {
+interface IMontaMontaModal {
   title: string;
   openCloseModal: boolean;
   recordToUpdate: IReproductionRecord;
@@ -35,7 +32,7 @@ interface IMonataIaModal {
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MonataIaModal = (props: IMonataIaModal) => {
+export const MontaMontaModal = (props: IMontaMontaModal) => {
   const {
     title,
     openCloseModal,
@@ -46,7 +43,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
     setIsLoading,
   } = props;
   const dispatch = useDispatch();
-  const [inseminadorName, setInseminadorName] = useState('');
+
   const [reproductor, setReproductor] = useState(reproductorsList[0].idVaca);
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
@@ -69,9 +66,8 @@ export const MonataIaModal = (props: IMonataIaModal) => {
 
   const saveNewRecord = () => {
     console.log('guardar info');
-    const newRecord = cloneDeep(recordMontaIa);
+    const newRecord = cloneDeep(recordMontaMonta);
 
-    set(newRecord, 'inseminadorName', inseminadorName);
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
 
@@ -106,41 +102,10 @@ export const MonataIaModal = (props: IMonataIaModal) => {
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
             onPress={() => console.log('no cerrar')}>
-            <View style={styles.ModalOneFieldContainer}>
+            <View style={[styles.ModalOneFieldContainer, {height: 200}]}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>
-                <TextInput
-                  style={{
-                    width: 179,
-                    marginTop: 10,
-                    marginBottom: 10,
-                    elevation: 20,
-                  }}
-                  label="NOMBRE"
-                  value={inseminadorName}
-                  mode="outlined"
-                  outlineColor="#2B9336"
-                  selectionColor="#2B9336"
-                  underlineColor="#2B9336"
-                  ref={ref}
-                  theme={{
-                    colors: {primary: '#2B9336'},
-                  }}
-                  render={props => (
-                    <TextInputMask
-                      {...props}
-                      ref={ref}
-                      mask="[A][------------------------------------]"
-                      onChangeText={(text, text2) => {
-                        setInseminadorName(text2!);
-                      }}
-                    />
-                  )}
-                />
                 {/* piker */}
-                <Text style={styles.ModalOneFieldTitle}>
-                  Seleccione el reproductor
-                </Text>
                 <View
                   style={{
                     width: 179,

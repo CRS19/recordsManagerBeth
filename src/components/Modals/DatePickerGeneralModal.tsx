@@ -7,48 +7,55 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {Calendar, DateObject} from 'react-native-calendars';
-import {TextInput} from 'react-native-paper';
-import {ICow} from '../../interfaces/CowInterface';
+import {Calendar} from 'react-native-calendars';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import moment from 'moment';
-import {ECU_5_GTM} from '../../constants/EcuTimestamp';
-import {ICowKeys} from '../../constants/ICowKeysEnum';
+import {
+  IReproductionRecord,
+  MontaTypeEnum,
+} from '../../interfaces/ReproductionRecord';
+import {cloneDeep, set} from 'lodash';
+import {useDispatch} from 'react-redux';
+import {updateReproductionRecord} from '../../store/actionCreators';
 
-interface IDatePickerModal {
+interface IDatePickerGeneralModal {
   title: string;
   openCloseModal: boolean;
-  onCloseModal: () => void;
+  recordToUpdate: IReproductionRecord;
   setOpenCloseModal: Dispatch<React.SetStateAction<boolean>>;
-  cow: ICow;
-  property: ICowKeys;
-  setProperty: React.Dispatch<React.SetStateAction<ICow>>;
 }
 
-export const DatePickerModal = (props: IDatePickerModal) => {
-  const {
-    title,
-    openCloseModal,
-    onCloseModal,
-    setOpenCloseModal,
-    cow,
-    setProperty,
-    property,
-  } = props;
+export const DatePickerGeneralModal = (props: IDatePickerGeneralModal) => {
+  const dispatch = useDispatch();
+  const {title, openCloseModal, setOpenCloseModal} = props;
   const [markedDate, setMarkedDate] = useState({});
   const [timestamp, setTimestamp] = useState(0);
   const date = moment().format('YYYY-MM-DD');
 
   const setDate = () => {
-    if (property.includes('fechaUltimoParto')) {
-      setProperty({
-        ...cow,
-        vacaInfo: {...cow.vacaInfo!, fechaUltimoParto: timestamp},
-      });
-    } else {
-      setProperty({...cow, [property]: timestamp});
-    }
+    // TODO ver la forma de setear el registro como parto ? :c no entiendos
+    console.log(
+      'TODO ver la forma de setear el registro como parto ? :c no entiendos',
+    );
+    const newRecord = cloneDeep(props.recordToUpdate);
+
+    set(
+      newRecord.records[newRecord.records.length - 1],
+      'fechaPosibleParto',
+      timestamp,
+    );
+
+    set(
+      newRecord.records[newRecord.records.length - 1],
+      'montaType',
+      MontaTypeEnum.MONTA,
+    );
+
+    console.log('SETEAR EL POSIBLE PARTO CON: ', timestamp);
+
+    dispatch(updateReproductionRecord(newRecord));
+    setOpenCloseModal(false);
   };
 
   return (
@@ -72,12 +79,10 @@ export const DatePickerModal = (props: IDatePickerModal) => {
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>
                 <Calendar
                   style={{width: 380}}
-                  maxDate={date}
                   markedDates={markedDate}
                   onDayPress={day => {
                     const {dateString} = day;
-                    const time = day.timestamp + ECU_5_GTM;
-                    console.log(time);
+                    const time = day.timestamp;
                     setTimestamp(time);
                     setMarkedDate({
                       [dateString]: {

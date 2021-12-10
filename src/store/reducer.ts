@@ -13,6 +13,7 @@ export const INITIAL_STATE: IAppState = {
     milkPrice: 15.4,
   },
   insertNewCow: false,
+  isNewBorn: false,
   isUsingControlGinecologico: false,
   newCow: emptyCow,
   reproductionRecord: undefined,
@@ -24,6 +25,7 @@ export interface IAppState {
   CurrentCow?: ICow;
   Prices?: IPrices;
   insertNewCow?: boolean;
+  isNewBorn?: boolean;
   isUsingControlGinecologico?: boolean;
   newCow?: ICow;
   reproductionRecord?: IReproductionRecord;
@@ -75,6 +77,11 @@ export const reducer = (
       return {
         ...state,
         isUsingControlGinecologico: action.isUsingControlGinecologico,
+      };
+    case ActionTypes.SET_IS_NEWBORN:
+      return {
+        ...state,
+        isNewBorn: action.isNewBorn,
       };
     default:
       return state;

@@ -18,8 +18,10 @@ export const useTime = (props?: IuseTimeProps): IuseTime => {
 
   const getPosiblePartoDay = (): number => {
     const currentMoment = getCurrentTime();
+    let posibleParto = currentMoment.add(283, 'days').unix().toString();
+    posibleParto = `${posibleParto}000`;
 
-    return currentMoment.add(283, 'days').unix();
+    return Number(posibleParto);
   };
 
   return {getEcuatorTimestamp, getPosiblePartoDay};

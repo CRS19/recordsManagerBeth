@@ -1,10 +1,13 @@
 import React, {Dispatch, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   PalpEnum,
   Record,
+  RecordReproductionType,
+  ReproductionRecordKeysEnum,
 } from '../../../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../../../interfaces/ReproductoresList';
 import {IAppState} from '../../../store/reducer';
@@ -20,9 +23,12 @@ import {
 } from '../../../constants/PalpationType';
 import {set, get} from 'lodash';
 import {
+  setInsertNewCow,
+  setIsNewborn,
   setReproductionRecordsSplited,
   updateReproductionRecord,
 } from '../../../store/actionCreators';
+import {Alert} from 'react-native';
 
 interface IUseReproduction {
   cow: ICow;
@@ -33,6 +39,12 @@ interface IUseReproduction {
   isOpenVaciaTypeModal: boolean;
   isLoading: boolean;
   isOpenAbortoTypeModal: boolean;
+  isOpenDatePickerModal: boolean;
+  isOpenTipoPartoModal: boolean;
+  isOpenSexModal: boolean;
+  isOpenTwoBtnModal: boolean;
+  isOpenMontaMontaModal: boolean;
+  isOpenSelectReproductionModal: boolean;
   recordsSplited: Record[][];
   currentPalpations: RegistroPalp[];
   recordNumber: React.MutableRefObject<number>;
@@ -44,17 +56,29 @@ interface IUseReproduction {
   onVaciaTypePress: (vaciaType: string) => void;
   insertPalpation: (newPalpation: RegistroPalp) => void;
   onAbortoTypePress: (abortoType: string) => void;
+  onPartoTypePress: (partoType: string) => void;
+  onSelectChildSex: (sex: string) => void;
+  onNacidoVivoPress: () => void;
+  onNatimortoPress: () => void;
   setIsOpenIaModal: Dispatch<React.SetStateAction<boolean>>;
   setRecordToUpdate: Dispatch<React.SetStateAction<IReproductionRecord>>;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
   setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
   setIsOpenVaciaTypeModal: Dispatch<React.SetStateAction<boolean>>;
   setIsOpenAbortoTypeModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenSelectReproductionModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenDatePickerModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenTipoPartoModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenSexModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenTwoModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenMontaMontaModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const useReproduction = (): IUseReproduction => {
   console.log('OPTIMIZATION: useReproduction called');
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const record = useSelector((state: IAppState) => state.reproductionRecord!);
   const cow = useSelector((state: IAppState) => state.CurrentCow!);
   const reproductoresList = useSelector(
@@ -66,6 +90,8 @@ export const useReproduction = (): IUseReproduction => {
 
   const [isOpenIaModal, setIsOpenIaModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOpenSelectReproductionModal, setIsOpenSelectReproductionModal] =
+    useState<boolean>(false);
   const [isOpenPalpationTypeModal, setIsOpenPalpationTypeModal] =
     useState<boolean>(false);
   const [isOpenVaciaTypeModal, setIsOpenVaciaTypeModal] =
@@ -74,6 +100,14 @@ export const useReproduction = (): IUseReproduction => {
     useState<boolean>(false);
   const [recordToUpdate, setRecordToUpdate] =
     useState<IReproductionRecord>(record);
+  const [isOpenDatePickerModal, setIsOpenDatePickerModal] =
+    useState<boolean>(false);
+  const [isOpenTipoPartoModal, setIsOpenTipoPartoModal] =
+    useState<boolean>(false);
+  const [isOpenMontaMontaModal, setIsOpenMontaMontaModal] =
+    useState<boolean>(false);
+  const [isOpenTwoBtnModal, setIsOpenTwoModal] = useState<boolean>(false);
+  const [isOpenSexModal, setIsOpenSexModal] = useState<boolean>(false);
   const [selectedRecord, setSelectedRecord] = useState<Record | undefined>();
   const [currentPalpations, setCurrentPalpations] = useState<RegistroPalp[]>(
     get(recordsSplited[3][0], 'registrosPalp', []),
@@ -100,6 +134,15 @@ export const useReproduction = (): IUseReproduction => {
 
     if (palpType === PalpEnum.VACIA) {
       setIsOpenVaciaTypeModal(true);
+    } else if (palpType === PalpEnum.PREÑADA) {
+      if (record.records[record.records.length - 1].idReproductor === '') {
+        setIsOpenSelectReproductionModal(true);
+      } else {
+        insertPalpation({
+          registroPalpacion: palpType as PalpEnum,
+          fecha: getEcuatorTimestamp(),
+        });
+      }
     } else if (palpType === PalpEnum.ABORTO) {
       setIsOpenAbortoTypeModal(true);
     } else {
@@ -119,6 +162,46 @@ export const useReproduction = (): IUseReproduction => {
     });
   };
 
+  const onPartoTypePress = (partoType: string) => {
+    setIsOpenTwoModal(true);
+    setIsOpenTipoPartoModal(false);
+    console.log(`${partoType} seleccionado`);
+    updateCurrentRecordProperty(
+      ReproductionRecordKeysEnum.partoType,
+      partoType,
+    );
+  };
+
+  const onSelectChildSex = (sex: string) => {
+    console.log('El sexo es: ', sex);
+    updateCurrentRecordProperty(ReproductionRecordKeysEnum.sexoDeLaCria, sex);
+    setIsOpenSexModal(false);
+  };
+
+  const onNacidoVivoPress = () => {
+    //Setear info de los nacimientos ! en la finazlización del registro
+    setIsOpenTwoModal(false);
+    console.log('nacido vivooo');
+    dispatch(setInsertNewCow(true));
+    dispatch(setIsNewborn(true));
+    updateCurrentRecordProperty(
+      ReproductionRecordKeysEnum.estadoDeLaCria,
+      'nacido vivo',
+    );
+
+    navigation.navigate('MainRecord');
+  };
+
+  const onNatimortoPress = () => {
+    setIsOpenTwoModal(false);
+    setIsOpenSexModal(true);
+    updateCurrentRecordProperty(
+      ReproductionRecordKeysEnum.estadoDeLaCria,
+      'natimorto',
+    );
+    console.log('natimorto');
+  };
+
   const onAbortoTypePress = (abortoType: string) => {
     insertPalpation({
       registroPalpacion:
@@ -135,13 +218,55 @@ export const useReproduction = (): IUseReproduction => {
     updateControl.current = true;
   };
 
+  const updateCurrentRecordProperty = (
+    property: ReproductionRecordKeysEnum,
+    value: string | number,
+  ) => {
+    const recordToUpdate = cloneDeep(record);
+    set(
+      recordToUpdate.records[recordToUpdate.records.length - 1],
+      `${property}`,
+      value,
+    );
+    dispatch(updateReproductionRecord(recordToUpdate));
+  };
+
   useEffect(() => {
     if (updateControl.current) {
       updateControl.current = false;
       const recordToUpdate = cloneDeep(record);
+      console.log(
+        'BUUG: el registro es: ',
+        JSON.stringify(recordsSplited[3][0].registrosPalp, null, 3),
+      );
+      // caso de aborto
+      if (
+        recordsSplited[3][0].registrosPalp[
+          recordsSplited[3][0].registrosPalp.length - 1
+        ].registroPalpacion.includes('aborto')
+      ) {
+        recordsSplited[3][0].recordType = RecordReproductionType.ABORTO;
+      }
+      // caso de vacia o seca
+      if (
+        recordsSplited[3][0].registrosPalp[
+          recordsSplited[3][0].registrosPalp.length - 1
+        ].registroPalpacion.includes('vacia')
+      ) {
+        if (recordsSplited[3][0].montaType !== '') {
+          recordsSplited[3][0].recordType = RecordReproductionType.GENERAL;
+          Alert.alert(
+            'El registro ha sido guardado en chequeo general!',
+            'Debido a que la vaca no está preñada, el registro se guardará en la sección de chequeo General',
+          );
+        }
+      }
+
       recordToUpdate.records[recordToUpdate.records.length - 1] =
         recordsSplited[3][0];
       dispatch(updateReproductionRecord(recordToUpdate));
+    } else {
+      setCurrentPalpations(get(recordsSplited[3][0], 'registrosPalp', []));
     }
   }, [recordsSplited]);
 
@@ -166,7 +291,13 @@ export const useReproduction = (): IUseReproduction => {
     currentPalpations,
     isOpenVaciaTypeModal,
     isOpenAbortoTypeModal,
+    isOpenSexModal,
+    isOpenTipoPartoModal,
     isOpenPalpationTypeModal,
+    isOpenDatePickerModal,
+    isOpenTwoBtnModal,
+    isOpenMontaMontaModal,
+    isOpenSelectReproductionModal,
     openCloseModal,
     recordsSplited,
     selectedRecord,
@@ -179,9 +310,19 @@ export const useReproduction = (): IUseReproduction => {
     setRecordToUpdate,
     onPalpTypePress,
     onVaciaTypePress,
+    onPartoTypePress,
+    onSelectChildSex,
+    onNacidoVivoPress,
+    onNatimortoPress,
     insertPalpation,
     setIsLoading,
     setIsOpenVaciaTypeModal,
     setIsOpenAbortoTypeModal,
+    setIsOpenSelectReproductionModal,
+    setIsOpenDatePickerModal,
+    setIsOpenTipoPartoModal,
+    setIsOpenSexModal,
+    setIsOpenTwoModal,
+    setIsOpenMontaMontaModal,
   };
 };

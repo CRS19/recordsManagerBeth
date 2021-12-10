@@ -48,6 +48,31 @@ export enum RecordReproductionType {
   CURRENT = 'current',
 }
 
+export enum partoTypeEnum {
+  NORMAL = 'normal',
+  CESAREA = 'cesarea',
+  DISTOCICO = 'distocico',
+}
+
+export enum estadoDeLaCriaEnum {
+  NACIDA_VIVA = 'nacido vivo',
+  NATIMORTO = 'natimorto',
+}
+
+export interface IHistoricoPeso {
+  peso: number;
+  timestamp: number;
+}
+
+export interface IDataSet {
+  data: number[];
+}
+
+export interface IHistoricalDataToPlot {
+  labels: string[];
+  datasets: IDataSet[];
+}
+
 export interface RegistroPalp {
   registroPalpacion: PalpEnum;
   fecha: number;
@@ -65,10 +90,38 @@ export interface Record {
   isCurrentRecord: boolean;
   inseminadorName?: string;
   recordNumber?: number;
+  partoType?: partoTypeEnum;
+  estadoDeLaCria?: estadoDeLaCriaEnum;
+  sexoDeLaCria?: string;
+  nombreYNumeroDeLaCria?: string;
+  pesoDeLaCria?: number;
 }
 
 export interface IReproductionRecord {
   idVaca: string;
   estadoReproductivoSubType: EstadoReproductivoSubType | '';
   records: Record[];
+  historicalDataToPlot: IHistoricalDataToPlot;
+  historicoPeso?: IHistoricoPeso[];
+  edadPrimerParto?: {months: number; days: number};
+  intervaloEntrePartos?: {months: number; days: number};
+  serviciosPorParto?: number;
+}
+
+export enum ReproductionRecordKeysEnum {
+  _id = '_id',
+  montaType = 'montaType',
+  registrosPalp = 'registrosPalp',
+  recordType = 'recordType',
+  idReproductor = 'idReproductor',
+  fechaPosibleParto = 'fechaPosibleParto',
+  gestationDays = 'gestationDays',
+  isCurrentRecord = 'boolean',
+  inseminadorName = 'inseminadorName',
+  recordNumber = 'number',
+  partoType = 'partoTypeEnum',
+  estadoDeLaCria = 'estadoDeLaCriaEnum',
+  sexoDeLaCria = 'string',
+  nombreYNumeroDeLaCria = 'string',
+  pesoDeLaCria = 'number',
 }

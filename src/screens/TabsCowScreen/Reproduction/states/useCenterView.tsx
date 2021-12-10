@@ -1,11 +1,14 @@
-import {cloneDeep, isNil} from 'lodash';
+import {cloneDeep, isNil, set} from 'lodash';
 import {Dispatch, useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {ISaveReproductionRecordButtomProps} from '../../../../components/Buttoms/SaveReproductionRecordButtom';
 import {IControlGinecologicoProps} from '../../../../components/ReproductionComponents/ControlGinecologico';
 import {IGeneralControlProps} from '../../../../components/ReproductionComponents/GeneralControl';
 import {
   IReproductionRecord,
   Record,
+  RecordReproductionType,
   RegistroPalp,
 } from '../../../../interfaces/ReproductionRecord';
 import {
@@ -18,6 +21,7 @@ interface IUseCenterView {
   controlGinecologico: IControlGinecologicoProps;
   controlServicio: IGeneralControlProps;
   controlMonta: IGeneralControlProps;
+  onSaveActions: ISaveReproductionRecordButtomProps;
 }
 
 interface IUseCenterViewProps {
@@ -26,6 +30,7 @@ interface IUseCenterViewProps {
   record: IReproductionRecord;
   selectedRecord: Record | undefined;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenMontaMontaModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const useCenterView = ({
@@ -34,6 +39,7 @@ export const useCenterView = ({
   record,
   selectedRecord,
   setIsLoading,
+  setIsOpenMontaMontaModal,
 }: IUseCenterViewProps): IUseCenterView => {
   const dispatch = useDispatch();
   const [existCurrentRecord, setExistCurrentRecord] = useState<boolean>(
@@ -77,6 +83,10 @@ export const useCenterView = ({
 
   const onMontaCliked = () => {
     setIsMontaMonta(!isMontaMonta);
+    setIsOpenMontaMontaModal(true);
+    setIsMontaMonta(false);
+    setIsServicioYes(false);
+    setIsCeloBtnActive(false);
   };
 
   const onIaCliked = () => {
@@ -85,6 +95,36 @@ export const useCenterView = ({
     setIsMontaIa(false);
     setIsServicioYes(false);
     setIsCeloBtnActive(false);
+  };
+
+  const saveCurrentRecord = () => {
+    console.log('El registro es de tipo: ->', currentRecordSinType.recordType);
+    const recordToUpdate = cloneDeep(record);
+    set(
+      recordToUpdate.records[record.records.length - 1],
+      'recordType',
+      RecordReproductionType.GENERAL,
+    );
+    dispatch(updateReproductionRecord(recordToUpdate));
+  };
+
+  const onSaveCurrentRecord = () => {
+    Alert.alert(
+      '¿Desea Archivar el Registro?',
+      'Al archivar el registros ya no se podrá ingresar registros de palpación al mismo, será unicamente de visualización',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Guardar', onPress: saveCurrentRecord},
+      ],
+    );
+    console.log(
+      'guardar registro: ',
+      JSON.stringify(currentRecordSinType, null, 3),
+    );
   };
 
   useEffect(() => {
@@ -133,6 +173,9 @@ export const useCenterView = ({
       isClikedBtn2: isMontaIa,
       onClikedBtn1: onMontaCliked,
       onClikedBtn2: onIaCliked,
+    },
+    onSaveActions: {
+      onSave: onSaveCurrentRecord,
     },
   };
 };

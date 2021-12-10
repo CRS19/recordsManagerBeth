@@ -75,6 +75,13 @@ export const setReproductionRecordsSplited = (
   };
 };
 
+export const setIsNewborn = (payload: boolean): IAppAction => {
+  return {
+    type: ActionTypes.SET_IS_NEWBORN,
+    isNewBorn: payload,
+  };
+};
+
 export const setIsUsingControlGinecologico = (payload: boolean): IAppAction => {
   return {
     type: ActionTypes.SET_IS_USING_CONTROL_GINECOLOGICO,
@@ -186,6 +193,7 @@ export const updateReproductionRecord = (
       const reproductionRecord: IGetReproductionRecordResponse =
         getResponse.data;
 
+      dispatch(setReproductionRecord(reproductionRecord.record));
       dispatch(
         setReproductionRecordsSplited(
           splitReproductionRecords(reproductionRecord.record),

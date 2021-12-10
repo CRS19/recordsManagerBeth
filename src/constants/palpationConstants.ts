@@ -27,3 +27,5 @@ export const ABORTO_TYPE: string[] = [
   'placenta retenida',
   'metritis peuperal',
 ];
+
+export const PARTO_TYPE: string[] = ['normal', 'cesarea', 'distocico'];
