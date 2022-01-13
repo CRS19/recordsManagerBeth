@@ -129,6 +129,9 @@ export interface vacaInfo {
   duraciónLactanciaPromedio: number; // vaca
   produccionPromedioLactancias: number; // vaca
   diasSecosTotales: number; // vaca
+  productiva: boolean; // Campo usado para ver cuales vacas estan en el listado al momento de coger la leche todos días si esta cuando se registra un parto!,
+  // Esta en producción si llega a pasar 8 meses de gestacín
+  // el boton secar(buscar ese boton) es para cambiar este estado a Falso
 }
 
 export interface toroInfo {
