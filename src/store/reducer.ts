@@ -5,9 +5,14 @@ import {IAppAction} from './actionCreators';
 import {emptyCow} from '../VaquitasPrueba/vacas';
 import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
+import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 
 export const INITIAL_STATE: IAppState = {
   CurrentCow: undefined,
+  LoggedInfo: {
+    isLoggedIn: false,
+    rol: UserRolEnum.ADMINISTRADOR,
+  },
   Prices: {
     meatPrice: 10.5,
     milkPrice: 15.4,
@@ -24,6 +29,7 @@ export const INITIAL_STATE: IAppState = {
 export interface IAppState {
   CurrentCow?: ICow;
   Prices?: IPrices;
+  LoggedInfo?: ILoggedInfo;
   insertNewCow?: boolean;
   isNewBorn?: boolean;
   isUsingControlGinecologico?: boolean;
@@ -82,6 +88,11 @@ export const reducer = (
       return {
         ...state,
         isNewBorn: action.isNewBorn,
+      };
+    case ActionTypes.SET_LOGGED_INFO:
+      return {
+        ...state,
+        LoggedInfo: action.LoggedInfo,
       };
     default:
       return state;

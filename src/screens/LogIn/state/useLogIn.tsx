@@ -1,27 +1,44 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import {Alert} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {API_BASE_PATH} from '../../../env/environment';
+import {ILoggedInfo} from '../../../interfaces/LoggedInfo';
+import {getLogIn, validateJwtToken} from '../../../store/actionCreators';
+import {IAppState} from '../../../store/reducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface IuseLogIn {
-  username: string;
+  mail: string;
   password: string;
   validar: () => void;
   setPassword: Dispatch<SetStateAction<string>>;
-  setUsername: Dispatch<SetStateAction<string>>;
+  setMail: Dispatch<SetStateAction<string>>;
 }
 
-export const useLogIn = (): IuseLogIn => {
-  const [username, setUsername] = useState('');
+export const useLogIn = (
+  navigation: StackNavigationProp<any, any>,
+): IuseLogIn => {
+  const dispatch = useDispatch();
+  const loggedInfo: ILoggedInfo = useSelector(
+    (state: IAppState) => state.LoggedInfo!,
+  );
+  const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation();
 
   const validar = () => {
-    console.log('validar');
+    console.log('validar', mail + ' ' + password);
+    dispatch(getLogIn({mail, password}));
     console.log('navegar a estación...');
     updateCategories();
-    navigation.navigate('DrawerNavigator');
   };
 
   const updateCategories = () => {
@@ -36,11 +53,28 @@ export const useLogIn = (): IuseLogIn => {
     }
   };
 
+  const checkJwtTokenInStorage = useCallback(async () => {
+    const token = await AsyncStorage.getItem('token');
+
+    if (!token || loggedInfo.isLoggedIn === false)
+      console.log('mostrar el login');
+
+    if (token) {
+      dispatch(validateJwtToken(token));
+      navigation.replace('DrawerNavigator');
+      updateCategories();
+    }
+  }, []);
+
+  useEffect(() => {
+    checkJwtTokenInStorage();
+  }, [loggedInfo]);
+
   return {
-    username,
+    mail,
     password,
     validar,
-    setUsername,
+    setMail,
     setPassword,
   };
 };
