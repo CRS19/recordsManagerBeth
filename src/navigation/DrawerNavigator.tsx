@@ -6,7 +6,7 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {useWindowDimensions} from 'react-native';
-import {MilkDailyRegister} from '../screens/MilkDailyRegister';
+import {MilkDailyRegister} from '../screens/MilkDailyRegister/MilkDailyRegister';
 import {BotonMenuLateral} from '../components/Buttoms/BotonMenuLateral';
 import {GeneralAppStack} from './GeneralAppStack';
 import {MilkDrawerIcon} from '../assets/MilkDrawerIcon';

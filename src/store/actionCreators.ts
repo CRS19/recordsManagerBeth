@@ -329,29 +329,3 @@ export const getLogIn = (
     }
   };
 };
-
-export const validateJwtToken = (
-  jwtToken: string,
-): ThunkAction<void, IAppState, undefined, IAppAction> => {
-  return async (
-    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
-  ): Promise<void> => {
-    const path = `${API_BASE_PATH}/auth/protegido`;
-
-    const config = {
-      headers: {Authorization: `Bearer ${jwtToken}`},
-    };
-
-    try {
-      await axios.get(path, config);
-    } catch (e) {
-      console.log(e);
-      dispatch(
-        setLoggedInfo({
-          isLoggedIn: false,
-          rol: UserRolEnum.ADMINISTRADOR,
-        }),
-      );
-    }
-  };
-};

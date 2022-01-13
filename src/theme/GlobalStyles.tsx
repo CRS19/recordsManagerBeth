@@ -556,4 +556,18 @@ export const styles = StyleSheet.create({
     width: 22.5,
     height: 21,
   },
+  ErrorMarginBtnContainer: {
+    backgroundColor: '#BCE1FF',
+    width: 282,
+    height: 146,
+  },
+  ErrorMarginTitleBox: {
+    marginTop: 25,
+    marginLeft: 17,
+    flexDirection: 'row',
+  },
+  ErrorMarginInput: {
+    marginTop: 15,
+    marginLeft: 10,
+  },
 });
