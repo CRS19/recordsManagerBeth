@@ -9,13 +9,18 @@ import {DailyTable} from '../../components/Tables/DailyMilkRegisterTable/DailyTa
 import {GeneralTitle} from '../../components/Titles/GeneralTitle';
 import {TopBar} from '../../components/TopBar';
 import {styles} from '../../theme/GlobalStyles';
+import {getMaxDate} from '../../utils/time-utils';
 import {useMilkDailyRegister} from './state/useMilkDailyRegister';
 
 export const MilkDailyRegister = () => {
-  const [markedD, setMarkedD] = useState({});
-
-  const {MarginButtomProps, DailyTableProps, isLoading, guardarInfo} =
-    useMilkDailyRegister();
+  const {
+    MarginButtomProps,
+    DailyTableProps,
+    isLoading,
+    guardarInfo,
+    markedD,
+    setMarkedD,
+  } = useMilkDailyRegister();
 
   return (
     <View>
@@ -29,25 +34,19 @@ export const MilkDailyRegister = () => {
         <View style={styles.GenericTabContainer}>
           <View style={styles.LeftGenericTabContainer}>
             <Calendar
-              markingType={'multi-dot'}
               markedDates={markedD}
               onDayPress={day => {
                 const {dateString} = day;
                 console.log(dateString);
-                console.log(JSON.stringify(markedD, null, 3));
                 setMarkedD({
                   [dateString]: {
-                    marked: true,
+                    selected: true,
                     selectedColor: 'orange',
-                    dots: [
-                      {key: 'vacation', color: 'orange'},
-                      {key: 'registro', color: 'green'},
-                      {key: 'registro2', color: 'blue'},
-                      {key: 'registro3', color: 'red'},
-                    ],
+                    activeOpacity: 0,
                   },
                 });
               }}
+              maxDate={getMaxDate()}
               enableSwipeMonths={true}
             />
             <View style={{margin: 30}}>

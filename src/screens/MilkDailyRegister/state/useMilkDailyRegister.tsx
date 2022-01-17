@@ -9,7 +9,20 @@ import {
   saveDailyProducts,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
-import {getMomentOfDay, isMorning} from '../../../utils/time-utils';
+import {
+  getMaxDate,
+  getMomentOfDay,
+  getTimestampFromDate,
+  isMorning,
+} from '../../../utils/time-utils';
+
+export interface ICalendarSelected {
+  [k: string]: {
+    selected: boolean;
+    selectedColor: string;
+    activeOpacity: number;
+  };
+}
 
 export interface IUseMilkDailyRegister {
   MarginButtomProps: {
@@ -28,15 +41,25 @@ export interface IUseMilkDailyRegister {
   };
   isLoading: boolean;
   guardarInfo: () => void;
+  markedD: ICalendarSelected;
+  setMarkedD: React.Dispatch<React.SetStateAction<ICalendarSelected>>;
 }
 
 export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
-  // TODO cambiar valor inicial tomarlo de la bas ed e datos
+  getTimestampFromDate('2021-01-16');
+
   const dispatch = useDispatch();
   const [errorMargin, setErrorMargin] = useState('5');
   const productorasList = useSelector(
     (state: IAppState) => state.productorasList!,
   );
+  const [markedD, setMarkedD] = useState<ICalendarSelected>({
+    [getMaxDate()]: {
+      selected: true,
+      selectedColor: 'orange',
+      activeOpacity: 0,
+    },
+  });
   const isLoading = useSelector((state: IAppState) => state.isLoading!);
   const dailyProductionRecords = useSelector(
     (state: IAppState) => state.dailyProductionRecords!,
@@ -115,6 +138,10 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     }
   }, [productorasList]);
 
+  useEffect(() => {
+    console.log('cambiar los registros segun la fecha');
+  }, [markedD]);
+
   return {
     MarginButtomProps: {
       errorMargin,
@@ -128,5 +155,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     },
     isLoading,
     guardarInfo,
+    markedD,
+    setMarkedD,
   };
 };

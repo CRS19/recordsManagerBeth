@@ -21,7 +21,7 @@ export const getMomentOfDay = () => {
 };
 
 export const getDateOfDay = (timestamp: number) => {
-  return moment(timestamp).format('yyyy-MM-dd');
+  return moment(timestamp).format('yyyy-MM-DD');
 };
 
 export const isMorning = () => {
@@ -33,4 +33,16 @@ export const isMorning = () => {
   } else {
     return false;
   }
+};
+
+export const getMaxDate = () => {
+  return moment(moment.now()).format('yyy-MM-DD');
+};
+
+export const getTimestampFromDate = (date: string) => {
+  const momentDate = moment(date);
+  const ts = momentDate.format('x');
+  console.log('DEBUG: el date es -> ', momentDate);
+  console.log('DEBUG: el ts es -> ', ts);
+  console.log(getDateOfDay(1642368849048));
 };
