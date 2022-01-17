@@ -570,4 +570,12 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 10,
   },
+  DailyMilkRow: {
+    width: 80,
+    height: 60,
+    borderRightWidth: 0,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

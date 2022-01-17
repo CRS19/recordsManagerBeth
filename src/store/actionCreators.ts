@@ -1,3 +1,5 @@
+import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
+import {IProductorasArray} from './../interfaces/ProductorasId';
 import {ILoggedInfo, UserRolEnum} from './../interfaces/LoggedInfo';
 import {LogInRequest} from './../interfaces/LogInRequest';
 import {ActionTypes} from './actionTypes';
@@ -18,10 +20,32 @@ import {IGetReproductorsListResponse} from '../interfaces/getReproductorsListRes
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setProductorasList = (payload: IProductorasArray): IAppAction => {
+  return {
+    type: ActionTypes.SET_PRODUCTORAS_LSIT,
+    productorasList: payload,
+  };
+};
+
+export const setDailyRecords = (payload: IDailyMilkRecord[]): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORDS,
+    dailyProductionRecords: payload,
+  };
+};
+
+export const setIsLoading = (payload: boolean): IAppAction => {
+  return {
+    type: ActionTypes.SET_ISLOADING,
+    isLoading: payload,
+  };
+};
 
 export const setLoggedInfo = (payload: ILoggedInfo): IAppAction => {
   return {
@@ -135,7 +159,6 @@ export const getReproductorsList = (): ThunkAction<
 
       const response = await axios.get(path);
       const reproductorsList: IGetReproductorsListResponse = response.data;
-
       dispatch(setReproductoresList(reproductorsList.list));
     } catch (e) {
       console.log(e);
@@ -326,6 +349,86 @@ export const getLogIn = (
         'Correo o contraseña incorrectos',
         `Asegurese de colocar su correo y contraseña asignados, si necesita recuperar la contraseña contáctese con el administrador`,
       );
+    }
+  };
+};
+
+export const getPoductorasIdList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    setIsLoading(true);
+    console.log('llamada a getProductors');
+    const path = `${API_BASE_PATH}/cow/getProductors`;
+    try {
+      const response = await axios.get(path);
+      console.log(response.request._response);
+      dispatch(setProductorasList(JSON.parse(response.request._response)));
+      console.log(
+        'actualizar lista de repro',
+        JSON.stringify(JSON.parse(response.request._response).list, null, 3),
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getDailyProdRecords = (
+  request: IProductorasArray,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-prod-record/getAllCurrentRecords`;
+    try {
+      const response = await axios.post(path, request);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      dispatch(setDailyRecords(records.records));
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
+};
+
+export const saveDailyProducts = (
+  recordsToSave: IDailyMilkRecord[],
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-prod-record/updateRecords`;
+    try {
+      const response = await axios.post(path, recordsToSave);
+      console.log(response.request._response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const changeProdToFalse = (payload: {
+  idVaca: string;
+}): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/cow/changeProductivityToFalse`;
+    try {
+      const response = await axios.post(path, payload);
+      console.log(response.request._response);
+      dispatch(getPoductorasIdList());
+    } catch (e) {
+      console.log(e);
     }
   };
 };
