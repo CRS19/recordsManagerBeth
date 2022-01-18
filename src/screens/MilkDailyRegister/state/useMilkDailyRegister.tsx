@@ -46,8 +46,6 @@ export interface IUseMilkDailyRegister {
 }
 
 export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
-  getTimestampFromDate('2021-01-16');
-
   const dispatch = useDispatch();
   const [errorMargin, setErrorMargin] = useState('5');
   const productorasList = useSelector(
@@ -139,7 +137,13 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   }, [productorasList]);
 
   useEffect(() => {
-    console.log('cambiar los registros segun la fecha');
+    const keys = Object.keys(markedD);
+    console.log(
+      'cambiar los registros segun la fecha, obteniendo las keys',
+      Object.keys(markedD),
+    );
+    const ts = getTimestampFromDate(keys[0]);
+    console.log(ts);
   }, [markedD]);
 
   return {

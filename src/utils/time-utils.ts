@@ -42,7 +42,5 @@ export const getMaxDate = () => {
 export const getTimestampFromDate = (date: string) => {
   const momentDate = moment(date);
   const ts = momentDate.format('x');
-  console.log('DEBUG: el date es -> ', momentDate);
-  console.log('DEBUG: el ts es -> ', ts);
-  console.log(getDateOfDay(1642368849048));
+  return ts;
 };
