@@ -1,15 +1,19 @@
+import moment from 'moment';
 import {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {IDailyTableProps} from '../../../components/Tables/DailyMilkRegisterTable/DailyTable';
 import {IDailyMilkRecord} from '../../../interfaces/DailyMilkRecord';
 import {IProductorasArray} from '../../../interfaces/ProductorasId';
 import {
   changeProdToFalse,
   getDailyProdRecords,
+  getRecordsByDate,
   saveDailyProducts,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import {
+  getDateOfDay,
   getMaxDate,
   getMomentOfDay,
   getTimestampFromDate,
@@ -30,15 +34,7 @@ export interface IUseMilkDailyRegister {
     setErrorMargin: React.Dispatch<React.SetStateAction<string>>;
     saveErrorMargin: () => void;
   };
-  DailyTableProps: {
-    productorasList: IProductorasArray;
-    dailyProductionRecords: IDailyMilkRecord[];
-    changeCalostroProductivaInfo: (
-      idVaca: string,
-      payload: boolean,
-      calostro: boolean,
-    ) => void;
-  };
+  DailyTableProps: IDailyTableProps;
   isLoading: boolean;
   guardarInfo: () => void;
   markedD: ICalendarSelected;
@@ -48,6 +44,7 @@ export interface IUseMilkDailyRegister {
 export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   const dispatch = useDispatch();
   const [errorMargin, setErrorMargin] = useState('5');
+  const [isDateView, setIsDateView] = useState(false);
   const productorasList = useSelector(
     (state: IAppState) => state.productorasList!,
   );
@@ -62,6 +59,9 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   const dailyProductionRecords = useSelector(
     (state: IAppState) => state.dailyProductionRecords!,
   );
+  const dailyProdRecordByDate = useSelector(
+    (state: IAppState) => state.dailyProdRecordByDate!,
+  );
 
   const saveErrorMargin = () => {
     console.log('ACTION: cambiar el margen de error');
@@ -70,7 +70,11 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   const guardarInfo = () => {
     let allCorrect = true;
     let vacasNoIngresadas: string[] = [];
-    const recordsToSave: IDailyMilkRecord[] = dailyProductionRecords.map(
+    const dailyProdRecordsNoCalostro = dailyProductionRecords.filter(
+      record => !record.calostro,
+    );
+
+    const recordsToSave: IDailyMilkRecord[] = dailyProdRecordsNoCalostro.map(
       (record: IDailyMilkRecord): IDailyMilkRecord => {
         if (isMorning()) {
           if (
@@ -104,7 +108,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
       Alert.alert(
         'Error de ingreso',
         `Asegurese de que todas la producción de todas las vacas del listado haya sido ingresado \n\n${vacasNoIngresadas.map(
-          vaca => `${vaca} no ha sido ingresada`,
+          vaca => `${vaca} no ha sido ingresada\n`,
         )}`,
       );
     }
@@ -119,7 +123,8 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     if (calostro) {
       // desactivar calostro
       dailyProductionRecords[Number(idVaca) - 1].calostro = payload;
-      guardarInfo();
+      dailyProductionRecords[Number(idVaca) - 1].dailyRecords = [];
+      dispatch(saveDailyProducts(dailyProductionRecords));
     } else {
       // desactivar productiva
       dispatch(
@@ -144,6 +149,12 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     );
     const ts = getTimestampFromDate(keys[0]);
     console.log(ts);
+    console.log(
+      'jeeelp',
+      getDateOfDay(Number(ts)) === getDateOfDay(moment.now()),
+    );
+    setIsDateView(!(getDateOfDay(Number(ts)) === getDateOfDay(moment.now())));
+    dispatch(getRecordsByDate(ts));
   }, [markedD]);
 
   return {
@@ -155,6 +166,8 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     DailyTableProps: {
       productorasList,
       dailyProductionRecords,
+      isDateView,
+      dailyProdRecordByDate,
       changeCalostroProductivaInfo,
     },
     isLoading,

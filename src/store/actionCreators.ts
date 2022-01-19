@@ -1,3 +1,4 @@
+import {API_BASE_PATH} from './../env/environment';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IProductorasArray} from './../interfaces/ProductorasId';
 import {ILoggedInfo, UserRolEnum} from './../interfaces/LoggedInfo';
@@ -8,7 +9,6 @@ import {IAppState} from './reducer';
 import {IPrices} from '../interfaces/PricesInterface';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import axios from '../utils/axios-utils';
-import {API_BASE_PATH} from '../env/environment';
 import {ImagePickerResponse} from 'react-native-image-picker';
 import {set, get} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
@@ -30,6 +30,15 @@ export const setProductorasList = (payload: IProductorasArray): IAppAction => {
   return {
     type: ActionTypes.SET_PRODUCTORAS_LSIT,
     productorasList: payload,
+  };
+};
+
+export const setDailyRecordsByDate = (
+  payload: IDailyMilkRecord[],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORS_BY_DATE,
+    dailyProdRecordByDate: payload,
   };
 };
 
@@ -410,6 +419,8 @@ export const saveDailyProducts = (
     try {
       const response = await axios.post(path, recordsToSave);
       console.log(response.request._response);
+
+      dispatch(getPoductorasIdList());
     } catch (e) {
       console.log(e);
     }
@@ -427,6 +438,26 @@ export const changeProdToFalse = (payload: {
       const response = await axios.post(path, payload);
       console.log(response.request._response);
       dispatch(getPoductorasIdList());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getRecordsByDate = (
+  dateInTs: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistroPorFecha/${dateInTs}`;
+    try {
+      const response = await axios.get(path);
+      console.log(response.request._response);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      dispatch(setDailyRecordsByDate(records.records));
     } catch (e) {
       console.log(e);
     }

@@ -35,6 +35,7 @@ export const DailyRow = ({
   index,
   changeCalostroProductivaInfo,
 }: IDailyRowProps) => {
+  console.log('DEBUG: DailyRow render');
   const getLLenadoColor = () => {
     if (isMorning()) {
       if (morningAfternoonMilk.morning === '0') {
@@ -155,6 +156,7 @@ export const DailyRow = ({
 
   useEffect(() => {
     console.log('cambiando el cow');
+    getColor();
   }, [cowInfo]);
 
   const headRow = () => {
@@ -184,7 +186,6 @@ export const DailyRow = ({
   };
 
   const getColor = () => {
-    console.log(cowInfo?.calostro);
     setColor(cowInfo?.calostro ? '#F4FBA2' : getLLenadoColor());
   };
 
@@ -240,7 +241,12 @@ export const DailyRow = ({
         </TouchableOpacity>
         <View style={{...styles.DailyMilkRow, width: 105, borderTopWidth: 0}}>
           <TextInput
-            editable={isMorning() && !cowInfo!.calostro}
+            editable={
+              isMorning() &&
+              !cowInfo!.calostro &&
+              !cowInfo!.dailyRecords[cowInfo!.dailyRecords.length - 1]
+                .morningSaved
+            }
             style={{fontSize: 18}}
             keyboardType={'decimal-pad'}
             value={morningAfternoonMilk.morning.toString()}

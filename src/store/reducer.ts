@@ -31,6 +31,7 @@ export const INITIAL_STATE: IAppState = {
     productoras: [],
   },
   dailyProductionRecords: [],
+  dailyProdRecordByDate: [],
 };
 
 export interface IAppState {
@@ -47,6 +48,7 @@ export interface IAppState {
   reproductionRecordsSplited?: Record[][];
   productorasList?: IProductorasArray;
   dailyProductionRecords?: IDailyMilkRecord[];
+  dailyProdRecordByDate?: IDailyMilkRecord[];
 }
 
 export const reducer = (
@@ -118,6 +120,11 @@ export const reducer = (
       return {
         ...state,
         productorasList: action.productorasList,
+      };
+    case ActionTypes.SET_DAILY_PROD_RECORS_BY_DATE:
+      return {
+        ...state,
+        dailyProdRecordByDate: action.dailyProdRecordByDate,
       };
     default:
       return state;

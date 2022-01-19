@@ -28,7 +28,7 @@ export const MilkDailyRegister = () => {
         hamburguerDisplay={'none'}
         title={'Registro de Producción'}
         findIcon={false}
-        backIcon={false}
+        backIcon={true}
       />
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
@@ -76,13 +76,15 @@ export const MilkDailyRegister = () => {
                 <DailyTable {...DailyTableProps} />
               )}
               <View style={{marginTop: 40}}>
-                <BorderButtom
-                  onPress={() => {
-                    console.log('guardar');
-                    guardarInfo();
-                  }}
-                  title="Guardar"
-                />
+                {!DailyTableProps.isDateView && (
+                  <BorderButtom
+                    onPress={() => {
+                      console.log('guardar');
+                      guardarInfo();
+                    }}
+                    title="Guardar"
+                  />
+                )}
               </View>
               <View style={{height: 400}} />
             </View>
