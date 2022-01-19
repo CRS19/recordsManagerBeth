@@ -5,12 +5,14 @@ import {Ginecologia} from '../../../assets/Ginecologia/Ginecologia';
 import {SalesChart} from '../../../assets/SalesChart';
 import {Truck} from '../../../assets/truck';
 import {GeneralButtom} from '../../../components/GeneralButtom';
+import {TopBar} from '../../../components/TopBar';
+import {styles} from '../../../theme/GlobalStyles';
 import {Rip} from '../../Rip';
 
 export const Descartes = () => {
   return (
     <View>
-      <Text>pantalla de descartes </Text>
+      <TopBar backIcon={true} title="Descartes"></TopBar>
       <GeneralButtom
         title="Muertes"
         color="#03DAC5"
@@ -29,6 +31,7 @@ export const Descartes = () => {
         Icon={<SalesChart />}
         navigateTo={'Ventas'}
       />
+      <View style={{...styles.LogInFooter, marginTop: 30}} />
     </View>
   );
 };

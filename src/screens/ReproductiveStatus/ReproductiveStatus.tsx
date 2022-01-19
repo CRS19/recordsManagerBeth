@@ -12,12 +12,14 @@ import {Ovulos} from '../../assets/Ovulos/Ovulos';
 import {Ultrasonido} from '../../assets/Ultrasonido/Ultrasonido';
 import {Utero} from '../../assets/Utero/Utero';
 import {GeneralButtom} from '../../components/GeneralButtom';
+import {TopBar} from '../../components/TopBar';
+import {styles} from '../../theme/GlobalStyles';
 
 export const ReproductiveStatus = () => {
   return (
     <View>
+      <TopBar backIcon={true} title="Estado Reproductivo"></TopBar>
       <ScrollView>
-        <Text>Estado reproductivo</Text>
         <GeneralButtom
           title="Control Ginecológico"
           color="#F0E4CA"
@@ -72,6 +74,9 @@ export const ReproductiveStatus = () => {
           Icon={<Utero />}
           navigateTo={'EficienciaReproductiva'}
         />
+
+        <View style={{...styles.LogInFooter, marginTop: 20}} />
+        <View style={{height: 50}} />
       </ScrollView>
     </View>
   );

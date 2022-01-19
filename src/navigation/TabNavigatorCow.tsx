@@ -26,13 +26,18 @@ import {AnimalsIcon} from '../assets/AnimalsIcon';
 import {MainRecordIcon} from '../assets/MainRecordIcon';
 import {MainRecord} from '../screens/TabsCowScreen/MainRecords/MainRecord';
 import {ProductionTabIcon} from '../assets/ProductionTabIcon';
-import {Sanity} from '../screens/TabsCowScreen/Sanity';
+import {Sanity} from '../screens/TabsCowScreen/Sanity/Sanity';
 import {Alerts} from '../screens/TabsCowScreen/Alerts';
 import {SanityTabIcon} from '../assets/SanityTabIcon';
 import {AlertsTabIcon} from '../assets/AlertsTabIcon';
 import {useSelector} from 'react-redux';
 import {IAppState} from '../store/reducer';
 import {MainRecordSwitch} from '../screens/TabsCowScreen/MainRecords/MainRecordSwitch';
+import {Diagnostico} from '../screens/TabsCowScreen/Sanity/Diagnostico/Diagnostico';
+import {Vacunas} from '../screens/TabsCowScreen/Sanity/Vacunas/Vacunas';
+import {Desparacitaciones1} from '../assets/Desparacitaciones1';
+import {HistoriaClinica} from '../screens/TabsCowScreen/Sanity/HistoriaClinica/HistoriaClinica';
+import {Desparacintaciones} from '../screens/TabsCowScreen/Sanity/Desparacitaciones/Desparacitaciones';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +54,10 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="Reproduction" component={Reproduction} />
       <Tab.Screen name="Sanity" component={Sanity} />
       <Tab.Screen name="Alerts" component={Alerts} />
+      <Tab.Screen name="Diagnostico" component={Diagnostico} />
+      <Tab.Screen name="Vacunas" component={Vacunas} />
+      <Tab.Screen name="Desparacitaciones" component={Desparacintaciones} />
+      <Tab.Screen name="HistoriaClinica" component={HistoriaClinica} />
     </Tab.Navigator>
   );
 };
