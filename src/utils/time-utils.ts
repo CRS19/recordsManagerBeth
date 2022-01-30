@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {defaultTo} from 'lodash';
 
 export const getWeekNumber = () => {
   /*  Para el programador del futuro, el momento.now() retorna el timestamp en mili segundos,
@@ -20,8 +21,8 @@ export const getMomentOfDay = () => {
   return moment(moment.now()).format('HH:mm');
 };
 
-export const getDateOfDay = (timestamp: number) => {
-  return moment(timestamp).format('yyyy-MM-DD');
+export const getDateOfDay = (timestamp: number, format?: string) => {
+  return moment(timestamp).format(defaultTo(format, 'yyyy-MM-DD'));
 };
 
 export const isMorning = () => {
@@ -43,4 +44,21 @@ export const getTimestampFromDate = (date: string) => {
   const momentDate = moment(date);
   const ts = momentDate.format('x');
   return ts;
+};
+
+export const getMonthNumber = (timestamp: number) => {
+  return Number(moment.unix(timestamp / 1000).format('M'));
+};
+
+export const getDiffDays = (pastTs: number, futureTs: number): string => {
+  const pastDate = moment(futureTs);
+
+  if (futureTs !== 0) {
+    const days = pastDate.diff(pastTs, 'days').toString();
+    console.log('dias de diferencia->', days);
+    return days;
+  } else {
+    console.log('futureTs es 0');
+    return '0';
+  }
 };

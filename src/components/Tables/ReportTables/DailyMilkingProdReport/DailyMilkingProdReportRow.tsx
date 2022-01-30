@@ -1,0 +1,154 @@
+import React from 'react';
+import {Text, View} from 'react-native';
+import {styles} from '../../../../theme/GlobalStyles';
+import {
+  getDateOfDay,
+  getDiffDays,
+  getMonthNumber,
+} from '../../../../utils/time-utils';
+import {IDailyMilkingProdReportHeader} from './DailyMilkingProdReportHeader';
+
+export interface ITableDailyMilkingReport {
+  day: string;
+  date: string;
+  morning: string;
+  afternoon: string;
+  dailyTotal: string;
+  semnalProd: string;
+  monthProd: string;
+  TotalProd: string;
+  averageProd: string;
+}
+
+export const DailyMilkingProdReportRow = ({
+  dailyRecord,
+}: IDailyMilkingProdReportHeader) => {
+  const buildData = () => {
+    let accProd = 0;
+    const dataToPlot: ITableDailyMilkingReport[] = dailyRecord.dailyRecords.map(
+      (record, index) => {
+        accProd = accProd + record.totalDailyProd;
+        return {
+          day: (
+            Number(getDiffDays(dailyRecord.endCalostroTs, record.timestamp)) + 1
+          ).toString(),
+          date: getDateOfDay(record.timestamp, 'DD/MM/yyyy'),
+          morning: record.mornigProd.toString(),
+          afternoon: record.afternoonProd.toString(),
+          dailyTotal: record.totalDailyProd.toString(),
+          semnalProd: getWeekTotalProd(record.weekNumber).toString(),
+          monthProd: getMonthProd(
+            getMonthTotalProd(record.timestamp),
+          ).toString(),
+          TotalProd: accProd.toString(),
+          averageProd: (accProd / (index + 1)).toFixed(2).toString(),
+        };
+      },
+    );
+
+    return dataToPlot;
+  };
+
+  const getWeekTotalProd = (weekNumber: number) => {
+    const week = dailyRecord.dailyRecords.reduce(
+      (acc, record) => ({
+        ...record,
+        totalDailyProd:
+          record.weekNumber === weekNumber
+            ? acc.totalDailyProd + record.totalDailyProd
+            : acc.totalDailyProd + 0,
+      }),
+      {
+        timestamp: 0,
+        weekNumber: 0,
+        mornigProd: 0,
+        afternoonProd: 0,
+        totalDailyProd: 0,
+        morningSaved: false,
+        afremoonSaved: false,
+      },
+    );
+
+    return week.totalDailyProd;
+  };
+
+  const getMonthProd = (monthNumber: number) => {
+    const month = dailyRecord.dailyRecords.reduce(
+      (acc, record) => ({
+        ...record,
+        totalDailyProd:
+          getMonthTotalProd(record.timestamp) === monthNumber
+            ? acc.totalDailyProd + record.totalDailyProd
+            : acc.totalDailyProd + 0,
+      }),
+      {
+        timestamp: 0,
+        weekNumber: 0,
+        mornigProd: 0,
+        afternoonProd: 0,
+        totalDailyProd: 0,
+        morningSaved: false,
+        afremoonSaved: false,
+      },
+    );
+
+    return month.totalDailyProd;
+  };
+
+  const getMonthTotalProd = (recordTs: number) => {
+    return getMonthNumber(recordTs);
+  };
+
+  return (
+    <View>
+      {buildData().map(data => (
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <View style={{...styles.DailyMilkRow, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18}}>{data.day}</Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 200, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18, textAlign: 'center'}}>{data.date}</Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 105, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18}}>{data.morning}</Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 105, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18}}>{data.afternoon}</Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 110, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18}}>{data.dailyTotal}</Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 140, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18, textAlign: 'center'}}>
+              {data.semnalProd}
+            </Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 140, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18, textAlign: 'center'}}>
+              {data.monthProd}
+            </Text>
+          </View>
+          <View style={{...styles.DailyMilkRow, width: 140, borderTopWidth: 0}}>
+            <Text style={{fontSize: 18, textAlign: 'center'}}>
+              {data.TotalProd}
+            </Text>
+          </View>
+          <View
+            style={{
+              ...styles.DailyMilkRow,
+              width: 140,
+              borderTopWidth: 0,
+              borderRightWidth: 2,
+            }}>
+            <Text style={{fontSize: 18, textAlign: 'center'}}>
+              {data.averageProd}
+            </Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+};

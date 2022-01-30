@@ -6,7 +6,7 @@ import {IDailyTableProps} from '../../../components/Tables/DailyMilkRegisterTabl
 import {IDailyMilkRecord} from '../../../interfaces/DailyMilkRecord';
 import {IProductorasArray} from '../../../interfaces/ProductorasId';
 import {
-  changeProdToFalse,
+  changeProd,
   getDailyProdRecords,
   getRecordsByDate,
   saveDailyProducts,
@@ -16,6 +16,7 @@ import {
   getDateOfDay,
   getMaxDate,
   getMomentOfDay,
+  getTimestamp,
   getTimestampFromDate,
   isMorning,
 } from '../../../utils/time-utils';
@@ -106,8 +107,8 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
       dispatch(saveDailyProducts(recordsToSave));
     } else {
       Alert.alert(
-        'Error de ingreso',
-        `Asegurese de que todas la producción de todas las vacas del listado haya sido ingresado \n\n${vacasNoIngresadas.map(
+        'Faltan datos por ingresar!',
+        `¿Está seguro de guardar el registro incompleto?\nLas siguientes vacas no han sido ingresadas: \n\n${vacasNoIngresadas.map(
           vaca => `${vaca} no ha sido ingresada\n`,
         )}`,
       );
@@ -124,12 +125,14 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
       // desactivar calostro
       dailyProductionRecords[Number(idVaca) - 1].calostro = payload;
       dailyProductionRecords[Number(idVaca) - 1].dailyRecords = [];
+      dailyProductionRecords[Number(idVaca) - 1].endCalostroTs = getTimestamp();
       dispatch(saveDailyProducts(dailyProductionRecords));
     } else {
       // desactivar productiva
       dispatch(
-        changeProdToFalse({
+        changeProd({
           idVaca: dailyProductionRecords[Number(idVaca) - 1].idVaca,
+          productivity: false,
         }),
       );
     }

@@ -10,8 +10,13 @@ export interface DailyRecord {
 
 export interface IDailyMilkRecord {
   idVaca: string;
+  prodCicle: string;
   dailyRecords: DailyRecord[];
   calostro: boolean;
   current: boolean;
+  last: boolean;
+  created: number;
+  endCalostroTs: number;
+  endLactanciaTs: number;
   _id?: string;
 }

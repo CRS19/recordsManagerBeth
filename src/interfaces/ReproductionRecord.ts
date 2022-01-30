@@ -57,6 +57,7 @@ export enum partoTypeEnum {
 export enum estadoDeLaCriaEnum {
   NACIDA_VIVA = 'nacido vivo',
   NATIMORTO = 'natimorto',
+  ABORTO = 'abortada',
 }
 
 export interface IHistoricoPeso {

@@ -33,6 +33,15 @@ export const setProductorasList = (payload: IProductorasArray): IAppAction => {
   };
 };
 
+export const setCurrentDailyRecords = (
+  payload: IDailyMilkRecord[],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORDS_BY_IDVACA,
+    currentCowDailyRecord: payload,
+  };
+};
+
 export const setDailyRecordsByDate = (
   payload: IDailyMilkRecord[],
 ): IAppAction => {
@@ -427,13 +436,14 @@ export const saveDailyProducts = (
   };
 };
 
-export const changeProdToFalse = (payload: {
+export const changeProd = (payload: {
   idVaca: string;
+  productivity: boolean;
 }): ThunkAction<void, IAppState, undefined, IAppAction> => {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    const path = `${API_BASE_PATH}/cow/changeProductivityToFalse`;
+    const path = `${API_BASE_PATH}/cow/changeProductivity`;
     try {
       const response = await axios.post(path, payload);
       console.log(response.request._response);
@@ -458,6 +468,27 @@ export const getRecordsByDate = (
         response.request._response,
       );
       dispatch(setDailyRecordsByDate(records.records));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getRecordsById = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    console.log('trayendo los registros diarios de prod');
+    const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistrosIndividuales/${idVaca}`;
+    try {
+      const response = await axios.get(path);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      console.log(records);
+      dispatch(setCurrentDailyRecords(records.records));
     } catch (e) {
       console.log(e);
     }

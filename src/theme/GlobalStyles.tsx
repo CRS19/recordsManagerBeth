@@ -578,4 +578,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  IndividualProdRecordContainer: {
+    height: 332,
+    width: 374,
+    backgroundColor: 'white',
+    marginLeft: 20,
+    marginTop: 5,
+    elevation: 20,
+  },
+  IndividualProdRecordView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    paddingHorizontal: 30,
+  },
 });

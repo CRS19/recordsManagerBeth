@@ -1,30 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   BottomTabBarOptions,
-  BottomTabNavigationOptions,
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import {
-  Text,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {View} from 'react-native';
 
-import {ProductionScreen} from '../screens/TabsCowScreen/ProductionScreen';
+import {ProductionScreen} from '../screens/TabsCowScreen/ProductionRecords/ProductionScreen';
 import {Reproduction} from '../screens/TabsCowScreen/Reproduction';
 import {TabReproductionIcon} from '../assets/TabReproductionIcon';
-import {TestIcon} from '../assets/TestIcon';
 import {TabNavigationButtom} from '../components/Buttoms/TabNavigationButtom';
-import {StationScreen} from '../screens/StationScreen';
-import {IndividualRecords} from '../screens/IndividualRecords/IndividualRecords';
-import {DrawerNavigator} from './DrawerNavigator';
 import {StationIcon} from '../assets/StationIcon';
 import {AnimalsIcon} from '../assets/AnimalsIcon';
 import {MainRecordIcon} from '../assets/MainRecordIcon';
-import {MainRecord} from '../screens/TabsCowScreen/MainRecords/MainRecord';
 import {ProductionTabIcon} from '../assets/ProductionTabIcon';
 import {Sanity} from '../screens/TabsCowScreen/Sanity';
 import {Alerts} from '../screens/TabsCowScreen/Alerts';
@@ -33,8 +22,20 @@ import {AlertsTabIcon} from '../assets/AlertsTabIcon';
 import {useSelector} from 'react-redux';
 import {IAppState} from '../store/reducer';
 import {MainRecordSwitch} from '../screens/TabsCowScreen/MainRecords/MainRecordSwitch';
+import {ProductionReportScreen} from '../screens/TabsCowScreen/ProductionRecords/productionReport/ProductionReportScreen';
+import {includes} from 'lodash';
+import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
 
-const Tab = createBottomTabNavigator();
+export type TabScreensParams = {
+  MainRecord: undefined;
+  ProductionScreen: undefined;
+  Reproduction: undefined;
+  Sanity: undefined;
+  Alerts: undefined;
+  ProductionReportScreen: {record: IDailyMilkRecord};
+};
+
+const Tab = createBottomTabNavigator<TabScreensParams>();
 
 export const TabNavigatorCow = () => {
   console.log('OPTIMIZATION: tabs render!');
@@ -49,12 +50,20 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="Reproduction" component={Reproduction} />
       <Tab.Screen name="Sanity" component={Sanity} />
       <Tab.Screen name="Alerts" component={Alerts} />
+      <Tab.Screen
+        name="ProductionReportScreen"
+        component={ProductionReportScreen}
+      />
     </Tab.Navigator>
   );
 };
 
 const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
   console.log('DEBUG: tabs render!', '.. Current index: ', props.state.index!);
+  console.log(
+    'debe selecionar el prduction tab? ',
+    includes([1, 5], props.state.index),
+  );
   const isInsertingNewCow = useSelector(
     (state: IAppState) => state.insertNewCow!,
   );
@@ -64,15 +73,15 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       <TabNavigationButtom
         props={props}
         disable={isInsertingNewCow}
-        index={5}
+        index={[50]}
         ReturnTo={'StationScreen'}
         title={'Estación'}
-        icon={<StationIcon isSelected={true} bottom={12} />}
+        icon={<StationIcon isSelected={false} bottom={12} />}
       />
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={6}
+        index={[6]}
         ReturnTo={'IndividualRecords'}
         icon={<AnimalsIcon bottom={8} />}
         title={'Animales'}
@@ -80,7 +89,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={0}
+        index={[0]}
         navigateTo={'MainRecord'}
         icon={
           <MainRecordIcon bottom={14} isSelected={props.state.index === 0} />
@@ -90,17 +99,20 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={1}
+        index={[1, 5]}
         navigateTo={'ProductionScreen'}
         icon={
-          <ProductionTabIcon bottom={14} isSelected={props.state.index === 1} />
+          <ProductionTabIcon
+            bottom={14}
+            isSelected={includes([1, 5], props.state.index)}
+          />
         }
         title={'producción'}
       />
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={2}
+        index={[2]}
         navigateTo={'Reproduction'}
         icon={
           <TabReproductionIcon
@@ -114,7 +126,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={3}
+        index={[3]}
         navigateTo={'Sanity'}
         icon={
           <SanityTabIcon bottom={13} isSelected={props.state.index === 3} />
@@ -124,7 +136,7 @@ const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       <TabNavigationButtom
         disable={isInsertingNewCow}
         props={props}
-        index={4}
+        index={[4]}
         navigateTo={'Alerts'}
         icon={
           <AlertsTabIcon bottom={13} isSelected={props.state.index === 4} />

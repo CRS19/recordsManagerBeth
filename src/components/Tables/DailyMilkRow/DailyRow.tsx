@@ -53,19 +53,26 @@ export const DailyRow = ({
   };
   const getDailyMilkInitialState = (): milkDailyState => {
     if (!!cowInfo) {
+      console.log('------------------ ', cowInfo.idVaca);
+      console.log(
+        'Fecha del ultimo registro -> ',
+        getDateOfDay(
+          get(
+            cowInfo.dailyRecords[cowInfo.dailyRecords.length - 1],
+            'timestamp',
+            0,
+          ),
+        ),
+      );
+      console.log('Fecha de hoy -> ', getDateOfDay(getTimestamp()));
       if (
-        (get(
-          cowInfo.dailyRecords[cowInfo.dailyRecords.length - 1],
-          'afternoonProd',
-          0,
-        ) !== 0 &&
-          getDateOfDay(
-            get(
-              cowInfo.dailyRecords[cowInfo.dailyRecords.length - 1],
-              'timestamp',
-              0,
-            ),
-          ) !== getDateOfDay(getTimestamp())) ||
+        getDateOfDay(
+          get(
+            cowInfo.dailyRecords[cowInfo.dailyRecords.length - 1],
+            'timestamp',
+            0,
+          ),
+        ) !== getDateOfDay(getTimestamp()) ||
         cowInfo.dailyRecords.length === 0
       ) {
         console.log('registro agregado....');
@@ -250,6 +257,7 @@ export const DailyRow = ({
             style={{fontSize: 18}}
             keyboardType={'decimal-pad'}
             value={morningAfternoonMilk.morning.toString()}
+            selectTextOnFocus={true}
             onChangeText={text => {
               setMorningAfternoonMilk({
                 ...morningAfternoonMilk,
@@ -268,6 +276,7 @@ export const DailyRow = ({
             }
             style={{fontSize: 18}}
             keyboardType={'decimal-pad'}
+            selectTextOnFocus={true}
             value={morningAfternoonMilk.afernoon.toString()}
             onChangeText={text => {
               setMorningAfternoonMilk({
