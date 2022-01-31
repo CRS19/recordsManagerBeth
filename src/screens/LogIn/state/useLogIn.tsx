@@ -10,8 +10,8 @@ import React, {
 import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {API_BASE_PATH} from '../../../env/environment';
-import {ILoggedInfo} from '../../../interfaces/LoggedInfo';
-import {getLogIn, validateJwtToken} from '../../../store/actionCreators';
+import {ILoggedInfo, UserRolEnum} from '../../../interfaces/LoggedInfo';
+import {getLogIn, setLoggedInfo} from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -53,6 +53,30 @@ export const useLogIn = (
     }
   };
 
+  const validateJwtToken = async (jwtToken: string): Promise<boolean> => {
+    const path = `${API_BASE_PATH}/auth/protegido`;
+
+    const config = {
+      headers: {Authorization: `Bearer ${jwtToken}`},
+    };
+
+    try {
+      await axios.get(path, config);
+      return true;
+    } catch (e) {
+      console.log(e);
+      if (loggedInfo.isLoggedIn === true) {
+        dispatch(
+          setLoggedInfo({
+            isLoggedIn: false,
+            rol: UserRolEnum.ADMINISTRADOR,
+          }),
+        );
+      }
+      return false;
+    }
+  };
+
   const checkJwtTokenInStorage = useCallback(async () => {
     const token = await AsyncStorage.getItem('token');
 
@@ -60,9 +84,12 @@ export const useLogIn = (
       console.log('mostrar el login');
 
     if (token) {
-      dispatch(validateJwtToken(token));
-      navigation.replace('DrawerNavigator');
-      updateCategories();
+      console.log(token);
+      const isTokenValid = await validateJwtToken(token);
+      if (isTokenValid) {
+        navigation.replace('DrawerNavigator');
+        updateCategories();
+      }
     }
   }, []);
 

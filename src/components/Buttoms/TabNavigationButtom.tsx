@@ -3,13 +3,14 @@ import {
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
+import {includes} from 'lodash';
 import React from 'react';
 import {Text, TouchableNativeFeedback, View} from 'react-native';
 import {TabReproductionIcon} from '../../assets/TabReproductionIcon';
 
 interface ITabNavigationButtom {
   props: BottomTabBarProps<BottomTabBarOptions>;
-  index: number;
+  index: number[];
   navigateTo?: string;
   ReturnTo?: string;
   disable: boolean;
@@ -45,10 +46,9 @@ export const TabNavigationButtom = (params: ITabNavigationButtom) => {
             alignItems: 'center',
             justifyContent: 'flex-end',
             height: 88,
-            backgroundColor:
-              props.state.index === index
-                ? '#CF4F4E'
-                : props.activeBackgroundColor,
+            backgroundColor: includes(index, props.state.index)
+              ? '#CF4F4E'
+              : props.activeBackgroundColor,
           }}>
           {icon}
           <Text
@@ -60,13 +60,13 @@ export const TabNavigationButtom = (params: ITabNavigationButtom) => {
               fontSize: 14,
               lineHeight: 16,
               letterSpacing: 1.25,
-              color: props.state.index === index ? 'white' : '#EFC6C5',
-              bottom: props.state.index === index ? 7 : 10.67,
+              color: includes(index, props.state.index) ? 'white' : '#EFC6C5',
+              bottom: includes(index, props.state.index) ? 7 : 10.67,
             }}>
             {title}
           </Text>
         </View>
-        {props.state.index === index && (
+        {includes(index, props.state.index) && (
           <View style={{backgroundColor: 'green', height: 3.67}}></View>
         )}
       </View>

@@ -1,4 +1,5 @@
 import {DrawerNavigationHelpers} from '@react-navigation/drawer/lib/typescript/src/types';
+import axios from 'axios';
 import React from 'react';
 import {Text, View, TouchableOpacity, Touchable} from 'react-native';
 
@@ -11,16 +12,20 @@ interface IBotonMenuLateral {
   label: string;
   icono: JSX.Element;
   navegation: navegateTo;
+  axiosCall?: () => void;
 }
 
 export const BotonMenuLateral = (props: IBotonMenuLateral) => {
   return (
     <TouchableOpacity
-      onPress={() =>
+      onPress={() => {
         props.navegation.navegationFuntion.navigate(
           props.navegation.destination,
-        )
-      }>
+        );
+        if (!!props.axiosCall) {
+          props.axiosCall();
+        }
+      }}>
       <View
         style={{
           flexDirection: 'row',

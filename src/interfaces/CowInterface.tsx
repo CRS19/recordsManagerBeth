@@ -51,9 +51,10 @@ export type estadoProductivoType =
   | 'Vaca con alta producción'
   | 'Vaca con media producción'
   | 'Vaca con baja producción'
-  | 'Novilla no lactante'
+  | 'Novilla no lactante' // es el animal de 0 dias de nacido hasta el momento de inseminacion
   | 'Reproductor'
   | 'Descarte'
+  | 'Seca'
   | '';
 
 export type estadoReproductivoType =

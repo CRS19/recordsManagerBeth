@@ -1,3 +1,6 @@
+import {API_BASE_PATH} from './../env/environment';
+import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
+import {IProductorasArray} from './../interfaces/ProductorasId';
 import {ILoggedInfo, UserRolEnum} from './../interfaces/LoggedInfo';
 import {LogInRequest} from './../interfaces/LogInRequest';
 import {ActionTypes} from './actionTypes';
@@ -6,7 +9,6 @@ import {IAppState} from './reducer';
 import {IPrices} from '../interfaces/PricesInterface';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import axios from '../utils/axios-utils';
-import {API_BASE_PATH} from '../env/environment';
 import {ImagePickerResponse} from 'react-native-image-picker';
 import {set, get} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
@@ -18,10 +20,50 @@ import {IGetReproductorsListResponse} from '../interfaces/getReproductorsListRes
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setProductorasList = (payload: IProductorasArray): IAppAction => {
+  return {
+    type: ActionTypes.SET_PRODUCTORAS_LSIT,
+    productorasList: payload,
+  };
+};
+
+export const setCurrentDailyRecords = (
+  payload: IDailyMilkRecord[],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORDS_BY_IDVACA,
+    currentCowDailyRecord: payload,
+  };
+};
+
+export const setDailyRecordsByDate = (
+  payload: IDailyMilkRecord[],
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORS_BY_DATE,
+    dailyProdRecordByDate: payload,
+  };
+};
+
+export const setDailyRecords = (payload: IDailyMilkRecord[]): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_PROD_RECORDS,
+    dailyProductionRecords: payload,
+  };
+};
+
+export const setIsLoading = (payload: boolean): IAppAction => {
+  return {
+    type: ActionTypes.SET_ISLOADING,
+    isLoading: payload,
+  };
+};
 
 export const setLoggedInfo = (payload: ILoggedInfo): IAppAction => {
   return {
@@ -135,7 +177,6 @@ export const getReproductorsList = (): ThunkAction<
 
       const response = await axios.get(path);
       const reproductorsList: IGetReproductorsListResponse = response.data;
-
       dispatch(setReproductoresList(reproductorsList.list));
     } catch (e) {
       console.log(e);
@@ -330,28 +371,126 @@ export const getLogIn = (
   };
 };
 
-export const validateJwtToken = (
-  jwtToken: string,
+export const getPoductorasIdList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    setIsLoading(true);
+    console.log('llamada a getProductors');
+    const path = `${API_BASE_PATH}/cow/getProductors`;
+    try {
+      const response = await axios.get(path);
+      console.log(response.request._response);
+      dispatch(setProductorasList(JSON.parse(response.request._response)));
+      console.log(
+        'actualizar lista de repro',
+        JSON.stringify(JSON.parse(response.request._response).list, null, 3),
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getDailyProdRecords = (
+  request: IProductorasArray,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    const path = `${API_BASE_PATH}/auth/protegido`;
-
-    const config = {
-      headers: {Authorization: `Bearer ${jwtToken}`},
-    };
-
+    const path = `${API_BASE_PATH}/daily-prod-record/getAllCurrentRecords`;
     try {
-      await axios.get(path, config);
+      const response = await axios.post(path, request);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      dispatch(setDailyRecords(records.records));
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
-      dispatch(
-        setLoggedInfo({
-          isLoggedIn: false,
-          rol: UserRolEnum.ADMINISTRADOR,
-        }),
+      setIsLoading(false);
+    }
+  };
+};
+
+export const saveDailyProducts = (
+  recordsToSave: IDailyMilkRecord[],
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-prod-record/updateRecords`;
+    try {
+      const response = await axios.post(path, recordsToSave);
+      console.log(response.request._response);
+
+      dispatch(getPoductorasIdList());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const changeProd = (payload: {
+  idVaca: string;
+  productivity: boolean;
+}): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/cow/changeProductivity`;
+    try {
+      const response = await axios.post(path, payload);
+      console.log(response.request._response);
+      dispatch(getPoductorasIdList());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getRecordsByDate = (
+  dateInTs: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistroPorFecha/${dateInTs}`;
+    try {
+      const response = await axios.get(path);
+      console.log(response.request._response);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
       );
+      dispatch(setDailyRecordsByDate(records.records));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getRecordsById = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    console.log('trayendo los registros diarios de prod');
+    const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistrosIndividuales/${idVaca}`;
+    try {
+      const response = await axios.get(path);
+      const records: IDailyRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      console.log(records);
+      dispatch(setCurrentDailyRecords(records.records));
+    } catch (e) {
+      console.log(e);
     }
   };
 };

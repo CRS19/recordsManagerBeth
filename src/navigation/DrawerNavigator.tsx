@@ -6,12 +6,14 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {useWindowDimensions} from 'react-native';
-import {MilkDailyRegister} from '../screens/MilkDailyRegister';
+import {MilkDailyRegister} from '../screens/MilkDailyRegister/MilkDailyRegister';
 import {BotonMenuLateral} from '../components/Buttoms/BotonMenuLateral';
 import {GeneralAppStack} from './GeneralAppStack';
 import {MilkDrawerIcon} from '../assets/MilkDrawerIcon';
 import {StationIcon} from '../assets/StationIcon';
 import {QrIconDrawer} from '../assets/QrIconDrawer';
+import {useDispatch} from 'react-redux';
+import {getPoductorasIdList} from '../store/actionCreators';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,31 +38,35 @@ export const DrawerNavigator = () => {
 
 const MenuContent = (
   props: DrawerContentComponentProps<DrawerContentOptions>,
-) => (
-  <DrawerContentScrollView style={{backgroundColor: '#03DAC5'}}>
-    <BotonMenuLateral
-      icono={<StationIcon />}
-      label="Estación"
-      navegation={{
-        navegationFuntion: props.navigation,
-        destination: 'GeneralAppStack',
-      }}
-    />
-    <BotonMenuLateral
-      icono={<MilkDrawerIcon />}
-      label="Ingreso registro de leche"
-      navegation={{
-        navegationFuntion: props.navigation,
-        destination: 'MilkDailyRegister',
-      }}
-    />
-    <BotonMenuLateral
-      icono={<QrIconDrawer />}
-      label="Buscar por código qr"
-      navegation={{
-        navegationFuntion: props.navigation,
-        destination: 'IndividualRecords',
-      }}
-    />
-  </DrawerContentScrollView>
-);
+) => {
+  const dispatch = useDispatch();
+  return (
+    <DrawerContentScrollView style={{backgroundColor: '#03DAC5'}}>
+      <BotonMenuLateral
+        icono={<StationIcon />}
+        label="Estación"
+        navegation={{
+          navegationFuntion: props.navigation,
+          destination: 'GeneralAppStack',
+        }}
+      />
+      <BotonMenuLateral
+        icono={<MilkDrawerIcon />}
+        label="Ingreso registro de leche"
+        navegation={{
+          navegationFuntion: props.navigation,
+          destination: 'MilkDailyRegister',
+        }}
+        axiosCall={() => dispatch(getPoductorasIdList())}
+      />
+      <BotonMenuLateral
+        icono={<QrIconDrawer />}
+        label="Buscar por código qr"
+        navegation={{
+          navegationFuntion: props.navigation,
+          destination: 'IndividualRecords',
+        }}
+      />
+    </DrawerContentScrollView>
+  );
+};
