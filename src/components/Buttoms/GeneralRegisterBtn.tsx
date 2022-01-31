@@ -20,7 +20,10 @@ export const GeneralRegisterBtn = ({
       background={TouchableNativeFeedback.Ripple('#28425B', false, 23)}
       onPress={() => {
         console.log('abrir informe');
-        navigation.navigate('ProductionReportScreen', {record});
+        navigation.navigate('ProductionReportScreen', {
+          record,
+          index: listNumber,
+        });
       }}>
       <View
         style={{

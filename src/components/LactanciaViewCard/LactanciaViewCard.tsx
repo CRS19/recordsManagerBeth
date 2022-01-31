@@ -49,19 +49,12 @@ export const LactanciaViewCard = ({
         })).totalDailyProd * milk2Kg
       );
     } else {
-      return '0';
+      return 0;
     }
   };
 
   const getPeriodoSeco = () => {
     if (productionRecords.length >= 2) {
-      console.log(
-        `jeelp ${productionRecords[productionRecords.length - 2]._id}`,
-        getDiffDays(
-          productionRecords[productionRecords.length - 2].endLactanciaTs,
-          lastRecord!.created,
-        ),
-      );
       return getDiffDays(
         productionRecords[productionRecords.length - 2].endLactanciaTs,
         lastRecord!.created,
@@ -121,14 +114,14 @@ export const LactanciaViewCard = ({
       <View style={{marginBottom: 10}}>
         <InputTextView
           label={'Producción diaria promedio'}
-          value={getDailyProdAverage().toString()}
+          value={getDailyProdAverage().toFixed(2).toString()}
           labelUnidad="Kg/vaca/lactancia"
         />
       </View>
       <View style={{marginBottom: 10}}>
         <InputTextView
           label={'Prod real de leche'}
-          value={getTotalProduction().toString()}
+          value={getTotalProduction().toFixed(2).toString()}
           labelUnidad="Kg/vaca/lacatancia"
         />
       </View>

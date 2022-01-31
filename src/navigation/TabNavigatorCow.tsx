@@ -32,7 +32,7 @@ export type TabScreensParams = {
   Reproduction: undefined;
   Sanity: undefined;
   Alerts: undefined;
-  ProductionReportScreen: {record: IDailyMilkRecord};
+  ProductionReportScreen: {record: IDailyMilkRecord; index: number};
 };
 
 const Tab = createBottomTabNavigator<TabScreensParams>();

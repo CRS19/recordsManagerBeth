@@ -31,7 +31,6 @@ export const ProductionScreen = () => {
           <View
             style={{
               ...styles.LeftGenericTabContainer,
-              backgroundColor: 'pink',
             }}>
             <Calendar
               markedDates={markedD}
@@ -48,16 +47,17 @@ export const ProductionScreen = () => {
               maxDate={getMaxDate()}
               enableSwipeMonths={true}
             />
-            <GeneralRegisterList
-              title={'Registro de N° de lactancias'}
-              prodRecords={prodRecord}
-            />
+            <View style={{marginTop: 30}}>
+              <GeneralRegisterList
+                title={'Registro de N° de lactancias'}
+                prodRecords={prodRecord}
+              />
+            </View>
           </View>
           <View
             style={{
               ...styles.RigthGenericTabContainer,
               maxWidth: 500,
-              backgroundColor: 'red',
             }}>
             <View>
               <LabelIconChip
@@ -73,7 +73,7 @@ export const ProductionScreen = () => {
             style={{
               ...styles.RigthGenericTabContainer,
               maxWidth: 500,
-              backgroundColor: 'pink',
+
               alignItems: 'center',
             }}>
             <View style={{margin: 10, marginLeft: 50}}>

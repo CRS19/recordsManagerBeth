@@ -40,6 +40,10 @@ export const getMaxDate = () => {
   return moment(moment.now()).format('yyy-MM-DD');
 };
 
+export const getCurrentDate = (format?: string) => {
+  return moment(moment.now()).format(defaultTo(format, 'DD/MM/yyyy'));
+};
+
 export const getTimestampFromDate = (date: string) => {
   const momentDate = moment(date);
   const ts = momentDate.format('x');

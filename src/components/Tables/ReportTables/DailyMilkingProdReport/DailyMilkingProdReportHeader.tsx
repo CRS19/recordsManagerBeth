@@ -17,7 +17,7 @@ export const DailyMilkingProdReportHeader = ({
       style={{
         backgroundColor: 'white',
         marginHorizontal: 60,
-        marginTop: 10,
+        marginTop: 20,
       }}>
       <View
         style={{
