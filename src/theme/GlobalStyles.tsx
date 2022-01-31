@@ -556,4 +556,40 @@ export const styles = StyleSheet.create({
     width: 22.5,
     height: 21,
   },
+  ErrorMarginBtnContainer: {
+    backgroundColor: '#BCE1FF',
+    width: 282,
+    height: 146,
+  },
+  ErrorMarginTitleBox: {
+    marginTop: 25,
+    marginLeft: 17,
+    flexDirection: 'row',
+  },
+  ErrorMarginInput: {
+    marginTop: 15,
+    marginLeft: 10,
+  },
+  DailyMilkRow: {
+    width: 80,
+    height: 60,
+    borderRightWidth: 0,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  IndividualProdRecordContainer: {
+    height: 332,
+    width: 374,
+    backgroundColor: 'white',
+    marginLeft: 20,
+    marginTop: 5,
+    elevation: 20,
+  },
+  IndividualProdRecordView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    paddingHorizontal: 30,
+  },
 });

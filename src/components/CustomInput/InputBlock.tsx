@@ -4,16 +4,25 @@ import {Text, TextInput, TextInputBase, View} from 'react-native';
 export interface IInputBlockProps {
   initialValue: string;
   setPeso: Dispatch<React.SetStateAction<string>>;
+  suffix?: string;
+  height?: number;
+  width?: number;
 }
 
-export const InputBlock = ({initialValue, setPeso}: IInputBlockProps) => {
+export const InputBlock = ({
+  initialValue,
+  setPeso,
+  suffix = 'Kg',
+  height = 56,
+  width = 105,
+}: IInputBlockProps) => {
   return (
     <View
       style={{
         borderWidth: 2,
         backgroundColor: 'white',
-        width: 105,
-        height: 56,
+        width: width,
+        height: height,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -23,7 +32,7 @@ export const InputBlock = ({initialValue, setPeso}: IInputBlockProps) => {
         value={initialValue}
         onChangeText={text => setPeso(text)}
       />
-      <Text style={{fontSize: 18, fontWeight: 'normal'}}>Kg</Text>
+      <Text style={{fontSize: 18, fontWeight: 'normal'}}>{suffix}</Text>
     </View>
   );
 };

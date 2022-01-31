@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
+  estadoDeLaCriaEnum,
   IReproductionRecord,
   PalpEnum,
   Record,
@@ -23,6 +24,7 @@ import {
 } from '../../../constants/PalpationType';
 import {set, get} from 'lodash';
 import {
+  changeProd,
   setInsertNewCow,
   setIsNewborn,
   setReproductionRecordsSplited,
@@ -186,7 +188,7 @@ export const useReproduction = (): IUseReproduction => {
     dispatch(setIsNewborn(true));
     updateCurrentRecordProperty(
       ReproductionRecordKeysEnum.estadoDeLaCria,
-      'nacido vivo',
+      estadoDeLaCriaEnum.NACIDA_VIVA,
     );
 
     navigation.navigate('MainRecord');
@@ -197,7 +199,7 @@ export const useReproduction = (): IUseReproduction => {
     setIsOpenSexModal(true);
     updateCurrentRecordProperty(
       ReproductionRecordKeysEnum.estadoDeLaCria,
-      'natimorto',
+      estadoDeLaCriaEnum.NATIMORTO,
     );
     console.log('natimorto');
   };
@@ -208,6 +210,10 @@ export const useReproduction = (): IUseReproduction => {
         PALPATION_SUB_TYPE_ABORTO[abortoType as ABORTO_SUB_TYPE],
       fecha: getEcuatorTimestamp(),
     });
+    updateCurrentRecordProperty(
+      ReproductionRecordKeysEnum.estadoDeLaCria,
+      estadoDeLaCriaEnum.ABORTO,
+    );
     setIsOpenAbortoTypeModal(false);
   };
 
@@ -228,6 +234,17 @@ export const useReproduction = (): IUseReproduction => {
       `${property}`,
       value,
     );
+
+    // logic to update cow to send it to production
+    if (
+      recordToUpdate.records[recordToUpdate.records.length - 1].gestationDays >
+        213 &&
+      property === ReproductionRecordKeysEnum.estadoDeLaCria
+    ) {
+      // changeProd calls cow endpoint
+      dispatch(changeProd({idVaca: recordToUpdate.idVaca, productivity: true}));
+    }
+
     dispatch(updateReproductionRecord(recordToUpdate));
   };
 

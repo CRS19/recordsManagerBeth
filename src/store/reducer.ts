@@ -1,3 +1,4 @@
+import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IPrices} from './../interfaces/PricesInterface';
 import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
@@ -6,8 +7,10 @@ import {emptyCow} from '../VaquitasPrueba/vacas';
 import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
+import {IProductorasArray} from '../interfaces/ProductorasId';
 
 export const INITIAL_STATE: IAppState = {
+  isLoading: false,
   CurrentCow: undefined,
   LoggedInfo: {
     isLoggedIn: false,
@@ -24,9 +27,16 @@ export const INITIAL_STATE: IAppState = {
   reproductionRecord: undefined,
   reproductoresList: undefined,
   reproductionRecordsSplited: undefined,
+  productorasList: {
+    productoras: [],
+  },
+  dailyProductionRecords: [],
+  dailyProdRecordByDate: [],
+  currentCowDailyRecord: [],
 };
 
 export interface IAppState {
+  isLoading?: boolean;
   CurrentCow?: ICow;
   Prices?: IPrices;
   LoggedInfo?: ILoggedInfo;
@@ -37,6 +47,10 @@ export interface IAppState {
   reproductionRecord?: IReproductionRecord;
   reproductoresList?: IReproductoresList[];
   reproductionRecordsSplited?: Record[][];
+  productorasList?: IProductorasArray;
+  dailyProductionRecords?: IDailyMilkRecord[];
+  dailyProdRecordByDate?: IDailyMilkRecord[];
+  currentCowDailyRecord?: IDailyMilkRecord[];
 }
 
 export const reducer = (
@@ -44,6 +58,11 @@ export const reducer = (
   action: IAppAction,
 ): IAppState => {
   switch (action.type) {
+    case ActionTypes.SET_ISLOADING:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
     case ActionTypes.SET_COW:
       return {
         ...state,
@@ -93,6 +112,26 @@ export const reducer = (
       return {
         ...state,
         LoggedInfo: action.LoggedInfo,
+      };
+    case ActionTypes.SET_DAILY_PROD_RECORDS:
+      return {
+        ...state,
+        dailyProductionRecords: action.dailyProductionRecords,
+      };
+    case ActionTypes.SET_PRODUCTORAS_LSIT:
+      return {
+        ...state,
+        productorasList: action.productorasList,
+      };
+    case ActionTypes.SET_DAILY_PROD_RECORS_BY_DATE:
+      return {
+        ...state,
+        dailyProdRecordByDate: action.dailyProdRecordByDate,
+      };
+    case ActionTypes.SET_DAILY_PROD_RECORDS_BY_IDVACA:
+      return {
+        ...state,
+        currentCowDailyRecord: action.currentCowDailyRecord,
       };
     default:
       return state;

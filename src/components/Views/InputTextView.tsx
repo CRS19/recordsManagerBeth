@@ -28,7 +28,11 @@ export const InputTextView = ({
           <GeneralIcon />
         </View>
         <TextInput
-          style={{height: 52, width: 221, backgroundColor: 'transparent'}}
+          style={{
+            height: 52,
+            width: 221,
+            backgroundColor: 'transparent',
+          }}
           mode="flat"
           label={label.toUpperCase()}
           selectionColor="#6200EE"

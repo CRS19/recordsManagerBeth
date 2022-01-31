@@ -5,7 +5,7 @@ import {
   IReproductionRecord,
   RecordReproductionType,
 } from '../../../interfaces/ReproductionRecord';
-import {isEmpty, get} from 'lodash';
+import {isEmpty, get, last, isNil} from 'lodash';
 
 export interface IReproductionInfoCardProps {
   record: IReproductionRecord;
@@ -21,14 +21,20 @@ export const getNumeroPartos = (record: IReproductionRecord) => {
 
 export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
   const getEstadoReproductivo = () => {
-    if (!isEmpty(record.records[record.records.length - 1].registrosPalp)) {
-      return record.records[record.records.length - 1].registrosPalp[
-        record.records[record.records.length - 1].registrosPalp.length - 1
-      ].registroPalpacion;
+    const lastRecord = last(record.records);
+
+    if (!isNil(lastRecord)) {
+      if (!isEmpty(lastRecord.registrosPalp)) {
+        return record.records[record.records.length - 1].registrosPalp[
+          record.records[record.records.length - 1].registrosPalp.length - 1
+        ].registroPalpacion;
+      } else {
+        return record.records[record.records.length - 2].registrosPalp[
+          record.records[record.records.length - 2].registrosPalp.length - 1
+        ].registroPalpacion;
+      }
     } else {
-      return record.records[record.records.length - 2].registrosPalp[
-        record.records[record.records.length - 2].registrosPalp.length - 1
-      ].registroPalpacion;
+      return '';
     }
   };
 
