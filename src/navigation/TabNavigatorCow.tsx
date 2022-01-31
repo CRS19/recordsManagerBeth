@@ -15,13 +15,23 @@ import {StationIcon} from '../assets/StationIcon';
 import {AnimalsIcon} from '../assets/AnimalsIcon';
 import {MainRecordIcon} from '../assets/MainRecordIcon';
 import {ProductionTabIcon} from '../assets/ProductionTabIcon';
-import {Sanity} from '../screens/TabsCowScreen/Sanity';
+import {Sanity} from '../screens/TabsCowScreen/Sanity/Sanity';
 import {Alerts} from '../screens/TabsCowScreen/Alerts';
 import {SanityTabIcon} from '../assets/SanityTabIcon';
 import {AlertsTabIcon} from '../assets/AlertsTabIcon';
 import {useSelector} from 'react-redux';
 import {IAppState} from '../store/reducer';
 import {MainRecordSwitch} from '../screens/TabsCowScreen/MainRecords/MainRecordSwitch';
+import {Diagnostico} from '../screens/TabsCowScreen/Sanity/Diagnostico/Diagnostico';
+import {Vacunas} from '../screens/TabsCowScreen/Sanity/Vacunas/Vacunas';
+import {Desparacitaciones1} from '../assets/Desparacitaciones1';
+import {HistoriaClinica} from '../screens/TabsCowScreen/Sanity/HistoriaClinica/HistoriaClinica';
+import {Desparacintaciones} from '../screens/TabsCowScreen/Sanity/Desparacitaciones/Desparacitaciones';
+import {Brucelosis} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/Brucelosis/Brucelosis';
+import {CarbuncoTriple} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/CarbuncoTriple/CarbuncoTriple';
+import {CuatroVirales} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/CuatroVirales/CuatroVirales';
+import {Aftosa} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/Aftosa/Aftosa';
+import {OtroTipoVacuna} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/OtroTipoVacuna/OtroTipoVacuna';
 import {ProductionReportScreen} from '../screens/TabsCowScreen/ProductionRecords/productionReport/ProductionReportScreen';
 import {includes} from 'lodash';
 import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
@@ -32,6 +42,15 @@ export type TabScreensParams = {
   Reproduction: undefined;
   Sanity: undefined;
   Alerts: undefined;
+  Diagnostico: undefined;
+  Vacunas: undefined;
+  Brucelosis: undefined;
+  CarbuncoTriple: undefined;
+  CuatroVirales: undefined;
+  Aftosa: undefined;
+  OtroTpoVacuna: undefined;
+  Desparacitaciones: undefined;
+  HistoriaClinica: undefined;
   ProductionReportScreen: {record: IDailyMilkRecord; index: number};
 };
 
@@ -50,6 +69,15 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="Reproduction" component={Reproduction} />
       <Tab.Screen name="Sanity" component={Sanity} />
       <Tab.Screen name="Alerts" component={Alerts} />
+      <Tab.Screen name="Diagnostico" component={Diagnostico} />
+      <Tab.Screen name="Vacunas" component={Vacunas} />
+      <Tab.Screen name="Brucelosis" component={Brucelosis} />
+      <Tab.Screen name="CarbuncoTriple" component={CarbuncoTriple} />
+      <Tab.Screen name="CuatroVirales" component={CuatroVirales} />
+      <Tab.Screen name="Aftosa" component={Aftosa} />
+      <Tab.Screen name="OtroTpoVacuna" component={OtroTipoVacuna} />
+      <Tab.Screen name="Desparacitaciones" component={Desparacintaciones} />
+      <Tab.Screen name="HistoriaClinica" component={HistoriaClinica} />
       <Tab.Screen
         name="ProductionReportScreen"
         component={ProductionReportScreen}
