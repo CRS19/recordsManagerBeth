@@ -38,6 +38,11 @@ import {Vacunas} from '../screens/TabsCowScreen/Sanity/Vacunas/Vacunas';
 import {Desparacitaciones1} from '../assets/Desparacitaciones1';
 import {HistoriaClinica} from '../screens/TabsCowScreen/Sanity/HistoriaClinica/HistoriaClinica';
 import {Desparacintaciones} from '../screens/TabsCowScreen/Sanity/Desparacitaciones/Desparacitaciones';
+import {Brucelosis} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/Brucelosis/Brucelosis';
+import {CarbuncoTriple} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/CarbuncoTriple/CarbuncoTriple';
+import {CuatroVirales} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/CuatroVirales/CuatroVirales';
+import {Aftosa} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/Aftosa/Aftosa';
+import {OtroTipoVacuna} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/OtroTipoVacuna/OtroTipoVacuna';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,6 +61,11 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="Alerts" component={Alerts} />
       <Tab.Screen name="Diagnostico" component={Diagnostico} />
       <Tab.Screen name="Vacunas" component={Vacunas} />
+      <Tab.Screen name="Brucelosis" component={Brucelosis} />
+      <Tab.Screen name="CarbuncoTriple" component={CarbuncoTriple} />
+      <Tab.Screen name="CuatroVirales" component={CuatroVirales} />
+      <Tab.Screen name="Aftosa" component={Aftosa} />
+      <Tab.Screen name="OtroTpoVacuna" component={OtroTipoVacuna} />
       <Tab.Screen name="Desparacitaciones" component={Desparacintaciones} />
       <Tab.Screen name="HistoriaClinica" component={HistoriaClinica} />
     </Tab.Navigator>

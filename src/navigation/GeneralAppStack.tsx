@@ -12,7 +12,6 @@ import {EficienciaProductiva} from '../screens/GlobalProduction/EficienciaProduc
 import {ControlGinecológico} from '../screens/ReproductiveStatus/ControlGinecológico';
 import {Gestación} from '../screens/ReproductiveStatus/Gestación/Gestación';
 import {ControlClinicodelaReproducción} from '../screens/ReproductiveStatus/ControlClinicodelaReproducción';
-import {InseminaciónMonta} from '../screens/GlobalProduction/InseminaciónMonta/Monta/Inseminación/Inseminación/InseminaciónMonta';
 import {Nacimientos} from '../screens/ReproductiveStatus/Nacimientos/Nacimientos';
 import {ControlDePesoTerneros} from '../screens/ReproductiveStatus/ControlDePesoTerneros/ControlDePesoTerneros';
 import {Natimortos} from '../screens/ReproductiveStatus/Natimortos/Natimortos';
@@ -25,6 +24,7 @@ import {Bovinos} from '../screens/Inventory/Bovinos/Bovinos';
 import {Farmacos} from '../screens/Inventory/Farmacos/Farmacos';
 import {TotalReproductores} from '../screens/Reproductors/TotalReproductores/TotalReproductores';
 import {Pajuelas} from '../screens/Reproductors/Pajuelas/Pajuelas';
+import {InseminaciónMonta} from '../screens/ReproductiveStatus/InseminacionMonta/InseminaciónMonta';
 
 const StackGeneral = createStackNavigator();
 
