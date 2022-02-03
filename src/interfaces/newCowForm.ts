@@ -1,3 +1,4 @@
+import {UnitTypeEnum} from './Drug.interface';
 export interface IdentificationCardInputForm {
   sexo: boolean;
   nombre: boolean;
@@ -6,6 +7,24 @@ export interface IdentificationCardInputForm {
   raza: boolean;
   pesoNacimiento: boolean;
 }
+
+export interface INewDrugForm {
+  expDate: boolean;
+  name: boolean;
+  presentationForm: boolean;
+  unitTye: boolean;
+  amount: boolean;
+  unitContent: boolean;
+}
+
+export const initialNewDrugForm: INewDrugForm = {
+  expDate: false,
+  name: false,
+  presentationForm: false,
+  unitTye: false,
+  amount: false,
+  unitContent: false,
+};
 
 export const initialForm: IdentificationCardInputForm = {
   sexo: false,
