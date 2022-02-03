@@ -12,13 +12,16 @@ import {MemoizedCard} from '../../components/CowCardInfo/CowCardInfo';
 import {InfoStaticCard} from '../../components/InfoStaticCard/InfoStaticCard';
 import {TopBar} from '../../components/TopBar';
 import {styles} from '../../theme/GlobalStyles';
-import {vacas} from '../../VaquitasPrueba/vacas';
+import {emptyCow, vacas} from '../../VaquitasPrueba/vacas';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {OneFieldModal} from '../../components/Modals/OneFieldModal';
 import {useIndividualRecords} from './state/useIndividualRecords';
 import {ICow} from '../../interfaces/CowInterface';
 import {ActivityIndicator} from 'react-native-paper';
-
+import {isEmpty} from 'lodash';
+import {NoCowInDataBse} from '../../assets/ErrorImages/NoCowInDataBse';
+import {InsertFirstCow} from '../../assets/ErrorImages/InsertFirstCow';
+import {EmptyCowListBtn} from '../../components/EmptyCowListBtn/EmptyCowListBtn';
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
 
 export interface IMemoCardProps {
@@ -60,9 +63,7 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
       <View style={{flexDirection: 'row'}}>
         <View style={styles.IndividualRecordsContainer}>
           <View style={styles.IndividualRecordsRigthContainer}>
-            <View style={{width: 449, height: 262}}>
-              <QRReaderButtom />
-            </View>
+            <View style={{width: 449, height: 50}}></View>
             <View style={{marginHorizontal: 19}}>
               <InfoStaticCard />
             </View>
@@ -108,12 +109,14 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                   />
                   <Text>Cargando...</Text>
                 </View>
-              ) : (
+              ) : !isEmpty(cowList) ? (
                 <MemoizedCardList
                   cows={cowList}
                   loadCows={loadCows}
                   endList={endList}
                 />
+              ) : (
+                <EmptyCowListBtn cow={emptyCow} />
               )}
             </SafeAreaView>
           </View>
