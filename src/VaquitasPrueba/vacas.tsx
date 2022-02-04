@@ -7,7 +7,7 @@ export const emptyCow: ICow = {
   numeroDeArete: '',
   fechaDeNacimiento: 1597439118000,
   raza: '',
-  pesoNacimiento: 0,
+  pesoNacimiento: 999,
   categoria: 'Ternera',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
