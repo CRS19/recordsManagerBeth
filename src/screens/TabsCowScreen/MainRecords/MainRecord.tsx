@@ -251,10 +251,8 @@ export const MainRecord = () => {
 
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
-              <View style={{alignItems: 'center'}}>
-                <Text>hola como ess</Text>
+              <View style={{alignItems: 'center', marginRight: 25}}>
                 <DescarteBottom />
-                <PrintQrButtom />
                 <SaveButtom onPress={saveNewCow} />
               </View>
               <View>
