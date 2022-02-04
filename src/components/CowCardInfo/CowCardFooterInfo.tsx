@@ -9,6 +9,7 @@ interface ICowCardFooterInfo {
   title?: string;
   data?: string | number;
   color?: string;
+  fontSize?: number;
 }
 
 export const CowCardFooterInfo = ({
@@ -16,6 +17,7 @@ export const CowCardFooterInfo = ({
   title = '?',
   data = '?',
   color = '',
+  fontSize = 16,
 }: ICowCardFooterInfo) => {
   if (isDefault) {
     return (
@@ -60,7 +62,7 @@ export const CowCardFooterInfo = ({
             <Text style={[styles.CowCardTitle, {color: color}]}>{title}</Text>
           </View>
           <View>
-            <Text style={styles.CowCardSubTitle}>
+            <Text style={{...styles.CowCardSubTitle, fontSize: fontSize}}>
               {hasIn(ReproductionLabel, data)
                 ? //@ts-ignore
                   ReproductionLabel?.[data!]
