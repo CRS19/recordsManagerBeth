@@ -1,5 +1,5 @@
 import React, {createRef, useCallback, useState} from 'react';
-import {get, set} from 'lodash';
+import {get, isNil, set} from 'lodash';
 import {Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {GeneralIcon} from '../../assets/GeneralIcon';
@@ -9,30 +9,22 @@ import {debounce} from 'lodash';
 
 export interface IGeneralInput {
   label: string;
-  editable: boolean;
-  isNumber: boolean;
   valueObj: IDrug;
   property: IDugsKeys;
   setValue: React.Dispatch<React.SetStateAction<IDrug>>;
   errorText: string;
-  mask: string;
   error?: boolean;
-  numKeyboard?: boolean;
 }
 
-export const NewDrugsTextInput = (props: IGeneralInput) => {
-  const getValue = () => '';
-  const {valueObj, property, setValue, mask, numKeyboard, errorText, error} =
-    props;
+export const NewDrugsNumberInput = (props: IGeneralInput) => {
+  const {valueObj, property, setValue, errorText, error} = props;
 
   const [endEdititg, setEndEditing] = useState<boolean>(false);
 
-  const saveWithMask = (text: string, text2: string | undefined) => {
-    props.isNumber
-      ? set(valueObj, `${property}`, Number(text))
-      : set(valueObj, `${property}`, text2);
-
-    setValue(valueObj);
+  const validateOnlyNumbers = (input: string) => {
+    if (!isNil(input.match(/^[0-9]*$/gi))) {
+      setValue({...valueObj, [property]: Number(input)});
+    }
   };
 
   return (
@@ -46,15 +38,14 @@ export const NewDrugsTextInput = (props: IGeneralInput) => {
           label={props.label}
           selectionColor="#6200EE"
           selectTextOnFocus={true}
-          editable={props.editable}
           onFocus={() => setEndEditing(false)}
           onEndEditing={() => setEndEditing(true)}
           underlineColor="#6200EE"
-          keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
-          onChangeText={useCallback(
-            text => setValue({...valueObj, [property]: text}),
-            [valueObj],
-          )}
+          keyboardType={'decimal-pad'}
+          onChangeText={text => {
+            validateOnlyNumbers(text);
+            //setValue({...valueObj, [property]: Number(text)});
+          }}
           theme={{
             colors: {
               primary: '#6200EE',

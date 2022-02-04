@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BallButtom} from '../../../components/Buttoms/BallButtom';
 import {AddNewDrugModal} from '../../../components/Modals/AddNewDrugModal';
 import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
@@ -18,6 +19,8 @@ export const Farmacos = () => {
     setExpDate,
   } = useFarmacos();
 
+  console.log('PERFORMANCE: farmacos screen render');
+
   return (
     <View>
       <TopBar title="Fármacos" backIcon={true} />
@@ -28,6 +31,10 @@ export const Farmacos = () => {
           <BallButtom onPress={() => setOpenDrugsModal(true)} title={'+'} />
           <Text style={{fontSize: 18}}>Agregar fármaco</Text>
         </View>
+        <TouchableOpacity
+          onPress={() => console.log(JSON.stringify(newDrug, null, 3))}>
+          <Text>Ver new Drug</Text>
+        </TouchableOpacity>
       </View>
       <AddNewDrugModal
         openCloseModal={openNewDrugsModal}

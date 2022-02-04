@@ -1,4 +1,4 @@
-import React, {Dispatch, useEffect, useRef} from 'react';
+import React, {Dispatch, useEffect, useRef, useState} from 'react';
 import {
   Keyboard,
   Modal,
@@ -7,11 +7,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {IDrug, IDugsKeys} from '../../interfaces/Drug.interface';
+import {IDrug, IDugsKeys, UnitTypeEnum} from '../../interfaces/Drug.interface';
 import {initialNewDrugForm} from '../../interfaces/newCowForm';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
-import {NewDrugsInput} from '../CustomInput/NewDrugsInput';
+import {NewDrugsTextInput} from '../CustomInput/NewDrugsInput';
+import {NewDrugsNumberInput} from '../CustomInput/NewDrugsNumberInput';
 import {InputViewDate} from '../Views/InputViewDate';
 import {useAddNewDrugModal} from './state/useAddNewDrugModal';
 
@@ -36,6 +37,16 @@ export const AddNewDrugModal = ({
   const {validateForm} = useAddNewDrugModal({drug: DrugToInsert, form});
 
   const [keyboardSize, setKeyboardSize] = React.useState(0);
+  const [drugP, setDrugp] = useState<IDrug>({
+    created: 0,
+    name: '',
+    expDate: 0,
+    presentationForm: '',
+    unitType: UnitTypeEnum.EMPTY,
+    amount: 0,
+    unitContent: 0,
+    available: 0,
+  });
 
   console.log('DEBUG: main modal render');
 
@@ -62,6 +73,8 @@ export const AddNewDrugModal = ({
     }
   };
 
+  // en onSave guardar el
+
   return (
     <ScrollView>
       <Modal
@@ -82,19 +95,27 @@ export const AddNewDrugModal = ({
               <View style={styles.ModalOneFieldInputPosition}>
                 <TouchableOpacity
                   onPress={() => openCloseDatePickerModal(true)}>
-                  <NewDrugsInput
+                  <NewDrugsTextInput
                     mask="[A-Za-z]"
-                    label="test"
+                    label="Nombre del fármaco"
                     editable={true}
                     isNumber={false}
-                    valueObj={DrugToInsert}
+                    valueObj={drugP}
                     property={IDugsKeys.name}
-                    setValue={setNewDrug}
+                    setValue={setDrugp}
                     errorText="Ingrese un nombre"
                     error={false}
                     numKeyboard={false}
                   />
                   <InputViewDate value={DrugToInsert.expDate} />
+                  <NewDrugsNumberInput
+                    label="Contenido por unidad"
+                    valueObj={drugP}
+                    property={IDugsKeys.unitContent}
+                    setValue={setDrugp}
+                    errorText={'Ingrese una cantidad correcta'}
+                    error={false}
+                  />
                 </TouchableOpacity>
                 <View style={{marginTop: 20}}>
                   <BorderButtom title="Guardar" onPress={() => onSaveForm()} />
