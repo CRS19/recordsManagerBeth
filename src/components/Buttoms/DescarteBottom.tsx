@@ -4,8 +4,7 @@ import {DescarteIcon} from '../../assets/DescarteIcon';
 
 export const DescarteBottom = () => {
   return (
-    <View>
-      <Text>Hola</Text>
+    <View style={{marginTop: 33}}>
       <TouchableOpacity>
         <DescarteIcon />
       </TouchableOpacity>
