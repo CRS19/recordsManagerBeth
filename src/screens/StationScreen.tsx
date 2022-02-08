@@ -10,6 +10,8 @@ import {ReproductoresIcon} from '../assets/ReproductoresIcon';
 import {BasicFooter} from '../components/BasicFooter';
 import {TopBar} from '../components/TopBar';
 import {GeneralButtom} from '../components/GeneralButtom';
+import {getDrugsList} from '../store/actionCreators';
+import {DispatchActionsEnum} from '../constants/dispatchDirectory';
 
 interface Props extends DrawerScreenProps<any, any> {}
 
@@ -49,6 +51,7 @@ export const StationScreen = ({navigation}: Props) => {
             color="#AAC3D7"
             Icon={<InventarioIcon />}
             navigateTo={'InventoryScreen'}
+            dispatchAction={DispatchActionsEnum.GET_DRUGS_LIST}
           />
           <GeneralButtom
             title="reproductores"

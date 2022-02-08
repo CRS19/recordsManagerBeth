@@ -1,10 +1,12 @@
 import {MutableRefObject, useState} from 'react';
-import {IDrug, UnitTypeEnum} from '../../../interfaces/Drug.interface';
+import {UnitTypeEnum} from '../../../constants/PresentationEnum';
+import {IDrug} from '../../../interfaces/Drug.interface';
 import {INewDrugForm} from '../../../interfaces/newCowForm';
 
 export interface IUseAddNewDrugModalProps {
   drug: IDrug;
   form: MutableRefObject<INewDrugForm>;
+  expDate: number;
 }
 
 interface IUseAddNewDrugModal {
@@ -13,11 +15,15 @@ interface IUseAddNewDrugModal {
   validateForm: () => void;
 }
 
-export const useAddNewDrugModal = ({drug, form}: IUseAddNewDrugModalProps) => {
+export const useAddNewDrugModal = ({
+  drug,
+  form,
+  expDate,
+}: IUseAddNewDrugModalProps) => {
   const [isValidForm, setIsValidForm] = useState<boolean>(true);
 
   const validateExpDate = () => {
-    if (drug.expDate === 0) {
+    if (expDate === 0) {
       form.current = {...form.current, expDate: true};
       setIsValidForm(false);
     } else {

@@ -1,4 +1,3 @@
-import {UnitTypeEnum} from './Drug.interface';
 export interface IdentificationCardInputForm {
   sexo: boolean;
   nombre: boolean;

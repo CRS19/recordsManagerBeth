@@ -1,3 +1,5 @@
+import {UnitTypeEnum} from '../constants/PresentationEnum';
+
 export enum IDugsKeys {
   created = 'created',
   name = 'name',
@@ -9,14 +11,6 @@ export enum IDugsKeys {
   available = 'available',
 }
 
-export enum UnitTypeEnum {
-  EMPTY = '',
-  GRAMOS = 'g',
-  MILI_GRAMOS = 'mg',
-  LITROS = 'lt',
-  MILI_LITROS = 'ml',
-}
-
 export interface IDrug {
   created: number;
   name: string;
@@ -26,4 +20,5 @@ export interface IDrug {
   unitContent: number;
   amount: number;
   available: number;
+  _id?: string;
 }

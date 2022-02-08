@@ -35,7 +35,7 @@ export const NewDrugsNumberInput = (props: IGeneralInput) => {
           style={{height: 52, width: 221, backgroundColor: 'transparent'}}
           mode="flat"
           value={get(valueObj, `${property}`, '').toString()}
-          label={props.label}
+          label={props.label.toUpperCase()}
           selectionColor="#6200EE"
           selectTextOnFocus={true}
           onFocus={() => setEndEditing(false)}
