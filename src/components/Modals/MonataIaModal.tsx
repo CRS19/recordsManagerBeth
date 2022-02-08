@@ -17,7 +17,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {Picker} from '@react-native-picker/picker';
 import {recordMontaIa} from '../../utils/recordsTemplates/reproduction_template';
-import {set} from 'lodash';
+import {get, set} from 'lodash';
 import {useDispatch} from 'react-redux';
 import {
   getReproductionRecord,
@@ -47,7 +47,9 @@ export const MonataIaModal = (props: IMonataIaModal) => {
   } = props;
   const dispatch = useDispatch();
   const [inseminadorName, setInseminadorName] = useState('');
-  const [reproductor, setReproductor] = useState(reproductorsList[0].idVaca);
+  const [reproductor, setReproductor] = useState(
+    get(reproductorsList[0], 'idVaca', ''),
+  );
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
