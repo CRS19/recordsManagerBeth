@@ -1,3 +1,4 @@
+import {IDrug} from './../interfaces/Drug.interface';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IPrices} from './../interfaces/PricesInterface';
 import {ActionTypes} from './actionTypes';
@@ -33,6 +34,7 @@ export const INITIAL_STATE: IAppState = {
   dailyProductionRecords: [],
   dailyProdRecordByDate: [],
   currentCowDailyRecord: [],
+  drugs: undefined,
 };
 
 export interface IAppState {
@@ -51,6 +53,7 @@ export interface IAppState {
   dailyProductionRecords?: IDailyMilkRecord[];
   dailyProdRecordByDate?: IDailyMilkRecord[];
   currentCowDailyRecord?: IDailyMilkRecord[];
+  drugs?: IDrug[];
 }
 
 export const reducer = (
@@ -132,6 +135,11 @@ export const reducer = (
       return {
         ...state,
         currentCowDailyRecord: action.currentCowDailyRecord,
+      };
+    case ActionTypes.SET_DRUGS_LIST:
+      return {
+        ...state,
+        drugs: action.drugs,
       };
     default:
       return state;

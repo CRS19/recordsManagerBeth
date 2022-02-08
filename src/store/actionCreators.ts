@@ -1,3 +1,5 @@
+import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
+import {IDrug} from './../interfaces/Drug.interface';
 import {API_BASE_PATH} from './../env/environment';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IProductorasArray} from './../interfaces/ProductorasId';
@@ -21,10 +23,18 @@ import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
+import {getJwt} from '../utils/AsyncStorageUtils';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setDrugsList = (payload: IDrug[]): IAppAction => {
+  return {
+    type: ActionTypes.SET_DRUGS_LIST,
+    drugs: payload,
+  };
+};
 
 export const setProductorasList = (payload: IProductorasArray): IAppAction => {
   return {
@@ -491,6 +501,85 @@ export const getRecordsById = (
       dispatch(setCurrentDailyRecords(records.records));
     } catch (e) {
       console.log(e);
+    }
+  };
+};
+
+export const getDrugsList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    console.log('Obteniendo la lista de farmacos');
+
+    const path = `${API_BASE_PATH}/drugs/getAll`;
+
+    try {
+      const response = await axios.get(path);
+      const drugsResponse: IDrugsListResponse = JSON.parse(
+        response.request._response,
+      );
+
+      dispatch(setDrugsList(drugsResponse.drugs));
+      dispatch(setIsLoading(false));
+    } catch (e) {
+      dispatch(setIsLoading(false));
+      // @ts-ignore
+      console.log(e.response.request._response);
+      Alert.alert(
+        'Error al obtener los fármacos',
+        `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
+export const createNewDrug = (
+  payload: IDrug,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/drugs/create`;
+    try {
+      dispatch(setIsLoading(true));
+      const response = await axios.post(path, payload);
+      const drugResponse = JSON.parse(response.request._response);
+      dispatch(getDrugsList());
+      dispatch(setIsLoading(false));
+    } catch (e) {
+      dispatch(setIsLoading(false));
+      // @ts-ignore
+      console.log(e.response.request._response);
+      Alert.alert(
+        'Error al añadir nuevo farmaco',
+        `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
+export const deleteDrug = (
+  id: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/drugs/delete/${id}`;
+    try {
+      const response = await axios.delete(path);
+      dispatch(getDrugsList());
+    } catch (e) {
+      // @ts-ignore
+      console.log(JSON.stringify(e, null, 3));
+      Alert.alert(
+        'Error al añadir nuevo farmaco',
+        `Error de conexión, revise su conección a internet`,
+      );
     }
   };
 };

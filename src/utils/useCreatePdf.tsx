@@ -6,6 +6,8 @@ import FileViewer from 'react-native-file-viewer';
 import {deleteme} from './recordsTemplates/deleteme';
 import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
 import {getHtmlDailyMilkingReport} from '../constants/htmlReportGenerators/htmlDailyMilkingPordReport';
+import {htmlDrugsReport} from '../constants/htmlReportGenerators/htmlDrugsReport';
+import {IDrug} from '../interfaces/Drug.interface';
 
 export interface IUseCreatePdf {
   createPd: (
@@ -13,6 +15,7 @@ export interface IUseCreatePdf {
     record: IDailyMilkRecord,
     listNumber: number,
   ) => Promise<void>;
+  createDrugsInventoryReport: (drugs: IDrug[]) => Promise<void>;
 }
 
 export const useCreatePdf = (): IUseCreatePdf => {
@@ -26,9 +29,8 @@ export const useCreatePdf = (): IUseCreatePdf => {
     listNumber: number,
   ) => {
     let options = {
-      //html: `<img src="${contentUri}" title="Title of image" alt="alt text here"/>`,
       html: getHtmlDailyMilkingReport(record, listNumber),
-      fileName: 'test',
+      fileName: `${record.idVaca}_reporte_de_produccion}`,
       directory: 'Documents',
     };
 
@@ -58,5 +60,38 @@ export const useCreatePdf = (): IUseCreatePdf => {
     }
   };
 
-  return {createPd};
+  const createDrugsInventoryReport = async (drugs: IDrug[]) => {
+    let options = {
+      html: htmlDrugsReport(drugs),
+      fileName: 'Reporte_fármacos',
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+
+    if (!isNil(file.filePath)) {
+      Alert.alert(
+        'Pdf Creado exitosamente',
+        `Pdf creado en: ${file.filePath}`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: 'Abrir PDF',
+            onPress: () => openPDF(file.filePath!),
+          },
+        ],
+      );
+    } else {
+      Alert.alert(
+        'Error de creación de PDF',
+        'Pongase en contacto con el administrador del sistema',
+      );
+    }
+  };
+
+  return {createPd, createDrugsInventoryReport};
 };

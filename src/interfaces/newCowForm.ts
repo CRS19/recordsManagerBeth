@@ -7,6 +7,24 @@ export interface IdentificationCardInputForm {
   pesoNacimiento: boolean;
 }
 
+export interface INewDrugForm {
+  expDate: boolean;
+  name: boolean;
+  presentationForm: boolean;
+  unitTye: boolean;
+  amount: boolean;
+  unitContent: boolean;
+}
+
+export const initialNewDrugForm: INewDrugForm = {
+  expDate: false,
+  name: false,
+  presentationForm: false,
+  unitTye: false,
+  amount: false,
+  unitContent: false,
+};
+
 export const initialForm: IdentificationCardInputForm = {
   sexo: false,
   nombre: false,

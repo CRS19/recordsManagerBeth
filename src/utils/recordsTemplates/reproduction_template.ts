@@ -9,6 +9,10 @@ export const reproductionTemplate: IReproductionRecord = {
   idVaca: '',
   estadoReproductivoSubType: '',
   records: [],
+  historicalDataToPlot: {
+    labels: [],
+    datasets: [],
+  },
 };
 
 export const recordMontaIa: Record = {

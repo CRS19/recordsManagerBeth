@@ -54,6 +54,15 @@ export const getMonthNumber = (timestamp: number) => {
   return Number(moment.unix(timestamp / 1000).format('M'));
 };
 
+export const getSemester = () => {
+  const monthNumber = getMonthNumber(moment.now());
+  if (monthNumber <= 6) {
+    return `${moment().year()}-A`;
+  } else {
+    return `${moment().year()}-B`;
+  }
+};
+
 export const getDiffDays = (pastTs: number, futureTs: number): string => {
   const pastDate = moment(futureTs);
 
