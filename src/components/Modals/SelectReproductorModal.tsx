@@ -14,7 +14,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {Picker} from '@react-native-picker/picker';
 import {recordMontaIa} from '../../utils/recordsTemplates/reproduction_template';
-import {set} from 'lodash';
+import {get, isEmpty, set} from 'lodash';
 import {useDispatch} from 'react-redux';
 import {updateReproductionRecord} from '../../store/actionCreators';
 import {cloneDeep} from 'lodash';
@@ -38,7 +38,9 @@ export const SelectReproductorModal = (props: ISelectReproductorModal) => {
     setOpenDatePickerModal,
   } = props;
   const dispatch = useDispatch();
-  const [reproductor, setReproductor] = useState(reproductorsList[0].idVaca);
+  const [reproductor, setReproductor] = useState(
+    get(reproductorsList[0], 'idVaca', ''),
+  );
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
@@ -116,21 +118,23 @@ export const SelectReproductorModal = (props: ISelectReproductorModal) => {
                     marginVertical: 10,
                     borderColor: '#2B9336',
                   }}>
-                  <Picker
-                    selectedValue={reproductor}
-                    onValueChange={(itemValue, itemIndex) =>
-                      setReproductor(itemValue)
-                    }>
-                    {reproductorsList.map(
-                      (reproductor: IReproductoresList, index: number) => (
-                        <Picker.Item
-                          key={`${reproductor.idVaca}-${index}`}
-                          label={`${reproductor.idVaca}`}
-                          value={`${reproductor.idVaca}`}
-                        />
-                      ),
-                    )}
-                  </Picker>
+                  {!isEmpty(reproductorsList) && (
+                    <Picker
+                      selectedValue={reproductor}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setReproductor(itemValue)
+                      }>
+                      {reproductorsList.map(
+                        (reproductor: IReproductoresList, index: number) => (
+                          <Picker.Item
+                            key={`${reproductor.idVaca}-${index}`}
+                            label={`${reproductor.idVaca}`}
+                            value={`${reproductor.idVaca}`}
+                          />
+                        ),
+                      )}
+                    </Picker>
+                  )}
                 </View>
                 <BorderButtom title="Guardar" onPress={() => saveNewRecord()} />
               </View>

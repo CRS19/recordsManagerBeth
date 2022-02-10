@@ -47,11 +47,16 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
   };
 
   const getGestationDays = () => {
-    if (
-      record.records[record.records.length - 1].recordType ===
-      RecordReproductionType.CURRENT
-    ) {
-      return record.records[record.records.length - 1].gestationDays.toString();
+    const lastRecord = last(record.records);
+
+    if (!isNil(lastRecord)) {
+      if (lastRecord.recordType === RecordReproductionType.CURRENT) {
+        return record.records[
+          record.records.length - 1
+        ].gestationDays.toString();
+      } else {
+        return '0';
+      }
     } else {
       return '0';
     }
