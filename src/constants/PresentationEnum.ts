@@ -7,7 +7,7 @@ export enum UnitTypeEnum {
   MILI_LITRO = 'ml',
 }
 export const DRUGS_PRESENTATIONS = [
-  {description: '', value: UnitTypeEnum.EMPTY},
+  {description: 'Seleccione una unidad', value: UnitTypeEnum.EMPTY},
   {description: 'Gramos (g)', value: UnitTypeEnum.GRAMOS},
   {description: 'Kilogramos (kg)', value: UnitTypeEnum.KILO_GRAMOS},
   {description: 'Miligramos (mg)', value: UnitTypeEnum.MILI_GRAMOS},

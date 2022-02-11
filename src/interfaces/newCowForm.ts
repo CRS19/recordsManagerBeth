@@ -8,6 +8,7 @@ export interface IdentificationCardInputForm {
 }
 
 export interface INewDrugForm {
+  group: boolean;
   expDate: boolean;
   name: boolean;
   presentationForm: boolean;
@@ -17,6 +18,7 @@ export interface INewDrugForm {
 }
 
 export const initialNewDrugForm: INewDrugForm = {
+  group: false,
   expDate: false,
   name: false,
   presentationForm: false,

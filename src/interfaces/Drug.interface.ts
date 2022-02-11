@@ -9,6 +9,15 @@ export enum IDugsKeys {
   unitContent = 'unitContent',
   amount = 'amount',
   available = 'available',
+  group = 'group',
+  activePrincipal = 'activePrincipal',
+}
+
+export enum drugGroupEnum {
+  EMPTY = '',
+  DIAGNOSIS = 'Diagnóstico',
+  VACCINE = 'Vacuna',
+  DEWORMING = 'Desparacitación',
 }
 
 export interface IDrug {
@@ -20,5 +29,6 @@ export interface IDrug {
   unitContent: number;
   amount: number;
   available: number;
-  _id?: string;
+  group: drugGroupEnum;
+  activePrincipal?: string;
 }
