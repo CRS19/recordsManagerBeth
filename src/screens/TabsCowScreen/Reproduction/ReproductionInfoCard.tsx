@@ -28,10 +28,12 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         return record.records[record.records.length - 1].registrosPalp[
           record.records[record.records.length - 1].registrosPalp.length - 1
         ].registroPalpacion;
-      } else {
+      } else if (record.records.length > 2) {
         return record.records[record.records.length - 2].registrosPalp[
           record.records[record.records.length - 2].registrosPalp.length - 1
         ].registroPalpacion;
+      } else {
+        return '';
       }
     } else {
       return '';
