@@ -72,6 +72,11 @@ export const MainRecord = () => {
   const [hasMomDad, setHasMomDad] = useState<boolean>(false);
   const [validInfoCard, setValidInfoCard] = useState<boolean>(false);
 
+  const [isUploadPhotos, setIsUploadPhotos] = useState<{
+    phothoOne: Boolean;
+    phothoTwo: Boolean;
+  }>({phothoOne: false, phothoTwo: false});
+
   const [openRazaPickerModal, setOpenRazaPickerModal] =
     useState<boolean>(false);
 
@@ -80,7 +85,11 @@ export const MainRecord = () => {
   };
 
   const verifyFormCompleted = () => {
-    return infoCardFinish === true &&
+    const arePhotosUploaded =
+      isUploadPhotos.phothoOne && isUploadPhotos.phothoTwo;
+
+    return arePhotosUploaded === true &&
+      infoCardFinish === true &&
       infoCardGestationFinish === true &&
       infoCardLactanciasFinish === true &&
       infoCardDesteteFinish === true
@@ -113,7 +122,10 @@ export const MainRecord = () => {
         );
       }
     } else {
-      infoCardFinish === true && infoCardDesteteFinish === true
+      isUploadPhotos.phothoOne &&
+      isUploadPhotos.phothoTwo &&
+      infoCardFinish === true &&
+      infoCardDesteteFinish === true
         ? SaveCow(idVaca)
         : showAlert(
             'Formulario Incompleto',
@@ -238,8 +250,18 @@ export const MainRecord = () => {
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
           <View style={styles.LeftGenericTabContainer}>
-            <AddImage index={0} newCow={insertCow} />
-            <AddImage index={1} newCow={insertCow} />
+            <AddImage
+              index={0}
+              newCow={insertCow}
+              isUploadPhotos={isUploadPhotos}
+              setIsUploadPhotos={setIsUploadPhotos}
+            />
+            <AddImage
+              index={1}
+              newCow={insertCow}
+              isUploadPhotos={isUploadPhotos}
+              setIsUploadPhotos={setIsUploadPhotos}
+            />
             <TouchableOpacity
               onPress={() => {
                 console.log(JSON.stringify(insertCow, null, 3));
