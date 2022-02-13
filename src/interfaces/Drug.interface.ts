@@ -31,4 +31,5 @@ export interface IDrug {
   available: number;
   group: drugGroupEnum;
   activePrincipal?: string;
+  _id?: string;
 }

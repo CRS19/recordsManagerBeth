@@ -1,3 +1,4 @@
+import {ISanityRecord} from './../interfaces/SanityRecords';
 import {IDrug} from './../interfaces/Drug.interface';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IPrices} from './../interfaces/PricesInterface';
@@ -35,6 +36,7 @@ export const INITIAL_STATE: IAppState = {
   dailyProdRecordByDate: [],
   currentCowDailyRecord: [],
   drugs: undefined,
+  sanityRecord: undefined,
 };
 
 export interface IAppState {
@@ -54,6 +56,7 @@ export interface IAppState {
   dailyProdRecordByDate?: IDailyMilkRecord[];
   currentCowDailyRecord?: IDailyMilkRecord[];
   drugs?: IDrug[];
+  sanityRecord?: ISanityRecord;
 }
 
 export const reducer = (
@@ -140,6 +143,11 @@ export const reducer = (
       return {
         ...state,
         drugs: action.drugs,
+      };
+    case ActionTypes.SET_SANITY_RECORD:
+      return {
+        ...state,
+        sanityRecord: action.sanityRecord,
       };
     default:
       return state;

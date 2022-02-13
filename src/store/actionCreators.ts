@@ -24,6 +24,7 @@ import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 import {getJwt} from '../utils/AsyncStorageUtils';
+import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSanityRecordResponse';
 
 export type IAppAction = {
   type: string;
@@ -479,7 +480,15 @@ export const getRecordsByDate = (
       );
       dispatch(setDailyRecordsByDate(records.records));
     } catch (e) {
-      console.log(e);
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /daily-prod-record/obtenerRegistroPorFecha/${dateInTs} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al obtener los registros de producción',
+        `Hubo un error al conseguir el los registros de producción diaria por fecha`,
+      );
     }
   };
 };
@@ -579,6 +588,33 @@ export const deleteDrug = (
       Alert.alert(
         'Error al añadir nuevo farmaco',
         `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
+export const getSanityRecordById = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/get/${idVaca}`;
+
+    try {
+      console.log('DEBUG: get sanity enpoint called');
+      const axiosResponse = await axios.get<GetSanityRecordResponse>(path);
+
+      console.log(axiosResponse);
+    } catch (e) {
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /sanity-records/get${idVaca} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al obtener el registro de sanidad',
+        `Hubo un error al conseguir el registro de ${idVaca}`,
       );
     }
   };

@@ -6,6 +6,7 @@ import {
   getRecordsById,
   getReproductionRecord,
   getReproductorsList,
+  getSanityRecordById,
   setCow,
   setInsertNewCow,
 } from '../../../store/actionCreators';
@@ -27,6 +28,7 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
     //Agregar aqui la llamada de todos los registros
     dispatch(getReproductionRecord({idVaca}));
     dispatch(getRecordsById(props.idVaca));
+    dispatch(getSanityRecordById(props.idVaca));
     navigation.navigate('TabNavigatorCow');
     dispatch(getReproductorsList());
   };
