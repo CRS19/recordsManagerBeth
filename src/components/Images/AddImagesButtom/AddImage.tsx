@@ -10,10 +10,24 @@ import {
 import {useDispatch} from 'react-redux';
 import {setUploadImage} from '../../../store/actionCreators';
 import {ICow} from '../../../interfaces/CowInterface';
+import {
+  PhotoDirectory,
+  photoKeysEnum,
+} from '../../../constants/PhotosConstants';
 
 interface AddImageProps {
   index: number;
   newCow: ICow;
+  isUploadPhotos: {
+    phothoOne: Boolean;
+    phothoTwo: Boolean;
+  };
+  setIsUploadPhotos: React.Dispatch<
+    React.SetStateAction<{
+      phothoOne: Boolean;
+      phothoTwo: Boolean;
+    }>
+  >;
 }
 
 export const AddImage = (props: AddImageProps) => {
@@ -62,6 +76,10 @@ export const AddImage = (props: AddImageProps) => {
               console.log(JSON.stringify(resp, null, 3));
               setTempUri(resp.assets![0].uri!);
               dispatch(setUploadImage(resp, props.index, props.newCow));
+              props.setIsUploadPhotos({
+                ...props.isUploadPhotos,
+                [PhotoDirectory[`${props.index}` as photoKeysEnum]]: true,
+              });
             },
           )
         }></TouchableOpacity>
