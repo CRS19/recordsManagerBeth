@@ -102,7 +102,7 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
         />
         <ModalInput
           logo={<AgeFirstPart />}
-          label="EDAD"
+          label="EDAD PRIMER PARTO"
           property={ICowKeys.edadPrimerParto}
           initialValue={value}
           setValue={setValue}
@@ -120,19 +120,6 @@ export const GestacionInputCard = (props: IGestacionInputCard) => {
           errorText="Ingrese edad"
           error={form.current.edadPrimerParto}
           mask="[A][-----------------------------------------------------]"
-        />
-        <ModalInput
-          logo={<FechaUltimoPartoIcon />}
-          label="FECHA ULTIMO PARTO"
-          property={ICowKeys.fechaUltimoParto}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={false}
-          openModal={openDatePickerModal}
-          editable={!isSaved}
-          setPropertyFecha={setPropertyFecha}
-          errorText="Seleccione una fecha"
-          error={form.current.fechaUltimoParto}
         />
       </View>
       {!isSaved ? (

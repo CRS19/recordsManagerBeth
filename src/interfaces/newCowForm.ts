@@ -62,7 +62,6 @@ export interface IGestationForm {
   numeroDePartos: boolean;
   diasGestaciónPromedio: boolean;
   edadPrimerParto: boolean;
-  fechaUltimoParto: boolean;
 }
 
 export const initialFormGestation: IGestationForm = {
@@ -70,5 +69,4 @@ export const initialFormGestation: IGestationForm = {
   numeroDePartos: false,
   diasGestaciónPromedio: false,
   edadPrimerParto: false,
-  fechaUltimoParto: false,
 };
