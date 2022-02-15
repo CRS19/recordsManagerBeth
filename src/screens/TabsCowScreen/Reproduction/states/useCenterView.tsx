@@ -2,9 +2,11 @@ import {cloneDeep, isNil, set} from 'lodash';
 import {Dispatch, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {IDesteteIconButtonProps} from '../../../../components/Buttoms/DesteteIconButton';
 import {ISaveReproductionRecordButtomProps} from '../../../../components/Buttoms/SaveReproductionRecordButtom';
 import {IControlGinecologicoProps} from '../../../../components/ReproductionComponents/ControlGinecologico';
 import {IGeneralControlProps} from '../../../../components/ReproductionComponents/GeneralControl';
+import {ICow} from '../../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   Record,
@@ -13,15 +15,18 @@ import {
 } from '../../../../interfaces/ReproductionRecord';
 import {
   setIsUsingControlGinecologico,
+  updateDesteteCow,
   updateReproductionRecord,
 } from '../../../../store/actionCreators';
 import {recordSinTipo} from '../../../../utils/recordsTemplates/reproduction_template';
+import {getTimestamp} from '../../../../utils/time-utils';
 
 interface IUseCenterView {
   controlGinecologico: IControlGinecologicoProps;
   controlServicio: IGeneralControlProps;
   controlMonta: IGeneralControlProps;
   onSaveActions: ISaveReproductionRecordButtomProps;
+  DesteteActions: IDesteteIconButtonProps;
 }
 
 interface IUseCenterViewProps {
@@ -31,6 +36,7 @@ interface IUseCenterViewProps {
   selectedRecord: Record | undefined;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
   setIsOpenMontaMontaModal: Dispatch<React.SetStateAction<boolean>>;
+  cow: ICow;
 }
 
 export const useCenterView = ({
@@ -40,6 +46,7 @@ export const useCenterView = ({
   selectedRecord,
   setIsLoading,
   setIsOpenMontaMontaModal,
+  cow,
 }: IUseCenterViewProps): IUseCenterView => {
   const dispatch = useDispatch();
   const [existCurrentRecord, setExistCurrentRecord] = useState<boolean>(
@@ -127,6 +134,32 @@ export const useCenterView = ({
     );
   };
 
+  const onDestete = () => {
+    Alert.alert(
+      `¿Esta seguro de destetar al rumiante ${cow.idVaca}`,
+      `El destete se guardará con peso: ${cow.pesoActual}`,
+      [
+        {
+          text: 'NO',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'SI',
+          onPress: () => {
+            dispatch(
+              updateDesteteCow({
+                ...cow,
+                fechaDestete: getTimestamp(),
+                pesoAlDestete: cow.pesoActual,
+              }),
+            );
+          },
+        },
+      ],
+    );
+  };
+
   useEffect(() => {
     if (!isNil(selectedRecord)) {
       setIsChequeoBtnActive(false);
@@ -176,6 +209,9 @@ export const useCenterView = ({
     },
     onSaveActions: {
       onSave: onSaveCurrentRecord,
+    },
+    DesteteActions: {
+      onPress: onDestete,
     },
   };
 };

@@ -24,6 +24,7 @@ import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 import {getJwt} from '../utils/AsyncStorageUtils';
+import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
 
 export type IAppAction = {
   type: string;
@@ -151,6 +152,57 @@ export const setIsUsingControlGinecologico = (payload: boolean): IAppAction => {
   };
 };
 
+export const getMainRecordCowById = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    // dispatch(setIsLoading(true));
+    const path = `${API_BASE_PATH}/cow/getOne/${idVaca}`;
+
+    try {
+      const response = await axios.get<GetOneMainRecordResponse>(path);
+
+      const cowResoponse: GetOneMainRecordResponse = JSON.parse(
+        response.request._response,
+      );
+      console.log(JSON.stringify(cowResoponse.cow, null, 3));
+      dispatch(setCow(cowResoponse.cow));
+    } catch (e) {
+      // @ts-ignore
+      console.log(JSON.stringify(e, null, 3));
+      Alert.alert(
+        'Error al obtener registro master de rumiante',
+        `Posible error de conexión`,
+      );
+    } finally {
+      //   dispatch(setIsLoading(false));
+    }
+  };
+};
+
+export const updateDesteteCow = (
+  newCow: ICow,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/cow/updatedDestete`;
+
+    try {
+      const response = await axios.post(path, newCow);
+      console.log('respuesta de la actualización');
+      dispatch(setCow(response.data.updateResponse));
+    } catch (e) {
+      // @ts-ignore
+      console.log(JSON.stringify(e, null, 3));
+
+      Alert.alert('Error al ', `Posible error de conexión`);
+    }
+  };
+};
+
 export const insertNewCow = (
   payload: ICow,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
@@ -233,6 +285,7 @@ export const updateReproductionRecord = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    dispatch(setIsLoading(true));
     const pathToUpdate = `${API_BASE_PATH}/reproduction-register/updateOne`;
     const pathToGet = `${API_BASE_PATH}/reproduction-register/get/${payload.idVaca}`;
     try {
@@ -266,6 +319,8 @@ export const updateReproductionRecord = (
         'Error de base de datos',
         `no se ha podido ingresar el registro, revise su conexión a internet`,
       );
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 };

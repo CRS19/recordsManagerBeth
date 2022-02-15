@@ -3,13 +3,11 @@ import {Alert, AlertButton, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
-import {PrintQrButtom} from '../../../components/Buttoms/PrintQrButtom';
 import {SaveButtom} from '../../../components/Buttoms/SaveButtom';
 import {AddImage} from '../../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCard} from '../../../components/InputCard/GestacionInputCard';
 import {InputCard} from '../../../components/InputCard/InputCard';
 import {InputCardCaracteristics} from '../../../components/InputCard/InputCardCaracteristics';
-import {InputCardDestete} from '../../../components/InputCard/InputCardDestete';
 import {LactanciaInputCard} from '../../../components/InputCard/LactanciaInputCard';
 import {ChooseSexModal} from '../../../components/Modals/ChooseSexModal';
 import {DatePickerModal} from '../../../components/Modals/DatePickerModal';
@@ -58,8 +56,6 @@ export const MainRecord = () => {
   const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
   const [infoCardLactanciasFinish, setInfoCardLactanciasFinish] =
     useState<boolean>(false);
-  const [infoCardDesteteFinish, setInfoCardDesteteFinish] =
-    useState<boolean>(false);
   const [infoCardGestationFinish, setInfoCardGestationFinish] =
     useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
@@ -91,8 +87,7 @@ export const MainRecord = () => {
     return arePhotosUploaded === true &&
       infoCardFinish === true &&
       infoCardGestationFinish === true &&
-      infoCardLactanciasFinish === true &&
-      infoCardDesteteFinish === true
+      infoCardLactanciasFinish === true
       ? true
       : false;
   };
@@ -124,8 +119,7 @@ export const MainRecord = () => {
     } else {
       isUploadPhotos.phothoOne &&
       isUploadPhotos.phothoTwo &&
-      infoCardFinish === true &&
-      infoCardDesteteFinish === true
+      infoCardFinish === true
         ? SaveCow(idVaca)
         : showAlert(
             'Formulario Incompleto',
@@ -191,7 +185,6 @@ export const MainRecord = () => {
   const clearPage = () => {
     setInfoCardFinish(false);
     setInfoCardLactanciasFinish(false);
-    setInfoCardDesteteFinish(false);
     setInfoCardGestationFinish(false);
     setInsertCow(emptyCow);
   };
@@ -206,10 +199,7 @@ export const MainRecord = () => {
   const onSaveCaracteristics = () => {
     dispatch(setNewCow(insertCow));
   };
-  const onSaveDestete = () => {
-    console.log('guardar caracteristicas :C');
-    setInfoCardDesteteFinish(true);
-  };
+
   const onSaveLactancia = () => {
     console.log('guardar lactancia');
     setInfoCardLactanciasFinish(true);
@@ -355,23 +345,6 @@ export const MainRecord = () => {
                         isInsert={true}
                       />
                     </View>
-                    <View
-                      style={{
-                        backgroundColor: '#3205AF',
-                        width: 337,
-                        height: 188,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardDestete
-                        value={insertCow}
-                        openDatePickerModal={setOpenDatePickModal}
-                        setValue={setInsertCow}
-                        onSave={onSaveDestete}
-                        isSaved={infoCardDesteteFinish}
-                        setPropertyFecha={setPropertyFecha}
-                      />
-                    </View>
 
                     {insertCow.sexo === 'HEMBRA' ? (
                       <View
@@ -395,7 +368,7 @@ export const MainRecord = () => {
                     ) : (
                       <View />
                     )}
-                    <View style={{height: 200, width: 300}} />
+                    <View style={{height: 400, width: 300}} />
                   </View>
                 </View>
               </View>

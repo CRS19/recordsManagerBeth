@@ -110,37 +110,40 @@ export const Reproduction = () => {
               }}
               enableSwipeMonths={true}
             />
-
-            <View style={{marginTop: 6}}>
-              <RegisterList
-                title={'Registro de chequeo general'}
-                record={recordToUpdate}
-                recordsList={recordsSplited[2]}
-                recordType={RecordReproductionType.GENERAL}
-                selectedRecord={selectedRecord!}
-                onSelectCurrentRecord={onSelectCurrentRecord}
-              />
-            </View>
-            <View style={{marginTop: 3}}>
-              <RegisterList
-                title={'Registro de aprto'}
-                record={recordToUpdate}
-                recordsList={recordsSplited[0]}
-                recordType={RecordReproductionType.PARTO}
-                selectedRecord={selectedRecord!}
-                onSelectCurrentRecord={onSelectCurrentRecord}
-              />
-            </View>
-            <View style={{marginTop: 3}}>
-              <RegisterList
-                title={'Registro de aborto'}
-                record={recordToUpdate}
-                recordsList={recordsSplited[1]}
-                recordType={RecordReproductionType.ABORTO}
-                selectedRecord={selectedRecord!}
-                onSelectCurrentRecord={onSelectCurrentRecord}
-              />
-            </View>
+            {cow.sexo === 'HEMBRA' && (
+              <View>
+                <View style={{marginTop: 25}}>
+                  <RegisterList
+                    title={'Registro de chequeo general'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[2]}
+                    recordType={RecordReproductionType.GENERAL}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+                <View style={{marginTop: 3}}>
+                  <RegisterList
+                    title={'Registro de parto'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[0]}
+                    recordType={RecordReproductionType.PARTO}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+                <View style={{marginTop: 3}}>
+                  <RegisterList
+                    title={'Registro de aborto'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[1]}
+                    recordType={RecordReproductionType.ABORTO}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+              </View>
+            )}
           </View>
           {/** CENTER **/}
           <ScrollView>
@@ -235,7 +238,9 @@ export const Reproduction = () => {
                     }}
                   />
                 </View>
-                <ReproductionInfoCard record={recordToUpdate} />
+                {cow.sexo === 'HEMBRA' && (
+                  <ReproductionInfoCard record={recordToUpdate} />
+                )}
                 <View style={{height: 200}} />
               </View>
             </ScrollView>
