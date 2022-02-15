@@ -1,13 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {IReproductionRecord} from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
 import {InputBlock} from '../CustomInput/InputBlock';
 import moment from 'moment';
 import {cloneDeep, get, set} from 'lodash';
-import {updateReproductionRecord} from '../../store/actionCreators';
+import {
+  getMainRecordCowById,
+  updateReproductionRecord,
+} from '../../store/actionCreators';
+import {LoadingModal} from '../Modals/LoadingModal';
+import {IAppState} from '../../store/reducer';
 
 export interface IPesoControlProps {
   record: IReproductionRecord;
@@ -16,6 +21,7 @@ export interface IPesoControlProps {
 
 export const PesoControl = ({record, currentPeso}: IPesoControlProps) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state: IAppState) => state.isLoading!);
   const [peso, setPeso] = useState<string>(`${currentPeso}`);
 
   const updatePeso = () => {
@@ -27,8 +33,13 @@ export const PesoControl = ({record, currentPeso}: IPesoControlProps) => {
       peso: Number(peso),
       timestamp: moment.now(),
     });
+
     dispatch(updateReproductionRecord(recordToUpdate));
   };
+
+  useEffect(() => {
+    dispatch(getMainRecordCowById(record.idVaca));
+  }, [record.historicalDataToPlot]);
 
   return (
     <View style={{alignItems: 'center', marginHorizontal: 20}}>
@@ -51,6 +62,7 @@ export const PesoControl = ({record, currentPeso}: IPesoControlProps) => {
           <BorderButtom title="Modificar" onPress={updatePeso} />
         </View>
       </View>
+      <LoadingModal title="Actualizando peso..." openCloseModal={isLoading} />
     </View>
   );
 };

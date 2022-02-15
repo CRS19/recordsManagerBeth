@@ -25,6 +25,7 @@ import {SaveReproductionRecordButtom} from '../../../components/Buttoms/SaveRepr
 import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
 import {ReproductionRecordCard} from '../../../components/ReproductionComponents/ReproductionRecordCard';
 import {FillButton} from '../../../components/Buttoms/FillButton';
+import {DesteteIconButton} from '../../../components/Buttoms/DesteteIconButton';
 
 export interface CenterViewReproductionProps {
   cow: ICow;
@@ -53,15 +54,21 @@ export const CenterView = ({
   setIsOpenMontaMontaModal,
   setIsLoading,
 }: CenterViewReproductionProps) => {
-  const {controlGinecologico, controlServicio, controlMonta, onSaveActions} =
-    useCenterView({
-      openCloseIaModal,
-      currentRecordSinType: currentRecord,
-      record,
-      selectedRecord,
-      setIsLoading,
-      setIsOpenMontaMontaModal,
-    });
+  const {
+    controlGinecologico,
+    controlServicio,
+    controlMonta,
+    onSaveActions,
+    DesteteActions,
+  } = useCenterView({
+    openCloseIaModal,
+    currentRecordSinType: currentRecord,
+    record,
+    selectedRecord,
+    setIsLoading,
+    setIsOpenMontaMontaModal,
+    cow,
+  });
 
   const labelChipProps = {
     name: cow.nombre,
@@ -74,21 +81,28 @@ export const CenterView = ({
     isInsertComponent: true,
   };
 
+  const hembraView = cow.sexo === 'HEMBRA';
+
   return (
     <View>
-      <LabelIconChip {...labelChipProps} />
+      <View style={{flexDirection: 'row'}}>
+        <LabelIconChip {...labelChipProps} />
+        <DesteteIconButton {...DesteteActions} />
+      </View>
       <View style={{flexDirection: 'row'}}>
         <View style={{flexDirection: 'row'}}></View>
-        <ControlGinecologico {...controlGinecologico} />
+        {hembraView && <ControlGinecologico {...controlGinecologico} />}
         {/**  colocar las funciones apra cambiar el peso **/}
-        <PesoControl
-          record={record}
-          currentPeso={get(
-            record.historicoPeso![record.historicoPeso!.length - 1],
-            'peso',
-            0,
-          )}
-        />
+        <View style={{left: hembraView ? 0 : 120}}>
+          <PesoControl
+            record={record}
+            currentPeso={get(
+              record.historicoPeso![record.historicoPeso!.length - 1],
+              'peso',
+              0,
+            )}
+          />
+        </View>
       </View>
       {/**  Elementos renderizados dependiendo de los botones ginecologicos **/}
       <View style={{alignItems: 'flex-start'}}>
