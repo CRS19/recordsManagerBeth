@@ -44,8 +44,6 @@ export const TwoFieldModal = (props: ITwoFieldModal) => {
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
-  // @ts-ignore
-  const ref2 = createRef<TextInput>();
   const {width, height} = useWindowDimensions();
 
   useEffect(() => {
@@ -123,21 +121,11 @@ export const TwoFieldModal = (props: ITwoFieldModal) => {
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"
                   underlineColor="#2B9336"
-                  ref={ref2}
+                  onChangeText={text => setParentArete(text)}
                   theme={{
                     colors: {primary: '#2B9336'},
                   }}
                   keyboardType="decimal-pad"
-                  render={props => (
-                    <TextInputMask
-                      {...props}
-                      ref={ref2}
-                      mask="[000000]"
-                      onChangeText={(text, text2) => {
-                        setParentArete(text2!);
-                      }}
-                    />
-                  )}
                 />
                 <BorderButtom
                   title="Guardar"
