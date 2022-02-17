@@ -8,12 +8,14 @@ import {IAppState} from '../../../store/reducer';
 import {getCowsResponse} from '../../../interfaces/getCowsResponse';
 import {ICow} from '../../../interfaces/CowInterface';
 import {Alert} from 'react-native';
+import {isEmpty} from 'lodash';
 
 interface IUseIndividualRecords {
   precioCarne: number;
   precioLeche: number;
   isLoading: boolean;
   endList: boolean;
+  refresh: boolean;
   cowList: ICow[];
   guardarPrecioCarne: (value: number) => void;
   guardarPrecioLeche: (value: number) => void;
@@ -23,6 +25,7 @@ interface IUseIndividualRecords {
   setOpenCloseModalCarne: Dispatch<SetStateAction<boolean>>;
   setOpenCloseModalLeche: Dispatch<SetStateAction<boolean>>;
   printState: () => void;
+  onRefresh: () => void;
 }
 
 export const useIndividualRecords = (): IUseIndividualRecords => {
@@ -49,12 +52,14 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
 
       if (page.current != data.next) {
         page.current = data.next;
+        setEndList(false);
       } else {
         setEndList(true);
       }
 
       setCowList([...cowList, ...data.cows]);
       setIsLoading(false);
+      setRefresh(false);
     } catch (e) {
       // @ts-ignore
       console.log(e.response);
@@ -63,6 +68,7 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
         'Ocurrio un error al cargar la información!',
       );
       setIsLoading(false);
+      setRefresh(false);
     }
   };
 
@@ -94,11 +100,25 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
     console.log(price);
   };
 
+  const onRefresh = () => {
+    setRefresh(true);
+    setEndList(false);
+    page.current = '1';
+    setCowList([]);
+  };
+
+  useEffect(() => {
+    if (isEmpty(cowList) && refresh) {
+      loadCows();
+    }
+  }, [cowList]);
+
   return {
     precioCarne,
     precioLeche,
     cowList,
     isLoading,
+    refresh,
     loadCows,
     endList,
     guardarPrecioCarne,
@@ -108,5 +128,6 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
     setOpenCloseModalLeche,
     guardarPrecioLeche,
     printState,
+    onRefresh,
   };
 };

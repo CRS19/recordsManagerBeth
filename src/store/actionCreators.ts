@@ -1,3 +1,4 @@
+import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
 import {API_BASE_PATH} from './../env/environment';
@@ -26,6 +27,7 @@ import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 import {getJwt} from '../utils/AsyncStorageUtils';
 import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSanityRecordResponse';
 import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
+import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
 
 export type IAppAction = {
   type: string;
@@ -328,6 +330,7 @@ export const updateReproductionRecord = (
 
 export const createReproductionRecord = (payload: {
   idVaca: string;
+  pesoNacimiento: number;
 }): ThunkAction<void, IAppState, undefined, IAppAction> => {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
@@ -341,6 +344,9 @@ export const createReproductionRecord = (payload: {
 
     try {
       set(reproductionTemplate, 'idVaca', payload.idVaca);
+      set(reproductionTemplate, 'historicoPeso', [
+        {peso: payload.pesoNacimiento, timestamp: getTimestamp()},
+      ]);
       const resposne = await axios.post(path, reproductionTemplate);
       console.log('INFO: registro de reproducción creado exitosamente');
     } catch (e) {
@@ -643,6 +649,32 @@ export const deleteDrug = (
       Alert.alert(
         'Error al añadir nuevo farmaco',
         `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
+export const createSanityRecord = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/create/${idVaca}`;
+
+    try {
+      const response = await axios.post<ICreateSanityRecordResponse>(path);
+
+      console.log(response.data);
+    } catch (e) {
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /sanity-records/create${idVaca} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al crear registro de sanidad',
+        `Hubo un error al crear el registro de ${idVaca}`,
       );
     }
   };

@@ -87,7 +87,7 @@ export const CenterView = ({
     <View>
       <View style={{flexDirection: 'row'}}>
         <LabelIconChip {...labelChipProps} />
-        <DesteteIconButton {...DesteteActions} />
+        {cow.pesoAlDestete === 0 && <DesteteIconButton {...DesteteActions} />}
       </View>
       <View style={{flexDirection: 'row'}}>
         <View style={{flexDirection: 'row'}}></View>
