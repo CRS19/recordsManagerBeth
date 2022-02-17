@@ -377,7 +377,7 @@ export const styles = StyleSheet.create({
   },
   RigthAdditionalTabContainer: {
     flex: 1,
-    backgroundColor: 'blue',
+    alignItems: 'center',
   },
   RegisterTitleGeneric: {
     fontFamily: 'Roboto',
@@ -492,8 +492,8 @@ export const styles = StyleSheet.create({
   },
   ListRecordButtom: {
     backgroundColor: 'red',
-    width: 56,
-    height: 56,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
@@ -513,5 +513,83 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start', // ajusta el witdh dependiendo del contenido
     height: 52,
     borderRadius: 16,
+  },
+  PalpationCardContainer: {
+    marginVertical: 10,
+    width: 341,
+    height: 168,
+    backgroundColor: '#03DAC5',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 5,
+  },
+  LabelNumberContainer: {
+    position: 'absolute',
+    right: 2,
+    top: 5,
+    width: 56,
+    height: 56,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ReproductionMainViewContainer: {
+    width: 316,
+    paddingBottom: 30,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    elevation: 5,
+  },
+  ReproductionMainItem: {
+    marginTop: 10,
+    marginLeft: 20,
+  },
+  SaveReproRecordContainer: {
+    position: 'absolute',
+    right: 120,
+    top: 10,
+    width: 22.5,
+    height: 21,
+  },
+  ErrorMarginBtnContainer: {
+    backgroundColor: '#BCE1FF',
+    width: 282,
+    height: 146,
+  },
+  ErrorMarginTitleBox: {
+    marginTop: 25,
+    marginLeft: 17,
+    flexDirection: 'row',
+  },
+  ErrorMarginInput: {
+    marginTop: 15,
+    marginLeft: 10,
+  },
+  DailyMilkRow: {
+    width: 80,
+    height: 60,
+    borderRightWidth: 0,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  IndividualProdRecordContainer: {
+    height: 332,
+    width: 374,
+    backgroundColor: 'white',
+    marginLeft: 20,
+    marginTop: 5,
+    elevation: 20,
+  },
+  IndividualProdRecordView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    paddingHorizontal: 30,
   },
 });

@@ -1,3 +1,4 @@
+import {StackScreenProps} from '@react-navigation/stack';
 import React, {useRef, useState} from 'react';
 import {
   Text,
@@ -14,12 +15,14 @@ import {ImageCardLogin} from '../../components/ImageCardLogin';
 import {styles} from '../../theme/GlobalStyles';
 import {useLogIn} from './state/useLogIn';
 
-export const LogIn = () => {
+export interface IUseLogInProps extends StackScreenProps<any, any> {}
+
+export const LogIn = ({navigation}: IUseLogInProps) => {
   const {width} = useWindowDimensions();
   let imagenes = ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd'];
   const refFlat = useRef<any>(null);
 
-  const {username, password, setPassword, setUsername, validar} = useLogIn();
+  const {mail, password, setPassword, setMail, validar} = useLogIn(navigation);
   // FALTA CONSUMIER ENDPOINTS PARA VALIDAR CORRECTAMENTE EL LOGIN
   return (
     <KeyboardAvoidingView
@@ -50,8 +53,8 @@ export const LogIn = () => {
                 <TextInput
                   style={{width: 454, marginTop: 88, elevation: 20}}
                   label="Usuario"
-                  value={username}
-                  onChangeText={text => setUsername(text)}
+                  value={mail}
+                  onChangeText={text => setMail(text)}
                   mode="outlined"
                   outlineColor="#2B9336"
                   selectionColor="#2B9336"

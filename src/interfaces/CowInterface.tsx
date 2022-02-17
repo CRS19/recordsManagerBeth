@@ -25,7 +25,7 @@ export enum estadoReproductivo {
   ABORTO = 'Aborto',
   VACIA = 'Vacia',
   PRENADA = 'Preñada',
-  Recentina = 'Recentina',
+  PRECENTINA = 'PRECENTINA',
   SECA = 'Seca',
   TERNERO = 'Ternero',
   REPRODUCTOR = 'Reproductor',
@@ -51,9 +51,10 @@ export type estadoProductivoType =
   | 'Vaca con alta producción'
   | 'Vaca con media producción'
   | 'Vaca con baja producción'
-  | 'Novilla no lactante'
+  | 'Novilla no lactante' // es el animal de 0 dias de nacido hasta el momento de inseminacion
   | 'Reproductor'
   | 'Descarte'
+  | 'Seca'
   | '';
 
 export type estadoReproductivoType =
@@ -129,6 +130,9 @@ export interface vacaInfo {
   duraciónLactanciaPromedio: number; // vaca
   produccionPromedioLactancias: number; // vaca
   diasSecosTotales: number; // vaca
+  productiva: boolean; // Campo usado para ver cuales vacas estan en el listado al momento de coger la leche todos días si esta cuando se registra un parto!,
+  // Esta en producción si llega a pasar 8 meses de gestacín
+  // el boton secar(buscar ese boton) es para cambiar este estado a Falso
 }
 
 export interface toroInfo {

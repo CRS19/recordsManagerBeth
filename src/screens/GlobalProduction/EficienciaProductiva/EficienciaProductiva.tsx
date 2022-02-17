@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-export const MilkDailyRegister = () => {
+export const EficienciaProductiva = () => {
   return (
     <View>
-      <Text>Registro de leche diario</Text>
+      <Text>pantalla de Eficiencia Productiva</Text>
     </View>
   );
 };

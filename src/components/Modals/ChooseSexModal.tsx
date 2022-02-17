@@ -4,15 +4,12 @@ import {
   Modal,
   Text,
   TouchableOpacity,
-  Button,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {orange100} from 'react-native-paper/lib/typescript/styles/colors';
 import {LogoHembra} from '../../assets/LogoHembra';
 import {LogoMacho} from '../../assets/LogoMacho';
 import {ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
-import {CowCardSkeleton} from '../Skeletons/CowCardSkeleton';
 
 interface IChooseSexModal {
   openCloseModal: boolean;

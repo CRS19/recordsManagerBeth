@@ -7,6 +7,24 @@ export interface IdentificationCardInputForm {
   pesoNacimiento: boolean;
 }
 
+export interface INewDrugForm {
+  expDate: boolean;
+  name: boolean;
+  presentationForm: boolean;
+  unitTye: boolean;
+  amount: boolean;
+  unitContent: boolean;
+}
+
+export const initialNewDrugForm: INewDrugForm = {
+  expDate: false,
+  name: false,
+  presentationForm: false,
+  unitTye: false,
+  amount: false,
+  unitContent: false,
+};
+
 export const initialForm: IdentificationCardInputForm = {
   sexo: false,
   nombre: false,
@@ -44,7 +62,6 @@ export interface IGestationForm {
   numeroDePartos: boolean;
   diasGestaciónPromedio: boolean;
   edadPrimerParto: boolean;
-  fechaUltimoParto: boolean;
 }
 
 export const initialFormGestation: IGestationForm = {
@@ -52,5 +69,4 @@ export const initialFormGestation: IGestationForm = {
   numeroDePartos: false,
   diasGestaciónPromedio: false,
   edadPrimerParto: false,
-  fechaUltimoParto: false,
 };

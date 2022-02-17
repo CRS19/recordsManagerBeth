@@ -9,6 +9,8 @@ import {CowCardFooterInfo} from './CowCardFooterInfo';
 import {useCowCardInfo} from './state/useCowCardInfo';
 import {get} from 'lodash';
 import {API_BASE_PATH} from '../../env/environment';
+import {getDateOfDay} from '../../utils/time-utils';
+import {useGetOld} from '../../utils/useGetOld';
 
 interface ICowCardInfo {
   default?: boolean;
@@ -19,6 +21,9 @@ export const CowCardInfo = (props: ICowCardInfo) => {
   console.log('OPTIMIZATION: CowCard rendered');
   const isDefaultCard = get(props, 'default', false);
   const {openCowNavigation, openInsertNewCow} = useCowCardInfo(props.cow);
+  const {edadAños, edadMesesA} = useGetOld({
+    birtdayTiemstamp: get(props.cow, 'fechaDeNacimiento', 0),
+  });
 
   const getProductionColor = (
     estadoProductivo: estadoProductivoType,
@@ -149,7 +154,8 @@ export const CowCardInfo = (props: ICowCardInfo) => {
               isDefault={false}
               title="Edad"
               color={color}
-              data={props.cow?.fechaDeNacimiento}
+              data={`${edadAños} Años-${edadMesesA} Meses`}
+              fontSize={15}
             />
             <CowCardFooterInfo
               isDefault={false}

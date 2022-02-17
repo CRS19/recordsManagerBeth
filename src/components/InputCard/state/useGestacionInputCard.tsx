@@ -62,20 +62,10 @@ export const useGestacionInputCard = (
     }
   };
 
-  const fechaUltimoParto = () => {
-    if (value.vacaInfo?.fechaUltimoParto === 1597439118000) {
-      form.current = {...form.current, fechaUltimoParto: true};
-    } else {
-      form.current = {...form.current, fechaUltimoParto: false};
-      setIsValidForm(true);
-    }
-  };
-
   const validateForm = () => {
     validationNumPartos();
     validationNumAbortos();
     validationDiasGestationProm();
-    fechaUltimoParto();
     edadPrimerParto();
 
     forceRender();

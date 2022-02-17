@@ -9,7 +9,7 @@ import {GestacionInputCardView} from '../../../components/InputCard/GestacionInp
 import {InputCardCaracteristicsView} from '../../../components/InputCard/InputCardCaracteristicsView';
 import {InputCardDesteteView} from '../../../components/InputCard/InputCardDesteteView';
 import {InputCardView} from '../../../components/InputCard/InputCardView';
-
+import {defaultTo} from 'lodash';
 import {LactanciaInputCardView} from '../../../components/InputCard/LactanciaInputCardView';
 import {InputPeso} from '../../../components/PesoHistory/InputPeso';
 import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
@@ -51,7 +51,7 @@ export const MainRecordView = () => {
               }}
               source={{
                 uri: `${API_BASE_PATH}/cow/getImage/${
-                  currentCow.imagenPath[0].split('/')[2]
+                  defaultTo(currentCow.imagenPath[0], 'a/').split('/')[2]
                 }`,
               }}
             />
@@ -64,7 +64,7 @@ export const MainRecordView = () => {
               }}
               source={{
                 uri: `${API_BASE_PATH}/cow/getImage/${
-                  currentCow.imagenPath[1].split('/')[2]
+                  defaultTo(currentCow.imagenPath[1], 'a/').split('/')[2]
                 }`,
               }}
             />
@@ -144,15 +144,20 @@ export const MainRecordView = () => {
                         isInsert={false}
                       />
                     </View>
-                    <View
-                      style={{
-                        backgroundColor: '#3205AF',
-                        width: 337,
-                        height: 188,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardDesteteView value={currentCow} />
+
+                    <View>
+                      {currentCow.pesoAlDestete !== 0 && (
+                        <View
+                          style={{
+                            backgroundColor: '#3205AF',
+                            width: 337,
+                            height: 188,
+                            marginLeft: 40,
+                            marginBottom: 20,
+                          }}>
+                          <InputCardDesteteView value={currentCow} />
+                        </View>
+                      )}
                     </View>
 
                     {currentCow.sexo.toUpperCase() === 'HEMBRA' ? (
@@ -177,7 +182,7 @@ export const MainRecordView = () => {
                     ) : (
                       <View />
                     )}
-                    <View style={{height: 200, width: 300}} />
+                    <View style={{height: 400, width: 300}} />
                   </View>
                 </View>
               </View>

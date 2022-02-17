@@ -7,7 +7,7 @@ export const emptyCow: ICow = {
   numeroDeArete: '',
   fechaDeNacimiento: 1597439118000,
   raza: '',
-  pesoNacimiento: 0,
+  pesoNacimiento: 999,
   categoria: 'Ternera',
   valorDelBovino: 123,
   nombreDeMadre: 'Elina',
@@ -38,6 +38,7 @@ export const emptyCow: ICow = {
     duraciónLactanciaPromedio: 999, // vaca
     produccionPromedioLactancias: 999, // vaca
     diasSecosTotales: 999, // vaca
+    productiva: false,
   },
   toroInfo: {
     numeroHijos: 0, // toro
@@ -85,6 +86,7 @@ export const vaca0: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
@@ -128,6 +130,7 @@ export const vaca1: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/FQ8Yzq4.png'],
 };
@@ -170,6 +173,7 @@ export const vaca2: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
@@ -212,6 +216,7 @@ export const vaca3: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
@@ -253,6 +258,7 @@ export const vaca4: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
@@ -294,6 +300,7 @@ export const vaca5: ICow = {
     duraciónLactanciaPromedio: 4, // vaca
     produccionPromedioLactancias: 15, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png'],
 };
@@ -336,6 +343,7 @@ export const vaca6: ICow = {
     duraciónLactanciaPromedio: 0, // vaca
     produccionPromedioLactancias: 0, // vaca
     diasSecosTotales: 0, // vaca
+    productiva: false,
   },
   imagenPath: ['https://i.imgur.com/nFhPmoo.png', ''],
 };

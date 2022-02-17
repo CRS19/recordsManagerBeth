@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, AlertButton, Text, TouchableOpacity, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
-import {PrintQrButtom} from '../../../components/Buttoms/PrintQrButtom';
 import {SaveButtom} from '../../../components/Buttoms/SaveButtom';
 import {AddImage} from '../../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCard} from '../../../components/InputCard/GestacionInputCard';
 import {InputCard} from '../../../components/InputCard/InputCard';
 import {InputCardCaracteristics} from '../../../components/InputCard/InputCardCaracteristics';
-import {InputCardDestete} from '../../../components/InputCard/InputCardDestete';
 import {LactanciaInputCard} from '../../../components/InputCard/LactanciaInputCard';
 import {ChooseSexModal} from '../../../components/Modals/ChooseSexModal';
 import {DatePickerModal} from '../../../components/Modals/DatePickerModal';
@@ -26,21 +24,29 @@ import {
   createReproductionRecord,
   insertNewCow,
   setCow,
+  setInsertNewCow,
+  setIsNewborn,
   setNewCow,
+  updateReproductionRecord,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
-import {isEmpty} from 'lodash';
+import {cloneDeep, isEmpty, set} from 'lodash';
 import {useNavigation} from '@react-navigation/core';
+import {LoadingModal} from '../../../components/Modals/LoadingModal';
+import {useTime} from '../../../custom/useTime';
+import {RecordReproductionType} from '../../../interfaces/ReproductionRecord';
+import DatePicker from 'react-native-date-picker';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
   const navigation = useNavigation();
+  const {getEcuatorTimestamp} = useTime();
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
-  const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
-  console.log(JSON.stringify(currentCow, null, 3));
+  const isNewBorn = useSelector((state: IAppState) => state.isNewBorn!);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
   const [openMomDataModal, setOpenMomDataModal] = useState<boolean>(false);
@@ -49,16 +55,22 @@ export const MainRecord = () => {
   const [infoCardFinish, setInfoCardFinish] = useState<boolean>(false);
   const [infoCardLactanciasFinish, setInfoCardLactanciasFinish] =
     useState<boolean>(false);
-  const [infoCardDesteteFinish, setInfoCardDesteteFinish] =
-    useState<boolean>(false);
   const [infoCardGestationFinish, setInfoCardGestationFinish] =
     useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
     ICowKeys.fechaDeNacimiento,
   );
+  const reproductionRecord = useSelector(
+    (state: IAppState) => state.reproductionRecord!,
+  );
   // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
   const [hasMomDad, setHasMomDad] = useState<boolean>(false);
   const [validInfoCard, setValidInfoCard] = useState<boolean>(false);
+
+  const [isUploadPhotos, setIsUploadPhotos] = useState<{
+    phothoOne: Boolean;
+    phothoTwo: Boolean;
+  }>({phothoOne: false, phothoTwo: false});
 
   const [openRazaPickerModal, setOpenRazaPickerModal] =
     useState<boolean>(false);
@@ -68,10 +80,13 @@ export const MainRecord = () => {
   };
 
   const verifyFormCompleted = () => {
-    return infoCardFinish === true &&
+    const arePhotosUploaded =
+      isUploadPhotos.phothoOne && isUploadPhotos.phothoTwo;
+
+    return arePhotosUploaded === true &&
+      infoCardFinish === true &&
       infoCardGestationFinish === true &&
-      infoCardLactanciasFinish === true &&
-      infoCardDesteteFinish === true
+      infoCardLactanciasFinish === true
       ? true
       : false;
   };
@@ -92,7 +107,6 @@ export const MainRecord = () => {
     }`;
     if (insertCow.sexo === 'HEMBRA') {
       if (verifyFormCompleted()) {
-        console.log('INSERTAR: ', insertCow);
         SaveCow(idVaca);
       } else {
         showAlert(
@@ -101,7 +115,9 @@ export const MainRecord = () => {
         );
       }
     } else {
-      infoCardFinish === true && infoCardDesteteFinish === true
+      isUploadPhotos.phothoOne &&
+      isUploadPhotos.phothoTwo &&
+      infoCardFinish === true
         ? SaveCow(idVaca)
         : showAlert(
             'Formulario Incompleto',
@@ -110,21 +126,49 @@ export const MainRecord = () => {
     }
   };
 
+  const finishMotherReproductionRecord = () => {
+    const record = cloneDeep(reproductionRecord);
+    set(
+      record.records[record.records.length - 1],
+      'nombreYNumeroDeLaCria',
+      `${insertCow.nombre.toLowerCase()}-${insertCow.numeroDeArete}`,
+    );
+    set(
+      record.records[record.records.length - 1],
+      'pesoDeLaCria',
+      `${insertCow.pesoNacimiento}`,
+    );
+    set(
+      record.records[record.records.length - 1],
+      'recordType',
+      RecordReproductionType.PARTO,
+    );
+
+    dispatch(updateReproductionRecord(record));
+  };
+
   const SaveCow = (idVaca: string) => {
     //Agregar aquí la creación de los demas regístros
+    setIsLoading(true);
     dispatch(insertNewCow(insertCow));
     dispatch(
       createReproductionRecord({
         idVaca,
       }),
     );
+    if (isNewBorn) finishMotherReproductionRecord();
+    dispatch(setIsNewborn(false));
+    setIsLoading(false);
     showAlert(
       `Animal: ${idVaca} ingresado exitosamente`,
       '¿Desea ingresar un nuevo animal?',
       [
         {
           text: 'No',
-          onPress: () => navigation.goBack(),
+          onPress: () => {
+            dispatch(setInsertNewCow(false));
+            navigation.goBack();
+          },
           style: 'cancel',
         },
         {
@@ -139,7 +183,6 @@ export const MainRecord = () => {
   const clearPage = () => {
     setInfoCardFinish(false);
     setInfoCardLactanciasFinish(false);
-    setInfoCardDesteteFinish(false);
     setInfoCardGestationFinish(false);
     setInsertCow(emptyCow);
   };
@@ -154,10 +197,7 @@ export const MainRecord = () => {
   const onSaveCaracteristics = () => {
     dispatch(setNewCow(insertCow));
   };
-  const onSaveDestete = () => {
-    console.log('guardar caracteristicas :C');
-    setInfoCardDesteteFinish(true);
-  };
+
   const onSaveLactancia = () => {
     console.log('guardar lactancia');
     setInfoCardLactanciasFinish(true);
@@ -167,6 +207,31 @@ export const MainRecord = () => {
     setInfoCardGestationFinish(true);
   };
 
+  useEffect(() => {
+    if (isNewBorn) {
+      const updateCow = cloneDeep(insertCow);
+
+      const nombreMadreArete = reproductionRecord.idVaca.split('-');
+      const nombrePadreArete =
+        reproductionRecord.records[
+          reproductionRecord.records.length - 1
+        ].idReproductor.split('-');
+
+      set(updateCow, 'nombreDeMadre', nombreMadreArete[0]);
+      set(updateCow, 'numeroAreteMadre', nombreMadreArete[1]);
+      set(updateCow, 'nombreDePadre', nombrePadreArete[0]);
+      set(updateCow, 'numeroAretePadre', nombrePadreArete[1]);
+      set(updateCow, 'fechaDeNacimiento', getEcuatorTimestamp());
+
+      setInsertCow(updateCow);
+    }
+  }, [isNewBorn]);
+
+  useEffect(() => {
+    setOpenDatePickModal(false);
+  });
+
+  console.log('DEBUG: Open date picker modal -> ', openDatePickModal);
   return (
     <View style={{flexDirection: 'column'}}>
       <TopBar
@@ -178,8 +243,18 @@ export const MainRecord = () => {
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
           <View style={styles.LeftGenericTabContainer}>
-            <AddImage index={0} newCow={insertCow} />
-            <AddImage index={1} newCow={insertCow} />
+            <AddImage
+              index={0}
+              newCow={insertCow}
+              isUploadPhotos={isUploadPhotos}
+              setIsUploadPhotos={setIsUploadPhotos}
+            />
+            <AddImage
+              index={1}
+              newCow={insertCow}
+              isUploadPhotos={isUploadPhotos}
+              setIsUploadPhotos={setIsUploadPhotos}
+            />
             <TouchableOpacity
               onPress={() => {
                 console.log(JSON.stringify(insertCow, null, 3));
@@ -191,10 +266,8 @@ export const MainRecord = () => {
 
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
-              <View style={{alignItems: 'center'}}>
-                <Text>hola como ess</Text>
+              <View style={{alignItems: 'center', marginRight: 25}}>
                 <DescarteBottom />
-                <PrintQrButtom />
                 <SaveButtom onPress={saveNewCow} />
               </View>
               <View>
@@ -275,23 +348,6 @@ export const MainRecord = () => {
                         isInsert={true}
                       />
                     </View>
-                    <View
-                      style={{
-                        backgroundColor: '#3205AF',
-                        width: 337,
-                        height: 188,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardDestete
-                        value={insertCow}
-                        openDatePickerModal={setOpenDatePickModal}
-                        setValue={setInsertCow}
-                        onSave={onSaveDestete}
-                        isSaved={infoCardDesteteFinish}
-                        setPropertyFecha={setPropertyFecha}
-                      />
-                    </View>
 
                     {insertCow.sexo === 'HEMBRA' ? (
                       <View
@@ -315,7 +371,7 @@ export const MainRecord = () => {
                     ) : (
                       <View />
                     )}
-                    <View style={{height: 200, width: 300}} />
+                    <View style={{height: 400, width: 300}} />
                   </View>
                 </View>
               </View>
@@ -331,7 +387,7 @@ export const MainRecord = () => {
       />
       <DatePickerModal
         title={'SELECCIONE FECHA DE NACIMIENTO'}
-        openCloseModal={openDatePickModal}
+        openCloseModal={false}
         onCloseModal={() => {}}
         setOpenCloseModal={setOpenDatePickModal}
         cow={insertCow}
@@ -375,6 +431,26 @@ export const MainRecord = () => {
         cow={insertCow}
         setProperty={setInsertCow}
       />
+      {openDatePickModal && (
+        <DatePicker
+          modal
+          title={'SELECCIONE FECHA DE NACIMIENTO'}
+          date={new Date()}
+          open={true}
+          mode={'date'}
+          locale="es"
+          onConfirm={date => {
+            console.log(date.getTime());
+            console.log('Property fecha? -> ', propertyFecha);
+            setInsertCow({...insertCow, [propertyFecha]: date.getTime()});
+            setOpenDatePickModal(false);
+          }}
+          onCancel={() => setOpenDatePickModal(false)}
+        />
+      )}
+      {isLoading && (
+        <LoadingModal openCloseModal={isLoading} title={'Cargando...'} />
+      )}
     </View>
   );
 };

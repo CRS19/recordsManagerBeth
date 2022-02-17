@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -14,16 +14,31 @@ import {ICow} from '../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   Record,
+  RecordReproductionType,
+  RegistroPalp,
 } from '../../../interfaces/ReproductionRecord';
 import {useCenterView} from './states/useCenterView';
-import {isNil} from 'lodash';
+import {isNil, get} from 'lodash';
+import {Palpation} from '../../../components/Palpation/Palpation';
+import {ReproRecordView} from '../../../components/ReproductionRecordView/ReproRecordView';
+import {SaveReproductionRecordButtom} from '../../../components/Buttoms/SaveReproductionRecordButtom';
+import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
+import {ReproductionRecordCard} from '../../../components/ReproductionComponents/ReproductionRecordCard';
+import {FillButton} from '../../../components/Buttoms/FillButton';
+import {DesteteIconButton} from '../../../components/Buttoms/DesteteIconButton';
 
 export interface CenterViewReproductionProps {
   cow: ICow;
   record: IReproductionRecord;
   isLoading: boolean;
-  currentRecord: Record | undefined;
+  currentRecord: Record;
+  selectedRecord: Record | undefined;
+  recordNumber: number;
   openCloseIaModal: (isOpen: boolean) => void;
+  setIsOpenPalpationTypeModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenTipoPartoModal: Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenMontaMontaModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CenterView = ({
@@ -31,10 +46,28 @@ export const CenterView = ({
   record,
   isLoading,
   currentRecord,
+  selectedRecord,
   openCloseIaModal,
+  recordNumber,
+  setIsOpenPalpationTypeModal,
+  setIsOpenTipoPartoModal,
+  setIsOpenMontaMontaModal,
+  setIsLoading,
 }: CenterViewReproductionProps) => {
-  const {controlGinecologico, controlServicio, controlMonta} = useCenterView({
+  const {
+    controlGinecologico,
+    controlServicio,
+    controlMonta,
+    onSaveActions,
+    DesteteActions,
+  } = useCenterView({
     openCloseIaModal,
+    currentRecordSinType: currentRecord,
+    record,
+    selectedRecord,
+    setIsLoading,
+    setIsOpenMontaMontaModal,
+    cow,
   });
 
   const labelChipProps = {
@@ -42,27 +75,74 @@ export const CenterView = ({
     areteNumber: cow.numeroDeArete,
   };
 
+  const palpationProps = {
+    setIsOpenPalpationTypeModal,
+    recordsList: currentRecord,
+    isInsertComponent: true,
+  };
+
+  const hembraView = cow.sexo === 'HEMBRA';
+
   return (
     <View>
-      <LabelIconChip {...labelChipProps} />
+      <View style={{flexDirection: 'row'}}>
+        <LabelIconChip {...labelChipProps} />
+        <DesteteIconButton {...DesteteActions} />
+      </View>
       <View style={{flexDirection: 'row'}}>
         <View style={{flexDirection: 'row'}}></View>
-        <ControlGinecologico {...controlGinecologico} />
+        {hembraView && <ControlGinecologico {...controlGinecologico} />}
         {/**  colocar las funciones apra cambiar el peso **/}
-        <PesoControl />
+        <View style={{left: hembraView ? 0 : 120}}>
+          <PesoControl
+            record={record}
+            currentPeso={get(
+              record.historicoPeso![record.historicoPeso!.length - 1],
+              'peso',
+              0,
+            )}
+          />
+        </View>
       </View>
       {/**  Elementos renderizados dependiendo de los botones ginecologicos **/}
       <View style={{alignItems: 'flex-start'}}>
-        {controlGinecologico.isCeloBtnActive ? (
+        {controlGinecologico.isCeloBtnActive && (
           <GeneralControl {...controlServicio} />
-        ) : null}
-        {controlServicio.isClikedBtn1 ? (
-          <GeneralControl {...controlMonta} />
-        ) : null}
+        )}
+        {controlServicio.isClikedBtn1 && <GeneralControl {...controlMonta} />}
       </View>
-      <Text>... construyendo parte del centro</Text>
-      {isNil(currentRecord) ? null : <Text>{currentRecord.idReproductor}</Text>}
-      {isLoading ? (
+      {isNil(selectedRecord) && !isNil(currentRecord) && (
+        <View>
+          {currentRecord.montaType !== '' && (
+            <View style={{alignItems: 'center', marginTop: 10}}>
+              <GeneralTitle title={'Registro'} />
+              <View style={{flexDirection: 'row'}}>
+                <ReproductionRecordCard record={currentRecord} />
+                {283 - currentRecord.gestationDays < 15 && (
+                  <View style={{marginLeft: 15, marginTop: 15}}>
+                    <FillButton
+                      title="parto"
+                      onPress={() => setIsOpenTipoPartoModal(true)}
+                      color={'#DF2929'}
+                      width={102}
+                      height={44}
+                    />
+                  </View>
+                )}
+              </View>
+            </View>
+          )}
+          {currentRecord.montaType === '' && (
+            <SaveReproductionRecordButtom {...onSaveActions} />
+          )}
+          <Palpation {...palpationProps} />
+        </View>
+      )}
+      {/* Apartado para visualizar el registro seleccionado y previamente guardado */}
+      {!isNil(selectedRecord) && (
+        <ReproRecordView recordNumber={recordNumber} record={selectedRecord} />
+      )}
+      {isLoading && (
         <View
           style={{
             flex: 1,
@@ -76,7 +156,7 @@ export const CenterView = ({
           />
           <Text>Cargando...</Text>
         </View>
-      ) : null}
+      )}
     </View>
   );
 };

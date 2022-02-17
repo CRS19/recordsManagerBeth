@@ -4,6 +4,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {FillButton} from '../Buttoms/FillButton';
 
 export interface IControlGinecologicoProps {
+  existCurrentRecord: boolean;
   isCeloBtnActive: boolean;
   isChequeoBtnActive: boolean;
   onCeloClicked: () => void;
@@ -11,6 +12,7 @@ export interface IControlGinecologicoProps {
 }
 
 export const ControlGinecologico = ({
+  existCurrentRecord,
   isCeloBtnActive,
   isChequeoBtnActive,
   onCeloClicked,
@@ -28,7 +30,7 @@ export const ControlGinecologico = ({
             color={isChequeoBtnActive ? 'red' : undefined}
             width={102}
             height={44}
-            disable={isCeloBtnActive}
+            disable={isCeloBtnActive || existCurrentRecord}
           />
         </View>
         <View style={{marginHorizontal: 3.5}}>
@@ -38,7 +40,7 @@ export const ControlGinecologico = ({
             color={isCeloBtnActive ? 'red' : undefined}
             width={97}
             height={44}
-            disable={isChequeoBtnActive}
+            disable={isChequeoBtnActive || existCurrentRecord}
           />
         </View>
       </View>

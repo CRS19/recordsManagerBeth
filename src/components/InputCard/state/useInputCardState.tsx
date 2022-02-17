@@ -72,7 +72,7 @@ export const useInputCardState = (props: IUseCardInputStateProps) => {
   };
 
   const validatePeso = () => {
-    if (value.pesoNacimiento === 0) {
+    if (value.pesoNacimiento === 999) {
       form.current = {...form.current, pesoNacimiento: true};
       setIsValidForm(false);
     } else {

@@ -15,6 +15,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {initialForm} from '../../interfaces/newCowForm';
 import {useInputCardState} from './state/useInputCardState';
 import {ChooseSexIcon} from '../../assets/ChooseSexIcon';
+import {GeneralTextInput} from '../CustomInput/GeneralTextInput';
 
 interface IInputCard {
   value: ICow;
@@ -88,18 +89,14 @@ export const InputCard = (props: IInputCard) => {
           errorText="Ingrese un nombre"
           error={form.current.nombre}
         />
-        <ModalInput
+        <GeneralTextInput
           logo={<NumeroAreteInput />}
+          value={value}
           label="N° DE ARETE"
           property={ICowKeys.numeroDeArete}
-          initialValue={value}
-          setValue={setValue}
-          hasMask={true}
-          mask="[0][----------]"
-          numKeyboard={true}
-          editable={!isSaved}
           errorText="Ingrese un Arete"
           error={form.current.numeroDeArete}
+          setValue={setValue}
         />
         <ModalInput
           logo={<BirthDateInput />}

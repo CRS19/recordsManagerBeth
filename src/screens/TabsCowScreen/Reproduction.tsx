@@ -1,19 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
+import {LineChart} from 'react-native-chart-kit';
+import {DatePickerGeneralModal} from '../../components/Modals/DatePickerGeneralModal';
 import {MonataIaModal} from '../../components/Modals/MonataIaModal';
+import {MontaMontaModal} from '../../components/Modals/MontaMontaModal';
+import {SelectGeneralSexModal} from '../../components/Modals/SelectGeneralSexModal';
+import {SelectModal} from '../../components/Modals/SelectModal';
+import {SelectReproductorModal} from '../../components/Modals/SelectReproductorModal';
+import {TwoButtomsModal} from '../../components/Modals/TwoButtomsModal';
 import {RegisterList} from '../../components/RegisterLIst/RegisterList';
+import {GeneralTitle} from '../../components/Titles/GeneralTitle';
 import {TopBar} from '../../components/TopBar';
+import {
+  ABORTO_TYPE,
+  PALPATION_TYPES,
+  PARTO_TYPE,
+  VACIA_OVARIOS,
+  VACIA_UTERO,
+} from '../../constants/palpationConstants';
 import {useTime} from '../../custom/useTime';
 import {RecordReproductionType} from '../../interfaces/ReproductionRecord';
 import {styles} from '../../theme/GlobalStyles';
 import {CenterView} from './Reproduction/CenterView';
+import {ReproductionInfoCard} from './Reproduction/ReproductionInfoCard';
 import {useReproduction} from './Reproduction/useReproduction';
 
 export const Reproduction = () => {
@@ -25,13 +35,42 @@ export const Reproduction = () => {
     record,
     isLoading,
     isOpenIaModal,
+    currentPalpations,
+    isOpenVaciaTypeModal,
+    isOpenAbortoTypeModal,
+    isOpenSexModal,
+    isOpenTipoPartoModal,
+    isOpenPalpationTypeModal,
+    isOpenDatePickerModal,
+    isOpenTwoBtnModal,
+    isOpenMontaMontaModal,
+    isOpenSelectReproductionModal,
     openCloseModal,
-    currentRecord,
+    recordsSplited,
+    selectedRecord,
     reproductoresList,
+    recordNumber,
     onSelectCurrentRecord,
     setIsOpenIaModal,
+    setIsOpenPalpationTypeModal,
+    onAbortoTypePress,
     setRecordToUpdate,
+    onPalpTypePress,
+    onVaciaTypePress,
+    onPartoTypePress,
+    onSelectChildSex,
+    onNacidoVivoPress,
+    onNatimortoPress,
+    insertPalpation,
     setIsLoading,
+    setIsOpenVaciaTypeModal,
+    setIsOpenAbortoTypeModal,
+    setIsOpenSelectReproductionModal,
+    setIsOpenDatePickerModal,
+    setIsOpenTipoPartoModal,
+    setIsOpenSexModal,
+    setIsOpenTwoModal,
+    setIsOpenMontaMontaModal,
   } = useReproduction();
 
   const {getPosiblePartoDay} = useTime();
@@ -71,31 +110,40 @@ export const Reproduction = () => {
               }}
               enableSwipeMonths={true}
             />
-            <View>
-              <RegisterList
-                title={'Registro de partos'}
-                record={recordToUpdate}
-                recordType={RecordReproductionType.PARTO}
-                currentRecord={currentRecord!}
-                onSelectCurrentRecord={onSelectCurrentRecord}
-              />
-            </View>
-            <View>
-              <RegisterList
-                title={'Registro de abortos'}
-                record={recordToUpdate}
-                currentRecord={currentRecord!}
-                recordType={RecordReproductionType.ABORTO}
-                onSelectCurrentRecord={onSelectCurrentRecord}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                console.log(JSON.stringify(recordToUpdate, null, 3));
-                getPosiblePartoDay();
-              }}>
-              <Text>Ver registro del store</Text>
-            </TouchableOpacity>
+            {cow.sexo === 'HEMBRA' && (
+              <View>
+                <View style={{marginTop: 25}}>
+                  <RegisterList
+                    title={'Registro de chequeo general'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[2]}
+                    recordType={RecordReproductionType.GENERAL}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+                <View style={{marginTop: 3}}>
+                  <RegisterList
+                    title={'Registro de parto'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[0]}
+                    recordType={RecordReproductionType.PARTO}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+                <View style={{marginTop: 3}}>
+                  <RegisterList
+                    title={'Registro de aborto'}
+                    record={recordToUpdate}
+                    recordsList={recordsSplited[1]}
+                    recordType={RecordReproductionType.ABORTO}
+                    selectedRecord={selectedRecord!}
+                    onSelectCurrentRecord={onSelectCurrentRecord}
+                  />
+                </View>
+              </View>
+            )}
           </View>
           {/** CENTER **/}
           <ScrollView>
@@ -103,33 +151,176 @@ export const Reproduction = () => {
               style={{
                 ...styles.RigthGenericTabContainer,
                 flex: 0,
-                width: 228,
+                width: 185,
               }}>
               <CenterView
                 cow={cow}
+                recordNumber={recordNumber.current}
                 record={recordToUpdate}
                 isLoading={isLoading}
                 openCloseIaModal={openCloseModal}
-                currentRecord={currentRecord}
+                selectedRecord={selectedRecord}
+                currentRecord={recordsSplited[3][0]}
+                setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
+                setIsOpenTipoPartoModal={setIsOpenTipoPartoModal}
+                setIsOpenMontaMontaModal={setIsOpenMontaMontaModal}
+                setIsLoading={setIsLoading}
               />
+              <TouchableOpacity
+                onPress={() => {
+                  getPosiblePartoDay();
+                }}>
+                <Text>Ver posible parto fecha</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(recordToUpdate, null, 3));
+                }}>
+                <Text>Ver registro del store</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(selectedRecord, null, 3));
+                }}>
+                <Text>Ver Selected registro en el store</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(currentPalpations, null, 3));
+                }}>
+                <Text>Ver current palpations </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(JSON.stringify(recordsSplited[3], null, 3));
+                }}>
+                <Text>Ver current record sin tipo de registro </Text>
+              </TouchableOpacity>
             </View>
             <View style={{height: 200}} />
           </ScrollView>
+          {/** Rigth Part **/}
           <View style={styles.RigthAdditionalTabContainer}>
-            <Text>parte derecha</Text>
+            <ScrollView>
+              <View style={{alignItems: 'center'}}>
+                <GeneralTitle title={'Historial de Peso'} />
+                <View>
+                  <LineChart
+                    //ARREGLAR ESTA PAERTE URGENTE!!!!
+
+                    //verticalLabelRotation={75} //Degree to rotate
+                    data={recordToUpdate.historicalDataToPlot}
+                    width={327} // from react-native
+                    height={200}
+                    yAxisSuffix=" Kg"
+                    bezier
+                    yAxisInterval={1} // optional, defaults to 1
+                    chartConfig={{
+                      backgroundGradientFrom: '#9E7644',
+                      backgroundGradientTo: '#E79212',
+                      decimalPlaces: 2, // optional, defaults to 2dp
+                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      labelColor: (opacity = 1) =>
+                        `rgba(255, 255, 255, ${opacity})`,
+                      style: {
+                        borderRadius: 16,
+                      },
+                      propsForDots: {
+                        r: '6',
+                        strokeWidth: '2',
+                        stroke: '#ffa726',
+                      },
+                    }}
+                    style={{
+                      marginVertical: 8,
+                      borderRadius: 16,
+                    }}
+                  />
+                </View>
+                {cow.sexo === 'HEMBRA' && (
+                  <ReproductionInfoCard record={recordToUpdate} />
+                )}
+                <View style={{height: 200}} />
+              </View>
+            </ScrollView>
           </View>
         </View>
       </View>
+      <SelectReproductorModal
+        openCloseModal={isOpenSelectReproductionModal}
+        recordToUpdate={recordToUpdate}
+        reproductorsList={reproductoresList}
+        setOpenCloseModal={setIsOpenSelectReproductionModal}
+        setOpenDatePickerModal={setIsOpenDatePickerModal}
+        setIsLoading={setIsLoading}
+      />
+      <DatePickerGeneralModal
+        title={'Seleccione la fecha de posible parto'}
+        openCloseModal={isOpenDatePickerModal}
+        setOpenCloseModal={setIsOpenDatePickerModal}
+        recordToUpdate={recordToUpdate}
+      />
       <MonataIaModal
         title={'Ingrese el nombre del inseminador'}
-        onCloseModal={() => console.log('jelp')}
         openCloseModal={isOpenIaModal}
         setOpenCloseModal={setIsOpenIaModal}
-        setRecordToUpdate={setRecordToUpdate}
         reproductorsList={reproductoresList}
         recordToUpdate={recordToUpdate}
         getPosiblePartoDay={getPosiblePartoDay}
         setIsLoading={setIsLoading}
+      />
+      <MontaMontaModal
+        title={'Seleccione el reproductor'}
+        openCloseModal={isOpenMontaMontaModal}
+        setOpenCloseModal={setIsOpenMontaMontaModal}
+        reproductorsList={reproductoresList}
+        getPosiblePartoDay={getPosiblePartoDay}
+        recordToUpdate={recordToUpdate}
+        setIsLoading={setIsLoading}
+      />
+      <SelectModal
+        title={'Seleccione tipo'}
+        dataOptions={PALPATION_TYPES}
+        openCloseModal={isOpenPalpationTypeModal}
+        onCloseModal={onPalpTypePress}
+        setOpenCloseModal={setIsOpenPalpationTypeModal}
+      />
+      <SelectModal
+        title={'Ovarios'}
+        title2={'Utero'}
+        dataOptions={VACIA_OVARIOS}
+        dataOptions2={VACIA_UTERO}
+        openCloseModal={isOpenVaciaTypeModal}
+        onCloseModal={onVaciaTypePress}
+        setOpenCloseModal={setIsOpenVaciaTypeModal}
+      />
+      <SelectModal
+        title={'Tipo de Aborto'}
+        dataOptions={ABORTO_TYPE}
+        openCloseModal={isOpenAbortoTypeModal}
+        onCloseModal={onAbortoTypePress}
+        setOpenCloseModal={setIsOpenAbortoTypeModal}
+      />
+      <SelectModal
+        title={'Tipo de Parto'}
+        dataOptions={PARTO_TYPE}
+        openCloseModal={isOpenTipoPartoModal}
+        onCloseModal={onPartoTypePress}
+        setOpenCloseModal={setIsOpenTipoPartoModal}
+      />
+      <SelectGeneralSexModal
+        openCloseModal={isOpenSexModal}
+        setOpenModal={setIsOpenSexModal}
+        onSelectSex={onSelectChildSex}
+      />
+      <TwoButtomsModal
+        openCloseModal={isOpenTwoBtnModal}
+        btnTitle1="Nacido vivo"
+        btnTitle2="Natimorto"
+        onPressBtn1={onNacidoVivoPress}
+        onPressBtn2={onNatimortoPress}
+        setOpenModal={setIsOpenTwoModal}
       />
     </View>
   );
