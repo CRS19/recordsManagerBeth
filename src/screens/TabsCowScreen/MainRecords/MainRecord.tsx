@@ -37,6 +37,7 @@ import {useNavigation} from '@react-navigation/core';
 import {LoadingModal} from '../../../components/Modals/LoadingModal';
 import {useTime} from '../../../custom/useTime';
 import {RecordReproductionType} from '../../../interfaces/ReproductionRecord';
+import DatePicker from 'react-native-date-picker';
 
 export const MainRecord = () => {
   console.log('DEBUG: main records render');
@@ -45,8 +46,6 @@ export const MainRecord = () => {
   const [insertCow, setInsertCow] = useState<ICow>(emptyCow);
   const dispatch = useDispatch();
   const isNewBorn = useSelector((state: IAppState) => state.isNewBorn!);
-  const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
-  console.log(JSON.stringify(currentCow, null, 3));
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openChooseSexModal, setOpenChooseSexModal] = useState<boolean>(false);
   const [openDatePickModal, setOpenDatePickModal] = useState<boolean>(false);
@@ -108,7 +107,6 @@ export const MainRecord = () => {
     }`;
     if (insertCow.sexo === 'HEMBRA') {
       if (verifyFormCompleted()) {
-        console.log('INSERTAR: ', insertCow);
         SaveCow(idVaca);
       } else {
         showAlert(
@@ -229,6 +227,11 @@ export const MainRecord = () => {
     }
   }, [isNewBorn]);
 
+  useEffect(() => {
+    setOpenDatePickModal(false);
+  });
+
+  console.log('DEBUG: Open date picker modal -> ', openDatePickModal);
   return (
     <View style={{flexDirection: 'column'}}>
       <TopBar
@@ -384,7 +387,7 @@ export const MainRecord = () => {
       />
       <DatePickerModal
         title={'SELECCIONE FECHA DE NACIMIENTO'}
-        openCloseModal={openDatePickModal}
+        openCloseModal={false}
         onCloseModal={() => {}}
         setOpenCloseModal={setOpenDatePickModal}
         cow={insertCow}
@@ -428,6 +431,23 @@ export const MainRecord = () => {
         cow={insertCow}
         setProperty={setInsertCow}
       />
+      {openDatePickModal && (
+        <DatePicker
+          modal
+          title={'SELECCIONE FECHA DE NACIMIENTO'}
+          date={new Date()}
+          open={true}
+          mode={'date'}
+          locale="es"
+          onConfirm={date => {
+            console.log(date.getTime());
+            console.log('Property fecha? -> ', propertyFecha);
+            setInsertCow({...insertCow, [propertyFecha]: date.getTime()});
+            setOpenDatePickModal(false);
+          }}
+          onCancel={() => setOpenDatePickModal(false)}
+        />
+      )}
       {isLoading && (
         <LoadingModal openCloseModal={isLoading} title={'Cargando...'} />
       )}
