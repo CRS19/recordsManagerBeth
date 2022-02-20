@@ -1,8 +1,6 @@
-// istanbull-file
-import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import {LineChart} from 'react-native-chart-kit';
+import React from 'react';
+import {View} from 'react-native';
+import {Calendar} from 'react-native-calendars';
 import {IndividualProductionView} from '../../../components/IndividualProductionView/IndividualProductionView';
 import {LabelIconChip} from '../../../components/LabelIconChip/LabelIconChip';
 import {LactanciaViewCard} from '../../../components/LactanciaViewCard/LactanciaViewCard';
@@ -11,7 +9,6 @@ import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
 import {TopBar} from '../../../components/TopBar';
 import {styles} from '../../../theme/GlobalStyles';
 import {getMaxDate} from '../../../utils/time-utils';
-import {ICalendarSelected} from '../../MilkDailyRegister/state/useMilkDailyRegister';
 import {useProductionScreen} from './state/useProductionScreen';
 
 export const ProductionScreen = () => {

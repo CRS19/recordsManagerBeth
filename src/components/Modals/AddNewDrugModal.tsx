@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {UnitTypeEnum} from '../../constants/PresentationEnum';
+import {EMPTY_DRUG} from '../../constants/DrugGroupConstant';
 import {drugGroupEnum, IDrug, IDugsKeys} from '../../interfaces/Drug.interface';
 import {initialNewDrugForm} from '../../interfaces/newCowForm';
 import {styles} from '../../theme/GlobalStyles';
@@ -39,17 +39,7 @@ export const AddNewDrugModal = ({
 }: IAddNewDrugModal) => {
   const form = useRef(initialNewDrugForm);
   const [keyboardSize, setKeyboardSize] = React.useState(0);
-  const [drugP, setDrugp] = useState<IDrug>({
-    group: drugGroupEnum.EMPTY,
-    created: 0,
-    name: '',
-    expDate: 0,
-    presentationForm: '',
-    unitType: UnitTypeEnum.EMPTY,
-    amount: 0,
-    unitContent: 0,
-    available: 0,
-  });
+  const [drugP, setDrugp] = useState<IDrug>(EMPTY_DRUG);
 
   const {validateForm} = useAddNewDrugModal({
     drug: drugP,
@@ -86,8 +76,10 @@ export const AddNewDrugModal = ({
         unitType: drugP.unitType,
         unitContent: drugP.unitContent,
         amount: drugP.amount,
+        group: drugP.group,
       };
       closeModal(DrugToSave);
+      setDrugp(EMPTY_DRUG);
     }
   };
 

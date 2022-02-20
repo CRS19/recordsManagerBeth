@@ -4,7 +4,7 @@ import {Chip} from 'react-native-paper';
 import {MomNameIconLabel} from '../../assets/MomNameIconLabel';
 import {styles} from '../../theme/GlobalStyles';
 
-interface LabelIconChipProps {
+export interface LabelIconChipProps {
   name: string;
   areteNumber: string;
 }

@@ -1,10 +1,12 @@
 export enum frequencyDiagnosisEnum {
+  EMPTY = '',
   DAILY = 'diario',
   WEEKLY = 'semanal',
   MONTHLY = 'mensual',
 }
 
 export enum applicationWayEnum {
+  EMPTY = '',
   ORAL = 'oral',
   SUBCUTANEOUS = 'subcutánea',
   INTRAMUSCULAR = 'intramuscular',
@@ -22,6 +24,15 @@ export enum diseasesEnum {
 export interface IFrequencyDiagnosis {
   times: number;
   at: frequencyDiagnosisEnum;
+}
+
+export enum IDrugDiagnosisKey {
+  DRUG_ID = 'drugId',
+  DOSE = 'dose',
+  FREQUENCY = 'frequency',
+  DURATION = 'duration',
+  TOTAL = 'total',
+  APPLICATION_WAY = 'applicationWay',
 }
 
 export interface IDrugDiagnosis {

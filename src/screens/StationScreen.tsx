@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import React from 'react';
+import {ScrollView, View} from 'react-native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import {useNavigation} from '@react-navigation/native';
 import {DatosIndividualesIcon} from '../assets/DatosIndividualesIcon';
 import {EstadoReproductivoIcon} from '../assets/EstadoReproductivoIcon';
 import {InventarioIcon} from '../assets/InventarioIcon';
@@ -10,7 +9,6 @@ import {ReproductoresIcon} from '../assets/ReproductoresIcon';
 import {BasicFooter} from '../components/BasicFooter';
 import {TopBar} from '../components/TopBar';
 import {GeneralButtom} from '../components/GeneralButtom';
-import {getDrugsList} from '../store/actionCreators';
 import {DispatchActionsEnum} from '../constants/dispatchDirectory';
 
 interface Props extends DrawerScreenProps<any, any> {}

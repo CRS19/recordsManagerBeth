@@ -72,3 +72,21 @@ export const initialFormGestation: IGestationForm = {
   diasGestaciónPromedio: false,
   edadPrimerParto: false,
 };
+
+export interface IAddDrugDiagnosisForm {
+  seleccioneFarmaco: boolean;
+  dose: boolean;
+  frequency: boolean;
+  duration: boolean;
+  total: boolean;
+  applicationWay: boolean;
+}
+
+export const initialAddDrugDiagnosisForm: IAddDrugDiagnosisForm = {
+  seleccioneFarmaco: false,
+  dose: false,
+  frequency: false,
+  duration: false,
+  total: false,
+  applicationWay: false,
+};
