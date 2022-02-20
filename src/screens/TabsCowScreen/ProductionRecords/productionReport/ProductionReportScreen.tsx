@@ -1,4 +1,4 @@
-import React, {createRef, useEffect, useRef} from 'react';
+import React, {createRef} from 'react';
 import {Alert, Text, View} from 'react-native';
 import {TopBar} from '../../../../components/TopBar';
 import {IDailyMilkRecord} from '../../../../interfaces/DailyMilkRecord';
@@ -15,18 +15,14 @@ import {
   IMilkData,
   useProductionReportScreen,
 } from './state/useProductionReportScreen';
-import {defaultTo, isEmpty, isNil} from 'lodash';
+import {isEmpty, isNil} from 'lodash';
 import {GeneralTitle} from '../../../../components/Titles/GeneralTitle';
-import {
-  NativeViewGestureHandlerPayload,
-  ScrollView,
-} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {DailyMilkingProdReportHeader} from '../../../../components/Tables/ReportTables/DailyMilkingProdReport/DailyMilkingProdReportHeader';
 import {BorderButtom} from '../../../../components/Buttoms/BorderButtom';
 import {useCreatePdf} from '../../../../utils/useCreatePdf';
 import {LabelIconChip} from '../../../../components/LabelIconChip/LabelIconChip';
 import ViewShot from 'react-native-view-shot';
-import {white} from 'react-native-paper/lib/typescript/styles/colors';
 
 export const ProductionReportScreen = ({route, navigation}: any) => {
   const ViewShotRef = createRef<ViewShot>();

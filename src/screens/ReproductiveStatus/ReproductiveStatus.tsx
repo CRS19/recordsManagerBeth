@@ -1,13 +1,11 @@
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
-import {BirthDateInput} from '../../assets/BirthDateInput';
+import {ScrollView, View} from 'react-native';
 import {Ciguenia} from '../../assets/Ciguenia';
 import {Dumbbells} from '../../assets/Dumbbells';
 import {EstadisticaClinica} from '../../assets/EstadisticaClinica/EstadisticaClinica';
 import {FolderDescarte} from '../../assets/FolderDescarte/FolderDescarte';
 import {Ginecologia} from '../../assets/Ginecologia/Ginecologia';
 import {GraficaNoNacidos} from '../../assets/GraficaNoNacidos/GraficaNoNacidos';
-import {MilkVaso} from '../../assets/MilkVaso';
 import {Ovulos} from '../../assets/Ovulos/Ovulos';
 import {Ultrasonido} from '../../assets/Ultrasonido/Ultrasonido';
 import {Utero} from '../../assets/Utero/Utero';

@@ -28,6 +28,8 @@ export interface IMemoCardProps {
   cows: ICow[];
   loadCows: () => void;
   endList: boolean;
+  refresh: boolean;
+  onRefresh: () => void;
 }
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
@@ -38,15 +40,17 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
     precioLeche,
     cowList,
     isLoading,
+    refresh,
     loadCows,
     endList,
     guardarPrecioCarne,
     openCloseModalCarne,
     openCloseModalLeche,
     setOpenCloseModalCarne,
-    guardarPrecioLeche,
     setOpenCloseModalLeche,
+    guardarPrecioLeche,
     printState,
+    onRefresh,
   } = useIndividualRecords();
 
   console.log('DEBUG: precio carne: ', precioCarne);
@@ -88,14 +92,18 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                 }}
               />
             </View>
-            <TouchableOpacity onPress={printState}>
+            <TouchableOpacity
+              onPress={() => {
+                printState();
+                loadCows();
+              }}>
               <Text>imprimir estado</Text>
             </TouchableOpacity>
           </View>
           {/* rigth part */}
           <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
-              {isLoading ? (
+              {isLoading || refresh ? (
                 <View
                   style={{
                     flex: 1,
@@ -109,11 +117,13 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                   />
                   <Text>Cargando...</Text>
                 </View>
-              ) : !isEmpty(cowList) ? (
+              ) : !isEmpty(cowList) && !refresh ? (
                 <MemoizedCardList
                   cows={cowList}
                   loadCows={loadCows}
                   endList={endList}
+                  refresh={refresh}
+                  onRefresh={onRefresh}
                 />
               ) : (
                 <EmptyCowListBtn cow={emptyCow} />
@@ -160,6 +170,8 @@ const CardList = (props: IMemoCardProps) => {
       }
       ListFooterComponentStyle={{height: 200}}
       onEndReached={props.loadCows}
+      onRefresh={props.onRefresh}
+      refreshing={props.refresh}
       onEndReachedThreshold={0.4}
     />
   );

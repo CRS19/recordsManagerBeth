@@ -1,9 +1,7 @@
-import React from 'react';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {Alert} from 'react-native';
-import {defaultTo, isNil} from 'lodash';
+import {isNil} from 'lodash';
 import FileViewer from 'react-native-file-viewer';
-import {deleteme} from './recordsTemplates/deleteme';
 import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
 import {getHtmlDailyMilkingReport} from '../constants/htmlReportGenerators/htmlDailyMilkingPordReport';
 import {htmlDrugsReport} from '../constants/htmlReportGenerators/htmlDrugsReport';

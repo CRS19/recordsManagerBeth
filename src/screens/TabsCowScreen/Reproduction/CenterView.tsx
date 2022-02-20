@@ -1,11 +1,5 @@
 import React, {Dispatch} from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  View,
-  _ScrollView,
-} from 'react-native';
+import {ActivityIndicator, Text, View, _ScrollView} from 'react-native';
 import {LabelIconChip} from '../../../components/LabelIconChip/LabelIconChip';
 import {ControlGinecologico} from '../../../components/ReproductionComponents/ControlGinecologico';
 import {GeneralControl} from '../../../components/ReproductionComponents/GeneralControl';
@@ -14,8 +8,6 @@ import {ICow} from '../../../interfaces/CowInterface';
 import {
   IReproductionRecord,
   Record,
-  RecordReproductionType,
-  RegistroPalp,
 } from '../../../interfaces/ReproductionRecord';
 import {useCenterView} from './states/useCenterView';
 import {isNil, get} from 'lodash';
@@ -87,7 +79,7 @@ export const CenterView = ({
     <View>
       <View style={{flexDirection: 'row'}}>
         <LabelIconChip {...labelChipProps} />
-        <DesteteIconButton {...DesteteActions} />
+        {cow.pesoAlDestete === 0 && <DesteteIconButton {...DesteteActions} />}
       </View>
       <View style={{flexDirection: 'row'}}>
         <View style={{flexDirection: 'row'}}></View>

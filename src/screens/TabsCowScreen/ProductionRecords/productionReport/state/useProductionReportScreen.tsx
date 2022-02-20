@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {get, isEmpty} from 'lodash';
-import React, {useEffect, useRef, useState} from 'react';
+import {isEmpty} from 'lodash';
+import {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {API_BASE_PATH} from '../../../../../env/environment';
 

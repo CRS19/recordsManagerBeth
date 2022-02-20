@@ -373,7 +373,6 @@ export const styles = StyleSheet.create({
     width: 798,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    //backgroundColor: 'pink',
   },
   RigthAdditionalTabContainer: {
     flex: 1,
@@ -591,5 +590,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 10,
     paddingHorizontal: 30,
+  },
+  PickerInput: {
+    width: 239,
+    height: 37,
+    borderWidth: 1.5,
+    borderRadius: 4,
+    marginVertical: 10,
+    left: 19,
+    borderColor: 'transparent',
+  },
+  PickerInputLabel: {
+    position: 'absolute',
+    fontSize: 12,
+    left: 60,
+    top: 10,
+    color: '#6200EE',
   },
 });

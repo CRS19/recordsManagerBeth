@@ -1,9 +1,11 @@
+import {IDiagnosis} from './../interfaces/SanityRecords';
+import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
 import {API_BASE_PATH} from './../env/environment';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
 import {IProductorasArray} from './../interfaces/ProductorasId';
-import {ILoggedInfo, UserRolEnum} from './../interfaces/LoggedInfo';
+import {ILoggedInfo} from './../interfaces/LoggedInfo';
 import {LogInRequest} from './../interfaces/LogInRequest';
 import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
@@ -12,7 +14,7 @@ import {IPrices} from '../interfaces/PricesInterface';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import axios from '../utils/axios-utils';
 import {ImagePickerResponse} from 'react-native-image-picker';
-import {set, get} from 'lodash';
+import {set} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
 import {IGetReproductionRecordResponse} from '../interfaces/getReproductionRecord';
 import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
@@ -23,8 +25,9 @@ import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {splitReproductionRecords} from '../constants/SplitReproductionRecords';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
-import {getJwt} from '../utils/AsyncStorageUtils';
+import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSanityRecordResponse';
 import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
+import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
 
 export type IAppAction = {
   type: string;
@@ -327,6 +330,7 @@ export const updateReproductionRecord = (
 
 export const createReproductionRecord = (payload: {
   idVaca: string;
+  pesoNacimiento: number;
 }): ThunkAction<void, IAppState, undefined, IAppAction> => {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
@@ -340,6 +344,9 @@ export const createReproductionRecord = (payload: {
 
     try {
       set(reproductionTemplate, 'idVaca', payload.idVaca);
+      set(reproductionTemplate, 'historicoPeso', [
+        {peso: payload.pesoNacimiento, timestamp: getTimestamp()},
+      ]);
       const resposne = await axios.post(path, reproductionTemplate);
       console.log('INFO: registro de reproducción creado exitosamente');
     } catch (e) {
@@ -534,7 +541,15 @@ export const getRecordsByDate = (
       );
       dispatch(setDailyRecordsByDate(records.records));
     } catch (e) {
-      console.log(e);
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /daily-prod-record/obtenerRegistroPorFecha/${dateInTs} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al obtener los registros de producción',
+        `Hubo un error al conseguir el los registros de producción diaria por fecha`,
+      );
     }
   };
 };
@@ -630,11 +645,109 @@ export const deleteDrug = (
       dispatch(getDrugsList());
     } catch (e) {
       // @ts-ignore
-      console.log(JSON.stringify(e, null, 3));
+
       Alert.alert(
         'Error al añadir nuevo farmaco',
         `Error de conexión, revise su conección a internet`,
       );
+    }
+  };
+};
+
+export const createSanityRecord = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/create/${idVaca}`;
+
+    try {
+      const response = await axios.post<ICreateSanityRecordResponse>(path);
+    } catch (e) {
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /sanity-records/create${idVaca} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al crear registro de sanidad',
+        `Hubo un error al crear el registro de ${idVaca}`,
+      );
+    }
+  };
+};
+
+export const getSanityRecordById = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/get/${idVaca}`;
+
+    try {
+      const axiosResponse = await axios.get<GetSanityRecordResponse>(path);
+    } catch (e) {
+      console.log(
+        // @ts-ignore
+        `ENDPOINT ERROR RESPONSE: /sanity-records/get${idVaca} : ${e.response.request._response}`,
+      );
+
+      Alert.alert(
+        'Error al obtener el registro de sanidad',
+        `Hubo un error al conseguir el registro de ${idVaca}`,
+      );
+    }
+  };
+};
+
+export const updateDiagnosis = (
+  payload: {
+    idVaca: string;
+    newDiagnosis: IDiagnosis;
+  },
+  successFullCallback: () => void,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    dispatch(setIsLoading(true));
+    const path = `${API_BASE_PATH}/sanity-records/updateDiagnosis`;
+
+    try {
+      const response = await axios.post(path, payload);
+
+      console.log(JSON.stringify(response.data));
+      dispatch(setIsLoading(false));
+      Alert.alert(
+        'Diagnostico Ingresado exitosamente',
+        `El regsitro de sanidad del rumiante: ${payload.idVaca} ha sido registrado exitosamente`,
+        [
+          {
+            text: 'OK',
+            onPress: successFullCallback,
+            style: 'cancel',
+          },
+        ],
+      );
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+      // @ts-ignore
+      const drugsWithOutStock: {
+        message: string;
+        drugsId: {drugId: string; dosis: number; drugName: string}[];
+        // @ts-ignore
+      } = JSON.parse(e.response.request._response);
+
+      Alert.alert(
+        'No hay suficientes fármacos',
+        `Los farmacos con insuficiente stock son: \n ${drugsWithOutStock.drugsId
+          .map(drug => drug.drugName)
+          .join('\n')}`,
+      );
+      dispatch(setIsLoading(false));
     }
   };
 };

@@ -1,8 +1,6 @@
 import React from 'react';
-import {from} from 'form-data';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {TopBar} from '../../../../components/TopBar';
-import {styles} from '../../../../theme/GlobalStyles';
 import {GeneralButtom} from '../../../../components/GeneralButtom';
 import {Bacteria} from '../../../../assets/Bacteria';
 import {Viruss} from '../../../../assets/Viruss';

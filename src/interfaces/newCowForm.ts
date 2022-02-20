@@ -8,6 +8,7 @@ export interface IdentificationCardInputForm {
 }
 
 export interface INewDrugForm {
+  group: boolean;
   expDate: boolean;
   name: boolean;
   presentationForm: boolean;
@@ -17,6 +18,7 @@ export interface INewDrugForm {
 }
 
 export const initialNewDrugForm: INewDrugForm = {
+  group: false,
   expDate: false,
   name: false,
   presentationForm: false,
@@ -69,4 +71,22 @@ export const initialFormGestation: IGestationForm = {
   numeroDePartos: false,
   diasGestaciónPromedio: false,
   edadPrimerParto: false,
+};
+
+export interface IAddDrugDiagnosisForm {
+  seleccioneFarmaco: boolean;
+  dose: boolean;
+  frequency: boolean;
+  duration: boolean;
+  total: boolean;
+  applicationWay: boolean;
+}
+
+export const initialAddDrugDiagnosisForm: IAddDrugDiagnosisForm = {
+  seleccioneFarmaco: false,
+  dose: false,
+  frequency: false,
+  duration: false,
+  total: false,
+  applicationWay: false,
 };

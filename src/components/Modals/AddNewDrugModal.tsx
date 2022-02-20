@@ -8,11 +8,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {UnitTypeEnum} from '../../constants/PresentationEnum';
-import {IDrug, IDugsKeys} from '../../interfaces/Drug.interface';
+import {EMPTY_DRUG} from '../../constants/DrugGroupConstant';
+import {drugGroupEnum, IDrug, IDugsKeys} from '../../interfaces/Drug.interface';
 import {initialNewDrugForm} from '../../interfaces/newCowForm';
 import {styles} from '../../theme/GlobalStyles';
 import {BorderButtom} from '../Buttoms/BorderButtom';
+import {DrugGroupPickerInput} from '../CustomInput/DrugGroupPickerInput';
 import {NewDrugsTextInput} from '../CustomInput/NewDrugsInput';
 import {NewDrugsNumberInput} from '../CustomInput/NewDrugsNumberInput';
 import {PresentationPickerInput} from '../CustomInput/PresentationPickerInput';
@@ -38,16 +39,7 @@ export const AddNewDrugModal = ({
 }: IAddNewDrugModal) => {
   const form = useRef(initialNewDrugForm);
   const [keyboardSize, setKeyboardSize] = React.useState(0);
-  const [drugP, setDrugp] = useState<IDrug>({
-    created: 0,
-    name: '',
-    expDate: 0,
-    presentationForm: '',
-    unitType: UnitTypeEnum.EMPTY,
-    amount: 0,
-    unitContent: 0,
-    available: 0,
-  });
+  const [drugP, setDrugp] = useState<IDrug>(EMPTY_DRUG);
 
   const {validateForm} = useAddNewDrugModal({
     drug: drugP,
@@ -84,8 +76,10 @@ export const AddNewDrugModal = ({
         unitType: drugP.unitType,
         unitContent: drugP.unitContent,
         amount: drugP.amount,
+        group: drugP.group,
       };
       closeModal(DrugToSave);
+      setDrugp(EMPTY_DRUG);
     }
   };
 
@@ -111,13 +105,19 @@ export const AddNewDrugModal = ({
               style={{
                 ...styles.ModalOneFieldContainer,
                 backgroundColor: '#03DAC5',
-                height: 450,
+                height: 550,
               }}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <TouchableOpacity
                   onPress={() => console.log(JSON.stringify(drugP, null, 3))}>
                   <Text>Ver nuevo farmaco</Text>
                 </TouchableOpacity>
+                <DrugGroupPickerInput
+                  error={form.current.group}
+                  errorMessage="Seleccione una grupo"
+                  valueObj={drugP}
+                  setValue={setDrugp}
+                />
                 <NewDrugsTextInput
                   mask="[A-Za-z]"
                   label="Nombre del fármaco"
@@ -130,6 +130,20 @@ export const AddNewDrugModal = ({
                   error={form.current.name}
                   numKeyboard={false}
                 />
+                {drugP.group === drugGroupEnum.DEWORMING && (
+                  <NewDrugsTextInput
+                    mask="[A-Za-z]"
+                    label="Principio Activo"
+                    editable={true}
+                    isNumber={false}
+                    valueObj={drugP}
+                    property={IDugsKeys.activePrincipal}
+                    setValue={setDrugp}
+                    errorText="Ingrese el principio activo"
+                    error={false}
+                    numKeyboard={false}
+                  />
+                )}
                 <TouchableOpacity
                   onPress={() => openCloseDatePickerModal(true)}>
                   <InputViewDate

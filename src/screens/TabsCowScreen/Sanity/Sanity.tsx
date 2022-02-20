@@ -1,17 +1,11 @@
 import React from 'react';
-import {Text, View, ScrollView} from 'react-native';
-import {Ciguenia} from '../../../assets/Ciguenia';
+import {View, ScrollView} from 'react-native';
 import {ClinicHistory} from '../../../assets/ClinicHistory';
 import {Desparacitaciones1} from '../../../assets/Desparacitaciones1';
 import {Diagnostico} from '../../../assets/Diagnostico';
-import {SalesChart} from '../../../assets/SalesChart';
-import {Truck} from '../../../assets/truck';
 import {Vaccines} from '../../../assets/Vaccines';
 import {GeneralButtom} from '../../../components/GeneralButtom';
 import {TopBar} from '../../../components/TopBar';
-import {styles} from '../../../theme/GlobalStyles';
-import {ControlGinecológico} from '../../ReproductiveStatus/ControlGinecológico';
-import {Rip} from '../../Rip';
 
 export const Sanity = () => {
   return (

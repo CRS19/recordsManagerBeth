@@ -22,6 +22,7 @@ import {RAZAS} from '../../../constants/Razas';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
   createReproductionRecord,
+  createSanityRecord,
   insertNewCow,
   setCow,
   setInsertNewCow,
@@ -154,8 +155,10 @@ export const MainRecord = () => {
     dispatch(
       createReproductionRecord({
         idVaca,
+        pesoNacimiento: insertCow.pesoNacimiento,
       }),
     );
+    dispatch(createSanityRecord(idVaca));
     if (isNewBorn) finishMotherReproductionRecord();
     dispatch(setIsNewborn(false));
     setIsLoading(false);

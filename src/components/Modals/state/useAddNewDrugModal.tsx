@@ -1,6 +1,6 @@
 import {MutableRefObject, useState} from 'react';
 import {UnitTypeEnum} from '../../../constants/PresentationEnum';
-import {IDrug} from '../../../interfaces/Drug.interface';
+import {drugGroupEnum, IDrug} from '../../../interfaces/Drug.interface';
 import {INewDrugForm} from '../../../interfaces/newCowForm';
 
 export interface IUseAddNewDrugModalProps {
@@ -62,6 +62,16 @@ export const useAddNewDrugModal = ({
     }
   };
 
+  const validateDrugGroup = () => {
+    if (drug.group === drugGroupEnum.EMPTY) {
+      form.current = {...form.current, group: true};
+      setIsValidForm(false);
+    } else {
+      form.current = {...form.current, group: false};
+      setIsValidForm(true);
+    }
+  };
+
   const validateAmount = () => {
     if (drug.amount === 0) {
       form.current = {...form.current, amount: true};
@@ -87,6 +97,7 @@ export const useAddNewDrugModal = ({
   };
 
   const validateForm = () => {
+    validateDrugGroup();
     validateExpDate();
     validateName();
     validatePresentationForm();

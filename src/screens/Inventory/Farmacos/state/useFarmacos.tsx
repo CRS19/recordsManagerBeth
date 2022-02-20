@@ -1,7 +1,7 @@
 import React, {Dispatch, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {UnitTypeEnum} from '../../../../constants/PresentationEnum';
-import {IDrug} from '../../../../interfaces/Drug.interface';
+import {drugGroupEnum, IDrug} from '../../../../interfaces/Drug.interface';
 import {IAppState} from '../../../../store/reducer';
 import {set} from 'lodash';
 import {getTimestamp} from '../../../../utils/time-utils';
@@ -33,6 +33,7 @@ export const useFarmacos = (): IUseFarmacos => {
     created: 0,
     name: '',
     expDate: 0,
+    group: drugGroupEnum.EMPTY,
     presentationForm: '',
     unitType: UnitTypeEnum.GRAMOS,
     amount: 0,

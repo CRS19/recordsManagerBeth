@@ -15,6 +15,7 @@ import {getLogIn, setLoggedInfo} from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {get, isNil} from 'lodash';
 
 interface IuseLogIn {
   mail: string;
@@ -64,7 +65,9 @@ export const useLogIn = (
       await axios.get(path, config);
       return true;
     } catch (e) {
-      console.log(e);
+      if (get(e, 'response.request._response', '') === '') {
+        Alert.alert('Error de servidor', 'Compruebe su conexión a la red');
+      }
       if (loggedInfo.isLoggedIn === true) {
         dispatch(
           setLoggedInfo({

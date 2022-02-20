@@ -1,12 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity} from 'react-native';
 import {Text, TextInput, View} from 'react-native';
-import TextInputMask from 'react-native-text-input-mask';
 import {IDailyMilkRecord} from '../../../interfaces/DailyMilkRecord';
 import {styles} from '../../../theme/GlobalStyles';
 import {
   getDateOfDay,
-  getMomentOfDay,
   getTimestamp,
   getWeekNumber,
   isMorning,

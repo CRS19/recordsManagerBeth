@@ -1,6 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {Marker} from 'react-native-svg';
 import {useSelector} from 'react-redux';
@@ -8,7 +7,6 @@ import {LabelIconChip} from '../../../../../components/LabelIconChip/LabelIconCh
 import {GeneralTitle} from '../../../../../components/Titles/GeneralTitle';
 import {TopBar} from '../../../../../components/TopBar';
 import {VacunaHistorico} from '../../../../../components/VacunaHistorico/VacunaHistorico';
-import {ICowKeys} from '../../../../../constants/ICowKeysEnum';
 import {IAppState} from '../../../../../store/reducer';
 import {styles} from '../../../../../theme/GlobalStyles';
 

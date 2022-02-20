@@ -3,9 +3,11 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
+  getDrugsList,
   getRecordsById,
   getReproductionRecord,
   getReproductorsList,
+  getSanityRecordById,
   setCow,
   setInsertNewCow,
 } from '../../../store/actionCreators';
@@ -27,6 +29,8 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
     //Agregar aqui la llamada de todos los registros
     dispatch(getReproductionRecord({idVaca}));
     dispatch(getRecordsById(props.idVaca));
+    dispatch(getSanityRecordById(props.idVaca));
+    dispatch(getDrugsList());
     navigation.navigate('TabNavigatorCow');
     dispatch(getReproductorsList());
   };
