@@ -74,7 +74,7 @@ export const ProductionScreen = () => {
 
                 alignItems: 'center',
               }}>
-              <View style={{margin: 10, marginLeft: 50}}>
+              <View style={{margin: 10, marginLeft: 50, marginTop: 20}}>
                 <LactanciaViewCard productionRecords={prodRecord} />
               </View>
             </View>

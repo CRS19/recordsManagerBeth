@@ -1,16 +1,17 @@
-import React, {useState} from 'react';
-import {Alert, Text, View} from 'react-native';
+import React from 'react';
+import {Alert, Text, View, ScrollView} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-import {ScrollView} from 'react-native-gesture-handler';
 import {ActivityIndicator} from 'react-native-paper';
 import {BorderButtom} from '../../components/Buttoms/BorderButtom';
 import {ErrorMarginBotton} from '../../components/Buttoms/ErrorMarginBotton';
+import {UpdateDailyMilkLab} from '../../components/Modals/UpdateDailyMilkLab';
 import {DailyTable} from '../../components/Tables/DailyMilkRegisterTable/DailyTable';
 import {GeneralTitle} from '../../components/Titles/GeneralTitle';
 import {TopBar} from '../../components/TopBar';
 import {styles} from '../../theme/GlobalStyles';
 import {getMaxDate} from '../../utils/time-utils';
 import {useMilkDailyRegister} from './state/useMilkDailyRegister';
+import {get} from 'lodash';
 
 export const MilkDailyRegister = () => {
   const {
@@ -20,6 +21,7 @@ export const MilkDailyRegister = () => {
     guardarInfo,
     markedD,
     setMarkedD,
+    modalLabActions,
   } = useMilkDailyRegister();
 
   return (
@@ -97,6 +99,14 @@ export const MilkDailyRegister = () => {
           'Error de servidor',
           'No se pudieron obtener los registros de las vacas productoras, contactese con el administrador',
         )}
+      <UpdateDailyMilkLab
+        title="Laboratoreo de Lacteos y Terneros"
+        openCloseModal={modalLabActions.openLabModal}
+        setOpenCloseModal={modalLabActions.setOpenCloseModalLab}
+        totalVacas={
+          get(DailyTableProps, 'productorasList.productoras', []).length
+        }
+      />
     </View>
   );
 };

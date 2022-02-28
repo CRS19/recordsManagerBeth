@@ -1,5 +1,40 @@
 import moment from 'moment';
-import {defaultTo} from 'lodash';
+import {defaultTo, times, isNil} from 'lodash';
+
+export const MONTHS = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
+];
+
+export enum ENGLISH_DAYS_ENUM {
+  MONDAY = 'Monday',
+  TUESDAY = 'Tuesday',
+  WEDNESDAY = 'Wednesday',
+  THURSDAY = 'Thursday',
+  FRIDAY = 'Friday',
+  SATURDAY = 'Saturday',
+  SUNDAY = 'Sunday',
+}
+
+export const SPANISH_DAYS: Record<ENGLISH_DAYS_ENUM, string> = {
+  [ENGLISH_DAYS_ENUM.MONDAY]: 'Lunes',
+  [ENGLISH_DAYS_ENUM.TUESDAY]: 'Martes',
+  [ENGLISH_DAYS_ENUM.WEDNESDAY]: 'Miércoles',
+  [ENGLISH_DAYS_ENUM.THURSDAY]: 'Jueves',
+  [ENGLISH_DAYS_ENUM.FRIDAY]: 'Viérnes',
+  [ENGLISH_DAYS_ENUM.SATURDAY]: 'Sábado',
+  [ENGLISH_DAYS_ENUM.SUNDAY]: 'Domingo',
+};
 
 export const getWeekNumber = () => {
   /*  Para el programador del futuro, el momento.now() retorna el timestamp en mili segundos,
@@ -21,8 +56,18 @@ export const getMomentOfDay = () => {
   return moment(moment.now()).format('HH:mm');
 };
 
+export const getDayName = (timestamp?: number) => {
+  if (isNil(timestamp)) timestamp = moment.now();
+  return moment(timestamp).format('dddd');
+};
+
 export const getDateOfDay = (timestamp: number, format?: string) => {
   return moment(timestamp).format(defaultTo(format, 'yyyy-MM-DD'));
+};
+
+export const getYear = (timestamp?: number) => {
+  if (isNil(timestamp)) timestamp = moment.now();
+  return moment(timestamp).format('yyyy');
 };
 
 export const isMorning = () => {
@@ -50,7 +95,8 @@ export const getTimestampFromDate = (date: string) => {
   return ts;
 };
 
-export const getMonthNumber = (timestamp: number) => {
+export const getMonthNumber = (timestamp?: number) => {
+  if (isNil(timestamp)) timestamp = moment.now();
   return Number(moment.unix(timestamp / 1000).format('M'));
 };
 
@@ -74,4 +120,10 @@ export const getDiffDays = (pastTs: number, futureTs: number): string => {
     console.log('futureTs es 0');
     return '0';
   }
+};
+
+export const getMonthAndYearString = () => {
+  const monthNumber = getMonthNumber(moment.now());
+  const year = getYear(moment.now());
+  return `${MONTHS[monthNumber - 1]}-${year}`;
 };

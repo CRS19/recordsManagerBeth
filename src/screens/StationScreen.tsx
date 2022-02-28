@@ -30,6 +30,7 @@ export const StationScreen = ({navigation}: Props) => {
             color="#F0E4CA"
             Icon={<DatosIndividualesIcon />}
             navigateTo={'IndividualRecords'}
+            dispatchAction={DispatchActionsEnum.GET_PRICES}
           />
           <GeneralButtom
             title="producción global"
