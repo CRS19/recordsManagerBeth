@@ -1,3 +1,4 @@
+import {getTimestamp} from './../time-utils';
 import {
   IReproductionRecord,
   MontaTypeEnum,
@@ -24,6 +25,7 @@ export const recordMontaIa: Record = {
   fechaPosibleParto: 0,
   gestationDays: 0,
   inseminadorName: '',
+  createdAt: 0,
 };
 
 export const recordMontaMonta: Record = {
@@ -34,6 +36,7 @@ export const recordMontaMonta: Record = {
   idReproductor: '',
   fechaPosibleParto: 0,
   gestationDays: 0,
+  createdAt: 0,
 };
 
 export const recordSinTipo: Record = {
@@ -44,4 +47,5 @@ export const recordSinTipo: Record = {
   idReproductor: '',
   fechaPosibleParto: 0,
   gestationDays: 0,
+  createdAt: 0,
 };

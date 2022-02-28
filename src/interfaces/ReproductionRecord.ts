@@ -87,6 +87,7 @@ export interface Record {
   recordType: RecordReproductionType;
   idReproductor: string;
   fechaPosibleParto: number;
+  createdAt: number;
   gestationDays: number;
   isCurrentRecord: boolean;
   inseminadorName?: string;

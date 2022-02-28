@@ -21,6 +21,7 @@ import {get, isEmpty, set} from 'lodash';
 import {useDispatch} from 'react-redux';
 import {updateReproductionRecord} from '../../store/actionCreators';
 import {cloneDeep} from 'lodash';
+import {getTimestamp} from '../../utils/time-utils';
 
 interface IMontaMontaModal {
   title: string;
@@ -72,6 +73,7 @@ export const MontaMontaModal = (props: IMontaMontaModal) => {
 
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
+    set(newRecord, 'createdAt', getTimestamp());
 
     console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
 

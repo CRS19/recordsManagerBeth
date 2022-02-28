@@ -24,6 +24,7 @@ import {
   updateReproductionRecord,
 } from '../../store/actionCreators';
 import {cloneDeep} from 'lodash';
+import {getTimestamp} from '../../utils/time-utils';
 
 interface IMonataIaModal {
   title: string;
@@ -76,6 +77,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
     set(newRecord, 'inseminadorName', inseminadorName);
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
+    set(newRecord, 'createdAt', getTimestamp());
 
     console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
 

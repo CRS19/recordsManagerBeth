@@ -6,6 +6,8 @@ import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
 import {getHtmlDailyMilkingReport} from '../constants/htmlReportGenerators/htmlDailyMilkingPordReport';
 import {htmlDrugsReport} from '../constants/htmlReportGenerators/htmlDrugsReport';
 import {IDrug} from '../interfaces/Drug.interface';
+import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
+import {htmlDailyProductionReport} from '../constants/htmlReportGenerators/htmlDailyProductionReport';
 
 export interface IUseCreatePdf {
   createPd: (
@@ -14,6 +16,10 @@ export interface IUseCreatePdf {
     listNumber: number,
   ) => Promise<void>;
   createDrugsInventoryReport: (drugs: IDrug[]) => Promise<void>;
+  createProductionDiariaReport: (
+    labRecord: IDailyMilkLab,
+    GET_ACTION: Record<string, () => string>,
+  ) => Promise<void>;
 }
 
 export const useCreatePdf = (): IUseCreatePdf => {
@@ -34,28 +40,7 @@ export const useCreatePdf = (): IUseCreatePdf => {
 
     let file = await RNHTMLtoPDF.convert(options);
 
-    if (!isNil(file.filePath)) {
-      Alert.alert(
-        'Pdf Creado exitosamente',
-        `Pdf creado en: ${file.filePath}`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: 'Abrir PDF',
-            onPress: () => openPDF(file.filePath!),
-          },
-        ],
-      );
-    } else {
-      Alert.alert(
-        'Error de creación de PDF',
-        'Pongase en contacto con el administrador del sistema',
-      );
-    }
+    validatePDF(file);
   };
 
   const createDrugsInventoryReport = async (drugs: IDrug[]) => {
@@ -67,6 +52,25 @@ export const useCreatePdf = (): IUseCreatePdf => {
 
     let file = await RNHTMLtoPDF.convert(options);
 
+    validatePDF(file);
+  };
+
+  const createProductionDiariaReport = async (
+    labRecord: IDailyMilkLab,
+    GET_ACTION: Record<string, () => string>,
+  ) => {
+    let options = {
+      html: htmlDailyProductionReport(labRecord, GET_ACTION),
+      fileName: `Reporte_Produccion_diaria_${labRecord.monthYear}`,
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+
+    validatePDF(file);
+  };
+
+  const validatePDF = (file: RNHTMLtoPDF.Pdf) => {
     if (!isNil(file.filePath)) {
       Alert.alert(
         'Pdf Creado exitosamente',
@@ -91,5 +95,5 @@ export const useCreatePdf = (): IUseCreatePdf => {
     }
   };
 
-  return {createPd, createDrugsInventoryReport};
+  return {createPd, createDrugsInventoryReport, createProductionDiariaReport};
 };
