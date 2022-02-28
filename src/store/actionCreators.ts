@@ -1,3 +1,4 @@
+import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
 import {IDiagnosis} from './../interfaces/SanityRecords';
 import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
@@ -32,6 +33,15 @@ import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/Cre
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setDailyMilkLab = (
+  payload: IDailyMilkLab | undefined,
+): IAppAction => {
+  return {
+    type: ActionTypes.SET_DAILY_MILK_LAB,
+    dailyMilkLabRecord: payload,
+  };
+};
 
 export const setDrugsList = (payload: IDrug[]): IAppAction => {
   return {
@@ -608,6 +618,56 @@ export const getDrugsList = (): ThunkAction<
   };
 };
 
+export const getPrices = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/prices/getPrices`;
+    try {
+      const resposne = await axios.get<{
+        message: string;
+        prices: {_id: string; Prices: {meatPrice: number; milkPrice: number}}[];
+      }>(path);
+
+      dispatch(setPrice(resposne.data.prices[0].Prices));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e);
+      Alert.alert(
+        'Error al los precios',
+        `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
+export const updatePrices = (
+  prices: Partial<IPrices>,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/prices/update`;
+
+    try {
+      const response = await axios.patch(path, prices);
+
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+      Alert.alert(
+        'Error al actualizar los precios',
+        `Error de conexión, revise su conección a internet`,
+      );
+    }
+  };
+};
+
 export const createNewDrug = (
   payload: IDrug,
 ): ThunkAction<void, IAppState, undefined, IAppAction> => {
@@ -748,6 +808,55 @@ export const updateDiagnosis = (
           .join('\n')}`,
       );
       dispatch(setIsLoading(false));
+    }
+  };
+};
+
+export const getDailyMilkLabRecordsByMonth = (
+  monthYear: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-milk-lab-records/get/${monthYear}`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        record: IDailyMilkLab;
+      }>(path);
+
+      const dailyMilkLabRecord: IDailyMilkLab = response.data.record;
+
+      dispatch(setDailyMilkLab(dailyMilkLabRecord));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+
+      Alert.alert(
+        `No se pudo obtener el registro del mes: ${monthYear}`,
+        'El registro no existe o no hay un problema con la conexión',
+      );
+      dispatch(setDailyMilkLab(undefined));
+    }
+  };
+};
+
+export const updateMilkRegisterLab = (
+  payload: Partial<IDailyMilkLabData>,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/daily-milk-lab-records/update`;
+
+    try {
+      const response = await axios.patch(path, payload);
+
+      console.log(response.data);
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
     }
   };
 };

@@ -89,6 +89,7 @@ export const LactanciaViewCard = ({
         backgroundColor: '#03DAC5',
         paddingHorizontal: 25,
         paddingVertical: 10,
+        paddingTop: 35,
       }}>
       <View style={{marginBottom: 10}}>
         <InputTextView
@@ -106,9 +107,9 @@ export const LactanciaViewCard = ({
       </View>
       <View style={{marginBottom: 10}}>
         <InputTextView
-          label={'Periodo seco / Dias'}
-          value={getPeriodoSeco()}
-          labelUnidad="Días"
+          label={'Prod real de leche'}
+          value={getTotalProduction().toFixed(2).toString()}
+          labelUnidad="Kg/vaca/lacatancia"
         />
       </View>
       <View style={{marginBottom: 10}}>
@@ -119,19 +120,16 @@ export const LactanciaViewCard = ({
         />
       </View>
       <View style={{marginBottom: 10}}>
-        <InputTextView
-          label={'Prod real de leche'}
-          value={getTotalProduction().toFixed(2).toString()}
-          labelUnidad="Kg/vaca/lacatancia"
-        />
-      </View>
-      <View style={{marginBottom: 10}}>
         <InputTextView label={'Prod ajustada 305 dias'} value="PENDIENTE" />
       </View>
       <View style={{marginBottom: 10}}>
+        <InputTextView label={'Edad adulta 305 dias'} value="PENDIENTE" />
+      </View>
+      <View style={{marginBottom: 10}}>
         <InputTextView
-          label={'Edad adulta Prod ajustada 305 dia'}
-          value="PENDIENTE"
+          label={'Periodo seco / Dias'}
+          value={getPeriodoSeco()}
+          labelUnidad="Días"
         />
       </View>
     </View>

@@ -107,7 +107,7 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
       </View>
       <View style={{marginBottom: 10}}>
         <InputTextView
-          label={'Numero de partos'}
+          label={'EDAD AL PRIMER PARTO'}
           value={getEdadPrimerParto()}
         />
       </View>

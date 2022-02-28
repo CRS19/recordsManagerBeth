@@ -1,7 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {DailyMilking} from '../../assets/DailyMilking';
-import {DatosIndividualesIcon} from '../../assets/DatosIndividualesIcon';
+import {View} from 'react-native';
 import {MilkVaso} from '../../assets/MilkVaso';
 import {ProductiveStatistics} from '../../assets/ProductiveStatistics';
 import {GeneralButtom} from '../../components/GeneralButtom';
@@ -19,18 +17,12 @@ export const GlobalProduction = () => {
         navigateTo={'ProductionDiaria'}
       />
       <GeneralButtom
-        title="producción individual"
-        color="#EFE6C9"
-        Icon={<DailyMilking />}
-        navigateTo={'ProducciónIndividual'}
-      />
-      <GeneralButtom
         title="Eficiencia productiva"
         color="#F59257"
         Icon={<ProductiveStatistics />}
         navigateTo={'EficienciaProductiva'}
       />
-      <View style={{...styles.LogInFooter, marginTop: 30}} />
+      <View style={{...styles.LogInFooter, marginTop: 235}} />
     </View>
   );
 };

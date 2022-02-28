@@ -40,12 +40,17 @@ export interface IUseMilkDailyRegister {
   guardarInfo: () => void;
   markedD: ICalendarSelected;
   setMarkedD: React.Dispatch<React.SetStateAction<ICalendarSelected>>;
+  modalLabActions: {
+    openLabModal: boolean;
+    setOpenCloseModalLab: () => void;
+  };
 }
 
 export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   const dispatch = useDispatch();
   const [errorMargin, setErrorMargin] = useState('5');
   const [isDateView, setIsDateView] = useState(false);
+  const [openLabModal, setOpenLabModal] = useState<boolean>(true);
   const productorasList = useSelector(
     (state: IAppState) => state.productorasList!,
   );
@@ -66,6 +71,10 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
 
   const saveErrorMargin = () => {
     console.log('ACTION: cambiar el margen de error');
+  };
+
+  const setOpenCloseModalLab = () => {
+    setOpenLabModal(prevVal => !prevVal);
   };
 
   const guardarInfo = () => {
@@ -177,5 +186,9 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     guardarInfo,
     markedD,
     setMarkedD,
+    modalLabActions: {
+      openLabModal,
+      setOpenCloseModalLab,
+    },
   };
 };

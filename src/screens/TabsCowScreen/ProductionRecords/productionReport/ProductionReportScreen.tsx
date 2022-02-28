@@ -66,7 +66,7 @@ export const ProductionReportScreen = ({route, navigation}: any) => {
     <View>
       <TopBar
         hamburguerDisplay={'none'}
-        title={'Registro Reproducción'}
+        title={'Registro producción'}
         findIcon={false}
         backIcon={true}
       />

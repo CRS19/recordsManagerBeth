@@ -10,6 +10,7 @@ import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 import {IProductorasArray} from '../interfaces/ProductorasId';
+import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
 
 export const INITIAL_STATE: IAppState = {
   isLoading: false,
@@ -37,6 +38,7 @@ export const INITIAL_STATE: IAppState = {
   currentCowDailyRecord: [],
   drugs: undefined,
   sanityRecord: undefined,
+  dailyMilkLabRecord: undefined,
 };
 
 export interface IAppState {
@@ -57,6 +59,7 @@ export interface IAppState {
   currentCowDailyRecord?: IDailyMilkRecord[];
   drugs?: IDrug[];
   sanityRecord?: ISanityRecord;
+  dailyMilkLabRecord?: IDailyMilkLab;
 }
 
 export const reducer = (
@@ -148,6 +151,11 @@ export const reducer = (
       return {
         ...state,
         sanityRecord: action.sanityRecord,
+      };
+    case ActionTypes.SET_DAILY_MILK_LAB:
+      return {
+        ...state,
+        dailyMilkLabRecord: action.dailyMilkLabRecord,
       };
     default:
       return state;

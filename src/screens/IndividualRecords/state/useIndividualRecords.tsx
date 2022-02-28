@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {API_BASE_PATH} from '../../../env/environment';
-import {setPrice} from '../../../store/actionCreators';
+import {setPrice, updatePrices} from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
 import {getCowsResponse} from '../../../interfaces/getCowsResponse';
 import {ICow} from '../../../interfaces/CowInterface';
@@ -87,11 +87,13 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
 
   const guardarPrecioCarne = (precio: number) => {
     setPrecioCarne(precio);
+    dispatch(updatePrices({meatPrice: precio}));
     setOpenCloseModalCarne(false);
   };
 
   const guardarPrecioLeche = (precio: number) => {
     setPrecioLeche(precio);
+    dispatch(updatePrices({milkPrice: precio}));
     setOpenCloseModalLeche(false);
   };
 
