@@ -4,13 +4,16 @@ import {CalendarButtom} from '../../../components/Buttoms/CalendarButtom';
 import {DailyMilkLabTable} from '../../../components/Tables/DailyMilkLabTable/DailyMilkLabTable';
 import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
 import {TopBar} from '../../../components/TopBar';
-import {get} from 'lodash';
+import {get, isNil} from 'lodash';
 import {InfoLabelView} from '../../../components/InfoLabelView/InfoLabelView';
 import {MILK_COSTS, PROD_INFO} from '../../../constants/MilkLabConstants';
 import {useProductionDiario} from './useProductionDiario';
+import {useCreatePdf} from '../../../utils/useCreatePdf';
+import {BorderButtom} from '../../../components/Buttoms/BorderButtom';
 
 export const ProductionDiaria = () => {
   const {labRecords, GET_ACTION} = useProductionDiario();
+  const {createProductionDiariaReport} = useCreatePdf();
 
   return (
     <View>
@@ -48,14 +51,16 @@ export const ProductionDiaria = () => {
               ))}
             </View>
           </View>
-          {/**
-           *
-           *  Crear la tabla del informe y su html para el pdf, el componente escucha a un useSelector para actualizarse por mes
-           *
-           *
-           *
-           *
-           */}
+          {!isNil(labRecords) && (
+            <View style={{marginTop: 20}}>
+              <BorderButtom
+                title="Imprimir"
+                onPress={() =>
+                  createProductionDiariaReport(labRecords, GET_ACTION)
+                }
+              />
+            </View>
+          )}
         </View>
         <View style={{height: 200}} />
         <Text>pantalla de producción diaria</Text>

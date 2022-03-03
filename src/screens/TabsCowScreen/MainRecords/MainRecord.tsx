@@ -156,6 +156,7 @@ export const MainRecord = () => {
       createReproductionRecord({
         idVaca,
         pesoNacimiento: insertCow.pesoNacimiento,
+        sex: insertCow.sexo,
       }),
     );
     dispatch(createSanityRecord(idVaca));

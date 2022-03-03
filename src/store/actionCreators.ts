@@ -34,6 +34,13 @@ export type IAppAction = {
   type: string;
 } & IAppState;
 
+export const setAllReproductionRecords = (payload: IReproductionRecord[]) => {
+  return {
+    type: ActionTypes.SET_ALL_REPRODUCTION_RECORDS,
+    allReproductionRecords: payload,
+  };
+};
+
 export const setDailyMilkLab = (
   payload: IDailyMilkLab | undefined,
 ): IAppAction => {
@@ -341,6 +348,7 @@ export const updateReproductionRecord = (
 export const createReproductionRecord = (payload: {
   idVaca: string;
   pesoNacimiento: number;
+  sex: string;
 }): ThunkAction<void, IAppState, undefined, IAppAction> => {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
@@ -357,6 +365,7 @@ export const createReproductionRecord = (payload: {
       set(reproductionTemplate, 'historicoPeso', [
         {peso: payload.pesoNacimiento, timestamp: getTimestamp()},
       ]);
+      set(reproductionTemplate, 'sex', payload.sex);
       const resposne = await axios.post(path, reproductionTemplate);
       console.log('INFO: registro de reproducción creado exitosamente');
     } catch (e) {
@@ -818,6 +827,7 @@ export const getDailyMilkLabRecordsByMonth = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    console.log('DEBUG: llamado........');
     const path = `${API_BASE_PATH}/daily-milk-lab-records/get/${monthYear}`;
 
     try {
@@ -857,6 +867,35 @@ export const updateMilkRegisterLab = (
     } catch (e) {
       // @ts-ignore
       console.log(e.response.request._response);
+    }
+  };
+};
+
+export const getAllReproductionRecords = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/reproduction-register/getAll`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        records: IReproductionRecord[];
+      }>(path);
+
+      dispatch(setAllReproductionRecords(response.data.records));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+      Alert.alert(
+        `No se pudo obtener los registros de reproducción`,
+        'El registro no existe o no hay un problema con la conexión',
+      );
     }
   };
 };

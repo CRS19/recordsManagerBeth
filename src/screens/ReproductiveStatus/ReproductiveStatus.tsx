@@ -11,6 +11,7 @@ import {Ultrasonido} from '../../assets/Ultrasonido/Ultrasonido';
 import {Utero} from '../../assets/Utero/Utero';
 import {GeneralButtom} from '../../components/GeneralButtom';
 import {TopBar} from '../../components/TopBar';
+import {DispatchActionsEnum} from '../../constants/dispatchDirectory';
 import {styles} from '../../theme/GlobalStyles';
 
 export const ReproductiveStatus = () => {
@@ -23,6 +24,7 @@ export const ReproductiveStatus = () => {
           color="#F0E4CA"
           Icon={<Ginecologia />}
           navigateTo={'ControlGinecológico'}
+          dispatchAction={DispatchActionsEnum.GET_ALL_REPROD_RECORDS}
         />
         <GeneralButtom
           title="Inseminación Monta"

@@ -72,6 +72,7 @@ export const useCenterView = ({
     if (isNil(currentRecordSinType)) {
       const newRecord = cloneDeep(recordSinTipo);
       setIsLoading(true);
+      set(newRecord, 'createdAt', getTimestamp());
       record.records.push(newRecord);
       dispatch(updateReproductionRecord(record));
       setIsLoading(false);

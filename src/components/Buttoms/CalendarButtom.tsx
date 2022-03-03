@@ -1,30 +1,13 @@
 import {Picker} from '@react-native-picker/picker';
-import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {getDailyMilkLabRecordsByMonth} from '../../store/actionCreators';
+import React from 'react';
+import {View, Text} from 'react-native';
 import {styles} from '../../theme/GlobalStyles';
-import {getMonthNumber, getYear, MONTHS} from '../../utils/time-utils';
+import {MONTHS} from '../../utils/time-utils';
+import {useMonthYearButtom} from './state/useMonthYearButtom';
 
 export const CalendarButtom = () => {
-  const dispatch = useDispatch();
-  const [monthNumber, setMonthNmber] = useState<number>(getMonthNumber() - 1);
-  const [year, setYear] = useState<number>(Number(getYear()));
-  let yearArray = [];
-  let interval = 10;
-  for (let i = 1; i <= 20; i++) {
-    yearArray.push(year - interval);
-    interval = interval - 1;
-  }
-
-  useEffect(() => {
-    console.log(
-      'DEBUG: llamar endpoint con -> ',
-
-      `${MONTHS[monthNumber]}-${year}`,
-    );
-    dispatch(getDailyMilkLabRecordsByMonth(`${MONTHS[monthNumber]}-${year}`));
-  }, [monthNumber, year]);
+  const {monthNumber, setMonthNmber, setYear, year, yearArray} =
+    useMonthYearButtom({componentName: CalendarButtom.name});
 
   return (
     <View
@@ -63,7 +46,7 @@ export const CalendarButtom = () => {
             borderColor: 'transparent',
           }}>
           <Picker
-            selectedValue={yearArray[year]}
+            selectedValue={yearArray[10]}
             onValueChange={(itemValue, itemIndex) => {
               console.log(itemValue);
               setYear(Number(itemValue));

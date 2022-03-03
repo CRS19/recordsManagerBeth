@@ -87,6 +87,7 @@ export interface Record {
   recordType: RecordReproductionType;
   idReproductor: string;
   fechaPosibleParto: number;
+  createdAt: number;
   gestationDays: number;
   isCurrentRecord: boolean;
   inseminadorName?: string;
@@ -100,6 +101,7 @@ export interface Record {
 
 export interface IReproductionRecord {
   idVaca: string;
+  sex: string;
   estadoReproductivoSubType: EstadoReproductivoSubType | '';
   records: Record[];
   historicalDataToPlot: IHistoricalDataToPlot;

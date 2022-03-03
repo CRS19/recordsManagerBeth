@@ -18,6 +18,7 @@ import {
 import {cloneDeep, set} from 'lodash';
 import {useDispatch} from 'react-redux';
 import {updateReproductionRecord} from '../../store/actionCreators';
+import {getTimestamp} from '../../utils/time-utils';
 
 interface IDatePickerGeneralModal {
   title: string;
@@ -51,6 +52,7 @@ export const DatePickerGeneralModal = (props: IDatePickerGeneralModal) => {
       'montaType',
       MontaTypeEnum.MONTA,
     );
+    set(newRecord, 'createdAt', getTimestamp());
 
     console.log('SETEAR EL POSIBLE PARTO CON: ', timestamp);
 

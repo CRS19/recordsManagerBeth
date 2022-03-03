@@ -39,6 +39,7 @@ export const INITIAL_STATE: IAppState = {
   drugs: undefined,
   sanityRecord: undefined,
   dailyMilkLabRecord: undefined,
+  allReproductionRecords: undefined,
 };
 
 export interface IAppState {
@@ -60,6 +61,7 @@ export interface IAppState {
   drugs?: IDrug[];
   sanityRecord?: ISanityRecord;
   dailyMilkLabRecord?: IDailyMilkLab;
+  allReproductionRecords?: IReproductionRecord[];
 }
 
 export const reducer = (
@@ -156,6 +158,11 @@ export const reducer = (
       return {
         ...state,
         dailyMilkLabRecord: action.dailyMilkLabRecord,
+      };
+    case ActionTypes.SET_ALL_REPRODUCTION_RECORDS:
+      return {
+        ...state,
+        allReproductionRecords: action.allReproductionRecords,
       };
     default:
       return state;
