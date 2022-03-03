@@ -28,7 +28,7 @@ export const LoadingModal = (props: ILoadingModal) => {
         <TouchableOpacity activeOpacity={1} style={styles.ModalGeneralStyle}>
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
-            style={{backgroundColor: 'red'}}
+            style={{backgroundColor: 'transparent'}}
             onPress={() => {}}>
             <View style={styles.ModalOneFieldContainer}>
               <View style={styles.ModalOneFieldInputPosition}>

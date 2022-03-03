@@ -8,6 +8,7 @@ import {
 
 export const reproductionTemplate: IReproductionRecord = {
   idVaca: '',
+  sex: '',
   estadoReproductivoSubType: '',
   records: [],
   historicalDataToPlot: {

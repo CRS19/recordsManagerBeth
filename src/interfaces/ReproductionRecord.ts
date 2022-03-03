@@ -101,6 +101,7 @@ export interface Record {
 
 export interface IReproductionRecord {
   idVaca: string;
+  sex: string;
   estadoReproductivoSubType: EstadoReproductivoSubType | '';
   records: Record[];
   historicalDataToPlot: IHistoricalDataToPlot;
