@@ -10,6 +10,7 @@ import {MILK_COSTS, PROD_INFO} from '../../../constants/MilkLabConstants';
 import {useProductionDiario} from './useProductionDiario';
 import {useCreatePdf} from '../../../utils/useCreatePdf';
 import {BorderButtom} from '../../../components/Buttoms/BorderButtom';
+import {CalendarActionsEnum} from '../../../constants/CalendarButtomConstants';
 
 export const ProductionDiaria = () => {
   const {labRecords, GET_ACTION} = useProductionDiario();
@@ -24,7 +25,7 @@ export const ProductionDiaria = () => {
             title="Producción Total diaria estación tunshi"
             width={1200}
           />
-          <CalendarButtom />
+          <CalendarButtom calendarAction={CalendarActionsEnum.GET_DAILY_MILK} />
 
           <DailyMilkLabTable dataArray={get(labRecords, 'data', [])} />
           <View style={{marginTop: 20, flexDirection: 'row'}}>

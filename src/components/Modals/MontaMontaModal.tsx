@@ -74,6 +74,7 @@ export const MontaMontaModal = (props: IMontaMontaModal) => {
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
     set(newRecord, 'createdAt', getTimestamp());
+    set(newRecord, 'montaIaTimestamp', getTimestamp());
 
     console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
 

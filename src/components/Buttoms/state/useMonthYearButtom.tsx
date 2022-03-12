@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ThunkAction} from 'redux-thunk';
+import {CalendarActionsEnum} from '../../../constants/CalendarButtomConstants';
 import {
   getDailyMilkLabRecordsByMonth,
   getDrugsList,
+  getInseminacionesMontasByMonth,
   IAppAction,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
@@ -18,11 +20,11 @@ export interface IUseMonthYearButtom {
 }
 
 export interface IUseMonthYearButtomProps {
-  componentName: string;
+  calendarAction: CalendarActionsEnum;
 }
 
 export const useMonthYearButtom = ({
-  componentName,
+  calendarAction,
 }: IUseMonthYearButtomProps): IUseMonthYearButtom => {
   const dispatch = useDispatch();
   const [monthNumber, setMonthNmber] = useState<number>(getMonthNumber() - 1);
@@ -35,17 +37,19 @@ export const useMonthYearButtom = ({
   }
 
   const DISTATCH_ACTIONS: Record<
-    string,
+    CalendarActionsEnum,
     ThunkAction<void, IAppState, undefined, IAppAction>
   > = {
-    ['CalendarButtom']: getDailyMilkLabRecordsByMonth(
+    [CalendarActionsEnum.GET_DAILY_MILK]: getDailyMilkLabRecordsByMonth(
       `${MONTHS[monthNumber]}-${year}`,
     ),
-    ['YearButtomFilter']: getDrugsList(),
+    [CalendarActionsEnum.GET_DRUGS_LIST]: getDrugsList(),
+    [CalendarActionsEnum.GET_INSEMINACIONES_MONTAS]:
+      getInseminacionesMontasByMonth(`${MONTHS[monthNumber]}-${year}`),
   };
 
   useEffect(() => {
-    dispatch(DISTATCH_ACTIONS[componentName]);
+    dispatch(DISTATCH_ACTIONS[calendarAction]);
   }, [monthNumber, year]);
 
   return {monthNumber, setMonthNmber, setYear, year, yearArray};

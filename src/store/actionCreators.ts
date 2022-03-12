@@ -18,7 +18,11 @@ import {ImagePickerResponse} from 'react-native-image-picker';
 import {set} from 'lodash';
 import {UploadImageResponse} from '../interfaces/UploadImageResponse';
 import {IGetReproductionRecordResponse} from '../interfaces/getReproductionRecord';
-import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
+import {
+  IReproductionRecord,
+  IMontaIaReportTableInfo,
+  Record,
+} from '../interfaces/ReproductionRecord';
 import {reproductionTemplate} from '../utils/recordsTemplates/reproduction_template';
 import {Alert} from 'react-native';
 import {IGetReproductorsListResponse} from '../interfaces/getReproductorsListResponse';
@@ -33,6 +37,13 @@ import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/Cre
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setMontaIaReportData = (payload: IMontaIaReportTableInfo[]) => {
+  return {
+    type: ActionTypes.SET_MONTA_IA_REPORT_DATA,
+    montaIaReportTableData: payload,
+  };
+};
 
 export const setAllReproductionRecords = (payload: IReproductionRecord[]) => {
   return {
@@ -895,6 +906,35 @@ export const getAllReproductionRecords = (): ThunkAction<
       Alert.alert(
         `No se pudo obtener los registros de reproducción`,
         'El registro no existe o no hay un problema con la conexión',
+      );
+    }
+  };
+};
+
+export const getInseminacionesMontasByMonth = (
+  monthYear: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    console.log('A buscar -> ', monthYear);
+    const path = `${API_BASE_PATH}/reproduction-register/inseminacionesMontas/${monthYear}`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        montasIa: IMontaIaReportTableInfo[];
+      }>(path);
+
+      const montaIaReportData = response.data.montasIa;
+
+      dispatch(setMontaIaReportData(montaIaReportData));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+      Alert.alert(
+        `No se pudo obtener el reporte de Monta / Ia`,
+        'El reporte no pudo ser generado o no hay un problema con la conexión',
       );
     }
   };

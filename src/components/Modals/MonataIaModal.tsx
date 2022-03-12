@@ -78,6 +78,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
     set(newRecord, 'createdAt', getTimestamp());
+    set(newRecord, 'montaIaTimestamp', getTimestamp());
 
     console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
 

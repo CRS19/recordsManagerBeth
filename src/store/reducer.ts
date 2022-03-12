@@ -6,7 +6,11 @@ import {ActionTypes} from './actionTypes';
 import {ICow} from './../interfaces/CowInterface';
 import {IAppAction} from './actionCreators';
 import {emptyCow} from '../VaquitasPrueba/vacas';
-import {IReproductionRecord, Record} from '../interfaces/ReproductionRecord';
+import {
+  IReproductionRecord,
+  IMontaIaReportTableInfo,
+  Record,
+} from '../interfaces/ReproductionRecord';
 import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 import {IProductorasArray} from '../interfaces/ProductorasId';
@@ -40,6 +44,7 @@ export const INITIAL_STATE: IAppState = {
   sanityRecord: undefined,
   dailyMilkLabRecord: undefined,
   allReproductionRecords: undefined,
+  montaIaReportTableData: [],
 };
 
 export interface IAppState {
@@ -62,6 +67,7 @@ export interface IAppState {
   sanityRecord?: ISanityRecord;
   dailyMilkLabRecord?: IDailyMilkLab;
   allReproductionRecords?: IReproductionRecord[];
+  montaIaReportTableData?: IMontaIaReportTableInfo[];
 }
 
 export const reducer = (
@@ -164,6 +170,12 @@ export const reducer = (
         ...state,
         allReproductionRecords: action.allReproductionRecords,
       };
+    case ActionTypes.SET_MONTA_IA_REPORT_DATA: {
+      return {
+        ...state,
+        montaIaReportTableData: action.montaIaReportTableData,
+      };
+    }
     default:
       return state;
   }

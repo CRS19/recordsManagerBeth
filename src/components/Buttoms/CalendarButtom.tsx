@@ -1,13 +1,18 @@
 import {Picker} from '@react-native-picker/picker';
 import React from 'react';
 import {View, Text} from 'react-native';
+import {CalendarActionsEnum} from '../../constants/CalendarButtomConstants';
 import {styles} from '../../theme/GlobalStyles';
 import {MONTHS} from '../../utils/time-utils';
 import {useMonthYearButtom} from './state/useMonthYearButtom';
 
-export const CalendarButtom = () => {
+export interface ICalendarButtomProps {
+  calendarAction: CalendarActionsEnum;
+}
+
+export const CalendarButtom = ({calendarAction}: ICalendarButtomProps) => {
   const {monthNumber, setMonthNmber, setYear, year, yearArray} =
-    useMonthYearButtom({componentName: CalendarButtom.name});
+    useMonthYearButtom({calendarAction});
 
   return (
     <View

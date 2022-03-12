@@ -72,9 +72,12 @@ export const useCenterView = ({
     if (isNil(currentRecordSinType)) {
       const newRecord = cloneDeep(recordSinTipo);
       setIsLoading(true);
+
       set(newRecord, 'createdAt', getTimestamp());
+      console.log(JSON.stringify(newRecord, null, 3));
       record.records.push(newRecord);
       dispatch(updateReproductionRecord(record));
+
       setIsLoading(false);
     }
     dispatch(setIsUsingControlGinecologico(true));

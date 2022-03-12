@@ -36,9 +36,7 @@ export const DatePickerGeneralModal = (props: IDatePickerGeneralModal) => {
 
   const setDate = () => {
     // TODO ver la forma de setear el registro como parto ? :c no entiendos
-    console.log(
-      'TODO ver la forma de setear el registro como parto ? :c no entiendos',
-    );
+
     const newRecord = cloneDeep(props.recordToUpdate);
 
     set(
@@ -52,9 +50,11 @@ export const DatePickerGeneralModal = (props: IDatePickerGeneralModal) => {
       'montaType',
       MontaTypeEnum.MONTA,
     );
-    set(newRecord, 'createdAt', getTimestamp());
-
-    console.log('SETEAR EL POSIBLE PARTO CON: ', timestamp);
+    set(
+      newRecord.records[newRecord.records.length - 1],
+      'montaIaTimestamp',
+      getTimestamp(),
+    );
 
     dispatch(updateReproductionRecord(newRecord));
     setOpenCloseModal(false);
