@@ -10,6 +10,9 @@ import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
 import {htmlDailyProductionReport} from '../constants/htmlReportGenerators/htmlDailyProductionReport';
 import {IControlGinecologicoRowData} from '../interfaces/ControlGinecologico';
 import {getHtmlControlGinecologicoReport} from '../constants/htmlReportGenerators/htmlControlGinecologico';
+import {IMontaIaReportTableInfo} from '../interfaces/ReproductionRecord';
+import {htmlInseminacionMontaReport} from '../constants/htmlReportGenerators/htmlInseminacionMontaReport';
+import {getMonthAndYearString} from './time-utils';
 
 export interface IUseCreatePdf {
   createPd: (
@@ -18,6 +21,9 @@ export interface IUseCreatePdf {
     listNumber: number,
   ) => Promise<void>;
   createDrugsInventoryReport: (drugs: IDrug[]) => Promise<void>;
+  createInseminationMontaReport: (
+    inseminationMontaReportData: IMontaIaReportTableInfo[],
+  ) => Promise<void>;
   createProductionDiariaReport: (
     labRecord: IDailyMilkLab,
     GET_ACTION: Record<string, () => string>,
@@ -41,6 +47,20 @@ export const useCreatePdf = (): IUseCreatePdf => {
     let options = {
       html: getHtmlDailyMilkingReport(record, listNumber),
       fileName: `${record.idVaca}_reporte_de_produccion}`,
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+
+    validatePDF(file);
+  };
+
+  const createInseminationMontaReport = async (
+    inseminationMontaReportData: IMontaIaReportTableInfo[],
+  ) => {
+    let options = {
+      html: htmlInseminacionMontaReport(inseminationMontaReportData),
+      fileName: `Reporte_InseminaciónMonta_${getMonthAndYearString()}`,
       directory: 'Documents',
     };
 
@@ -120,6 +140,7 @@ export const useCreatePdf = (): IUseCreatePdf => {
     createPd,
     createDrugsInventoryReport,
     createProductionDiariaReport,
+    createInseminationMontaReport,
     createControlGinecologicoReport,
   };
 };

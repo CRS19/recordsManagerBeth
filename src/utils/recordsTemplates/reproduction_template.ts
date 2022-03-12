@@ -27,6 +27,7 @@ export const recordMontaIa: Record = {
   gestationDays: 0,
   inseminadorName: '',
   createdAt: 0,
+  montaIaTimestamp: 0,
 };
 
 export const recordMontaMonta: Record = {
@@ -38,6 +39,7 @@ export const recordMontaMonta: Record = {
   fechaPosibleParto: 0,
   gestationDays: 0,
   createdAt: 0,
+  montaIaTimestamp: 0,
 };
 
 export const recordSinTipo: Record = {
@@ -49,4 +51,5 @@ export const recordSinTipo: Record = {
   fechaPosibleParto: 0,
   gestationDays: 0,
   createdAt: 0,
+  montaIaTimestamp: 0,
 };

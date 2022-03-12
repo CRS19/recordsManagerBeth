@@ -97,6 +97,7 @@ export interface Record {
   sexoDeLaCria?: string;
   nombreYNumeroDeLaCria?: string;
   pesoDeLaCria?: number;
+  montaIaTimestamp: number;
 }
 
 export interface IReproductionRecord {
@@ -127,4 +128,13 @@ export enum ReproductionRecordKeysEnum {
   sexoDeLaCria = 'string',
   nombreYNumeroDeLaCria = 'string',
   pesoDeLaCria = 'number',
+}
+
+export interface IMontaIaReportTableInfo {
+  areteVaca: string;
+  fechaMontaIa: string;
+  montaIaType: MontaTypeEnum;
+  numAreteToro: string;
+  nombreToro: string;
+  inseminadorName: string;
 }

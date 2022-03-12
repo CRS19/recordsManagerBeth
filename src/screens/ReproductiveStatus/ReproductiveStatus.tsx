@@ -30,7 +30,7 @@ export const ReproductiveStatus = () => {
           title="Inseminación Monta"
           color="#F59257"
           Icon={<Ovulos />}
-          navigateTo={'InseminacionMonta'}
+          navigateTo={'InseminaciónMonta'}
         />
         <GeneralButtom
           title="Gestación "
