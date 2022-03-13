@@ -22,6 +22,7 @@ import {
   IReproductionRecord,
   IMontaIaReportTableInfo,
   Record,
+  IPreniezDataReportInfo,
 } from '../interfaces/ReproductionRecord';
 import {reproductionTemplate} from '../utils/recordsTemplates/reproduction_template';
 import {Alert} from 'react-native';
@@ -37,6 +38,13 @@ import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/Cre
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setPreniezReportData = (payload: IPreniezDataReportInfo[]) => {
+  return {
+    type: ActionTypes.SET_PRENIEZ_REPORT_DATA,
+    preniezReportTableData: payload,
+  };
+};
 
 export const setMontaIaReportData = (payload: IMontaIaReportTableInfo[]) => {
   return {
@@ -934,6 +942,32 @@ export const getInseminacionesMontasByMonth = (
       console.log(e.response.request._response);
       Alert.alert(
         `No se pudo obtener el reporte de Monta / Ia`,
+        'El reporte no pudo ser generado o no hay un problema con la conexión',
+      );
+    }
+  };
+};
+
+export const getPreñezReportInfoByMonth = (
+  monthYear: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/reproduction-register/preniez/${monthYear}`;
+
+    try {
+      const resposne = await axios.get<{
+        message: string;
+        preniezDataReport: IPreniezDataReportInfo[];
+      }>(path);
+
+      dispatch(setPreniezReportData(resposne.data.preniezDataReport));
+    } catch (e) {
+      // @ts-ignore
+      console.log(e.response.request._response);
+      Alert.alert(
+        `No se pudo obtener el reporte de Preñez`,
         'El reporte no pudo ser generado o no hay un problema con la conexión',
       );
     }
