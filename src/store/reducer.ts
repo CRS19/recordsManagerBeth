@@ -1,3 +1,4 @@
+import {IPreniezDataReportInfo} from './../interfaces/ReproductionRecord';
 import {ISanityRecord} from './../interfaces/SanityRecords';
 import {IDrug} from './../interfaces/Drug.interface';
 import {IDailyMilkRecord} from './../interfaces/DailyMilkRecord';
@@ -45,6 +46,7 @@ export const INITIAL_STATE: IAppState = {
   dailyMilkLabRecord: undefined,
   allReproductionRecords: undefined,
   montaIaReportTableData: [],
+  preniezReportTableData: [],
 };
 
 export interface IAppState {
@@ -68,6 +70,7 @@ export interface IAppState {
   dailyMilkLabRecord?: IDailyMilkLab;
   allReproductionRecords?: IReproductionRecord[];
   montaIaReportTableData?: IMontaIaReportTableInfo[];
+  preniezReportTableData?: IPreniezDataReportInfo[];
 }
 
 export const reducer = (
@@ -176,6 +179,11 @@ export const reducer = (
         montaIaReportTableData: action.montaIaReportTableData,
       };
     }
+    case ActionTypes.SET_PRENIEZ_REPORT_DATA:
+      return {
+        ...state,
+        preniezReportTableData: action.preniezReportTableData,
+      };
     default:
       return state;
   }

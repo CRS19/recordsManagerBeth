@@ -6,6 +6,7 @@ import {
   getDailyMilkLabRecordsByMonth,
   getDrugsList,
   getInseminacionesMontasByMonth,
+  getPreñezReportInfoByMonth,
   IAppAction,
 } from '../../../store/actionCreators';
 import {IAppState} from '../../../store/reducer';
@@ -46,6 +47,9 @@ export const useMonthYearButtom = ({
     [CalendarActionsEnum.GET_DRUGS_LIST]: getDrugsList(),
     [CalendarActionsEnum.GET_INSEMINACIONES_MONTAS]:
       getInseminacionesMontasByMonth(`${MONTHS[monthNumber]}-${year}`),
+    [CalendarActionsEnum.GET_PREÑEZ_MONTA]: getPreñezReportInfoByMonth(
+      `${MONTHS[monthNumber]}-${year}`,
+    ),
   };
 
   useEffect(() => {

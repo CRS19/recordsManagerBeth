@@ -138,3 +138,11 @@ export interface IMontaIaReportTableInfo {
   nombreToro: string;
   inseminadorName: string;
 }
+
+export interface IPreniezDataReportInfo {
+  numeroAreteVaca: string;
+  fechaMonta: string;
+  preniesDays: number;
+  fechaPosibleParto: string;
+  numeroPartos: number;
+}
