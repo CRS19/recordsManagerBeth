@@ -87,10 +87,6 @@ export const useModalInput = (props: IUseModalInputProps): IUseModalInput => {
         initialValue.numeroAretePadre
       }`;
     } else if (property === 'pesoAlDestete' && endEditing) {
-      console.log(
-        'concatena',
-        initialValue[property]!.toString().concat(' Kg'),
-      );
       return value.toString().concat(' Kg');
     } else if (
       property === 'vacaInfo.duraciónLactanciaPromedio' &&

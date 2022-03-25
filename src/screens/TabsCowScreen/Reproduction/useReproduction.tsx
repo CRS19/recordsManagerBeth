@@ -131,9 +131,6 @@ export const useReproduction = (): IUseReproduction => {
   };
 
   const onPalpTypePress = (palpType: string) => {
-    console.log(getEcuatorTimestamp());
-    console.log(moment(getEcuatorTimestamp()).format('DD/MM/YYYY'));
-
     if (palpType === PalpEnum.VACIA) {
       setIsOpenVaciaTypeModal(true);
     } else if (palpType === PalpEnum.PREÑADA) {
@@ -167,7 +164,7 @@ export const useReproduction = (): IUseReproduction => {
   const onPartoTypePress = (partoType: string) => {
     setIsOpenTwoModal(true);
     setIsOpenTipoPartoModal(false);
-    console.log(`${partoType} seleccionado`);
+
     updateCurrentRecordProperty(
       ReproductionRecordKeysEnum.partoType,
       partoType,
@@ -175,7 +172,6 @@ export const useReproduction = (): IUseReproduction => {
   };
 
   const onSelectChildSex = (sex: string) => {
-    console.log('El sexo es: ', sex);
     updateCurrentRecordProperty(ReproductionRecordKeysEnum.sexoDeLaCria, sex);
     setIsOpenSexModal(false);
   };
@@ -183,7 +179,7 @@ export const useReproduction = (): IUseReproduction => {
   const onNacidoVivoPress = () => {
     //Setear info de los nacimientos ! en la finazlización del registro
     setIsOpenTwoModal(false);
-    console.log('nacido vivooo');
+
     dispatch(setInsertNewCow(true));
     dispatch(setIsNewborn(true));
     updateCurrentRecordProperty(
@@ -201,7 +197,6 @@ export const useReproduction = (): IUseReproduction => {
       ReproductionRecordKeysEnum.estadoDeLaCria,
       estadoDeLaCriaEnum.NATIMORTO,
     );
-    console.log('natimorto');
   };
 
   const onAbortoTypePress = (abortoType: string) => {
@@ -252,10 +247,7 @@ export const useReproduction = (): IUseReproduction => {
     if (updateControl.current) {
       updateControl.current = false;
       const recordToUpdate = cloneDeep(record);
-      console.log(
-        'BUUG: el registro es: ',
-        JSON.stringify(recordsSplited[3][0].registrosPalp, null, 3),
-      );
+
       // caso de aborto
       if (
         recordsSplited[3][0].registrosPalp[

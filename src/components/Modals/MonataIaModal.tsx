@@ -71,7 +71,6 @@ export const MonataIaModal = (props: IMonataIaModal) => {
   }, []);
 
   const saveNewRecord = () => {
-    console.log('guardar info');
     const newRecord = cloneDeep(recordMontaIa);
 
     set(newRecord, 'inseminadorName', inseminadorName);
@@ -80,14 +79,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
     set(newRecord, 'createdAt', getTimestamp());
     set(newRecord, 'montaIaTimestamp', getTimestamp());
 
-    console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
-
     recordToUpdate.records.push(newRecord);
-
-    console.log(
-      'master record to insert: ',
-      JSON.stringify(recordToUpdate, null, 3),
-    );
 
     setIsLoading(true);
     dispatch(updateReproductionRecord(recordToUpdate));
@@ -110,7 +102,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalOneFieldContainer}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>

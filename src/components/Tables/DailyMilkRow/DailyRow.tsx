@@ -51,18 +51,6 @@ export const DailyRow = ({
   };
   const getDailyMilkInitialState = (): milkDailyState => {
     if (!!cowInfo) {
-      console.log('------------------ ', cowInfo.idVaca);
-      console.log(
-        'Fecha del ultimo registro -> ',
-        getDateOfDay(
-          get(
-            cowInfo.dailyRecords[cowInfo.dailyRecords.length - 1],
-            'timestamp',
-            0,
-          ),
-        ),
-      );
-      console.log('Fecha de hoy -> ', getDateOfDay(getTimestamp()));
       if (
         getDateOfDay(
           get(
@@ -73,7 +61,6 @@ export const DailyRow = ({
         ) !== getDateOfDay(getTimestamp()) ||
         cowInfo.dailyRecords.length === 0
       ) {
-        console.log('registro agregado....');
         cowInfo.dailyRecords.push({
           timestamp: getTimestamp(),
           weekNumber: getWeekNumber(),
@@ -124,7 +111,6 @@ export const DailyRow = ({
   );
 
   useEffect(() => {
-    console.log(morningAfternoonMilk);
     if (morningAfternoonMilk.morning !== '0') {
       if (isNaN(Number(morningAfternoonMilk.morning))) {
         Alert.alert(
@@ -142,7 +128,6 @@ export const DailyRow = ({
     }
     if (morningAfternoonMilk.afernoon !== '0') {
       if (isNaN(Number(morningAfternoonMilk.afernoon))) {
-        console.log(morningAfternoonMilk.afernoon);
         Alert.alert(
           'Error de entrada',
           'Porfavor ingrese un numero válido ejemplo: 30.04',
@@ -160,7 +145,6 @@ export const DailyRow = ({
   }, [morningAfternoonMilk]);
 
   useEffect(() => {
-    console.log('cambiando el cow');
     getColor();
   }, [cowInfo]);
 

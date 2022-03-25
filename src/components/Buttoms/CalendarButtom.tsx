@@ -28,7 +28,6 @@ export const CalendarButtom = ({calendarAction}: ICalendarButtomProps) => {
           <Picker
             selectedValue={MONTHS[monthNumber]}
             onValueChange={(itemValue, itemIndex) => {
-              console.log(itemValue);
               setMonthNmber(itemIndex);
             }}>
             {MONTHS.map((month, index: number) => (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {InputTextView} from '../../../components/Views/InputTextView';
 import {
@@ -6,20 +6,31 @@ import {
   RecordReproductionType,
 } from '../../../interfaces/ReproductionRecord';
 import {isEmpty, get, last, isNil} from 'lodash';
+import {useDispatch, useSelector} from 'react-redux';
+import {IAppState} from '../../../store/reducer';
+import {updatePartialMainCowRecord} from '../../../store/actionCreators';
+import {estadoProductivoType} from '../../../interfaces/CowInterface';
 
 export interface IReproductionInfoCardProps {
   record: IReproductionRecord;
 }
 
 export const getNumeroPartos = (record: IReproductionRecord) => {
-  const partos = record.records.filter(
-    el => el.recordType === RecordReproductionType.PARTO,
-  );
+  if (!isNil(record)) {
+    const partos = record.records.filter(
+      el => el.recordType === RecordReproductionType.PARTO,
+    );
 
-  return `${partos.length}`;
+    return `${partos.length}`;
+  } else {
+    return '0';
+  }
 };
 
 export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
+  const dispatch = useDispatch();
+  const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
+
   const getEstadoReproductivo = () => {
     const lastRecord = last(record.records);
 
@@ -83,6 +94,47 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
   const getServiciosXConcepcion = () => {
     return `${get(record, 'serviciosPorParto', 0)}`;
   };
+
+  useEffect(() => {
+    if (currentCow.estadoReproductivo !== getEstadoReproductivo()) {
+      console.log(
+        'Estado reproductivo en current cow -> ',
+        currentCow.estadoReproductivo,
+      );
+      console.log(
+        'Estado reproductivo en rep records -> ',
+        getEstadoReproductivo(),
+      );
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {estadoReproductivo: getEstadoReproductivo()},
+        }),
+      );
+    }
+    if (
+      currentCow.vacaInfo!.numeroDePartos !== Number(getNumeroPartos(record))
+    ) {
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {'vacaInfo.numeroDePartos': getNumeroPartos()},
+        }),
+      );
+    }
+
+    if (currentCow.vacaInfo!.numeroDeAbortos !== Number(getNumeroAbortos())) {
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {'vacaInfo.numeroDeAbortos': getNumeroAbortos()},
+        }),
+      );
+    }
+  }, []);
 
   return (
     <View

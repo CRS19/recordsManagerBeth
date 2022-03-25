@@ -37,7 +37,6 @@ export const DrugPicker = ({
         <Picker
           selectedValue={value.drugId}
           onValueChange={(itemValue, itemIndex) => {
-            console.log('itemvalue -> ', itemValue);
             changeDoseUnit(itemValue);
             setValue(prevValue =>
               setPreviusValueInthatIndex(prevValue, valueIndex, itemValue),

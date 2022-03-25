@@ -98,6 +98,7 @@ export interface ICow {
   pesoAlDestete: number;
   pesoActual: number;
   estadoReproductivo: estadoReproductivoType;
+  updatedAt?: number;
   vacaInfo?: vacaInfo;
   toroInfo?: toroInfo;
   historialPeso: IHistorialPeso[];

@@ -41,36 +41,29 @@ export const useProductionReportScreen = ({
 
   const getDataRecod = async () => {
     try {
-      console.log('Llamando al enpoint -------- ', idVaca);
       const response = await axios.get(
         `${API_BASE_PATH}/daily-milking-data/obtenerData/${idVaca}/${prodCicle}`,
       );
 
-      console.log(response);
       const data: IMilkingDataRespose = JSON.parse(response.request._response);
 
-      console.log('respuesta _> ', data.record.data);
       setMilkingData(data.record.data);
     } catch (e) {
-      console.log('ERRRORR ');
       setMilkingData([{x: 0, y: 0}]);
       Alert.alert(
         'Error de base de datos',
         `No existen los datos de ${idVaca} en el ciclo productivo ${prodCicle}`,
       );
-      console.log(e);
     }
   };
 
   useEffect(() => {
-    console.log('USE EFFECT LLAAMOD');
     if (isEmpty(milkingData)) {
       getDataRecod();
     }
   }, [milkingData]);
 
   useEffect(() => {
-    console.log('****************** ', prodCicle, idVaca);
     getDataRecod();
   }, [prodCicle]);
 

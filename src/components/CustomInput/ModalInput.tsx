@@ -89,7 +89,7 @@ export const ModalInput = (props: IModalInput) => {
             editable={editable}
             onFocus={() => setEndEditing(false)}
             onEndEditing={() => setEndEditing(true)}
-            onBlur={() => (!!validate ? validate() : console.log(''))}
+            onBlur={() => (!!validate ? validate() : () => {})}
             underlineColor="#6200EE"
             keyboardType={numKeyboard ? 'decimal-pad' : 'default'}
             ref={ref}

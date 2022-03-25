@@ -42,12 +42,16 @@ export const LactanciaViewCard = ({
 
   const getTotalProduction = () => {
     if (!isNil(lastRecord)) {
-      return (
-        lastRecord.dailyRecords.reduce((acc, record) => ({
-          ...record,
-          totalDailyProd: acc.totalDailyProd + record.totalDailyProd,
-        })).totalDailyProd * milk2Kg
-      );
+      if (!isEmpty(lastRecord.dailyRecords)) {
+        return (
+          lastRecord.dailyRecords.reduce((acc, record) => ({
+            ...record,
+            totalDailyProd: acc.totalDailyProd + record.totalDailyProd,
+          })).totalDailyProd * milk2Kg
+        );
+      } else {
+        return 0;
+      }
     } else {
       return 0;
     }
@@ -65,7 +69,7 @@ export const LactanciaViewCard = ({
   };
 
   const getDailyProdAverage = () => {
-    if (!isNil(lastRecord)) {
+    if (!isNil(lastRecord) && !isEmpty(lastRecord.dailyRecords)) {
       return (
         (lastRecord.dailyRecords.reduce((acc, dailyRecord) => ({
           ...dailyRecord,

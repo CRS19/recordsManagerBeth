@@ -29,8 +29,6 @@ export const MainRecordView = () => {
   );
   const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
 
-  console.log(currentCow.sexo === 'HEMBRA');
-
   return (
     <View style={{flexDirection: 'column'}}>
       <TopBar
@@ -78,7 +76,7 @@ export const MainRecordView = () => {
                 <DescarteBottom />
                 <PrintQrButtom />
                 {/**  TODO logica de actualizar **/}
-                <SaveButtom onPress={() => console.log('ACUTALIZA OE')} />
+                <SaveButtom onPress={() => {}} />
               </View>
               <View>
                 <GeneralTitle title={'Identificación'} />

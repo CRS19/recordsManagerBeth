@@ -38,7 +38,7 @@ export const ChooseSexModal = ({
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
           style={{backgroundColor: 'green'}}
-          onPress={() => console.log('no cerrar')}>
+          onPress={() => {}}>
           <View>
             <View style={styles.ModalSexChooseContainer}>
               <View style={styles.ModalSexTitlePosition}>

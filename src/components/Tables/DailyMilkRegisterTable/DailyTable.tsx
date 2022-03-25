@@ -41,12 +41,6 @@ export const DailyTable = ({
       ) : (
         <DailyRowView records={dailyProdRecordByDate} />
       )}
-      <Text
-        onPress={() =>
-          console.log(JSON.stringify(dailyProductionRecords, null, 3))
-        }>
-        ver registro
-      </Text>
     </View>
   );
 };

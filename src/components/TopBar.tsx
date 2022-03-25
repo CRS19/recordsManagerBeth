@@ -65,7 +65,7 @@ export const TopBar = (props: ITopBar) => {
               top: -10,
               right: 28,
             }}
-            onPress={() => console.log('presionado :v')}>
+            onPress={() => {}}>
             <View style={styles.AvatarPosition}>
               <Image
                 style={{

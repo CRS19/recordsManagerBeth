@@ -39,8 +39,6 @@ export const AplicationWayPicker = ({
         <Picker
           selectedValue={value.applicationWay}
           onValueChange={(itemValue, itemIndex) => {
-            console.log('itemvalue -> ', itemValue);
-
             setValue(prevValue =>
               setPreviusValueInthatIndexGeneral(
                 prevValue,

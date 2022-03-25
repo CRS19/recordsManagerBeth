@@ -73,7 +73,6 @@ export const AddImage = (props: AddImageProps) => {
             (resp: ImagePickerResponse) => {
               if (resp.didCancel) return;
               if (!resp.assets![0].uri) console.log(resp);
-              console.log(JSON.stringify(resp, null, 3));
               setTempUri(resp.assets![0].uri!);
               dispatch(setUploadImage(resp, props.index, props.newCow));
               props.setIsUploadPhotos({

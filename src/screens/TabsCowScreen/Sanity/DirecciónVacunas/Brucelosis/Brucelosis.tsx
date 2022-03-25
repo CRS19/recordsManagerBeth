@@ -33,8 +33,7 @@ export const Brucelosis = () => {
               markingType={'multi-dot'}
               onDayPress={day => {
                 const {dateString} = day;
-                console.log(dateString);
-                console.log(JSON.stringify(Marker, null, 3));
+
                 ({
                   [dateString]: {
                     marked: true,

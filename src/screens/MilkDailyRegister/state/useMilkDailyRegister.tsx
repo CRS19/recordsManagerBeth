@@ -111,7 +111,6 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
       },
     );
 
-    console.log(JSON.stringify(recordsToSave, null, 3));
     if (allCorrect) {
       dispatch(saveDailyProducts(recordsToSave));
     } else {
@@ -129,7 +128,6 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     payload: boolean,
     calostro: boolean,
   ) => {
-    console.log(`cambiando a ${idVaca}`);
     if (calostro) {
       // desactivar calostro
       dailyProductionRecords[Number(idVaca) - 1].calostro = payload;
@@ -155,16 +153,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
 
   useEffect(() => {
     const keys = Object.keys(markedD);
-    console.log(
-      'cambiar los registros segun la fecha, obteniendo las keys',
-      Object.keys(markedD),
-    );
     const ts = getTimestampFromDate(keys[0]);
-    console.log(ts);
-    console.log(
-      'jeeelp',
-      getDateOfDay(Number(ts)) === getDateOfDay(moment.now()),
-    );
     setIsDateView(!(getDateOfDay(Number(ts)) === getDateOfDay(moment.now())));
     dispatch(getRecordsByDate(ts));
   }, [markedD]);

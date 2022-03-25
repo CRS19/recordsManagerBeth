@@ -36,9 +36,7 @@ export const useLogIn = (
   const [password, setPassword] = useState('');
 
   const validar = () => {
-    console.log('validar', mail + ' ' + password);
     dispatch(getLogIn({mail, password}));
-    console.log('navegar a estación...');
     updateCategories();
   };
 
@@ -46,7 +44,6 @@ export const useLogIn = (
     try {
       axios.get(`${API_BASE_PATH}/cow/updateCategory`);
     } catch (e) {
-      console.log('Error de servidor', e);
       Alert.alert(
         'Error de servidor',
         'Fallo al intentar actualizar las categorias',
@@ -84,16 +81,13 @@ export const useLogIn = (
     const token = await AsyncStorage.getItem('token');
 
     if (!token || loggedInfo.isLoggedIn === false)
-      console.log('mostrar el login');
-
-    if (token) {
-      console.log(token);
-      const isTokenValid = await validateJwtToken(token);
-      if (isTokenValid) {
-        navigation.replace('DrawerNavigator');
-        updateCategories();
+      if (token) {
+        const isTokenValid = await validateJwtToken(token);
+        if (isTokenValid) {
+          navigation.replace('DrawerNavigator');
+          updateCategories();
+        }
       }
-    }
   }, []);
 
   useEffect(() => {

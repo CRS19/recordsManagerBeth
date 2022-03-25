@@ -66,7 +66,7 @@ export const DatePickerModal = (props: IDatePickerModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalDatePickerContainer}>
               <View style={styles.ModalDatePickerInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>
@@ -77,7 +77,6 @@ export const DatePickerModal = (props: IDatePickerModal) => {
                   onDayPress={day => {
                     const {dateString} = day;
                     const time = day.timestamp + ECU_5_GTM;
-                    console.log(time);
                     setTimestamp(time);
                     setMarkedDate({
                       [dateString]: {

@@ -37,8 +37,6 @@ export const useProductionScreen = (): IUseProductionScreen => {
       );
 
       if (!isNil(currentRecord)) {
-        //*********
-        console.log('DEBUG: obteniendo datos del registro CURRENT');
         const recordByDate = currentRecord.dailyRecords.filter(
           record => getDateOfDay(record.timestamp) === strDate,
         );

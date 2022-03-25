@@ -77,7 +77,6 @@ export const Farmacos = () => {
           mode={'date'}
           locale="es"
           onConfirm={date => {
-            console.log(date.getTime());
             setExpDate(date.getTime());
           }}
           onCancel={() => openCloseDatePickerModal(false)}

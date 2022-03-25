@@ -93,8 +93,6 @@ export const Reproduction = () => {
               markedDates={markedD}
               onDayPress={day => {
                 const {dateString} = day;
-                console.log(dateString);
-                console.log(JSON.stringify(markedD, null, 3));
                 setMarkedD({
                   [dateString]: {
                     marked: true,

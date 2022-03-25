@@ -61,24 +61,12 @@ export const SelectReproductorModal = (props: ISelectReproductorModal) => {
   }, []);
 
   const saveNewRecord = () => {
-    console.log('guardar info');
-
     const newRecord = cloneDeep(recordToUpdate);
 
     set(
       newRecord.records[newRecord.records.length - 1],
       'idReproductor',
       reproductor,
-    );
-
-    console.log(
-      'new record to insert: ',
-      JSON.stringify(newRecord.records[newRecord.records.length - 1], null, 3),
-    );
-
-    console.log(
-      'master record to insert: ',
-      JSON.stringify(newRecord, null, 3),
     );
 
     setIsLoading(true);

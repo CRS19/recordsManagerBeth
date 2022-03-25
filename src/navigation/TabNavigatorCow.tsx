@@ -88,10 +88,6 @@ export const TabNavigatorCow = () => {
 
 const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
   console.log('DEBUG: tabs render!', '.. Current index: ', props.state.index!);
-  console.log(
-    'debe selecionar el prduction tab? ',
-    includes([1, 5], props.state.index),
-  );
   const isInsertingNewCow = useSelector(
     (state: IAppState) => state.insertNewCow!,
   );

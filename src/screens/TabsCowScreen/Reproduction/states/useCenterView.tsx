@@ -74,7 +74,7 @@ export const useCenterView = ({
       setIsLoading(true);
 
       set(newRecord, 'createdAt', getTimestamp());
-      console.log(JSON.stringify(newRecord, null, 3));
+
       record.records.push(newRecord);
       dispatch(updateReproductionRecord(record));
 
@@ -109,7 +109,6 @@ export const useCenterView = ({
   };
 
   const saveCurrentRecord = () => {
-    console.log('El registro es de tipo: ->', currentRecordSinType.recordType);
     const recordToUpdate = cloneDeep(record);
     set(
       recordToUpdate.records[record.records.length - 1],
@@ -126,15 +125,11 @@ export const useCenterView = ({
       [
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          onPress: () => {},
           style: 'cancel',
         },
         {text: 'Guardar', onPress: saveCurrentRecord},
       ],
-    );
-    console.log(
-      'guardar registro: ',
-      JSON.stringify(currentRecordSinType, null, 3),
     );
   };
 
@@ -177,10 +172,8 @@ export const useCenterView = ({
 
   useEffect(() => {
     if (!isNil(currentRecordSinType)) {
-      console.log('DEBUG: entre al false del use effect -> true');
       setExistCurrentRecord(true);
     } else {
-      console.log('DEBUG: entre al true del use effect -> false');
       setExistCurrentRecord(false);
     }
   }, [currentRecordSinType]);

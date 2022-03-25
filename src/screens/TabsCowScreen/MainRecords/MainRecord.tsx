@@ -192,7 +192,6 @@ export const MainRecord = () => {
   };
 
   const onSaveIdentification = () => {
-    console.log('guardar identificación');
     //LLAMADA AXIOS PARA GUARDAR LA INFO
     handleWeigth();
     dispatch(setNewCow(insertCow));
@@ -203,7 +202,6 @@ export const MainRecord = () => {
   };
 
   const onSaveLactancia = () => {
-    console.log('guardar lactancia');
     setInfoCardLactanciasFinish(true);
   };
 
@@ -411,7 +409,7 @@ export const MainRecord = () => {
         title="Ingrese datos de la Madre"
         openCloseModal={openMomDataModal}
         setOpenCloseModal={setOpenMomDataModal}
-        onCloseModal={() => console.log('guardar')}
+        onCloseModal={() => {}}
         cow={insertCow}
         setProperty={setInsertCow}
         propertyOne={ICowKeys.nombreDeMadre}
@@ -421,7 +419,7 @@ export const MainRecord = () => {
         title="Ingrese datos del Padre"
         openCloseModal={openDadDataModal}
         setOpenCloseModal={setOpenDadDataModal}
-        onCloseModal={() => console.log('guardar')}
+        onCloseModal={() => {}}
         cow={insertCow}
         setProperty={setInsertCow}
         propertyOne={ICowKeys.nombreDePadre}
@@ -444,8 +442,6 @@ export const MainRecord = () => {
           mode={'date'}
           locale="es"
           onConfirm={date => {
-            console.log(date.getTime());
-            console.log('Property fecha? -> ', propertyFecha);
             setInsertCow({...insertCow, [propertyFecha]: date.getTime()});
             setOpenDatePickModal(false);
           }}

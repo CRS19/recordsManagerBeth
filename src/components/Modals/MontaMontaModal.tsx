@@ -68,15 +68,12 @@ export const MontaMontaModal = (props: IMontaMontaModal) => {
   }, []);
 
   const saveNewRecord = () => {
-    console.log('guardar info');
     const newRecord = cloneDeep(recordMontaMonta);
 
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
     set(newRecord, 'idReproductor', reproductor);
     set(newRecord, 'createdAt', getTimestamp());
     set(newRecord, 'montaIaTimestamp', getTimestamp());
-
-    console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
 
     recordToUpdate.records.push(newRecord);
 
@@ -106,7 +103,7 @@ export const MontaMontaModal = (props: IMontaMontaModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={[styles.ModalOneFieldContainer, {height: 200}]}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>

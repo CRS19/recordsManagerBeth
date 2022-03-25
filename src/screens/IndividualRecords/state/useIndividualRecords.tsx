@@ -61,8 +61,6 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
       setIsLoading(false);
       setRefresh(false);
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response);
       Alert.alert(
         'Servidor fuera de servicio',
         'Ocurrio un error al cargar la información!',

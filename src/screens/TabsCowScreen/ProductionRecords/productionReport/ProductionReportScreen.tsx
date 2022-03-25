@@ -54,7 +54,6 @@ export const ProductionReportScreen = ({route, navigation}: any) => {
 
       createPd(imageURI, params, listNumber);
     } catch (e) {
-      console.log(e);
       Alert.alert(
         'Error de capture view',
         'Ponase en contacto con el administrador del sistema',

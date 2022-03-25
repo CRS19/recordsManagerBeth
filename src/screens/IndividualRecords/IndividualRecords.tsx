@@ -53,9 +53,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
     onRefresh,
   } = useIndividualRecords();
 
-  console.log('DEBUG: precio carne: ', precioCarne);
-  console.log('DEBUG: precio leche: ', precioLeche);
-
   return (
     <View>
       <TopBar

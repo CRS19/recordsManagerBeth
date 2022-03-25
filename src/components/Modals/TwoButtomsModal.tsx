@@ -40,7 +40,7 @@ export const TwoButtomsModal = ({
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
           style={{backgroundColor: 'green'}}
-          onPress={() => console.log('no cerrar')}>
+          onPress={() => {}}>
           <View>
             <View
               style={{
