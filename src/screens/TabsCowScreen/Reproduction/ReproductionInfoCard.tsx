@@ -9,7 +9,6 @@ import {isEmpty, get, last, isNil} from 'lodash';
 import {useDispatch, useSelector} from 'react-redux';
 import {IAppState} from '../../../store/reducer';
 import {updatePartialMainCowRecord} from '../../../store/actionCreators';
-import {estadoProductivoType} from '../../../interfaces/CowInterface';
 
 export interface IReproductionInfoCardProps {
   record: IReproductionRecord;
@@ -22,9 +21,9 @@ export const getNumeroPartos = (record: IReproductionRecord) => {
     );
 
     return `${partos.length}`;
-  } else {
-    return '0';
   }
+
+  return '0';
 };
 
 export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
@@ -39,16 +38,18 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         return record.records[record.records.length - 1].registrosPalp[
           record.records[record.records.length - 1].registrosPalp.length - 1
         ].registroPalpacion;
-      } else if (record.records.length > 2) {
+      }
+
+      if (record.records.length > 2) {
         return record.records[record.records.length - 2].registrosPalp[
           record.records[record.records.length - 2].registrosPalp.length - 1
         ].registroPalpacion;
-      } else {
-        return '';
       }
-    } else {
+
       return '';
     }
+
+    return '';
   };
 
   const getEdadPrimerParto = () => {
@@ -67,12 +68,12 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         return record.records[
           record.records.length - 1
         ].gestationDays.toString();
-      } else {
-        return '0';
       }
-    } else {
+
       return '0';
     }
+
+    return '0';
   };
 
   const getNumeroAbortos = () => {
@@ -113,14 +114,19 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         }),
       );
     }
+
     if (
       currentCow.vacaInfo!.numeroDePartos !== Number(getNumeroPartos(record))
     ) {
+      console.log(currentCow.vacaInfo!.numeroDePartos);
+      console.log(Number(getNumeroPartos(record)));
       dispatch(
         updatePartialMainCowRecord({
           idVaca: currentCow.idVaca,
           // @ts-ignore
-          partialCow: {'vacaInfo.numeroDePartos': getNumeroPartos()},
+          partialCow: {
+            'vacaInfo.numeroDePartos': Number(getNumeroPartos(record)),
+          },
         }),
       );
     }

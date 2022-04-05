@@ -638,4 +638,19 @@ export const styles = StyleSheet.create({
     height: 56,
     borderTopWidth: 0,
   },
+  BoxTitleStyle: {
+    borderColor: '#000000',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderWidth: 1,
+  },
+  DeathCertificateWitnessName: {
+    height: 120,
+    width: 380,
+    backgroundColor: 'white',
+    elevation: 8,
+    marginRight: 10,
+    paddingHorizontal: 40,
+    paddingVertical: 30,
+  },
 });

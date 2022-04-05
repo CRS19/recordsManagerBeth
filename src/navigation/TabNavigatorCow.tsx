@@ -35,6 +35,8 @@ import {OtroTipoVacuna} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/
 import {ProductionReportScreen} from '../screens/TabsCowScreen/ProductionRecords/productionReport/ProductionReportScreen';
 import {includes} from 'lodash';
 import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
+import {Descarte} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Descarte';
+import {ICow} from '../interfaces/CowInterface';
 
 export type TabScreensParams = {
   MainRecord: undefined;
@@ -51,6 +53,7 @@ export type TabScreensParams = {
   OtroTpoVacuna: undefined;
   Desparacitaciones: undefined;
   HistoriaClinica: undefined;
+  Descarte: {currentCow: ICow};
   ProductionReportScreen: {record: IDailyMilkRecord; index: number};
 };
 
@@ -78,6 +81,7 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="OtroTpoVacuna" component={OtroTipoVacuna} />
       <Tab.Screen name="Desparacitaciones" component={Desparacintaciones} />
       <Tab.Screen name="HistoriaClinica" component={HistoriaClinica} />
+      <Tab.Screen name="Descarte" component={Descarte} />
       <Tab.Screen
         name="ProductionReportScreen"
         component={ProductionReportScreen}

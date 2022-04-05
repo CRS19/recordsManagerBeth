@@ -16,6 +16,7 @@ import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 import {IProductorasArray} from '../interfaces/ProductorasId';
 import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
+import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
 
 export const INITIAL_STATE: IAppState = {
   isLoading: false,
@@ -47,6 +48,7 @@ export const INITIAL_STATE: IAppState = {
   allReproductionRecords: undefined,
   montaIaReportTableData: [],
   preniezReportTableData: [],
+  inventoryCowsFirstTable: [],
 };
 
 export interface IAppState {
@@ -71,6 +73,7 @@ export interface IAppState {
   allReproductionRecords?: IReproductionRecord[];
   montaIaReportTableData?: IMontaIaReportTableInfo[];
   preniezReportTableData?: IPreniezDataReportInfo[];
+  inventoryCowsFirstTable?: IInventoryCowFirstTable[];
 }
 
 export const reducer = (
@@ -183,6 +186,11 @@ export const reducer = (
       return {
         ...state,
         preniezReportTableData: action.preniezReportTableData,
+      };
+    case ActionTypes.SET_INVENTORY_FIRST_TABLE:
+      return {
+        ...state,
+        inventoryCowsFirstTable: action.inventoryCowsFirstTable,
       };
     default:
       return state;

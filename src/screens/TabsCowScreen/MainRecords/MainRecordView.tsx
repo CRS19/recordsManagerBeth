@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {Alert, Image, ScrollView, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
-import {PrintQrButtom} from '../../../components/Buttoms/PrintQrButtom';
-import {SaveButtom} from '../../../components/Buttoms/SaveButtom';
-import {AddImage} from '../../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCardView} from '../../../components/InputCard/GestacionInputCardView';
 import {InputCardCaracteristicsView} from '../../../components/InputCard/InputCardCaracteristicsView';
 import {InputCardDesteteView} from '../../../components/InputCard/InputCardDesteteView';
@@ -20,14 +17,45 @@ import {ICow} from '../../../interfaces/CowInterface';
 import {IAppState} from '../../../store/reducer';
 import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
+import {useNavigation} from '@react-navigation/native';
 
 export const MainRecordView = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [cow, setCow] = useState<ICow>(emptyCow);
   const [open, setOpen] = useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
     ICowKeys.fechaDeNacimiento,
   );
   const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
+
+  const descarteCow = () => {
+    Alert.alert(
+      '¿Desea destartar al animal?',
+      'Por favor seleccione el motivo de descarte del bovino',
+      [
+        {
+          text: 'MUERTE',
+          onPress: () => {
+            navigation.navigate('Descarte', {currentCow});
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'TRASLADO',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'VENTA',
+          onPress: () => {
+            console.log('Descarte');
+          },
+          style: 'cancel',
+        },
+      ],
+    );
+  };
 
   return (
     <View style={{flexDirection: 'column'}}>
@@ -72,11 +100,10 @@ export const MainRecordView = () => {
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
               <View style={{alignItems: 'center'}}>
-                <Text>hola como ess</Text>
-                <DescarteBottom />
-                <PrintQrButtom />
+                <DescarteBottom onPres={() => descarteCow()} />
+
                 {/**  TODO logica de actualizar **/}
-                <SaveButtom onPress={() => {}} />
+                {/**  <SaveButtom onPress={() => {}} /> */}
               </View>
               <View>
                 <GeneralTitle title={'Identificación'} />

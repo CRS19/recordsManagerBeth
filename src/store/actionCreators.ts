@@ -34,10 +34,18 @@ import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSanityRecordResponse';
 import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
 import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
+import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setInventoryFirstTable = (payload: IInventoryCowFirstTable[]) => {
+  return {
+    type: ActionTypes.SET_INVENTORY_FIRST_TABLE,
+    inventoryCowsFirstTable: payload,
+  };
+};
 
 export const setPreniezReportData = (payload: IPreniezDataReportInfo[]) => {
   return {
@@ -873,6 +881,10 @@ export const updatePartialMainCowRecord = (payload: {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    console.log(
+      'PARTIAL UPDATED CALLED WITH -> ',
+      JSON.stringify(payload, null, 3),
+    );
     const path = `${API_BASE_PATH}/cow/update/updatePartial`;
 
     try {
@@ -884,6 +896,30 @@ export const updatePartialMainCowRecord = (payload: {
       Alert.alert(
         `No se pudo actualizar el registro master`,
         'El registro master no pudo ser actualizado, porfavor contactese con el administrador',
+      );
+    }
+  };
+};
+
+export const getInventoryCows = (
+  monthYear: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/inventori-history-cows/getByMonth/${monthYear}`;
+
+    try {
+      const response = await axios.get(path);
+
+      console.log(response.data);
+
+      //@ts-ignore
+      dispatch(setInventoryFirstTable(response.data.firstTableData));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener la información`,
+        'Hubo un error al obtener los registros de inventario de animales, revise su conexión a internet',
       );
     }
   };
