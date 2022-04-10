@@ -77,11 +77,6 @@ export const MontaMontaModal = (props: IMontaMontaModal) => {
 
     recordToUpdate.records.push(newRecord);
 
-    console.log(
-      'master record to insert: ',
-      JSON.stringify(recordToUpdate, null, 3),
-    );
-
     setIsLoading(true);
     dispatch(updateReproductionRecord(recordToUpdate));
     setIsLoading(false);

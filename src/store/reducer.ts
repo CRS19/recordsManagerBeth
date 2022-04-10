@@ -49,6 +49,7 @@ export const INITIAL_STATE: IAppState = {
   montaIaReportTableData: [],
   preniezReportTableData: [],
   inventoryCowsFirstTable: [],
+  deathCertificateCounterDocument: undefined,
 };
 
 export interface IAppState {
@@ -74,6 +75,7 @@ export interface IAppState {
   montaIaReportTableData?: IMontaIaReportTableInfo[];
   preniezReportTableData?: IPreniezDataReportInfo[];
   inventoryCowsFirstTable?: IInventoryCowFirstTable[];
+  deathCertificateCounterDocument?: number;
 }
 
 export const reducer = (
@@ -191,6 +193,11 @@ export const reducer = (
       return {
         ...state,
         inventoryCowsFirstTable: action.inventoryCowsFirstTable,
+      };
+    case ActionTypes.SET_DEATH_CERTIFICATE_COUNTER:
+      return {
+        ...state,
+        deathCertificateCounterDocument: action.deathCertificateCounterDocument,
       };
     default:
       return state;

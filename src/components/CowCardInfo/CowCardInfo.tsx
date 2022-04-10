@@ -1,5 +1,5 @@
-import React, {useMemo} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {NewCow} from '../../assets/NewCow';
 import {COLORPRODUCCTION} from '../../constants/colorEnum';
 import {FadeInImage} from '../../custom/FadeInImage';
@@ -7,9 +7,8 @@ import {estadoProductivoType, ICow} from '../../interfaces/CowInterface';
 import {styles} from '../../theme/GlobalStyles';
 import {CowCardFooterInfo} from './CowCardFooterInfo';
 import {useCowCardInfo} from './state/useCowCardInfo';
-import {get} from 'lodash';
+import {get, defaultTo} from 'lodash';
 import {API_BASE_PATH} from '../../env/environment';
-import {getDateOfDay} from '../../utils/time-utils';
 import {useGetOld} from '../../utils/useGetOld';
 
 interface ICowCardInfo {
@@ -101,7 +100,11 @@ export const CowCardInfo = (props: ICowCardInfo) => {
     );
   } else {
     const color = getProductionColor(
-      get(props.cow, 'vacaInfo.estadoProductivo', 'Reproductor'),
+      get(
+        props.cow,
+        'estadoProductivo',
+        get(props.cow, 'vacaInfo.estadoProductivo', 'Reproductor'),
+      ),
     );
     return (
       <TouchableOpacity

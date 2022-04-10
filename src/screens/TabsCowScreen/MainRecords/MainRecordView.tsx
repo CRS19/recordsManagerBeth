@@ -6,7 +6,7 @@ import {GestacionInputCardView} from '../../../components/InputCard/GestacionInp
 import {InputCardCaracteristicsView} from '../../../components/InputCard/InputCardCaracteristicsView';
 import {InputCardDesteteView} from '../../../components/InputCard/InputCardDesteteView';
 import {InputCardView} from '../../../components/InputCard/InputCardView';
-import {defaultTo} from 'lodash';
+import {defaultTo, get} from 'lodash';
 import {LactanciaInputCardView} from '../../../components/InputCard/LactanciaInputCardView';
 import {InputPeso} from '../../../components/PesoHistory/InputPeso';
 import {GeneralTitle} from '../../../components/Titles/GeneralTitle';
@@ -100,7 +100,9 @@ export const MainRecordView = () => {
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
               <View style={{alignItems: 'center'}}>
-                <DescarteBottom onPres={() => descarteCow()} />
+                {!get(currentCow, 'descartada', false) && (
+                  <DescarteBottom onPres={() => descarteCow()} />
+                )}
 
                 {/**  TODO logica de actualizar **/}
                 {/**  <SaveButtom onPress={() => {}} /> */}

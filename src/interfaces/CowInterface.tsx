@@ -7,6 +7,12 @@ export enum estadoProductivo {
   DESCARTE = 'Descarte',
 }
 
+export enum DESCARTE_ENUM {
+  MUERTE = 'muerte',
+  TRASLADO = 'traslado',
+  VENTA = 'Venta',
+}
+
 export enum diasGestación {
   DG_HOLSTEIN = 283,
   DG_BRAW_SWISS = 283,
@@ -98,10 +104,14 @@ export interface ICow {
   pesoAlDestete: number;
   pesoActual: number;
   estadoReproductivo: estadoReproductivoType;
+  historialPeso: IHistorialPeso[];
   updatedAt?: number;
+  descartada?: boolean;
+  decarteType?: DESCARTE_ENUM;
+  estadoProductivo?: estadoProductivoType;
+  descarteTimestamp?: number;
   vacaInfo?: vacaInfo;
   toroInfo?: toroInfo;
-  historialPeso: IHistorialPeso[];
   imagenPath: string[];
   [k: string]: any;
 }

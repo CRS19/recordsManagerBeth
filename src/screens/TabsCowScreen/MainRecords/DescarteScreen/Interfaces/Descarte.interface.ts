@@ -19,9 +19,11 @@ export interface IUseDescarte {
   dayInfo: CurrentDayInfo;
   markedD: ICalendarSelected;
   deathCertificate: IDeathCertificate;
+  deathDocumentNumber: number;
   actions: {
     addOtherWitness: () => void;
     deleteWitness: () => void;
+    saveDeathCertificate: () => void;
     InputWitnessesCardsActions: {
       onChangeNameWitness: (newName: string, witnessPosition: number) => void;
       onChangeWitnessWorkPossition: (
@@ -29,6 +31,10 @@ export interface IUseDescarte {
         witnessPosition: number,
       ) => void;
       witnesses: IWitness[];
+    };
+    responsableDiagnosisActions: {
+      onChangeNecroptiaResponsable: (newResponsable: string) => void;
+      onChangeDiagnosis: (newDiagnosis: string) => void;
     };
   };
   setMarkedD: React.Dispatch<React.SetStateAction<ICalendarSelected>>;
@@ -41,6 +47,12 @@ export interface IDeathCertificate {
   especie: 'bovina';
   edadMeses: number;
   deathCertificateId?: number;
+  raza: string;
+  areteNumber: string;
+  precio: number;
+  sexo: string;
+  necroptiaResponsable: string;
+  deathDiagnosis: string;
 }
 
 export interface IUseDescarteProps {

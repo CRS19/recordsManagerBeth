@@ -98,14 +98,6 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
 
   useEffect(() => {
     if (currentCow.estadoReproductivo !== getEstadoReproductivo()) {
-      console.log(
-        'Estado reproductivo en current cow -> ',
-        currentCow.estadoReproductivo,
-      );
-      console.log(
-        'Estado reproductivo en rep records -> ',
-        getEstadoReproductivo(),
-      );
       dispatch(
         updatePartialMainCowRecord({
           idVaca: currentCow.idVaca,
@@ -118,8 +110,6 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
     if (
       currentCow.vacaInfo!.numeroDePartos !== Number(getNumeroPartos(record))
     ) {
-      console.log(currentCow.vacaInfo!.numeroDePartos);
-      console.log(Number(getNumeroPartos(record)));
       dispatch(
         updatePartialMainCowRecord({
           idVaca: currentCow.idVaca,

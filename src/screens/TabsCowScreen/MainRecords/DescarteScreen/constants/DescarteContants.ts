@@ -5,16 +5,24 @@ import {
 } from './../Interfaces/Descarte.interface';
 import {MONTHS} from './../../../../../utils/time-utils';
 import {getCurrentDate} from '../../../../../utils/time-utils';
+import {get} from 'lodash';
 
 export const DeathCertificateInitialState = (
   currentCow: ICow,
   edadMeses: number,
+  meatPrice: number,
 ): IDeathCertificate => ({
   witnesses: [{fullName: '', possition: WORK_POSITIONS.EMPTY}],
   idVaca: currentCow.idVaca,
   fechaNacimiento: currentCow.fechaDeNacimiento,
   especie: 'bovina',
   edadMeses: edadMeses,
+  raza: currentCow.raza,
+  areteNumber: currentCow.idVaca.split('-')[1],
+  precio: currentCow.pesoActual * meatPrice,
+  sexo: get(currentCow, 'sexo', ''),
+  necroptiaResponsable: '',
+  deathDiagnosis: '',
 });
 
 export const getDayNumber = (): number =>

@@ -39,7 +39,7 @@ export const MilkDailyRegister = () => {
               markedDates={markedD}
               onDayPress={day => {
                 const {dateString} = day;
-                console.log('fecha en string -> ', dateString);
+
                 setMarkedD({
                   [dateString]: {
                     selected: true,
@@ -81,7 +81,6 @@ export const MilkDailyRegister = () => {
                 {!DailyTableProps.isDateView && (
                   <BorderButtom
                     onPress={() => {
-                      console.log('guardar');
                       guardarInfo();
                     }}
                     title="Guardar"

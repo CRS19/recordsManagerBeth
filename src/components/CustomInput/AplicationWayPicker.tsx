@@ -7,7 +7,6 @@ import {
   setPreviusValueInthatIndexGeneral,
 } from '../../constants/SanityRecords';
 import {
-  applicationWayEnum,
   IDrugDiagnosis,
   IDrugDiagnosisKey,
 } from '../../interfaces/SanityRecords';

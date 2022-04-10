@@ -35,10 +35,19 @@ import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSani
 import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
 import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
 import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
+import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
+import {AxiosResponse} from 'axios';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setDeathCertificateCounter = (payload: number | undefined) => {
+  return {
+    type: ActionTypes.SET_DEATH_CERTIFICATE_COUNTER,
+    deathCertificateCounterDocument: payload,
+  };
+};
 
 export const setInventoryFirstTable = (payload: IInventoryCowFirstTable[]) => {
   return {
@@ -881,10 +890,6 @@ export const updatePartialMainCowRecord = (payload: {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log(
-      'PARTIAL UPDATED CALLED WITH -> ',
-      JSON.stringify(payload, null, 3),
-    );
     const path = `${API_BASE_PATH}/cow/update/updatePartial`;
 
     try {
@@ -912,14 +917,67 @@ export const getInventoryCows = (
     try {
       const response = await axios.get(path);
 
-      console.log(response.data);
-
       //@ts-ignore
       dispatch(setInventoryFirstTable(response.data.firstTableData));
     } catch (e) {
       Alert.alert(
         `No se pudo obtener la información`,
         'Hubo un error al obtener los registros de inventario de animales, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const getDeathCertificateNumber = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/getCount`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        counter: {counterId: string; count: number};
+      }>(path);
+
+      dispatch(setDeathCertificateCounter(response.data.counter.count));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener el número de documento`,
+        'Hubo un error al obtener el número de certificado, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveDeathCertificateInDB = (
+  payload: IDeathCertificate,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/createCertificate`;
+
+    try {
+      const response = await axios.post<
+        IDeathCertificate,
+        AxiosResponse<{
+          message: SVGFESpecularLightingElement;
+          createdCertificate: IDeathCertificate;
+          updatedCow: ICow;
+        }>
+      >(path, payload);
+
+      Alert.alert('Animal descartado con éxito');
+    } catch (e) {
+      Alert.alert(
+        `No se pudo crear el certificado`,
+        'Hubo un error al crear el certificado de defunción, revise su conexión a internet',
       );
     }
   };

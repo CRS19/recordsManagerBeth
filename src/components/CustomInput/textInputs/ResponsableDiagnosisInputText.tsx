@@ -1,29 +1,28 @@
 import {isNil} from 'lodash';
 import React from 'react';
 import {Text, View} from 'react-native';
-import {TextInput} from 'react-native-paper';
 import {GeneralIcon} from '../../../assets/GeneralIcon';
 import {styles} from '../../../theme/GlobalStyles';
+import {TextInput} from 'react-native-paper';
 
-export interface IGenericTextInputProps {
+export interface IResponsableDiagnosisInputTextProps {
   logo?: JSX.Element;
   label: string;
   value: string;
   error: boolean;
   errorText: string;
-  witnessPosition: number;
-  onChangeNameWitness: (newName: string, witnessPosition: number) => void;
+  multiline?: boolean;
+  onChangeText: (text: string) => void;
 }
 
-export const GenericTextInput = ({
+export const ResponsableDiagnosisInputText = ({
   logo,
   label,
   value,
   error,
   errorText,
-  witnessPosition,
-  onChangeNameWitness,
-}: IGenericTextInputProps) => {
+  onChangeText,
+}: IResponsableDiagnosisInputTextProps) => {
   return (
     <View>
       <View style={{flexDirection: 'row'}}>
@@ -43,8 +42,8 @@ export const GenericTextInput = ({
           showSoftInputOnFocus={false}
           selectTextOnFocus={true}
           value={value}
-          onChangeText={text => {
-            onChangeNameWitness(text, witnessPosition);
+          onChangeText={(text: string) => {
+            onChangeText(text);
           }}
           theme={{
             colors: {primary: '#6200EE', placeholder: '#6200EE'},
