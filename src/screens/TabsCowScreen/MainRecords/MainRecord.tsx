@@ -269,7 +269,6 @@ export const MainRecord = () => {
           <ScrollView>
             <View style={{flexDirection: 'row-reverse'}}>
               <View style={{alignItems: 'center', marginRight: 25}}>
-                <DescarteBottom />
                 <SaveButtom onPress={saveNewCow} />
               </View>
               <View>

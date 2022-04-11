@@ -50,7 +50,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   const dispatch = useDispatch();
   const [errorMargin, setErrorMargin] = useState('5');
   const [isDateView, setIsDateView] = useState(false);
-  const [openLabModal, setOpenLabModal] = useState<boolean>(true);
+  const [openLabModal, setOpenLabModal] = useState<boolean>(false);
   const productorasList = useSelector(
     (state: IAppState) => state.productorasList!,
   );

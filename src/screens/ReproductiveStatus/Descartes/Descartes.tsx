@@ -19,18 +19,19 @@ export const Descartes = () => {
         navigateTo={'Muertes'}
         dispatchAction={DispatchActionsEnum.GET_ALL_DEATH_CERTIFIACTES}
       />
-      <GeneralButtom
+      {/** TODO: implementar traslados y ventas**/}
+      {/**<GeneralButtom
         title="Traslados"
         color="#EFE6C9"
         Icon={<Truck />}
         navigateTo={'Traslados'}
-      />
-      <GeneralButtom
+        />**/}
+      {/**<GeneralButtom
         title="Ventas"
         color="#F59257"
         Icon={<SalesChart />}
         navigateTo={'Ventas'}
-      />
+      />**/}
       <View style={{...styles.LogInFooter, marginTop: 30}} />
     </View>
   );
