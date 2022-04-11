@@ -57,13 +57,15 @@ export const useProductionReportScreen = ({
     }
   };
 
+  /*
   useEffect(() => {
     if (isEmpty(milkingData)) {
       getDataRecod();
     }
   }, [milkingData]);
-
+*/
   useEffect(() => {
+    console.log('use effect llamado');
     getDataRecod();
   }, [prodCicle]);
 
