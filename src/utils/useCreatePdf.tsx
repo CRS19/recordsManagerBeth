@@ -17,6 +17,8 @@ import {
 import {htmlInseminacionMontaReport} from '../constants/htmlReportGenerators/htmlInseminacionMontaReport';
 import {getMonthAndYearString} from './time-utils';
 import {htmlPreniezReport} from '../constants/htmlReportGenerators/htmlPreniezReport';
+import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
+import {htmlDeathCertificateReport} from '../constants/htmlReportGenerators/htmlDeathCertificate';
 
 export interface IUseCreatePdf {
   createPd: (
@@ -37,6 +39,9 @@ export interface IUseCreatePdf {
     rowsData: IControlGinecologicoRowData[],
     year: number,
   ) => Promise<void>;
+  createDeathCertificateReport: (
+    deathCertificate: IDeathCertificate,
+  ) => Promise<void>;
 }
 
 export const useCreatePdf = (): IUseCreatePdf => {
@@ -52,6 +57,20 @@ export const useCreatePdf = (): IUseCreatePdf => {
     let options = {
       html: getHtmlDailyMilkingReport(record, listNumber),
       fileName: `${record.idVaca}_reporte_de_produccion}`,
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+
+    validatePDF(file);
+  };
+
+  const createDeathCertificateReport = async (
+    deathCertificate: IDeathCertificate,
+  ) => {
+    let options = {
+      html: htmlDeathCertificateReport(deathCertificate),
+      fileName: `Reporte_Defunción_${deathCertificate.idVaca}`,
       directory: 'Documents',
     };
 
@@ -159,6 +178,7 @@ export const useCreatePdf = (): IUseCreatePdf => {
     createProductionDiariaReport,
     createInseminationMontaReport,
     createControlGinecologicoReport,
+    createDeathCertificateReport,
     createPreniezReport,
   };
 };

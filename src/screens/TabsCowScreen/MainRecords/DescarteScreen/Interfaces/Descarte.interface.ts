@@ -52,6 +52,7 @@ export interface IDeathCertificate {
   precio: number;
   sexo: string;
   necroptiaResponsable: string;
+  descarteTimestmap?: number;
   deathDiagnosis: string;
 }
 

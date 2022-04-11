@@ -42,6 +42,13 @@ export type IAppAction = {
   type: string;
 } & IAppState;
 
+export const setAllDeathCertificates = (payload: IDeathCertificate[]) => {
+  return {
+    type: ActionTypes.SET_DEATH_CERTIFICATES,
+    allDeathCertificates: payload,
+  };
+};
+
 export const setDeathCertificateCounter = (payload: number | undefined) => {
   return {
     type: ActionTypes.SET_DEATH_CERTIFICATE_COUNTER,
@@ -978,6 +985,33 @@ export const saveDeathCertificateInDB = (
       Alert.alert(
         `No se pudo crear el certificado`,
         'Hubo un error al crear el certificado de defunción, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const getAllCertificates = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/certifiactes`;
+
+    try {
+      const repsonse = await axios.get<{
+        message: string;
+        deathCertificates: IDeathCertificate[];
+      }>(path);
+
+      dispatch(setAllDeathCertificates(repsonse.data.deathCertificates));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener los certificados de defunción`,
+        'Hubo un error al obtener los certificados de defunción, revise su conexión a internet',
       );
     }
   };

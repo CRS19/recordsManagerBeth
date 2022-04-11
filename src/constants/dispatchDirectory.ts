@@ -1,4 +1,7 @@
-import {getAllReproductionRecords} from './../store/actionCreators';
+import {
+  getAllCertificates,
+  getAllReproductionRecords,
+} from './../store/actionCreators';
 import {ThunkAction} from 'redux-thunk';
 import {getDrugsList, getPrices, IAppAction} from '../store/actionCreators';
 import {IAppState} from '../store/reducer';
@@ -7,6 +10,7 @@ export enum DispatchActionsEnum {
   GET_DRUGS_LIST = 'GET_DRUGS_LIST',
   GET_PRICES = 'GET_PRICES',
   GET_ALL_REPROD_RECORDS = 'GET_ALL_REPROD_RECORDS',
+  GET_ALL_DEATH_CERTIFIACTES = 'GET_ALL_DEATH_CERTIFIACTES',
 }
 
 export const DISPATCH_DIRECTORY: Record<
@@ -16,4 +20,5 @@ export const DISPATCH_DIRECTORY: Record<
   [DispatchActionsEnum.GET_DRUGS_LIST]: getDrugsList(),
   [DispatchActionsEnum.GET_PRICES]: getPrices(),
   [DispatchActionsEnum.GET_ALL_REPROD_RECORDS]: getAllReproductionRecords(),
+  [DispatchActionsEnum.GET_ALL_DEATH_CERTIFIACTES]: getAllCertificates(),
 };

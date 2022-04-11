@@ -39,7 +39,6 @@ export const MilkDailyRegister = () => {
               markedDates={markedD}
               onDayPress={day => {
                 const {dateString} = day;
-
                 setMarkedD({
                   [dateString]: {
                     selected: true,

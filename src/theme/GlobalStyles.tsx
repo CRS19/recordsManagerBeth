@@ -645,7 +645,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   DeathCertificateWitnessName: {
-    height: 120,
     width: 380,
     backgroundColor: 'white',
     elevation: 8,

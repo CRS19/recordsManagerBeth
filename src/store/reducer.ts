@@ -1,3 +1,4 @@
+import {IDeathCertificate} from './../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
 import {IPreniezDataReportInfo} from './../interfaces/ReproductionRecord';
 import {ISanityRecord} from './../interfaces/SanityRecords';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -50,6 +51,7 @@ export const INITIAL_STATE: IAppState = {
   preniezReportTableData: [],
   inventoryCowsFirstTable: [],
   deathCertificateCounterDocument: undefined,
+  allDeathCertificates: undefined,
 };
 
 export interface IAppState {
@@ -76,6 +78,7 @@ export interface IAppState {
   preniezReportTableData?: IPreniezDataReportInfo[];
   inventoryCowsFirstTable?: IInventoryCowFirstTable[];
   deathCertificateCounterDocument?: number;
+  allDeathCertificates?: IDeathCertificate[];
 }
 
 export const reducer = (
@@ -198,6 +201,11 @@ export const reducer = (
       return {
         ...state,
         deathCertificateCounterDocument: action.deathCertificateCounterDocument,
+      };
+    case ActionTypes.SET_DEATH_CERTIFICATES:
+      return {
+        ...state,
+        allDeathCertificates: action.allDeathCertificates,
       };
     default:
       return state;

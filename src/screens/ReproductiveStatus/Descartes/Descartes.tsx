@@ -1,11 +1,10 @@
-import {truncate} from 'lodash';
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Ginecologia} from '../../../assets/Ginecologia/Ginecologia';
+import {View} from 'react-native';
 import {SalesChart} from '../../../assets/SalesChart';
 import {Truck} from '../../../assets/truck';
 import {GeneralButtom} from '../../../components/GeneralButtom';
 import {TopBar} from '../../../components/TopBar';
+import {DispatchActionsEnum} from '../../../constants/dispatchDirectory';
 import {styles} from '../../../theme/GlobalStyles';
 import {Rip} from '../../Rip';
 
@@ -18,6 +17,7 @@ export const Descartes = () => {
         color="#03DAC5"
         Icon={<Rip />}
         navigateTo={'Muertes'}
+        dispatchAction={DispatchActionsEnum.GET_ALL_DEATH_CERTIFIACTES}
       />
       <GeneralButtom
         title="Traslados"
