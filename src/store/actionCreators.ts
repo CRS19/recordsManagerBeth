@@ -1,5 +1,5 @@
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
-import {IDiagnosis} from './../interfaces/SanityRecords';
+import {IDiagnosis, IVaccines} from './../interfaces/SanityRecords';
 import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -1012,6 +1012,33 @@ export const getAllCertificates = (): ThunkAction<
       Alert.alert(
         `No se pudo obtener los certificados de defunción`,
         'Hubo un error al obtener los certificados de defunción, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveVacunaRecord = (
+  idVaca: string,
+  newVaccine: IVaccines,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/updateVaccines`;
+
+    try {
+      const saveRequest = {idVaca, newVaccine};
+
+      const response = axios.post<
+        {idVaca: string; newVaccine: IVaccines},
+        AxiosResponse<{message: string}>
+      >(path, saveRequest);
+
+      Alert.alert('Vacuna ingresada exitosamente');
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener crear las vacunas`,
+        'Hubo un error al intentar ingresar la vacuna, revise su conexión a internet',
       );
     }
   };

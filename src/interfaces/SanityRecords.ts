@@ -15,6 +15,7 @@ export enum applicationWayEnum {
 }
 
 export enum diseasesEnum {
+  EMPTY = '',
   BRUCELOSIS = 'brucelosis',
   CUATRO_VIRAL = 'cuatro viral',
   CARBUNCO_TRIPLE = 'carbunco triple',
@@ -33,6 +34,14 @@ export enum IDrugDiagnosisKey {
   DURATION = 'duration',
   TOTAL = 'total',
   APPLICATION_WAY = 'applicationWay',
+}
+
+export enum IVacunaFormKeys {
+  CREATED = 'created',
+  DRUG_ID = 'drugId',
+  DISEASE = 'disease',
+  COMERCIAL_NAME = 'comercialName',
+  DOSIS = 'dosis',
 }
 
 export interface IDrugDiagnosis {

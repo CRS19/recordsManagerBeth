@@ -89,13 +89,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                 }}
               />
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                printState();
-                loadCows();
-              }}>
-              <Text>imprimir estado</Text>
-            </TouchableOpacity>
           </View>
           {/* rigth part */}
           <View style={styles.IndividualRecordsLeftContainer}>

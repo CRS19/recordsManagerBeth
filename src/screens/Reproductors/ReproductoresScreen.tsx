@@ -4,12 +4,13 @@ import {DrugControl} from '../../assets/DrugControl';
 import {Espermatozoide} from '../../assets/Espermatozoide';
 import {Toro} from '../../assets/Toro';
 import {GeneralButtom} from '../../components/GeneralButtom';
+import {TopBar} from '../../components/TopBar';
 import {Pajuelas} from './Pajuelas/Pajuelas';
 
 export const ReproductoresScreen = () => {
   return (
     <View>
-      <Text>Reproductores</Text>
+      <TopBar title="Reproductores" />
       <GeneralButtom
         title="Total Reproductores"
         color="#65CAC0"

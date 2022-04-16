@@ -11,7 +11,6 @@ import {BotonMenuLateral} from '../components/Buttoms/BotonMenuLateral';
 import {GeneralAppStack} from './GeneralAppStack';
 import {MilkDrawerIcon} from '../assets/MilkDrawerIcon';
 import {StationIcon} from '../assets/StationIcon';
-import {QrIconDrawer} from '../assets/QrIconDrawer';
 import {useDispatch} from 'react-redux';
 import {getPoductorasIdList} from '../store/actionCreators';
 
@@ -58,14 +57,6 @@ const MenuContent = (
           destination: 'MilkDailyRegister',
         }}
         axiosCall={() => dispatch(getPoductorasIdList())}
-      />
-      <BotonMenuLateral
-        icono={<QrIconDrawer />}
-        label="Buscar por código qr"
-        navegation={{
-          navegationFuntion: props.navigation,
-          destination: 'IndividualRecords',
-        }}
       />
     </DrawerContentScrollView>
   );

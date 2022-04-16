@@ -164,37 +164,6 @@ export const Reproduction = () => {
                 setIsOpenMontaMontaModal={setIsOpenMontaMontaModal}
                 setIsLoading={setIsLoading}
               />
-              <TouchableOpacity
-                onPress={() => {
-                  getPosiblePartoDay();
-                }}>
-                <Text>Ver posible parto fecha</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(recordToUpdate, null, 3));
-                }}>
-                <Text>Ver registro del store</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(selectedRecord, null, 3));
-                }}>
-                <Text>Ver Selected registro en el store</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(currentPalpations, null, 3));
-                }}>
-                <Text>Ver current palpations </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(recordsSplited[3], null, 3));
-                }}>
-                <Text>Ver current record sin tipo de registro </Text>
-              </TouchableOpacity>
             </View>
             <View style={{height: 200}} />
           </ScrollView>
