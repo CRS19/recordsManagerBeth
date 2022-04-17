@@ -44,6 +44,15 @@ export enum IVacunaFormKeys {
   DOSIS = 'dosis',
 }
 
+export enum IDewormingFormKeys {
+  CREATED = 'created',
+  DRUG_ID = 'drugId',
+  COMMERTICAL_NAME = 'comertialName',
+  ACTIVE_PRINCIPAL = 'activePrincipal',
+  DOSIS = 'dosis',
+  APPLICATION_WAY = 'applicationWay',
+}
+
 export interface IDrugDiagnosis {
   drugId: string; // _id from drug colection
   dose: number;

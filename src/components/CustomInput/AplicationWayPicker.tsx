@@ -4,19 +4,25 @@ import {Text, View} from 'react-native';
 import {GeneralIcon} from '../../assets/GeneralIcon';
 import {
   APPLICATION_WAY_PICKER_ITEMS,
+  setDewormingFormValue,
   setPreviusValueInthatIndexGeneral,
 } from '../../constants/SanityRecords';
 import {
+  IDeworming,
+  IDewormingFormKeys,
   IDrugDiagnosis,
   IDrugDiagnosisKey,
 } from '../../interfaces/SanityRecords';
+import {IDewormingForm} from '../../screens/TabsCowScreen/Sanity/Desparacitaciones/state/useDeworming';
 import {drugForm} from '../../screens/TabsCowScreen/Sanity/Diagnostico/state/useDiagnosis';
 import {styles} from '../../theme/GlobalStyles';
+import {has} from 'lodash';
 
 export interface IAplicationWayPickerProps {
-  value: IDrugDiagnosis;
-  setValue: React.Dispatch<React.SetStateAction<drugForm[]>>;
-  valueIndex: number;
+  value: IDrugDiagnosis | IDeworming;
+  setValue?: React.Dispatch<React.SetStateAction<drugForm[]>>;
+  setDewormingValue?: React.Dispatch<React.SetStateAction<IDewormingForm>>;
+  valueIndex?: number;
   error: boolean;
   errorMessage: string;
 }
@@ -24,6 +30,7 @@ export interface IAplicationWayPickerProps {
 export const AplicationWayPicker = ({
   value,
   setValue,
+  setDewormingValue,
   valueIndex,
   error,
   errorMessage,
@@ -38,15 +45,24 @@ export const AplicationWayPicker = ({
         <Picker
           selectedValue={value.applicationWay}
           onValueChange={(itemValue, itemIndex) => {
-            setValue(prevValue =>
-              setPreviusValueInthatIndexGeneral(
-                prevValue,
-                valueIndex,
-                itemValue,
-                IDrugDiagnosisKey.APPLICATION_WAY,
-                false,
-              ),
-            );
+            has(value, 'frequency')
+              ? setValue!(prevValue =>
+                  setPreviusValueInthatIndexGeneral(
+                    prevValue,
+                    valueIndex!,
+                    itemValue,
+                    IDrugDiagnosisKey.APPLICATION_WAY,
+                    false,
+                  ),
+                )
+              : setDewormingValue!(prevValue =>
+                  setDewormingFormValue(
+                    prevValue,
+                    itemValue,
+                    IDewormingFormKeys.APPLICATION_WAY,
+                    false,
+                  ),
+                );
           }}>
           {APPLICATION_WAY_PICKER_ITEMS.map((item, index: number) => (
             <Picker.Item

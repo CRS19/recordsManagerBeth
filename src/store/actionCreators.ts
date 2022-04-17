@@ -1,5 +1,5 @@
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
-import {IDiagnosis, IVaccines} from './../interfaces/SanityRecords';
+import {IDiagnosis, IVaccines, IDeworming} from './../interfaces/SanityRecords';
 import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -36,7 +36,7 @@ import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOne
 import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
 import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
 import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
-import {AxiosResponse} from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 
 export type IAppAction = {
   type: string;
@@ -1029,7 +1029,7 @@ export const saveVacunaRecord = (
     try {
       const saveRequest = {idVaca, newVaccine};
 
-      const response = axios.post<
+      const response = await axios.post<
         {idVaca: string; newVaccine: IVaccines},
         AxiosResponse<{message: string}>
       >(path, saveRequest);
@@ -1039,6 +1039,48 @@ export const saveVacunaRecord = (
       Alert.alert(
         `No se pudo obtener crear las vacunas`,
         'Hubo un error al intentar ingresar la vacuna, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveDeworming = (
+  idVaca: string,
+  newDeworming: IDeworming,
+  navigateToMainRecord: () => void,
+  resetForm: () => void,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/updateDeworming`;
+
+    try {
+      const saveRequest = {idVaca, newDeworming};
+
+      const response = await axios.post<
+        {idVaca: string; newDeworming: IDeworming},
+        AxiosResponse<{message: string}>
+      >(path, saveRequest);
+
+      if (response.data.message === 'ok') {
+        navigateToMainRecord();
+        resetForm();
+      }
+
+      Alert.alert('Desparacitación ingresada exitosamente');
+    } catch (e) {
+      // @ts-ignore
+      if (e.request.status === 409) {
+        // @ts-ignore
+        const errorMesage = JSON.parse(e.request._response).message;
+        Alert.alert(`No se pudo guardar el desparacitante`, `${errorMesage}`);
+        return;
+      }
+
+      Alert.alert(
+        `No se pudo guardar el desparacitante`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
       );
     }
   };

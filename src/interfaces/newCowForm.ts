@@ -106,3 +106,21 @@ export const initialVacunaValidation: IVacunaFormValidations = {
   comercialName: false,
   dosis: false,
 };
+
+export interface IDewormingValidations {
+  created: boolean;
+  drugId: boolean;
+  comertialName: boolean;
+  activePrincipal: boolean;
+  dosis: boolean;
+  applicationWay: boolean;
+}
+
+export const initialDewormingValidation: IDewormingValidations = {
+  created: false,
+  drugId: false,
+  comertialName: false,
+  activePrincipal: false,
+  dosis: false,
+  applicationWay: false,
+};

@@ -1,35 +1,29 @@
-import {defaultTo, isNaN} from 'lodash';
-import React, {createRef} from 'react';
+import React from 'react';
 import {Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {GeneralIcon} from '../../assets/GeneralIcon';
-import {setPreviusValue} from '../../constants/SanityRecords';
-import {IVacunaFormKeys} from '../../interfaces/SanityRecords';
-import {IVacunaForm} from '../../screens/TabsCowScreen/Sanity/Vacunas/state/useVacunas';
+import {setDewormingFormValue} from '../../constants/SanityRecords';
+import {IDewormingFormKeys} from '../../interfaces/SanityRecords';
+import {IDewormingForm} from '../../screens/TabsCowScreen/Sanity/Desparacitaciones/state/useDeworming';
 import {styles} from '../../theme/GlobalStyles';
 
-interface IVacunaInputDosis {
-  value: number;
+interface IDewormingActivePInputTextProps {
+  value: string;
   label: string;
   error: boolean;
-  prefix: string;
   errorText: string;
-  setValue: React.Dispatch<React.SetStateAction<IVacunaForm>>;
+  setValue: React.Dispatch<React.SetStateAction<IDewormingForm>>;
 }
 
-export const VacunaInputDosis = ({
+export const DewormingActivePInputText = ({
   value,
   label,
-  setValue,
-  prefix,
   error,
   errorText,
-}: IVacunaInputDosis) => {
-  // @ts-ignore
-  const ref = createRef<TextInput>();
-
+  setValue,
+}: IDewormingActivePInputTextProps) => {
   return (
-    <View>
+    <View style={{marginTop: 6}}>
       <View style={{flexDirection: 'row'}}>
         <View style={{...styles.ModalInputLogoContainer, width: 40}}>
           {<GeneralIcon />}
@@ -47,16 +41,14 @@ export const VacunaInputDosis = ({
           selectionColor="#6200EE"
           selectTextOnFocus={true}
           underlineColor="#6200EE"
-          keyboardType={'decimal-pad'}
+          keyboardType={'default'}
           onChangeText={text => {
-            if (text.includes('.')) text.concat('0');
-            if (isNaN(Number(text))) text = '0';
             setValue(prevValue =>
-              setPreviusValue(
+              setDewormingFormValue(
                 prevValue,
-                defaultTo(text, ''),
-                IVacunaFormKeys.DOSIS,
-                true,
+                text,
+                IDewormingFormKeys.ACTIVE_PRINCIPAL,
+                false,
               ),
             );
           }}
@@ -70,7 +62,6 @@ export const VacunaInputDosis = ({
         />
         <View style={{...styles.ModalInputDivider, left: 0}} />
       </View>
-
       {!!error ? (
         <View style={{position: 'absolute', right: -10, bottom: 0}}>
           <Text style={styles.ErrorTextHelper}>{errorText}</Text>
