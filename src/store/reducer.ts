@@ -1,3 +1,4 @@
+import {IStraw} from './../interfaces/IStraws';
 import {IDeathCertificate} from './../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
 import {IPreniezDataReportInfo} from './../interfaces/ReproductionRecord';
 import {ISanityRecord} from './../interfaces/SanityRecords';
@@ -52,6 +53,7 @@ export const INITIAL_STATE: IAppState = {
   inventoryCowsFirstTable: [],
   deathCertificateCounterDocument: undefined,
   allDeathCertificates: undefined,
+  strawList: [],
 };
 
 export interface IAppState {
@@ -79,6 +81,7 @@ export interface IAppState {
   inventoryCowsFirstTable?: IInventoryCowFirstTable[];
   deathCertificateCounterDocument?: number;
   allDeathCertificates?: IDeathCertificate[];
+  strawList?: IStraw[];
 }
 
 export const reducer = (
@@ -206,6 +209,11 @@ export const reducer = (
       return {
         ...state,
         allDeathCertificates: action.allDeathCertificates,
+      };
+    case ActionTypes.SET_STRAWS_LIST:
+      return {
+        ...state,
+        strawList: action.strawList,
       };
     default:
       return state;

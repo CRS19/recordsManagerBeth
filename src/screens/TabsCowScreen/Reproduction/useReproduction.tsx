@@ -31,6 +31,7 @@ import {
   updateReproductionRecord,
 } from '../../../store/actionCreators';
 import {Alert} from 'react-native';
+import {IStraw} from '../../../interfaces/IStraws';
 
 interface IUseReproduction {
   cow: ICow;
@@ -53,6 +54,7 @@ interface IUseReproduction {
   openCloseModal: (isOpen: boolean) => void;
   selectedRecord: Record | undefined;
   reproductoresList: IReproductoresList[];
+  strawList: IStraw[];
   onSelectCurrentRecord: (id: string | undefined, index: number) => void;
   onPalpTypePress: (palpType: string) => void;
   onVaciaTypePress: (vaciaType: string) => void;
@@ -83,6 +85,7 @@ export const useReproduction = (): IUseReproduction => {
 
   const record = useSelector((state: IAppState) => state.reproductionRecord!);
   const cow = useSelector((state: IAppState) => state.CurrentCow!);
+  const strawList = useSelector((state: IAppState) => state.strawList!);
   const reproductoresList = useSelector(
     (state: IAppState) => state.reproductoresList!,
   );
@@ -333,5 +336,6 @@ export const useReproduction = (): IUseReproduction => {
     setIsOpenSexModal,
     setIsOpenTwoModal,
     setIsOpenMontaMontaModal,
+    strawList,
   };
 };

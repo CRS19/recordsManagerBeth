@@ -71,6 +71,7 @@ export const Reproduction = () => {
     setIsOpenSexModal,
     setIsOpenTwoModal,
     setIsOpenMontaMontaModal,
+    strawList,
   } = useReproduction();
 
   const {getPosiblePartoDay} = useTime();
@@ -232,7 +233,7 @@ export const Reproduction = () => {
         title={'Ingrese el nombre del inseminador'}
         openCloseModal={isOpenIaModal}
         setOpenCloseModal={setIsOpenIaModal}
-        reproductorsList={reproductoresList}
+        strawList={strawList}
         recordToUpdate={recordToUpdate}
         getPosiblePartoDay={getPosiblePartoDay}
         setIsLoading={setIsLoading}

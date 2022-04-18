@@ -1,3 +1,4 @@
+import {IStraw} from './../interfaces/IStraws';
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
 import {
   IDiagnosis,
@@ -46,6 +47,13 @@ import {AxiosError, AxiosResponse} from 'axios';
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setStrawList = (payload: IStraw[]) => {
+  return {
+    type: ActionTypes.SET_STRAWS_LIST,
+    strawList: payload,
+  };
+};
 
 export const setSanityRecord = (payload: ISanityRecord) => {
   return {
@@ -1098,6 +1106,54 @@ export const saveDeworming = (
 
       Alert.alert(
         `No se pudo guardar el desparacitante`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
+      );
+    }
+  };
+};
+
+export const getOnstokStrawList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/straws/onStock`;
+
+    try {
+      const response = await axios.get<{message: string; straws: IStraw[]}>(
+        path,
+      );
+
+      dispatch(setStrawList(response.data.straws));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener la lista de pajuelas`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
+      );
+    }
+  };
+};
+
+export const decrementStockStraw = (
+  idStraw: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/straws/decrement/${idStraw}`;
+
+    try {
+      await axios.patch(path);
+    } catch (e) {
+      // @ts-ignore
+      console.log(JSON.stringify(e.request._response));
+
+      Alert.alert(
+        `No se pudo registrar el uso de la pajuela`,
         `Ocurrió un error desconocido, contactese con el administrador`,
       );
     }
