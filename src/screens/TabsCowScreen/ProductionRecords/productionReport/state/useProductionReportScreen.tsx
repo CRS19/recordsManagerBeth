@@ -35,10 +35,6 @@ export const useProductionReportScreen = ({
 }: IUseProductionReportScrenProps): IUseProductionReportScreen => {
   const [milkingData, setMilkingData] = useState<IMilkData[]>([]);
 
-  console.log(
-    `DEBUG: prodcicle param ${prodCicle} y pordCicle state: ${prodCicle}`,
-  );
-
   const getDataRecod = async () => {
     try {
       const response = await axios.get(
@@ -65,7 +61,6 @@ export const useProductionReportScreen = ({
   }, [milkingData]);
 */
   useEffect(() => {
-    console.log('use effect llamado');
     getDataRecod();
   }, [prodCicle]);
 

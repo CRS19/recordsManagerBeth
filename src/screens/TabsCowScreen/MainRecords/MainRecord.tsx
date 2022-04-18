@@ -233,7 +233,6 @@ export const MainRecord = () => {
     setOpenDatePickModal(false);
   });
 
-  console.log('DEBUG: Open date picker modal -> ', openDatePickModal);
   return (
     <View style={{flexDirection: 'column'}}>
       <TopBar
@@ -257,12 +256,6 @@ export const MainRecord = () => {
               isUploadPhotos={isUploadPhotos}
               setIsUploadPhotos={setIsUploadPhotos}
             />
-            <TouchableOpacity
-              onPress={() => {
-                console.log(JSON.stringify(insertCow, null, 3));
-              }}>
-              <Text>abrir modal</Text>
-            </TouchableOpacity>
           </View>
           {/* rigth part */}
 

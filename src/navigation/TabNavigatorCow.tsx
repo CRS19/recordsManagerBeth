@@ -60,7 +60,6 @@ export type TabScreensParams = {
 const Tab = createBottomTabNavigator<TabScreensParams>();
 
 export const TabNavigatorCow = () => {
-  console.log('OPTIMIZATION: tabs render!');
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -91,7 +90,6 @@ export const TabNavigatorCow = () => {
 };
 
 const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
-  console.log('DEBUG: tabs render!', '.. Current index: ', props.state.index!);
   const isInsertingNewCow = useSelector(
     (state: IAppState) => state.insertNewCow!,
   );

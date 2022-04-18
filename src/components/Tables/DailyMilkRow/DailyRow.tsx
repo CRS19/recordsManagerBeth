@@ -33,7 +33,6 @@ export const DailyRow = ({
   index,
   changeCalostroProductivaInfo,
 }: IDailyRowProps) => {
-  console.log('DEBUG: DailyRow render');
   const getLLenadoColor = () => {
     if (isMorning()) {
       if (morningAfternoonMilk.morning === '0') {

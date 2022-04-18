@@ -105,7 +105,6 @@ export const Descarte = ({
                         title="Guardar"
                         onPress={() => actions.saveDeathCertificate()}
                       />
-                      <Text>{JSON.stringify(deathCertificate, null, 3)}</Text>
                     </View>
                   </View>
                 </View>

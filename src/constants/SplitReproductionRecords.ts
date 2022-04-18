@@ -6,7 +6,6 @@ import {
 import {isEmpty} from 'lodash';
 
 export const splitReproductionRecords = (cowRecord: IReproductionRecord) => {
-  console.log('OPTIMIZATION: splitReproductionRecords is called');
   let recordsSplited: Record[][] = [];
 
   for (const recordType in RecordReproductionType) {

@@ -17,7 +17,6 @@ interface ICowCardInfo {
 }
 
 export const CowCardInfo = (props: ICowCardInfo) => {
-  console.log('OPTIMIZATION: CowCard rendered');
   const isDefaultCard = get(props, 'default', false);
   const {openCowNavigation, openInsertNewCow} = useCowCardInfo(props.cow);
   const {edadAños, edadMesesA} = useGetOld({

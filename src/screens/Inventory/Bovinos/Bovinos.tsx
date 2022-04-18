@@ -30,8 +30,6 @@ export const Bovinos = () => {
             </View>
           ))}
         </View>
-        <Text>{JSON.stringify(firstDataTable, null, 3)}</Text>
-        <Text>{JSON.stringify(secondTableData, null, 3)}</Text>
         <View style={{height: 200}} />
       </ScrollView>
     </View>

@@ -69,9 +69,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
     (state: IAppState) => state.dailyProdRecordByDate!,
   );
 
-  const saveErrorMargin = () => {
-    console.log('ACTION: cambiar el margen de error');
-  };
+  const saveErrorMargin = () => {};
 
   const setOpenCloseModalLab = () => {
     setOpenLabModal(prevVal => !prevVal);

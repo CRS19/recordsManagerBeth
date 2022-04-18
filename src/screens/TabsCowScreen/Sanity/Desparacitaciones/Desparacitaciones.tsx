@@ -50,13 +50,6 @@ export const Desparacintaciones = () => {
               <LabelIconChip {...labelChipProps} />
               <GeneralTitle title="DESPARACITACIÓN" />
               <DewormingInputCard {...dewormingInputCardProps} />
-              <Text>
-                {JSON.stringify(
-                  dewormingInputCardProps.dewormingForm.newDeworming,
-                  null,
-                  3,
-                )}
-              </Text>
             </View>
             <View style={{height: 200}} />
           </ScrollView>

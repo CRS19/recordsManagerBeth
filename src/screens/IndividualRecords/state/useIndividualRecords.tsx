@@ -95,10 +95,7 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
     setOpenCloseModalLeche(false);
   };
 
-  const printState = () => {
-    console.log(JSON.stringify(currentCow, null, 3));
-    console.log(price);
-  };
+  const printState = () => {};
 
   const onRefresh = () => {
     setRefresh(true);

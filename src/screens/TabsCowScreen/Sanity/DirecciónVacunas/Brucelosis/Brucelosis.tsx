@@ -11,8 +11,6 @@ import {IAppState} from '../../../../../store/reducer';
 import {styles} from '../../../../../theme/GlobalStyles';
 
 export const Brucelosis = () => {
-  console.log('DEBUG: Brucelosis');
-
   const {nombre, numeroDeArete} = useSelector(
     (state: IAppState) => state.CurrentCow!,
   );

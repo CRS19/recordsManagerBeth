@@ -48,9 +48,7 @@ export const MainRecordView = () => {
         },
         {
           text: 'VENTA',
-          onPress: () => {
-            console.log('Descarte');
-          },
+          onPress: () => {},
           style: 'cancel',
         },
       ],

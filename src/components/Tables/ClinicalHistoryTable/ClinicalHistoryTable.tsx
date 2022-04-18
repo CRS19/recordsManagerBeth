@@ -20,8 +20,6 @@ export const ClinicalHistoryTable = ({rowData}: IClinicalHistoryTableProps) => {
 
   const rowDataView = buildRowData(rowData);
 
-  console.log(JSON.stringify(rowDataView, null, 3));
-
   return (
     <View>
       <ClinicalHistoryHead />

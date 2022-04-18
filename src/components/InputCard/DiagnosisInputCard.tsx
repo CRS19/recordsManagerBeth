@@ -36,9 +36,6 @@ export const DiagnosisInputCard = ({
 
   const isCardInValid = checkCardValidation(form);
 
-  console.log('******* JELP *******');
-  console.log(JSON.stringify(form, null, 3));
-
   return (
     <View
       style={{

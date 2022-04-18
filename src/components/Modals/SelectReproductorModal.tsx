@@ -91,7 +91,7 @@ export const SelectReproductorModal = (props: ISelectReproductorModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalOneFieldContainer}>
               <View style={styles.ModalOneFieldInputPosition}>
                 {/* piker */}

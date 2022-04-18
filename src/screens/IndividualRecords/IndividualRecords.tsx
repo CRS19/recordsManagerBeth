@@ -33,8 +33,6 @@ export interface IMemoCardProps {
 }
 
 export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
-  console.log('OPTIMIZATION: IndividualRecords render');
-
   const {
     precioCarne,
     precioLeche,
