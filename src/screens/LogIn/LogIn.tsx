@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Text,
   View,
@@ -14,6 +14,7 @@ import {BorderButtom} from '../../components/Buttoms/BorderButtom';
 import {ImageCardLogin} from '../../components/ImageCardLogin';
 import {styles} from '../../theme/GlobalStyles';
 import {useLogIn} from './state/useLogIn';
+import SplashScreen from 'react-native-splash-screen';
 
 export interface IUseLogInProps extends StackScreenProps<any, any> {}
 
@@ -24,6 +25,10 @@ export const LogIn = ({navigation}: IUseLogInProps) => {
 
   const {mail, password, setPassword, setMail, validar} = useLogIn(navigation);
   // FALTA CONSUMIER ENDPOINTS PARA VALIDAR CORRECTAMENTE EL LOGIN
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
