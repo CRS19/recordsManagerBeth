@@ -3,8 +3,14 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {GeneralIcon} from '../../assets/GeneralIcon';
 import {UnitTypeEnum} from '../../constants/PresentationEnum';
-import {setPreviusValueInthatIndex} from '../../constants/SanityRecords';
-import {IDrugDiagnosis} from '../../interfaces/SanityRecords';
+import {
+  setPreviusValueInthatIndex,
+  setPreviusValueInthatIndexGeneral,
+} from '../../constants/SanityRecords';
+import {
+  IDrugDiagnosis,
+  IDrugDiagnosisKey,
+} from '../../interfaces/SanityRecords';
 import {drugForm} from '../../screens/TabsCowScreen/Sanity/Diagnostico/state/useDiagnosis';
 import {styles} from '../../theme/GlobalStyles';
 
@@ -35,18 +41,33 @@ export const DrugPicker = ({
       <View style={{left: 10, top: 21}}>{<GeneralIcon />}</View>
       <View style={styles.PickerInput}>
         <Picker
-          selectedValue={value.drugId}
+          selectedValue={`${value.drugId}-${value.comertialName}`}
           onValueChange={(itemValue, itemIndex) => {
-            changeDoseUnit(itemValue);
+            changeDoseUnit(itemValue.split('-')[0]);
             setValue(prevValue =>
-              setPreviusValueInthatIndex(prevValue, valueIndex, itemValue),
+              setPreviusValueInthatIndexGeneral(
+                prevValue,
+                valueIndex,
+                itemValue.split('-')[0],
+                IDrugDiagnosisKey.DRUG_ID,
+                false,
+              ),
+            );
+            setValue(prevValue =>
+              setPreviusValueInthatIndexGeneral(
+                prevValue,
+                valueIndex,
+                itemValue.split('-')[1],
+                IDrugDiagnosisKey.COMERTIAL_NAME,
+                false,
+              ),
             );
           }}>
           {itemsList.map((item, index: number) => (
             <Picker.Item
               key={`${item}-${index}`}
               label={`${item.name}`}
-              value={`${item._id}`}
+              value={`${item._id}-${item.name}`}
             />
           ))}
         </Picker>

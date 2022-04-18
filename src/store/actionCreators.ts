@@ -1,5 +1,10 @@
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
-import {IDiagnosis, IVaccines, IDeworming} from './../interfaces/SanityRecords';
+import {
+  IDiagnosis,
+  IVaccines,
+  IDeworming,
+  ISanityRecord,
+} from './../interfaces/SanityRecords';
 import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -41,6 +46,13 @@ import {AxiosError, AxiosResponse} from 'axios';
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setSanityRecord = (payload: ISanityRecord) => {
+  return {
+    type: ActionTypes.SET_SANITY_RECORD,
+    sanityRecord: payload,
+  };
+};
 
 export const setAllDeathCertificates = (payload: IDeathCertificate[]) => {
   return {
@@ -716,6 +728,8 @@ export const getSanityRecordById = (
 
     try {
       const axiosResponse = await axios.get<GetSanityRecordResponse>(path);
+
+      dispatch(setSanityRecord(axiosResponse.data.record));
     } catch (e) {
       Alert.alert(
         'Error al obtener el registro de sanidad',
@@ -753,6 +767,8 @@ export const updateDiagnosis = (
           },
         ],
       );
+
+      dispatch(getSanityRecordById(payload.idVaca));
     } catch (e) {
       // @ts-ignore
       const drugsWithOutStock: {
@@ -1035,6 +1051,7 @@ export const saveVacunaRecord = (
       >(path, saveRequest);
 
       Alert.alert('Vacuna ingresada exitosamente');
+      dispatch(getSanityRecordById(idVaca));
     } catch (e) {
       Alert.alert(
         `No se pudo obtener crear las vacunas`,
@@ -1069,6 +1086,7 @@ export const saveDeworming = (
       }
 
       Alert.alert('Desparacitación ingresada exitosamente');
+      dispatch(getSanityRecordById(idVaca));
     } catch (e) {
       // @ts-ignore
       if (e.request.status === 409) {

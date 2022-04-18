@@ -17,9 +17,30 @@ import {cloneDeep, defaultTo, set} from 'lodash';
 import {IDrug} from '../interfaces/Drug.interface';
 import {IVacunaForm} from '../screens/TabsCowScreen/Sanity/Vacunas/state/useVacunas';
 
-export const EMPTY_ADD_DRUG = {
+export interface ISelectedFilter {
+  diagonsis: boolean;
+  vaccines: boolean;
+  dewormings: boolean;
+}
+
+export const INITIAL_FILTERS_STATE: ISelectedFilter = {
+  diagonsis: false,
+  vaccines: false,
+  dewormings: false,
+};
+
+export enum filterKeysEnum {
+  DIAGNOSIS = 'diagonsis',
+  VACCINES = 'vaccines',
+  DEWORMINGS = 'dewormings',
+  UNDEFINED = 'undefined',
+}
+
+export const EMPTY_ADD_DRUG: IDrugDiagnosis = {
   drugId: '',
   dose: 0,
+  doseUnit: '',
+  comertialName: '',
   frequency: {times: 0, at: frequencyDiagnosisEnum.EMPTY},
   duration: 0,
   total: 0,

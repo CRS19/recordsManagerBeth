@@ -30,6 +30,8 @@ export interface IFrequencyDiagnosis {
 export enum IDrugDiagnosisKey {
   DRUG_ID = 'drugId',
   DOSE = 'dose',
+  DOSE_UNIT = 'doseUnit',
+  COMERTIAL_NAME = 'comertialName',
   FREQUENCY = 'frequency',
   DURATION = 'duration',
   TOTAL = 'total',
@@ -57,6 +59,8 @@ export interface IDrugDiagnosis {
   drugId: string; // _id from drug colection
   dose: number;
   frequency: IFrequencyDiagnosis;
+  doseUnit: string;
+  comertialName: string;
   duration: number;
   total: number;
   applicationWay: applicationWayEnum;
@@ -91,4 +95,17 @@ export interface ISanityRecord {
   diagnosis: IDiagnosis[];
   vaccines: IVaccines[];
   deworming: IDeworming[];
+}
+
+export interface ISanityRecordRowDataView {
+  created: number;
+  total: number;
+  frequency?: string;
+  dosis: number;
+  applicationWay?: string;
+  diagnosisDescriptrion?: string;
+  commertialName?: string;
+  disease?: string;
+  activePrincipal?: string;
+  [k: string]: any;
 }
