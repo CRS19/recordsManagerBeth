@@ -1,3 +1,4 @@
+import {IInventoryCowSecondTable} from './../interfaces/InventoryCow.interface';
 import {IStraw} from './../interfaces/IStraws';
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
 import {
@@ -47,6 +48,13 @@ import {AxiosError, AxiosResponse} from 'axios';
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setSecondTable = (payload: IInventoryCowSecondTable[]) => {
+  return {
+    type: ActionTypes.SET_INVENTORY_SECOND_TABLE,
+    inventoryCowsSecondTable: payload,
+  };
+};
 
 export const setStrawList = (payload: IStraw[]) => {
   return {
@@ -946,10 +954,15 @@ export const getInventoryCows = (
     const path = `${API_BASE_PATH}/inventori-history-cows/getByMonth/${monthYear}`;
 
     try {
-      const response = await axios.get(path);
+      const response = await axios.get<{
+        message: string;
+        firstTableData: IInventoryCowFirstTable[];
+        secondTableReport: IInventoryCowSecondTable[];
+      }>(path);
 
-      //@ts-ignore
       dispatch(setInventoryFirstTable(response.data.firstTableData));
+
+      dispatch(setSecondTable(response.data.secondTableReport));
     } catch (e) {
       Alert.alert(
         `No se pudo obtener la información`,

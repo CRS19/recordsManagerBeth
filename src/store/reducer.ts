@@ -18,7 +18,10 @@ import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 import {IProductorasArray} from '../interfaces/ProductorasId';
 import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
-import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
+import {
+  IInventoryCowFirstTable,
+  IInventoryCowSecondTable,
+} from '../interfaces/InventoryCow.interface';
 
 export const INITIAL_STATE: IAppState = {
   isLoading: false,
@@ -54,6 +57,7 @@ export const INITIAL_STATE: IAppState = {
   deathCertificateCounterDocument: undefined,
   allDeathCertificates: undefined,
   strawList: [],
+  inventoryCowsSecondTable: [],
 };
 
 export interface IAppState {
@@ -79,6 +83,7 @@ export interface IAppState {
   montaIaReportTableData?: IMontaIaReportTableInfo[];
   preniezReportTableData?: IPreniezDataReportInfo[];
   inventoryCowsFirstTable?: IInventoryCowFirstTable[];
+  inventoryCowsSecondTable?: IInventoryCowSecondTable[];
   deathCertificateCounterDocument?: number;
   allDeathCertificates?: IDeathCertificate[];
   strawList?: IStraw[];
@@ -214,6 +219,12 @@ export const reducer = (
       return {
         ...state,
         strawList: action.strawList,
+      };
+
+    case ActionTypes.SET_INVENTORY_SECOND_TABLE:
+      return {
+        ...state,
+        inventoryCowsSecondTable: action.inventoryCowsSecondTable,
       };
     default:
       return state;

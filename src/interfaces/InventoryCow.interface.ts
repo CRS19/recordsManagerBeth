@@ -10,6 +10,13 @@ export interface IInventoryCowFirstTable {
   reproductiveStatus: string;
 }
 
+export interface IInventoryCowSecondTable {
+  number: number;
+  indice: string;
+  ubas: number;
+  category: string;
+}
+
 export interface ILuxonDurationObject {
   years: number;
   months: number;
