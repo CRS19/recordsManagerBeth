@@ -22,6 +22,7 @@ export const useClinicalHistoryTable = () => {
               total: drug.total,
               frequency: `${drug.frequency.times} ${drug.frequency.at}`, // TODO: traducir al español
               dosis: drug.dose,
+              doseUnit: drug.doseUnit,
               commertialName: drug.comertialName,
               created: value.created,
               diagnosisDescriptrion: value.diagnosisDescriptrion,

@@ -28,12 +28,16 @@ export const DiagnosisInputCard = ({
   const {drugsIdList, doseUnit, actions} = useDiagonsisInputCard({
     drugs,
     setForm,
+    formIndex,
   });
 
   const doseTotalCalculated =
     form.newDrug.frequency.times * form.newDrug.duration * form.newDrug.dose;
 
   const isCardInValid = checkCardValidation(form);
+
+  console.log('******* JELP *******');
+  console.log(JSON.stringify(form, null, 3));
 
   return (
     <View

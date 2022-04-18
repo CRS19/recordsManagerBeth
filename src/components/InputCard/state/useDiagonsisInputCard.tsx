@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {UnitTypeEnum} from '../../../constants/PresentationEnum';
 import {setPreviusValueInthatIndexGeneral} from '../../../constants/SanityRecords';
 import {IDrug} from '../../../interfaces/Drug.interface';
@@ -7,6 +7,7 @@ import {drugForm} from '../../../screens/TabsCowScreen/Sanity/Diagnostico/state/
 
 export interface IUseDiagnosisInputCardProps {
   drugs: IDrug[];
+  formIndex: number;
   setForm: React.Dispatch<React.SetStateAction<drugForm[]>>;
 }
 
@@ -14,7 +15,7 @@ export interface IUseDiagnosisInputCard {
   drugsIdList: {_id: string; name: string}[];
   doseUnit: UnitTypeEnum;
   actions: {
-    changeDoseUnit: (drugId: string) => void;
+    changeDoseUnit: (drugId: string, index: number) => void;
     setDrugValue: (
       index: number,
       property: IDrugDiagnosisKey,
@@ -26,6 +27,7 @@ export interface IUseDiagnosisInputCard {
 
 export const useDiagonsisInputCard = ({
   drugs,
+  formIndex,
   setForm,
 }: IUseDiagnosisInputCardProps): IUseDiagnosisInputCard => {
   const drugsIdList = [
@@ -38,7 +40,7 @@ export const useDiagonsisInputCard = ({
   ];
   const [doseUnit, setDoseUnit] = useState<UnitTypeEnum>(UnitTypeEnum.EMPTY);
 
-  const changeDoseUnit = (drugId: string) => {
+  const changeDoseUnit = (drugId: string, index: number) => {
     const drug = drugsIdList.find(drug => drug._id === drugId);
     setDoseUnit(drug!.unitType);
   };
@@ -59,6 +61,20 @@ export const useDiagonsisInputCard = ({
       ),
     );
   };
+
+  useEffect(() => {
+    if (doseUnit !== '') {
+      setForm(prevValue =>
+        setPreviusValueInthatIndexGeneral(
+          prevValue,
+          formIndex,
+          doseUnit,
+          IDrugDiagnosisKey.DOSE_UNIT,
+          false,
+        ),
+      );
+    }
+  }, [doseUnit]);
 
   return {drugsIdList, doseUnit, actions: {changeDoseUnit, setDrugValue}};
 };

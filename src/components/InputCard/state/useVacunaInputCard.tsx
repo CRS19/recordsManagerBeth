@@ -92,7 +92,9 @@ export const useVacunaInputCard = ({
 
   useEffect(() => {
     if (isFormValid === true) {
-      dispatch(saveVacunaRecord(idVaca, vacunForm.newVacuna));
+      dispatch(
+        saveVacunaRecord(idVaca, {...vacunForm.newVacuna, doseUnit: 'ml'}),
+      );
       setIsFormValid(false);
       naviation.navigate('MainRecord');
       setVacunaForm({

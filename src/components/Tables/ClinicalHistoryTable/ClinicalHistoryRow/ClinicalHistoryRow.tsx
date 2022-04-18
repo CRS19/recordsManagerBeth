@@ -63,7 +63,7 @@ export const ClinicalHistoryRow = ({
         </View>
         <View style={{...styles.DailyMilkRow, width: 95, borderTopWidth: 0}}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>
-            {get(rowData, 'dosis')}
+            {`${get(rowData, 'dosis')} (${get(rowData, 'doseUnit', '')})`}
           </Text>
         </View>
         <View style={{...styles.DailyMilkRow, width: 119, borderTopWidth: 0}}>

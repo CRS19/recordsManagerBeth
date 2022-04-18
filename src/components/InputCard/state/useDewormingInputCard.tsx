@@ -95,7 +95,7 @@ export const useDewormingInputCard = ({
       dispatch(
         saveDeworming(
           idVaca,
-          dewormingForm.newDeworming,
+          {...dewormingForm.newDeworming, doseUnit},
           navigateToMainRecord,
           resetForm,
         ),

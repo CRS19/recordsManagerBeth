@@ -2,11 +2,7 @@ import {Picker} from '@react-native-picker/picker';
 import React from 'react';
 import {Text, View} from 'react-native';
 import {GeneralIcon} from '../../assets/GeneralIcon';
-import {UnitTypeEnum} from '../../constants/PresentationEnum';
-import {
-  setPreviusValueInthatIndex,
-  setPreviusValueInthatIndexGeneral,
-} from '../../constants/SanityRecords';
+import {setPreviusValueInthatIndexGeneral} from '../../constants/SanityRecords';
 import {
   IDrugDiagnosis,
   IDrugDiagnosisKey,
@@ -17,7 +13,7 @@ import {styles} from '../../theme/GlobalStyles';
 export interface IGeneralPickerProps {
   value: IDrugDiagnosis;
   setValue: React.Dispatch<React.SetStateAction<drugForm[]>>;
-  changeDoseUnit: (drugId: string) => void;
+  changeDoseUnit: (drugId: string, index: number) => void;
   valueIndex: number;
   itemsList: {_id: string; name: string}[];
   error: boolean;
@@ -43,7 +39,7 @@ export const DrugPicker = ({
         <Picker
           selectedValue={`${value.drugId}-${value.comertialName}`}
           onValueChange={(itemValue, itemIndex) => {
-            changeDoseUnit(itemValue.split('-')[0]);
+            changeDoseUnit(itemValue.split('-')[0], valueIndex);
             setValue(prevValue =>
               setPreviusValueInthatIndexGeneral(
                 prevValue,

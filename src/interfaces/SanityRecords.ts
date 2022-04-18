@@ -78,6 +78,7 @@ export interface IVaccines {
   disease: diseasesEnum;
   comercialName: string;
   dosis: number; // recordar que siempre son en ml las vacunas
+  doseUnit: string;
 }
 
 export interface IDeworming {
@@ -86,6 +87,7 @@ export interface IDeworming {
   comertialName: string;
   activePrincipal: string;
   dosis: number;
+  doseUnit: string;
   applicationWay: applicationWayEnum;
 }
 
@@ -102,6 +104,7 @@ export interface ISanityRecordRowDataView {
   total: number;
   frequency?: string;
   dosis: number;
+  doseUnit?: string;
   applicationWay?: string;
   diagnosisDescriptrion?: string;
   commertialName?: string;
