@@ -15,7 +15,6 @@ export const LogInStack = () => {
         headerShown: false,
         cardStyle: {backgroundColor: 'white'},
       }}>
-      <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
       <Stack.Screen name="LoginScreen" component={LogIn} />
       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
       <Stack.Screen name="TabNavigatorCow" component={TabNavigatorCow} />
