@@ -1,4 +1,5 @@
-package com.unnamed;
+//package com.unnamed;
+package com.cristianflores.tunshiappunnamed;
 
 // react-native-splash-screen >= 0.3.1
 import org.devio.rn.splashscreen.SplashScreenReactPackage;

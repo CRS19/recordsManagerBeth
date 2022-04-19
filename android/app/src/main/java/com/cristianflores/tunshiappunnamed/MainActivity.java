@@ -1,4 +1,5 @@
-package com.unnamed;
+//package com.unnamed;
+package com.cristianflores.tunshiappunnamed;
 import android.os.Bundle; // here
 
 import com.facebook.react.ReactActivity;
