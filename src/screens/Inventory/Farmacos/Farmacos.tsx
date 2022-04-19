@@ -34,27 +34,29 @@ export const Farmacos = () => {
   return (
     <View>
       <TopBar title="Fármacos" backIcon={true} />
-      <ScrollView>
-        <View style={{marginTop: 15}}>
-          <GeneralTitle title="Inventario Farmacológico" width={1180} />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: 40,
-            }}>
-            <BallButtom onPress={() => setOpenDrugsModal(true)} title={'+'} />
-            <Text style={{fontSize: 18}}>Agregar fármaco</Text>
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <View style={{marginTop: 15}}>
+            <GeneralTitle title="Inventario Farmacológico" width={1180} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 40,
+              }}>
+              <BallButtom onPress={() => setOpenDrugsModal(true)} title={'+'} />
+              <Text style={{fontSize: 18}}>Agregar fármaco</Text>
+            </View>
+            <DrugViewTable drugs={drugsList} onDeleteDrug={onDeleteDrug} />
+            <View style={{marginTop: 40}}>
+              <BorderButtom
+                title="descargar pdf"
+                onPress={() => createDrugsInventoryReport(drugsList)}
+              />
+            </View>
+            <View style={{height: 300}} />
           </View>
-          <DrugViewTable drugs={drugsList} onDeleteDrug={onDeleteDrug} />
-          <View style={{marginTop: 40}}>
-            <BorderButtom
-              title="descargar pdf"
-              onPress={() => createDrugsInventoryReport(drugsList)}
-            />
-          </View>
-          <View style={{height: 300}} />
-        </View>
+        </ScrollView>
       </ScrollView>
       <LoadingModal
         title="Guardando nuevo farmaco"

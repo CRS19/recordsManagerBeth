@@ -15,11 +15,13 @@ export const Muertes = () => {
   return (
     <View>
       <TopBar backIcon={true} title="Defunciones"></TopBar>
-      <ScrollView>
-        <GeneralTitle title="Actas de defunción" width={1200} />
-        <DeathCertificateItems deathCertificates={deathCertificates} />
-        <View style={{height: 590}} />
-        <View style={{...styles.LogInFooter, marginTop: 40}} />
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <GeneralTitle title="Actas de defunción" width={1200} />
+          <DeathCertificateItems deathCertificates={deathCertificates} />
+          <View style={{height: 590}} />
+          <View style={{...styles.LogInFooter, marginTop: 40}} />
+        </ScrollView>
       </ScrollView>
     </View>
   );

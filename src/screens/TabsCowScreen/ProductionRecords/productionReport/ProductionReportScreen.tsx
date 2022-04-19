@@ -81,6 +81,7 @@ export const ProductionReportScreen = ({route, navigation}: any) => {
             />
           </View>
         </View>
+
         <View>
           <Text
             style={{
@@ -103,51 +104,61 @@ export const ProductionReportScreen = ({route, navigation}: any) => {
             Días de Lactación
           </Text>
         </View>
-        <View
-          style={{
-            marginHorizontal: 50,
-            flexDirection: 'row',
-            backgroundColor: 'white',
-          }}>
-          <ViewShot
-            ref={ViewShotRef}
-            style={{flex: 1}}
-            options={{format: 'jpg', quality: 1.0}}>
-            <View
-              style={{
-                height: 400,
-                width: 753,
-                backgroundColor: 'white',
-                flexDirection: 'row',
-                paddingTop: 20,
-              }}>
-              <Chart
+        <ScrollView horizontal={true}>
+          <View
+            style={{
+              marginLeft: 50,
+              width: 1100,
+              flexDirection: 'row',
+              backgroundColor: 'white',
+            }}>
+            <ViewShot
+              ref={ViewShotRef}
+              style={{flex: 1}}
+              options={{format: 'jpg', quality: 1.0}}>
+              <View
                 style={{
                   height: 400,
-                  width: '100%',
+                  width: 753,
                   backgroundColor: 'white',
-                }}
-                xDomain={{min: 0, max: 305}}
-                yDomain={{min: 0, max: 250}}
-                padding={{left: 40, bottom: 20, right: 20, top: 20}}>
-                <VerticalAxis tickValues={[0, 50, 100, 150, 200, 250]} />
-                <HorizontalAxis tickValues={[0, 50, 100, 150, 200, 250, 305]} />
-                <Line
-                  data={getDataToPlot(milkingData)}
-                  smoothing="cubic-spline"
-                  theme={{stroke: {color: 'blue', width: 1}}}
-                />
-              </Chart>
+                  flexDirection: 'row',
+                  paddingTop: 20,
+                }}>
+                <Chart
+                  style={{
+                    height: 400,
+                    width: '100%',
+                    backgroundColor: 'white',
+                  }}
+                  xDomain={{min: 0, max: 305}}
+                  yDomain={{min: 0, max: 250}}
+                  padding={{left: 40, bottom: 20, right: 20, top: 20}}>
+                  <VerticalAxis tickValues={[0, 50, 100, 150, 200, 250]} />
+                  <HorizontalAxis
+                    tickValues={[0, 50, 100, 150, 200, 250, 305]}
+                  />
+                  <Line
+                    data={getDataToPlot(milkingData)}
+                    smoothing="cubic-spline"
+                    theme={{stroke: {color: 'blue', width: 1}}}
+                  />
+                </Chart>
+              </View>
+            </ViewShot>
+            <View style={{marginLeft: 10}}>
+              <LactanciaViewCard productionRecords={dailyRecords} />
             </View>
-          </ViewShot>
-          <View style={{marginLeft: 40}}>
-            <LactanciaViewCard productionRecords={dailyRecords} />
           </View>
-        </View>
+        </ScrollView>
 
         <View style={{marginTop: 35}}>
           <GeneralTitle title="Registro Diario de Leche" />
-          <DailyMilkingProdReportHeader dailyRecord={params} />
+          <ScrollView horizontal={true}>
+            <View style={{flexDirection: 'column'}}>
+              <DailyMilkingProdReportHeader dailyRecord={params} />
+              <View style={{height: 30}} />
+            </View>
+          </ScrollView>
         </View>
 
         <View style={{marginTop: 25}}>

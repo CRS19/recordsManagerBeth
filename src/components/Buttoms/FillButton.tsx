@@ -37,7 +37,7 @@ export const FillButton = (props: IFillButton) => {
       disabled={disable ? false : props.disable}
       activeOpacity={0.8}
       onPress={props.onPress}
-      style={{alignSelf: 'center'}}>
+      style={{alignSelf: 'center', marginVertical: 10}}>
       <View style={getStyles()}>
         <Text
           style={{

@@ -25,10 +25,12 @@ export const HistoriaClinica = () => {
         <LabelIconChip {...labelChipProps} />
         <SanityTableFilter {...sanityFilterProps} />
       </View>
-      <ScrollView>
-        <GeneralTitle title="Historial Clinico" />
-        <ClinicalHistoryTable rowData={filteredSanityRecordData} />
-        <View style={{height: 200}} />
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <GeneralTitle title="Historial Clinico" />
+          <ClinicalHistoryTable rowData={filteredSanityRecordData} />
+          <View style={{height: 200}} />
+        </ScrollView>
       </ScrollView>
     </View>
   );

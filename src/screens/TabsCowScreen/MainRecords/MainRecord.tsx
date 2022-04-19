@@ -258,118 +258,119 @@ export const MainRecord = () => {
             />
           </View>
           {/* rigth part */}
+          <ScrollView horizontal={true}>
+            <ScrollView>
+              <View style={{flexDirection: 'row-reverse'}}>
+                <View style={{alignItems: 'center', marginRight: 25}}>
+                  <SaveButtom onPress={saveNewCow} />
+                </View>
+                <View>
+                  <GeneralTitle title={'Identificación'} />
 
-          <ScrollView>
-            <View style={{flexDirection: 'row-reverse'}}>
-              <View style={{alignItems: 'center', marginRight: 25}}>
-                <SaveButtom onPress={saveNewCow} />
-              </View>
-              <View>
-                <GeneralTitle title={'Identificación'} />
-
-                <View style={styles.RigthGenericTabContainer}>
-                  <View>
-                    <View
-                      style={{
-                        width: 340,
-                        height: 430,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCard
-                        isSaved={infoCardFinish}
-                        value={insertCow!}
-                        setValue={setInsertCow}
-                        openSexChooseModal={setOpenChooseSexModal}
-                        openDatePickerModal={setOpenDatePickModal}
-                        openRazaPickerModal={setOpenRazaPickerModal}
-                        onSave={onSaveIdentification}
-                        setPropertyFecha={setPropertyFecha}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        width: 340,
-                        height: 160,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputPeso
-                        title1={'Nacimiento'}
-                        title2={'Peso al Deste'}
-                        title3={'Peso Actual'}
-                        value1={`${insertCow.pesoNacimiento}`}
-                        value2={`${insertCow.pesoAlDestete}`}
-                        value3={`${insertCow.pesoActual}`}
-                      />
-                    </View>
-                    {insertCow.sexo === 'HEMBRA' ? (
+                  <View style={styles.RigthGenericTabContainer}>
+                    <View>
                       <View
                         style={{
-                          backgroundColor: '#00FFD5',
                           width: 340,
-                          height: 264,
+                          height: 430,
                           marginLeft: 40,
                           marginBottom: 20,
                         }}>
-                        <LactanciaInputCard
-                          value={insertCow}
+                        <InputCard
+                          isSaved={infoCardFinish}
+                          value={insertCow!}
                           setValue={setInsertCow}
-                          onSave={onSaveLactancia}
-                          isSaved={infoCardLactanciasFinish}
+                          openSexChooseModal={setOpenChooseSexModal}
+                          openDatePickerModal={setOpenDatePickModal}
+                          openRazaPickerModal={setOpenRazaPickerModal}
+                          onSave={onSaveIdentification}
+                          setPropertyFecha={setPropertyFecha}
                         />
                       </View>
-                    ) : (
-                      <View />
-                    )}
-                  </View>
-                  <View>
-                    <View
-                      style={{
-                        backgroundColor: '#03DAC5',
-                        width: 337,
-                        height: 373,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardCaracteristics
-                        value={insertCow!}
-                        setValue={setInsertCow}
-                        onSave={onSaveCaracteristics}
-                        hasMomDad={hasMomDad}
-                        openMomDataModal={setOpenMomDataModal}
-                        setOpenDadDataModal={setOpenDadDataModal}
-                        isInsert={true}
-                      />
-                    </View>
-
-                    {insertCow.sexo === 'HEMBRA' ? (
                       <View
                         style={{
-                          backgroundColor: '#FF0000',
-                          width: 337,
-                          height: 312,
+                          width: 340,
+                          height: 160,
                           marginLeft: 40,
                           marginBottom: 20,
                         }}>
-                        <GestacionInputCard
-                          value={insertCow}
-                          setValue={setInsertCow}
-                          openEdadPrimerPartoModal={setOpenEdadPartoModal}
-                          setPropertyFecha={setPropertyFecha}
-                          onSave={onSaveGestacion}
-                          isSaved={infoCardGestationFinish}
-                          openDatePickerModal={setOpenDatePickModal}
+                        <InputPeso
+                          title1={'Nacimiento'}
+                          title2={'Peso al Deste'}
+                          title3={'Peso Actual'}
+                          value1={`${insertCow.pesoNacimiento}`}
+                          value2={`${insertCow.pesoAlDestete}`}
+                          value3={`${insertCow.pesoActual}`}
                         />
                       </View>
-                    ) : (
-                      <View />
-                    )}
-                    <View style={{height: 400, width: 300}} />
+                      {insertCow.sexo === 'HEMBRA' ? (
+                        <View
+                          style={{
+                            backgroundColor: '#00FFD5',
+                            width: 340,
+                            height: 264,
+                            marginLeft: 40,
+                            marginBottom: 20,
+                          }}>
+                          <LactanciaInputCard
+                            value={insertCow}
+                            setValue={setInsertCow}
+                            onSave={onSaveLactancia}
+                            isSaved={infoCardLactanciasFinish}
+                          />
+                        </View>
+                      ) : (
+                        <View />
+                      )}
+                    </View>
+                    <View>
+                      <View
+                        style={{
+                          backgroundColor: '#03DAC5',
+                          width: 337,
+                          height: 373,
+                          marginLeft: 40,
+                          marginBottom: 20,
+                        }}>
+                        <InputCardCaracteristics
+                          value={insertCow!}
+                          setValue={setInsertCow}
+                          onSave={onSaveCaracteristics}
+                          hasMomDad={hasMomDad}
+                          openMomDataModal={setOpenMomDataModal}
+                          setOpenDadDataModal={setOpenDadDataModal}
+                          isInsert={true}
+                        />
+                      </View>
+
+                      {insertCow.sexo === 'HEMBRA' ? (
+                        <View
+                          style={{
+                            backgroundColor: '#FF0000',
+                            width: 337,
+                            height: 312,
+                            marginLeft: 40,
+                            marginBottom: 20,
+                          }}>
+                          <GestacionInputCard
+                            value={insertCow}
+                            setValue={setInsertCow}
+                            openEdadPrimerPartoModal={setOpenEdadPartoModal}
+                            setPropertyFecha={setPropertyFecha}
+                            onSave={onSaveGestacion}
+                            isSaved={infoCardGestationFinish}
+                            openDatePickerModal={setOpenDatePickModal}
+                          />
+                        </View>
+                      ) : (
+                        <View />
+                      )}
+                      <View style={{height: 400, width: 300}} />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </ScrollView>
           </ScrollView>
         </View>
       </View>

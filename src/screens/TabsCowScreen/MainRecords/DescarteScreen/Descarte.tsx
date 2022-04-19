@@ -70,45 +70,46 @@ export const Descarte = ({
               ...styles.RigthGenericTabContainer,
             }}>
             <View>
-              <ScrollView>
-                <View>
-                  {/**TODO: obtener el numero de acta de un endpoint**/}
-                  <View
-                    style={{
-                      marginHorizontal: 20,
-                      marginTop: 20,
-                      marginBottom: 10,
-                    }}>
-                    <BoxTitle
-                      outlineColor="#2B9336"
-                      title={`ACTA DE DEFUNCIÓN #${
-                        isNil(deathDocumentNumber)
-                          ? '...'
-                          : deathDocumentNumber + 1
-                      }`}
-                    />
-                    <GeneralTitle
-                      title={`EN LA FACULTAD DE CIENCIAS PECUARIAS A LOS ${dayInfo.numberDay} DÍAS DEL MES DE ${dayInfo.month} DE ${dayInfo.year}`}
-                      width={840}
-                    />
-                    <WitnessCards {...witnessCardProps} />
-                    <GeneralTitle
-                      title="Con motivo de constatar la muerte del semobiente de la propiedad de la Escuela de Ingeniría Zootécnica, distinguido de las siguientes caracteristicas: "
-                      width={840}
-                      textTransform="none"
-                      textAling="left"
-                    />
-                    <DescarteInfoCard deathCertificate={deathCertificate} />
-                    <ResponsableDiagnosis {...responsableDiagnosisProps} />
-                    <View style={{margin: 20}}>
-                      <BorderButtom
-                        title="Guardar"
-                        onPress={() => actions.saveDeathCertificate()}
+              <ScrollView horizontal={true}>
+                <ScrollView>
+                  <View>
+                    <View
+                      style={{
+                        marginHorizontal: 20,
+                        marginTop: 20,
+                        marginBottom: 10,
+                      }}>
+                      <BoxTitle
+                        outlineColor="#2B9336"
+                        title={`ACTA DE DEFUNCIÓN #${
+                          isNil(deathDocumentNumber)
+                            ? '...'
+                            : deathDocumentNumber + 1
+                        }`}
                       />
+                      <GeneralTitle
+                        title={`EN LA FACULTAD DE CIENCIAS PECUARIAS A LOS ${dayInfo.numberDay} DÍAS DEL MES DE ${dayInfo.month} DE ${dayInfo.year}`}
+                        width={840}
+                      />
+                      <WitnessCards {...witnessCardProps} />
+                      <GeneralTitle
+                        title="Con motivo de constatar la muerte del semobiente de la propiedad de la Escuela de Ingeniría Zootécnica, distinguido de las siguientes caracteristicas: "
+                        width={840}
+                        textTransform="none"
+                        textAling="left"
+                      />
+                      <DescarteInfoCard deathCertificate={deathCertificate} />
+                      <ResponsableDiagnosis {...responsableDiagnosisProps} />
+                      <View style={{margin: 20}}>
+                        <BorderButtom
+                          title="Guardar"
+                          onPress={() => actions.saveDeathCertificate()}
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View style={{height: 200}} />
+                  <View style={{height: 200}} />
+                </ScrollView>
               </ScrollView>
             </View>
           </View>

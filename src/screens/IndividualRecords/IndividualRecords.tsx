@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import {View, FlatList, SafeAreaView, Text} from 'react-native';
 import {FillButton} from '../../components/Buttoms/FillButton';
-import {QRReaderButtom} from '../../components/Buttoms/QRReaderButtom';
 import {MemoizedCard} from '../../components/CowCardInfo/CowCardInfo';
 import {InfoStaticCard} from '../../components/InfoStaticCard/InfoStaticCard';
 import {TopBar} from '../../components/TopBar';
@@ -19,8 +12,6 @@ import {useIndividualRecords} from './state/useIndividualRecords';
 import {ICow} from '../../interfaces/CowInterface';
 import {ActivityIndicator} from 'react-native-paper';
 import {isEmpty} from 'lodash';
-import {NoCowInDataBse} from '../../assets/ErrorImages/NoCowInDataBse';
-import {InsertFirstCow} from '../../assets/ErrorImages/InsertFirstCow';
 import {EmptyCowListBtn} from '../../components/EmptyCowListBtn/EmptyCowListBtn';
 interface IIndividualRecordsProps extends DrawerScreenProps<any, any> {}
 
@@ -47,7 +38,6 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
     setOpenCloseModalCarne,
     setOpenCloseModalLeche,
     guardarPrecioLeche,
-    printState,
     onRefresh,
   } = useIndividualRecords();
 
@@ -61,15 +51,12 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
       />
       <View style={{flexDirection: 'row'}}>
         <View style={styles.IndividualRecordsContainer}>
-          <View style={styles.IndividualRecordsRigthContainer}>
-            <View style={{width: 449, height: 50}}></View>
-            <View style={{marginHorizontal: 19}}>
-              <InfoStaticCard />
-            </View>
+          {/* rigth part */}
+          <View style={styles.IndividualRecordsLeftContainer}>
             <View
               style={{
                 marginVertical: 21,
-                marginHorizontal: 42,
+                marginHorizontal: 20,
                 flexDirection: 'row',
               }}>
               <View style={{marginRight: 13}}>
@@ -79,17 +66,14 @@ export const IndividualRecords = ({navigation}: IIndividualRecordsProps) => {
                     setOpenCloseModalCarne(true);
                   }}
                 />
+                <FillButton
+                  title="Precio LT leche"
+                  onPress={() => {
+                    setOpenCloseModalLeche(true);
+                  }}
+                />
               </View>
-              <FillButton
-                title="Precio LT leche"
-                onPress={() => {
-                  setOpenCloseModalLeche(true);
-                }}
-              />
             </View>
-          </View>
-          {/* rigth part */}
-          <View style={styles.IndividualRecordsLeftContainer}>
             <SafeAreaView style={{flex: 1}}>
               {isLoading || refresh ? (
                 <View
@@ -149,7 +133,7 @@ const CardList = (props: IMemoCardProps) => {
       }}
       renderItem={vaca => (
         <MemoizedCard
-          default={vaca.item.idVaca === '007xD' ? true : false}
+          default={vaca.item.idVaca === '007-xD' ? true : false}
           cow={vaca.item}
         />
       )}

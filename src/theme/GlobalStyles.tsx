@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
   },
   LogInTitleContainer: {
     justifyContent: 'center',
-    marginLeft: 313,
+    marginLeft: '20%',
   },
   LogInFormContainer: {
     justifyContent: 'flex-start',
@@ -366,7 +366,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   LeftGenericTabContainer: {
-    width: 392,
+    width: '31%',
   },
   RigthGenericTabContainer: {
     flex: 1,
@@ -485,7 +485,7 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
   },
   RegisterDivider: {
-    width: 362,
+    width: '90%',
     height: 2,
     backgroundColor: '#C22321',
   },
@@ -579,7 +579,7 @@ export const styles = StyleSheet.create({
   },
   IndividualProdRecordContainer: {
     height: 332,
-    width: 374,
+    width: 334,
     backgroundColor: 'white',
     marginLeft: 20,
     marginTop: 5,

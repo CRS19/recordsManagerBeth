@@ -46,96 +46,94 @@ export const Diagnostico = () => {
                   [dateString]: {
                     marked: true,
                     selectedColor: 'orange',
-                    dots: [
-                      {key: 'vacation', color: 'orange'},
-                      {key: 'registro', color: 'green'},
-                      {key: 'registro2', color: 'blue'},
-                      {key: 'registro3', color: 'red'},
-                    ],
+                    dots: [{key: 'vacation', color: 'orange'}],
                   },
                 });
               }}
               enableSwipeMonths={true}
             />
           </View>
-          <ScrollView>
-            <View
-              style={{
-                ...styles.RigthGenericTabContainer,
-                flex: 1,
-                width: '100%',
-                flexDirection: 'column',
-                paddingLeft: 50,
-              }}>
-              <LabelIconChip {...labelChipProps} />
-              <View style={{flexDirection: 'row', marginTop: 15}}>
-                <DiagnosisIcon />
-                <View style={{paddingLeft: 25}}>
-                  <Text style={{color: '#6200EE', fontSize: 18}}>
-                    Diagnostico
-                  </Text>
-                  <TextInput
+          <ScrollView horizontal={true}>
+            <ScrollView>
+              <View
+                style={{
+                  ...styles.RigthGenericTabContainer,
+                  flex: 1,
+                  width: '100%',
+                  flexDirection: 'column',
+                  paddingLeft: 50,
+                }}>
+                <LabelIconChip {...labelChipProps} />
+                <View style={{flexDirection: 'row', marginTop: 15}}>
+                  <DiagnosisIcon />
+                  <View style={{paddingLeft: 25}}>
+                    <Text style={{color: '#6200EE', fontSize: 18}}>
+                      Diagnostico
+                    </Text>
+                    <TextInput
+                      style={{
+                        borderStartColor: 'red',
+                        maxWidth: 650,
+                        color: '#000000',
+                        fontSize: 16,
+                      }}
+                      value={daignosisText}
+                      multiline={true}
+                      onChangeText={text => {
+                        setDiagnosisText(text);
+                      }}
+                    />
+                  </View>
+                </View>
+                {!validDiagnosisDescription && (
+                  <Text
                     style={{
-                      borderStartColor: 'red',
-                      maxWidth: 650,
-                      color: '#000000',
-                      fontSize: 16,
-                    }}
-                    value={daignosisText}
-                    multiline={true}
-                    onChangeText={text => {
-                      setDiagnosisText(text);
+                      position: 'absolute',
+                      color: 'red',
+                      left: 180,
+                      top: 160,
+                    }}>
+                    Ingrese una descripción
+                  </Text>
+                )}
+                <View
+                  style={{
+                    marginVertical: 15,
+                    height: 5,
+                    width: 741,
+                    backgroundColor: '#6200EE',
+                  }}
+                />
+
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <ScrollView horizontal={true}>
+                    {drugsForms.map((drugForm, index) => (
+                      <View key={`${index}-form`}>
+                        <DiagnosisInputCard
+                          form={drugForm}
+                          formIndex={index}
+                          drugs={drugs}
+                          setForm={setDrugsForms}
+                          openFrequencyModal={openFrequencyModal}
+                        />
+                        <View key={`${index}-space`} style={{height: 10}} />
+                      </View>
+                    ))}
+                  </ScrollView>
+                  <BallButtom
+                    title="+"
+                    onPress={() => {
+                      addAnotherDrug();
                     }}
                   />
                 </View>
+                <View style={{marginTop: 10}}>
+                  <BorderButtom title="Guardar" onPress={onSave} />
+                </View>
+                <View style={{height: 250}} />
               </View>
-              {!validDiagnosisDescription && (
-                <Text
-                  style={{
-                    position: 'absolute',
-                    color: 'red',
-                    left: 180,
-                    top: 160,
-                  }}>
-                  Ingrese una descripción
-                </Text>
-              )}
-              <View
-                style={{
-                  marginVertical: 15,
-                  height: 5,
-                  width: 741,
-                  backgroundColor: '#6200EE',
-                }}
-              />
-
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <ScrollView horizontal={true}>
-                  {drugsForms.map((drugForm, index) => (
-                    <View key={`${index}-form`}>
-                      <DiagnosisInputCard
-                        form={drugForm}
-                        formIndex={index}
-                        drugs={drugs}
-                        setForm={setDrugsForms}
-                        openFrequencyModal={openFrequencyModal}
-                      />
-                      <View key={`${index}-space`} style={{height: 10}} />
-                    </View>
-                  ))}
-                </ScrollView>
-                <BallButtom
-                  title="+"
-                  onPress={() => {
-                    addAnotherDrug();
-                  }}
-                />
-              </View>
-              <View style={{marginTop: 10}}>
-                <BorderButtom title="Guardar" onPress={onSave} />
-              </View>
-              <View style={{height: 250}} />
-            </View>
+            </ScrollView>
+            <View style={{width: 50}} />
           </ScrollView>
         </View>
       </View>

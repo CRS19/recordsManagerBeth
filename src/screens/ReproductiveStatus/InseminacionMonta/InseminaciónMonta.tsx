@@ -19,22 +19,24 @@ export const InseminaciónMonta = () => {
   return (
     <View>
       <TopBar backIcon={true} title=" InseminaciónMonta"></TopBar>
-      <ScrollView>
-        <GeneralTitle title="Inseminaciones / montas" />
-        <CalendarButtom
-          calendarAction={CalendarActionsEnum.GET_INSEMINACIONES_MONTAS}
-        />
-        <InseminationMontaTable montaIaReportData={montaIaReportTableData} />
-        <View style={{marginTop: 30}}>
-          <BorderButtom
-            title="Imprimir"
-            onPress={() =>
-              createInseminationMontaReport(montaIaReportTableData)
-            }
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <GeneralTitle title="Inseminaciones / montas" />
+          <CalendarButtom
+            calendarAction={CalendarActionsEnum.GET_INSEMINACIONES_MONTAS}
           />
-        </View>
-        <View style={{height: 350}} />
-        <View style={{...styles.LogInFooter}} />
+          <InseminationMontaTable montaIaReportData={montaIaReportTableData} />
+          <View style={{marginTop: 30}}>
+            <BorderButtom
+              title="Imprimir"
+              onPress={() =>
+                createInseminationMontaReport(montaIaReportTableData)
+              }
+            />
+          </View>
+          <View style={{height: 350}} />
+          <View style={{...styles.LogInFooter}} />
+        </ScrollView>
       </ScrollView>
     </View>
   );

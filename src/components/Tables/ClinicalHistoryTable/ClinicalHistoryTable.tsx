@@ -25,7 +25,9 @@ export const ClinicalHistoryTable = ({rowData}: IClinicalHistoryTableProps) => {
       <ClinicalHistoryHead />
       {rowDataView.map(
         (renderRowDataView: ISanityRecordRowDataView, index: number) => (
-          <ClinicalHistoryRow index={index} rowData={renderRowDataView} />
+          <View key={`${renderRowDataView.commertialName}-${index}`}>
+            <ClinicalHistoryRow index={index} rowData={renderRowDataView} />
+          </View>
         ),
       )}
     </View>

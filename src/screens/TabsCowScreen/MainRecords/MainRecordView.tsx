@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Alert, Image, ScrollView, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
 import {GestacionInputCardView} from '../../../components/InputCard/GestacionInputCardView';
 import {InputCardCaracteristicsView} from '../../../components/InputCard/InputCardCaracteristicsView';
@@ -20,7 +20,6 @@ import {emptyCow} from '../../../VaquitasPrueba/vacas';
 import {useNavigation} from '@react-navigation/native';
 
 export const MainRecordView = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [cow, setCow] = useState<ICow>(emptyCow);
   const [open, setOpen] = useState<boolean>(false);
@@ -69,8 +68,8 @@ export const MainRecordView = () => {
             <Image
               style={{
                 margin: 5,
-                width: 375,
-                height: 270,
+                width: 300,
+                height: 220,
                 backgroundColor: 'red',
               }}
               source={{
@@ -82,8 +81,8 @@ export const MainRecordView = () => {
             <Image
               style={{
                 margin: 5,
-                width: 375,
-                height: 270,
+                width: 300,
+                height: 220,
                 backgroundColor: 'red',
               }}
               source={{
@@ -94,124 +93,125 @@ export const MainRecordView = () => {
             />
           </View>
           {/* rigth part */}
+          <ScrollView horizontal={true}>
+            <ScrollView>
+              <View style={{flexDirection: 'row-reverse'}}>
+                <View style={{alignItems: 'center'}}>
+                  {!get(currentCow, 'descartada', false) && (
+                    <DescarteBottom onPres={() => descarteCow()} />
+                  )}
 
-          <ScrollView>
-            <View style={{flexDirection: 'row-reverse'}}>
-              <View style={{alignItems: 'center'}}>
-                {!get(currentCow, 'descartada', false) && (
-                  <DescarteBottom onPres={() => descarteCow()} />
-                )}
+                  {/**  TODO logica de actualizar **/}
+                  {/**  <SaveButtom onPress={() => {}} /> */}
+                </View>
+                <View>
+                  <GeneralTitle title={'Identificación'} />
 
-                {/**  TODO logica de actualizar **/}
-                {/**  <SaveButtom onPress={() => {}} /> */}
-              </View>
-              <View>
-                <GeneralTitle title={'Identificación'} />
-
-                <View style={styles.RigthGenericTabContainer}>
-                  <View>
-                    <View
-                      style={{
-                        width: 340,
-                        height: 430,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardView value={currentCow!} />
-                    </View>
-                    <View
-                      style={{
-                        width: 340,
-                        height: 160,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputPeso
-                        title1={'Nacimiento'}
-                        title2={'Peso al Deste'}
-                        title3={'Peso Actual'}
-                        value1={`${currentCow.pesoNacimiento}`}
-                        value2={`${currentCow.pesoAlDestete}`}
-                        value3={`${currentCow.pesoActual}`}
-                      />
-                    </View>
-                    {currentCow.sexo.toUpperCase() === 'HEMBRA' ? (
+                  <View style={styles.RigthGenericTabContainer}>
+                    <View>
                       <View
                         style={{
-                          backgroundColor: '#00FFD5',
                           width: 340,
-                          height: 264,
+                          height: 430,
                           marginLeft: 40,
                           marginBottom: 20,
                         }}>
-                        <LactanciaInputCardView value={currentCow} />
+                        <InputCardView value={currentCow!} />
                       </View>
-                    ) : (
-                      <View />
-                    )}
-                  </View>
-                  <View>
-                    <View
-                      style={{
-                        backgroundColor: '#03DAC5',
-                        width: 337,
-                        height: 373,
-                        marginLeft: 40,
-                        marginBottom: 20,
-                      }}>
-                      <InputCardCaracteristicsView
-                        value={currentCow!}
-                        setValue={setCow}
-                        onSave={() => {}}
-                        hasMomDad={true}
-                        openMomDataModal={setOpen}
-                        setOpenDadDataModal={setOpen}
-                        isInsert={false}
-                      />
-                    </View>
-
-                    <View>
-                      {currentCow.pesoAlDestete !== 0 && (
+                      <View
+                        style={{
+                          width: 340,
+                          height: 160,
+                          marginLeft: 40,
+                          marginBottom: 20,
+                        }}>
+                        <InputPeso
+                          title1={'Nacimiento'}
+                          title2={'Peso al Deste'}
+                          title3={'Peso Actual'}
+                          value1={`${currentCow.pesoNacimiento}`}
+                          value2={`${currentCow.pesoAlDestete}`}
+                          value3={`${currentCow.pesoActual}`}
+                        />
+                      </View>
+                      {currentCow.sexo.toUpperCase() === 'HEMBRA' ? (
                         <View
                           style={{
-                            backgroundColor: '#3205AF',
-                            width: 337,
-                            height: 188,
+                            backgroundColor: '#00FFD5',
+                            width: 340,
+                            height: 264,
                             marginLeft: 40,
                             marginBottom: 20,
                           }}>
-                          <InputCardDesteteView value={currentCow} />
+                          <LactanciaInputCardView value={currentCow} />
                         </View>
+                      ) : (
+                        <View />
                       )}
                     </View>
-
-                    {currentCow.sexo.toUpperCase() === 'HEMBRA' ? (
+                    <View>
                       <View
                         style={{
-                          backgroundColor: '#FF0000',
+                          backgroundColor: '#03DAC5',
                           width: 337,
-                          height: 312,
+                          height: 373,
                           marginLeft: 40,
                           marginBottom: 20,
                         }}>
-                        <GestacionInputCardView
-                          value={currentCow}
+                        <InputCardCaracteristicsView
+                          value={currentCow!}
                           setValue={setCow}
-                          openEdadPrimerPartoModal={setOpen}
-                          setPropertyFecha={setPropertyFecha}
                           onSave={() => {}}
-                          isSaved={true}
-                          openDatePickerModal={setOpen}
+                          hasMomDad={true}
+                          openMomDataModal={setOpen}
+                          setOpenDadDataModal={setOpen}
+                          isInsert={false}
                         />
                       </View>
-                    ) : (
-                      <View />
-                    )}
-                    <View style={{height: 400, width: 300}} />
+
+                      <View>
+                        {currentCow.pesoAlDestete !== 0 && (
+                          <View
+                            style={{
+                              backgroundColor: '#3205AF',
+                              width: 337,
+                              height: 188,
+                              marginLeft: 40,
+                              marginBottom: 20,
+                            }}>
+                            <InputCardDesteteView value={currentCow} />
+                          </View>
+                        )}
+                      </View>
+
+                      {currentCow.sexo.toUpperCase() === 'HEMBRA' ? (
+                        <View
+                          style={{
+                            backgroundColor: '#FF0000',
+                            width: 337,
+                            height: 312,
+                            marginLeft: 40,
+                            marginBottom: 20,
+                          }}>
+                          <GestacionInputCardView
+                            value={currentCow}
+                            setValue={setCow}
+                            openEdadPrimerPartoModal={setOpen}
+                            setPropertyFecha={setPropertyFecha}
+                            onSave={() => {}}
+                            isSaved={true}
+                            openDatePickerModal={setOpen}
+                          />
+                        </View>
+                      ) : (
+                        <View />
+                      )}
+                      <View style={{height: 400, width: 300}} />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </ScrollView>
           </ScrollView>
         </View>
       </View>
