@@ -17,6 +17,12 @@ import {
 import {htmlInseminacionMontaReport} from '../constants/htmlReportGenerators/htmlInseminacionMontaReport';
 import {getMonthAndYearString} from './time-utils';
 import {htmlPreniezReport} from '../constants/htmlReportGenerators/htmlPreniezReport';
+import {
+  categoryInfo,
+  IDataCow,
+  sexInfo,
+} from '../screens/Reproductors/TotalReproductores/stateDeleteme/useDeleteme';
+import {generateCatalog} from '../constants/htmlReportGenerators/htmlGenerateCatalog';
 
 export interface IUseCreatePdf {
   createPd: (
@@ -37,6 +43,14 @@ export interface IUseCreatePdf {
     rowsData: IControlGinecologicoRowData[],
     year: number,
   ) => Promise<void>;
+  generateCatalogMacaji: (
+    CowData: IDataCow[],
+    isLast: boolean,
+    raza: string,
+    subTitle: string,
+    sexInfo: sexInfo,
+    categoryInfo: categoryInfo,
+  ) => Promise<void>;
 }
 
 export const useCreatePdf = (): IUseCreatePdf => {
@@ -52,6 +66,32 @@ export const useCreatePdf = (): IUseCreatePdf => {
     let options = {
       html: getHtmlDailyMilkingReport(record, listNumber),
       fileName: `${record.idVaca}_reporte_de_produccion}`,
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+
+    validatePDF(file);
+  };
+
+  const generateCatalogMacaji = async (
+    CowData: IDataCow[],
+    isLast: boolean,
+    raza: string,
+    subTitle: string,
+    sexInfo: sexInfo,
+    categoryInfo: categoryInfo,
+  ) => {
+    let options = {
+      html: generateCatalog(
+        CowData,
+        isLast,
+        raza,
+        subTitle,
+        sexInfo,
+        categoryInfo,
+      ),
+      fileName: `calagon_end_${getMonthAndYearString()}`,
       directory: 'Documents',
     };
 
@@ -160,5 +200,6 @@ export const useCreatePdf = (): IUseCreatePdf => {
     createInseminationMontaReport,
     createControlGinecologicoReport,
     createPreniezReport,
+    generateCatalogMacaji,
   };
 };
