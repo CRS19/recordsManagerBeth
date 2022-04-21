@@ -54,7 +54,7 @@ export enum sexColorEnum {
 export enum categoryColorEnum {
   PRIMERA_CATEGORIA = '#50C2C9',
   SEGUNDA_CATEGORIA = '#77ADEC',
-  TERCERA_CATEGORIA = '#2F73A5',
+  TERCERA_CATEGORIA = '#2FBB3E',
   CUARTA_CATEGORIA = '#7C7CA7',
   QUINTA_CATEGORIA = '#D283C1',
   SEXTA_CATEGORIA = '#CDC3F4',
@@ -84,61 +84,60 @@ export enum categoryTitleEnum {
 }
 
 export interface ICategoy {
-  TerceraCategoriaSiAyrshireHembrasPuras: IDataCow[];
+  PRIMERACATEGORIAHolsteinMachoPuro: IDataCow[]; // aqui se copia
 }
 
 export const useDeleteme = () => {
   const {generateCatalogMacaji} = useCreatePdf();
 
   const data: ICategoy = {
-    TerceraCategoriaSiAyrshireHembrasPuras: [
+    PRIMERACATEGORIAHolsteinMachoPuro: [
       {
-        nombreEjemplar: 'KINGSIRE CARMINA',
-        registro: 'S/R',
-        arete: '397',
-        fechaNacimiento: '13/4/2021',
-        sangre: 'Pura',
-        categoria: 'Tercera',
-        raza: 'Ayrshire',
-        sexo: 'Hembra',
+        inscripcion: '230',
+        nombreEjemplar: 'MOGULFLORA FLORENTINO',
+        registro: '17120535-05',
+        arete: 'S/D',
+        fechaNacimiento: '25/11/2021',
+        sangre: 'Mestiza con registro',
+        categoria: 'primera',
+        raza: 'holstein Friesian', // DE AQUI COJE PARA PONER EN EL TITU
+        sexo: 'Macho',
         exhibicion: 'Si',
         remate: 'NO',
-        nombrePadre: 'S/D',
-        registroPadre: 'S/R',
-        nombreMadre: 'S/D',
-        registroMadre: 'S/R',
-        propietario: 'Willan Silva',
-        criadero: 'HACIENDA SANTA MÓNICA',
-        provincia: 'Bolívar',
+        nombrePadre: 'MOGUL-ET',
+        registroPadre: '300697286',
+        nombreMadre: 'MIRAFLORES FLORENCIA',
+        registroMadre: '17114528-03',
+        propietario: 'La Primavera',
+        criadero: 'Hacienda la Primavera',
+        provincia: 'BOLIVAR',
       },
     ],
   };
-  const limitNumber = data.TerceraCategoriaSiAyrshireHembrasPuras.length;
-  const raza = data.TerceraCategoriaSiAyrshireHembrasPuras[0].raza; // TODO:
+  const limitNumber = data.PRIMERACATEGORIAHolsteinMachoPuro.length;
+  const raza = data.PRIMERACATEGORIAHolsteinMachoPuro[0].raza; // TODO:
   const subTitle = subtitleEnum.VACUNO_EXPOSISCION; // TODO:
   const sexInfo: sexInfo = {
-    sexTitle: sexTitleEnum.HEMBRA_PURA_REGISTRADA,
-    sexColor: sexColorEnum.HEMBRA_PURA_REGISTRADA,
+    sexTitle: sexTitleEnum.MACHO_PURO, // cambiar el sexo aqui
+    sexColor: sexColorEnum.MACHO_PURO, // y aqui
   };
   const categoryInfo: categoryInfo = {
-    categoryTitle: categoryTitleEnum.TERCERA_CATEGORIA,
-    categoryColor: categoryColorEnum.TERCERA_CATEGORIA,
+    categoryTitle: categoryTitleEnum.DECIMA_PRIMERA_CATEGORIA, // cambiar categoria aqui
+    categoryColor: categoryColorEnum.PRIMERA_CATEGORIA, // y aqui
   };
 
   const [numberOfGeneratedPages, setNumberOfGeneratedPages] =
     useState<number>(0);
 
   console.log('************ data *************+');
-  console.log(data.TerceraCategoriaSiAyrshireHembrasPuras[0].inscripcion);
+  console.log(data.PRIMERACATEGORIAHolsteinMachoPuro[0].inscripcion);
 
   const onGenerate = (data: ICategoy) => {
-    const limit = Math.floor(
-      data.TerceraCategoriaSiAyrshireHembrasPuras.length / 3,
-    );
+    const limit = Math.floor(data.PRIMERACATEGORIAHolsteinMachoPuro.length / 3);
 
     setNumberOfGeneratedPages(start => {
       generateCatalogMacaji(
-        data.TerceraCategoriaSiAyrshireHembrasPuras.slice(
+        data.PRIMERACATEGORIAHolsteinMachoPuro.slice(
           0 + start * 3,
           0 + start * 3 + 3,
         ),

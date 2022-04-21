@@ -194,7 +194,7 @@ export const generateCatalog = (
         <div
           style="
             position: absolute;
-            left: 20px;
+            right: 20px;
             top: -55px;
             background-color: white;
             border-radius: 100px;
@@ -202,7 +202,7 @@ export const generateCatalog = (
         >
           <img src="https://i.imgur.com/13u7qgo.png" height="110" width="110" />
         </div>
-        <div style="position: absolute; right: 20px; top: -50px">
+        <div style="position: absolute; left: 20px; top: -50px">
           <img
             src="https://i.imgur.com/GSnf0uX_d.webp?maxwidth=760&fidelity=grand"
             height="125"
@@ -650,18 +650,28 @@ export const generateCatalog = (
                 text-align: start;
               "
             >
-              <span style="margin-bottom: 20px; margin-top: 20px">
-                <strong>Primer Lugar: </strong>
-                <em>________________________________________________</em>
-              </span>
-              <span style="margin-bottom: 20px">
-                <strong>Segundo Lugar: </strong>
-                <em>______________________________________________</em>
-              </span>
-              <span style="margin-bottom: 20px">
-                <strong>Tercer Lugar: </strong>
-                <em>_______________________________________________</em>
-              </span>
+            <span style="margin-bottom: 20px; margin-top: 20px">
+              <strong>Primer Lugar: </strong>
+              <em>________________________________________________</em>
+            </span>
+            <span style="margin-bottom: 20px">
+              <strong>Segundo Lugar: </strong>
+              <em>______________________________________________</em>
+            </span>
+            <span style="margin-bottom: 50px">
+              <strong>Tercero Lugar: </strong>
+              <em>_______________________________________________</em>
+            </span>
+            <span style="margin-bottom: 20px">
+              <strong>CAMPEONATO: </strong>
+              <em>_______________________________________________</em>
+            </span>
+            <span style="margin-bottom: 20px; margin-left: 140px;">
+              <em>_______________________________________________</em>
+            </span>
+            <span style="margin-bottom: 20px; margin-left: 140px;">
+              <em>_______________________________________________</em>
+            </span>
             </div>`
             : ''
         }
@@ -702,8 +712,8 @@ export const generateCatalog = (
                   -webkit-transform: rotate(-180deg);
                   ${islongtextBool(
                     categoryInfo.categoryTitle
-                      ? 'font-size: 10px'
-                      : 'font-size: 30px',
+                      ? 'font-size: 14px; font-weight: bold;'
+                      : 'font-size: 30px;  font-weight: bold;',
                   )}
                 "
               >CATEGORIA: ${categoryInfo.categoryTitle}</h1>
