@@ -15,7 +15,7 @@ import {
   IPreniezDataReportInfo,
 } from '../interfaces/ReproductionRecord';
 import {htmlInseminacionMontaReport} from '../constants/htmlReportGenerators/htmlInseminacionMontaReport';
-import {getMonthAndYearString} from './time-utils';
+import {getMonthAndYearString, getTimestamp} from './time-utils';
 import {htmlPreniezReport} from '../constants/htmlReportGenerators/htmlPreniezReport';
 import {
   categoryInfo,
@@ -50,6 +50,8 @@ export interface IUseCreatePdf {
     subTitle: string,
     sexInfo: sexInfo,
     categoryInfo: categoryInfo,
+    equino: boolean,
+    isRemate: boolean,
   ) => Promise<void>;
 }
 
@@ -81,6 +83,8 @@ export const useCreatePdf = (): IUseCreatePdf => {
     subTitle: string,
     sexInfo: sexInfo,
     categoryInfo: categoryInfo,
+    equino: boolean,
+    isRemate: boolean,
   ) => {
     let options = {
       html: generateCatalog(
@@ -90,8 +94,10 @@ export const useCreatePdf = (): IUseCreatePdf => {
         subTitle,
         sexInfo,
         categoryInfo,
+        equino,
+        isRemate,
       ),
-      fileName: `calagon_end_${getMonthAndYearString()}`,
+      fileName: `${getTimestamp()}`,
       directory: 'Documents',
     };
 

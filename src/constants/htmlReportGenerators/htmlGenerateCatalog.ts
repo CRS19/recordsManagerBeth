@@ -1,21 +1,69 @@
 import {
+  categoryColorDirectoryByNumber,
   categoryInfo,
   IDataCow,
   sexInfo,
 } from './../../screens/Reproductors/TotalReproductores/stateDeleteme/useDeleteme';
-import {has} from 'lodash';
+import {has, get} from 'lodash';
 
-export const registroAreteLogic = (cow: IDataCow) =>
-  cow.registro === 'S/R' ? ['Arete', cow.arete] : ['Registro N°', cow.registro];
+const categoryList = [
+  'PRIMERA',
+  'SEGUNDA',
+  'TERCERA',
+  'CUARTA',
+  'QUINTA',
+  'SEXTA',
+  'SÉPTIMA',
+  'OCTAVA',
+  'NOVENA',
+  'DÉCIMA',
+  'DÉCIMA PRIMERA',
+  'DÉCIMA SEGUNDA',
+  'DÉCIMA TERCERA',
+];
+
+export enum sangreEnum {
+  MP = 'MP',
+  HP = 'HP',
+  HMSR = 'HMSR',
+  HMR = 'HMR',
+}
+
+const sangreDirectory: Record<sangreEnum, string> = {
+  [sangreEnum.MP]: 'MACHO PURO',
+  [sangreEnum.HP]: 'HEMBRA PURA',
+  [sangreEnum.HMSR]: 'HEMBRA MEZTISA SIN REGISTRO',
+  [sangreEnum.HMR]: 'HEMBRA MESTIZA REGISTRADA',
+};
+
+export const registroAreteLogic = (cow: IDataCow, isEquino: boolean) =>
+  cow.registro === 'S/R'
+    ? [isEquino ? 'Registro N°' : 'Arete', get(cow, 'arete', cow.registro)]
+    : ['Registro N°', cow.registro];
 
 const isLongText = (text: string, fontSize: string) => {
   console.log(`${text} -> ${text.length}`);
   return text.length > 29 ? `font-size: ${fontSize}px;` : '';
 };
 
+const getCategoria = (categoryNumber: number) => {
+  console.log('Category bumver called  with', categoryNumber);
+  return categoryList[categoryNumber - 1];
+};
+
 const islongtextBool = (text: string) => {
   return text.length > 29 ? true : false;
 };
+
+const getMadreIcon = (equino: boolean) =>
+  equino
+    ? `src="https://i.imgur.com/6PB5ntx.png"`
+    : `src="https://i.imgur.com/XGEesSi.png"`;
+
+const getPadreIcon = (equino: boolean) =>
+  equino
+    ? `src="https://i.imgur.com/TdmiLMU.png"`
+    : `src="https://i.imgur.com/XlX0WuA.png"`;
 
 const hasInscriptionNumber = (cowData: IDataCow) =>
   has(cowData, 'inscripcion')
@@ -64,6 +112,91 @@ const hasInscriptionNumber = (cowData: IDataCow) =>
                 </div>`
     : '';
 
+const generateIndividualCategories = (cowData: IDataCow[]) => `
+          <div
+            style="
+              display: flex;
+              height: 1010px;
+              width: 65px;
+              flex-direction: column;
+            "
+          >
+          ${cowData
+            .map(
+              cow => `
+              <div class="remateCategoryIndividual" style="background-color: ${
+                categoryColorDirectoryByNumber[Number(cow.categoria)]
+              };">
+                <div style="display: flex;  height: 330px; text-align: start; margin-bottom: 20px;">
+                  <h1
+                    style="
+                      writing-mode: vertical-lr;
+                      -webkit-transform: rotate(-180deg);
+                      font-size: 16px; font-weight: bold; 
+                    "
+                  >CATEGORIA: ${getCategoria(Number(cow.categoria))} </h1>
+                  <h1
+                    style="
+                      writing-mode: vertical-lr;
+                      -webkit-transform: rotate(-180deg);
+                      font-size: 14px; font-weight: bold;'                
+                    "
+                  >${sangreDirectory[cow.sangre as sangreEnum]} </h1>
+                </div>
+              </div>
+            `,
+            )
+            .join('')}
+          </div>
+    `;
+
+const generateGeneralCategoryFrame = (
+  sexInfo: sexInfo,
+  categoryInfo: categoryInfo,
+) => `
+            <div class="categoryFrame">
+            <div
+              style="
+                display: flex;
+                position: absolute;
+                margin-top: 40px;
+                padding-right: 30px;
+                top: 0px;
+                right: -40px;
+                height: 600px;
+              "
+            >
+              <h1
+                style="
+                  color: white;
+                  writing-mode: vertical-lr;
+                  -webkit-transform: rotate(-180deg);
+                  padding-right: 5px;
+                  padding-left: 5px;
+                  padding-top: 15px;
+                  padding-bottom: 15px;
+                  font-size: 30px;
+                  background-color: ${sexInfo.sexColor};
+                "
+              >
+                ${sexInfo.sexTitle}
+              </h1>
+            </div>
+            <div style="display: flex;  height: 400px; text-align: start; margin-bottom: 10px;">
+              <h1
+                style="
+                  writing-mode: vertical-lr;
+                  -webkit-transform: rotate(-180deg);
+                  ${islongtextBool(
+                    categoryInfo.categoryTitle
+                      ? 'font-size: 14px; font-weight: bold;'
+                      : 'font-size: 30px;  font-weight: bold;',
+                  )}
+                "
+              >CATEGORIA: ${categoryInfo.categoryTitle}</h1>
+            </div>
+          </div>`;
+
 export const generateCatalog = (
   cowData: IDataCow[],
   isLast: boolean,
@@ -71,6 +204,8 @@ export const generateCatalog = (
   subTitle: string,
   sexInfo: sexInfo,
   categoryInfo: categoryInfo,
+  equino: boolean,
+  isRemate: boolean,
 ) => `
 <!DOCTYPE html>
 <html>
@@ -122,6 +257,18 @@ export const generateCatalog = (
       padding-right: 80px;
       height: 30;
     }
+    .remateCategoryIndividual {
+      display: flex;
+      height: 300px;
+      width: 65px;
+      
+      border-width: 1px;
+      border-color: black;
+      border-style: solid;
+      margin-top: 15px;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
     .categoryFrame {
       display: flex;
       height: 980px;
@@ -136,7 +283,7 @@ export const generateCatalog = (
     }
     .cowCardContainer {
       margin-top: 5px;
-      height: 320px;
+      height: ${isRemate ? '310px' : '320px'};
       width: 620px;
       background-color: white;
       border-width: 1px;
@@ -148,7 +295,7 @@ export const generateCatalog = (
     <div
       style="
         display: flex;
-        height: 1100px;
+        height: 1050px;
         width: 794px;
 
         justify-content: center;
@@ -324,7 +471,7 @@ export const generateCatalog = (
                 >
                   <img
                     style="margin-left: 15px"
-                    src="https://i.imgur.com/XlX0WuA.png"
+                    ${getPadreIcon(equino)}
                     height="30px"
                   />
                   <div style="display: flex; margin-left: 10px">
@@ -425,9 +572,9 @@ export const generateCatalog = (
                   />
                   <div style="display: flex; margin-left: 10px">
                     <span>
-                      <strong>${registroAreteLogic(cow)[0]}:</strong>
+                      <strong>${registroAreteLogic(cow, equino)[0]}:</strong>
                       <em style="text-transform: uppercase">${
-                        registroAreteLogic(cow)[1]
+                        registroAreteLogic(cow, equino)[1]
                       }</em>
                     </span>
                   </div>
@@ -443,7 +590,7 @@ export const generateCatalog = (
                 >
                   <img
                     style="margin-left: 15px"
-                    src="https://i.imgur.com/XGEesSi.png"
+                    ${getMadreIcon(equino)}
                     height="30px"
                   />
                   <div style="display: flex; margin-left: 10px">
@@ -648,6 +795,7 @@ export const generateCatalog = (
                 margin-top: 15px;
                 flex-direction: column;
                 text-align: start;
+                backgroundColor: pink;
               "
             >
             <span style="margin-bottom: 20px; margin-top: 20px">
@@ -666,59 +814,22 @@ export const generateCatalog = (
               <strong>CAMPEONATO: </strong>
               <em>_______________________________________________</em>
             </span>
-            <span style="margin-bottom: 20px; margin-left: 140px;">
+            <span style="margin-bottom: 20px; margin-left: 115px;">
               <em>_______________________________________________</em>
             </span>
-            <span style="margin-bottom: 20px; margin-left: 140px;">
+            <span style="margin-bottom: 20px; margin-left: 115px;">
               <em>_______________________________________________</em>
             </span>
             </div>`
-            : ''
+            : ``
         }
           </div>
 
-          <div class="categoryFrame">
-            <div
-              style="
-                display: flex;
-                position: absolute;
-                margin-top: 40px;
-                padding-right: 30px;
-                top: 0px;
-                right: -40px;
-                height: 600px;
-              "
-            >
-              <h1
-                style="
-                  color: white;
-                  writing-mode: vertical-lr;
-                  -webkit-transform: rotate(-180deg);
-                  padding-right: 5px;
-                  padding-left: 5px;
-                  padding-top: 15px;
-                  padding-bottom: 15px;
-                  font-size: 30px;
-                  background-color: ${sexInfo.sexColor};
-                "
-              >
-                ${sexInfo.sexTitle}
-              </h1>
-            </div>
-            <div style="display: flex;  height: 400px; text-align: start; margin-bottom: 10px;">
-              <h1
-                style="
-                  writing-mode: vertical-lr;
-                  -webkit-transform: rotate(-180deg);
-                  ${islongtextBool(
-                    categoryInfo.categoryTitle
-                      ? 'font-size: 14px; font-weight: bold;'
-                      : 'font-size: 30px;  font-weight: bold;',
-                  )}
-                "
-              >CATEGORIA: ${categoryInfo.categoryTitle}</h1>
-            </div>
-          </div>
+          ${
+            isRemate
+              ? `${generateIndividualCategories(cowData)}`
+              : `${generateGeneralCategoryFrame(sexInfo, categoryInfo)}`
+          }
         </div>
       </div>
     </div>
