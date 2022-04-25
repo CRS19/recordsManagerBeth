@@ -48,6 +48,7 @@ export enum subtitleEnum {
   VACUNO_EXPOSISCION = 'VACUNO DE EXPOSICIÓN',
   VACUNO_REMATE = 'VACUNO DE REMATE',
   EQUINO_EXPOSICION = 'EQUINO DE EXPOSICIÓN',
+  EQUINO_REMATE = 'GANADO EQUINO DE REMATE',
 }
 
 export enum sexColorEnum {
@@ -109,248 +110,79 @@ export enum categoryTitleEnum {
 }
 
 export interface ICategoy {
-  septimaArabeMachoPuro: IDataCow[]; // aqui se copia
+  sextaCategoriaAppaloosaMachomestizo: IDataCow[]; // aqui se copia
 }
 
 export const useDeleteme = () => {
   const {generateCatalogMacaji} = useCreatePdf();
 
   const data: ICategoy = {
-    septimaArabeMachoPuro: [
+    sextaCategoriaAppaloosaMachomestizo: [
       {
-        inscripcion: '225',
-        nombreEjemplar: 'PRIMAVER JADES IRLANDA',
-        registro: '045905',
-        arete: 'S/D',
-        fechaNacimiento: '20/6/2021',
-        sangre: 'HMSR',
-        categoria: '6',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'FORES GLEN JADES',
-        registroPadre: '12894928',
-        nombreMadre: 'PRIMAVERA TOPEKA LOURDESITA',
-        registroMadre: '02100013-06',
-        propietario: 'ING.GILBERT VASCONES',
-        criadero: 'HACIENDA LA PRIMAVERA',
-        provincia: 'BOLIVAR',
-      },
-      {
-        inscripcion: '232',
-        nombreEjemplar: 'PUENTE LEMONHEAD LINDURA',
-        registro: '06-10-1118-06',
-        arete: 'S/D',
-        fechaNacimiento: '6/9/2020',
-        sangre: 'HMR',
-        categoria: '5',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'LEMON HEAD',
-        registroPadre: 'USA-118622185',
-        nombreMadre: 'PUENTE VALENTINO DASHA',
-        registroMadre: '06-100260-06',
-        propietario: 'EDWIN ALZAMORA',
-        criadero: 'EL PUENTE',
-        provincia: 'CHIMBORAZO',
-      },
-      {
-        inscripcion: '233',
-        nombreEjemplar: 'PUENTE CHILI CHILENA',
-        registro: '06-101119-06',
-        arete: 'S/D',
-        fechaNacimiento: '20/10/2020',
-        sangre: 'HMR',
-        categoria: '5',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'CHILI',
-        registroPadre: 'USA 118201001',
-        nombreMadre: 'SAN RAFAEL NERON CATALINA',
-        registroMadre: '06-100246-06',
-        propietario: 'EDWIN ALZAMORA',
-        criadero: 'EL PUENTE',
-        provincia: 'CHIMBORAZO',
-      },
-      {
-        inscripcion: '176',
-        nombreEjemplar: 'CORAZÓN',
+        inscripcion: '100',
+        nombreEjemplar: 'PRINCIPE',
         registro: 'S/R',
         arete: 'S/D',
-        fechaNacimiento: '25/4/2018',
-        sangre: 'HMSR',
-        categoria: '9',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'SABER',
-        registroPadre: 'S/R',
-        nombreMadre: 'KATY',
-        registroMadre: 'S/R',
-        propietario: 'ALEJANDRO PONCE',
-        criadero: 'CRIADERO JERSEY MISNIAG',
-        provincia: 'CHIMBORAZO',
-      },
-      {
-        inscripcion: '221',
-        nombreEjemplar: 'PRIMAVERA VALENTINA MURICA',
-        registro: '045905',
-        arete: 'S/D',
-        fechaNacimiento: '30/8/2021',
-        sangre: 'HP',
-        categoria: '2',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'ALLYS LOBE VALENTINO',
-        registroPadre: '145911 USA',
-        nombreMadre: 'PRIMAVERA BRAHS STEFY',
-        registroMadre: '21003901',
-        propietario: 'ING.GILBERT VASCONES',
-        criadero: 'HACIENDA LA PRIMAVERA',
-        provincia: 'BOLIVAR',
-      },
-      {
-        inscripcion: '222',
-        nombreEjemplar: 'PRIMAVERS KOKETO BLU',
-        registro: '45916',
-        arete: 'S/D',
-        fechaNacimiento: '1/4/2021',
-        sangre: 'HP',
-        categoria: '3',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'PRIMAVERA TEQUILA KOKETO',
-        registroPadre: 'S/R',
-        nombreMadre: 'PRIMAVERA AHOICA FRANSISCA',
-        registroMadre: 'S/R',
-        propietario: 'ING.GILBERT VASCONES',
-        criadero: 'HACIENDA LA PRIMAVERA',
-        provincia: 'BOLIVAR',
-      },
-      {
-        inscripcion: '055',
-        nombreEjemplar: 'BECKY',
-        registro: 'S/R',
-        arete: '3161',
-        fechaNacimiento: '15/12/2020',
-        sangre: 'HMSR',
-        categoria: '4',
-        raza: 'Jersey',
-        sexo: 'HEMRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'VALENTIUN',
-        registroPadre: 'S/R',
-        nombreMadre: 'NEVADOS TEQUILA SHOT',
-        registroMadre: 'S/R',
-        propietario: 'ING. ALEX FERNANDO FLORES CEVALLOS',
-        criadero: 'RANCHO  MIRAFLORES',
-        provincia: 'PASTAZA',
-      },
-      {
-        inscripcion: '74',
-        nombreEjemplar: 'NEVADOS MR SWAGGER REVÒLVER',
-        registro: 'S/R',
-        arete: 'S/D',
-        fechaNacimiento: '8/6/2021',
-        sangre: 'HP',
-        categoria: '2',
-        raza: 'Jersey',
+        fechaNacimiento: '9/2/2018',
+        sangre: 'MESTIZA',
+        categoria: 'SEXTA',
+        raza: 'APPALOOSA',
         sexo: 'MACHO',
         exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'TRIPLE T CF MR SWAGGER',
+        remate: 'NO',
+        nombrePadre: 'S/D',
         registroPadre: 'S/R',
-        nombreMadre: 'NEVADOS TEQUILA SHOT',
+        nombreMadre: 'S/D',
         registroMadre: 'S/R',
-        propietario: 'GONZALO VALDIESO',
-        criadero: 'CRIADERO LOS NEVADOS DE FANTASIA',
-        provincia: 'PICHINCHA',
-      },
-      {
-        inscripcion: '068',
-        nombreEjemplar: 'NEVADOS MR SWAGGER AMBROSI',
-        registro: '06-101146-06',
-        arete: 'S/D',
-        fechaNacimiento: '2/6/2021',
-        sangre: 'HP',
-        categoria: '2',
-        raza: 'Jersey',
-        sexo: 'MACHO',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'TRIPLE T CF MR SWAGGER',
-        registroPadre: 'S/R',
-        nombreMadre: 'NEVADOS KOOP AMBROSIA',
-        registroMadre: 'S/R',
-        propietario: 'GONZALO VALDIESO',
-        criadero: 'CRIADERO LOS NEVADOS DE FANTASIA',
-        provincia: 'PICHINCHA',
-      },
-      {
-        inscripcion: '164',
-        nombreEjemplar: 'LA DELICIA VICTORIOUS TINA',
-        registro: 'S/R',
-        arete: '1015',
-        fechaNacimiento: '25/5/2021',
-        sangre: 'HMSR',
-        categoria: '3',
-        raza: 'Jersey',
-        sexo: 'HEMBRA',
-        exhibicion: 'Si',
-        remate: 'SI',
-        nombrePadre: 'VICTORIOUS',
-        registroPadre: 'S/R',
-        nombreMadre: 'TORO',
-        registroMadre: 'S/R',
-        propietario: 'DIEGO RODRIGUEZ',
-        criadero: 'CRIADERO LA DELICIA',
-        provincia: 'CARCHI',
+        propietario: 'JOSELO SIERRA',
+        criadero: 'RANCHO SAN ALFONSO',
+        provincia: 'CHIMBORAZO',
       },
     ],
   };
 
-  const limitNumber = data.septimaArabeMachoPuro.length;
+  const limitNumber = data.sextaCategoriaAppaloosaMachomestizo.length;
   const raza =
-    data.septimaArabeMachoPuro[0].raza.toUpperCase() ===
+    data.sextaCategoriaAppaloosaMachomestizo[0].raza.toUpperCase() ===
     'Holstein'.toUpperCase()
       ? 'Holstein friesian'
-      : data.septimaArabeMachoPuro[0].raza; // TODO:
-  const equino = false;
+      : data.sextaCategoriaAppaloosaMachomestizo[0].raza; // TODO:
+  const equino = true;
 
-  const isRemate = true;
+  const isRemate = false;
 
   const subTitle = equino
-    ? subtitleEnum.EQUINO_EXPOSICION
-    : subtitleEnum.VACUNO_EXPOSISCION; // TODO:
+    ? isRemate
+      ? subtitleEnum.EQUINO_REMATE
+      : subtitleEnum.EQUINO_EXPOSICION
+    : isRemate
+    ? subtitleEnum.VACUNO_REMATE
+    : subtitleEnum.VACUNO_EXPOSISCION;
+
+  //const subTitle = 'REMATE DE GANADO';
   const sexInfo: sexInfo = {
-    sexTitle: sexTitleEnum.EQUINO_HEMBRA_MEZTIZA, // cambiar el sexo aqui
-    sexColor: sexColorEnum.EQUINO_HEMBRA_MEZTIZA, // y aqui
+    sexTitle: sexTitleEnum.EQUINO_MACHO_MESTIZAO, // cambiar el sexo aqui
+    sexColor: sexColorEnum.EQUINO_MACHO_MESTIZAO, // y aqui
   };
   const categoryInfo: categoryInfo = {
-    categoryTitle: categoryTitleEnum.SEPTIMA_CATEGORIA, // cambiar categoria aqui
-    categoryColor: categoryColorEnum.SEPTIMA_CATEGORIA,
+    categoryTitle: categoryTitleEnum.SEXTA_CATEGORIA, // cambiar categoria aqui
+    categoryColor: categoryColorEnum.SEXTA_CATEGORIA,
   };
 
   const [numberOfGeneratedPages, setNumberOfGeneratedPages] =
     useState<number>(0);
 
   const onGenerate = (data: ICategoy) => {
-    const limit = Math.floor(data.septimaArabeMachoPuro.length / 3);
+    const limit = Math.floor(
+      data.sextaCategoriaAppaloosaMachomestizo.length / 3,
+    );
 
     setNumberOfGeneratedPages(start => {
       generateCatalogMacaji(
-        data.septimaArabeMachoPuro.slice(0 + start * 3, 0 + start * 3 + 3),
+        data.sextaCategoriaAppaloosaMachomestizo.slice(
+          0 + start * 3,
+          0 + start * 3 + 3,
+        ),
         equino || isRemate ? false : start === limit ? true : false,
         raza,
         subTitle,
