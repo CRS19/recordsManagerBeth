@@ -64,9 +64,6 @@ export const useGetOld = ({
     const edadMesesNum = Number(edadMeses);
     const edadAñosNum = Number(edadAños);
 
-    console.log(`Edad en años: ${edadAños}`);
-    console.log(`Edad en meses: ${edadMeses}`);
-    console.log(`Edad en dias: ${edadMesesA}`);
     return {
       edadDias,
       edadDiasM,

@@ -27,7 +27,6 @@ export const YearButtomFilter = ({
           <Picker
             selectedValue={yearArray[year]}
             onValueChange={(itemValue, itemIndex) => {
-              console.log(itemValue);
               setYear(Number(itemValue));
             }}>
             {yearArray.map((year, index: number) => (

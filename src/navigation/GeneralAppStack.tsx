@@ -25,8 +25,39 @@ import {Farmacos} from '../screens/Inventory/Farmacos/Farmacos';
 import {TotalReproductores} from '../screens/Reproductors/TotalReproductores/TotalReproductores';
 import {Pajuelas} from '../screens/Reproductors/Pajuelas/Pajuelas';
 import {InseminaciónMonta} from '../screens/ReproductiveStatus/InseminacionMonta/InseminaciónMonta';
+import {MuerteIndividual} from '../screens/ReproductiveStatus/Descartes/Muertes/MuerteIndividual/MuerteIndividual';
+import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
 
-const StackGeneral = createStackNavigator();
+export type GeneralStackScreensParams = {
+  StationScreen: undefined;
+  IndividualRecords: undefined;
+  GlobalProduction: undefined;
+  ProductionDiaria: undefined;
+  ProducciónIndividual: undefined;
+  EficienciaProductiva: undefined;
+  ReproductiveStatus: undefined;
+  ControlGinecológico: undefined;
+  InseminaciónMonta: undefined;
+  ControlClinicodelaReproducción: undefined;
+  ControlDePesoTerneros: undefined;
+  Natimortos: undefined;
+  Descartes: undefined;
+  Gestación: undefined;
+  Muertes: undefined;
+  Nacimientos: undefined;
+  MuerteIndividuo: {deathCertificate: IDeathCertificate};
+  Traslados: undefined;
+  Ventas: undefined;
+  EficienciaReproductiva: undefined;
+  InventoryScreen: undefined;
+  Bovinos: undefined;
+  Farmacos: undefined;
+  Reproductores: undefined;
+  TotalReproductores: undefined;
+  Pajuelas: undefined;
+};
+
+const StackGeneral = createStackNavigator<GeneralStackScreensParams>();
 
 export const GeneralAppStack = () => {
   return (
@@ -81,6 +112,10 @@ export const GeneralAppStack = () => {
       <StackGeneral.Screen name="Natimortos" component={Natimortos} />
       <StackGeneral.Screen name="Descartes" component={Descartes} />
       <StackGeneral.Screen name="Muertes" component={Muertes} />
+      <StackGeneral.Screen
+        name="MuerteIndividuo"
+        component={MuerteIndividual}
+      />
       <StackGeneral.Screen name="Traslados" component={Traslados} />
       <StackGeneral.Screen name="Ventas" component={Ventas} />
       <StackGeneral.Screen

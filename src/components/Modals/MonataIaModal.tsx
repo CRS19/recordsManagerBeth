@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
@@ -20,17 +19,18 @@ import {recordMontaIa} from '../../utils/recordsTemplates/reproduction_template'
 import {get, set} from 'lodash';
 import {useDispatch} from 'react-redux';
 import {
-  getReproductionRecord,
+  decrementStockStraw,
   updateReproductionRecord,
 } from '../../store/actionCreators';
 import {cloneDeep} from 'lodash';
 import {getTimestamp} from '../../utils/time-utils';
+import {IStraw} from '../../interfaces/IStraws';
 
 interface IMonataIaModal {
   title: string;
   openCloseModal: boolean;
   recordToUpdate: IReproductionRecord;
-  reproductorsList: IReproductoresList[];
+  strawList: IStraw[];
   getPosiblePartoDay: () => number;
   setOpenCloseModal: Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: Dispatch<React.SetStateAction<boolean>>;
@@ -43,14 +43,12 @@ export const MonataIaModal = (props: IMonataIaModal) => {
     recordToUpdate,
     setOpenCloseModal,
     getPosiblePartoDay,
-    reproductorsList,
+    strawList,
     setIsLoading,
   } = props;
   const dispatch = useDispatch();
   const [inseminadorName, setInseminadorName] = useState('');
-  const [reproductor, setReproductor] = useState(
-    get(reproductorsList[0], 'idVaca', ''),
-  );
+  const [reproductor, setReproductor] = useState(get(strawList[0], '_id', ''));
   const [keyboardSize, setKeyboardSize] = React.useState(0);
   // @ts-ignore
   const ref = createRef<TextInput>();
@@ -71,26 +69,26 @@ export const MonataIaModal = (props: IMonataIaModal) => {
   }, []);
 
   const saveNewRecord = () => {
-    console.log('guardar info');
     const newRecord = cloneDeep(recordMontaIa);
+    const strawSelected = strawList.find(straw => straw._id === reproductor);
 
     set(newRecord, 'inseminadorName', inseminadorName);
     set(newRecord, 'fechaPosibleParto', getPosiblePartoDay());
-    set(newRecord, 'idReproductor', reproductor);
+    set(
+      newRecord,
+      'idReproductor',
+      `${strawSelected!.name} ${strawSelected!.registerNumber}-${
+        strawSelected!.loteNumber
+      }`,
+    );
     set(newRecord, 'createdAt', getTimestamp());
     set(newRecord, 'montaIaTimestamp', getTimestamp());
 
-    console.log('new record to insert: ', JSON.stringify(newRecord, null, 3));
-
     recordToUpdate.records.push(newRecord);
-
-    console.log(
-      'master record to insert: ',
-      JSON.stringify(recordToUpdate, null, 3),
-    );
 
     setIsLoading(true);
     dispatch(updateReproductionRecord(recordToUpdate));
+    dispatch(decrementStockStraw(reproductor));
     setIsLoading(false);
     setOpenCloseModal(false);
   };
@@ -110,7 +108,7 @@ export const MonataIaModal = (props: IMonataIaModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalOneFieldContainer}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>
@@ -159,15 +157,13 @@ export const MonataIaModal = (props: IMonataIaModal) => {
                     onValueChange={(itemValue, itemIndex) =>
                       setReproductor(itemValue)
                     }>
-                    {reproductorsList.map(
-                      (reproductor: IReproductoresList, index: number) => (
-                        <Picker.Item
-                          key={`${reproductor.idVaca}-${index}`}
-                          label={`${reproductor.idVaca}`}
-                          value={`${reproductor.idVaca}`}
-                        />
-                      ),
-                    )}
+                    {strawList.map((reproductor: IStraw, index: number) => (
+                      <Picker.Item
+                        key={`${reproductor.name}-${index}`}
+                        label={`${reproductor.name} ${reproductor.registerNumber}-${reproductor.loteNumber}`}
+                        value={`${reproductor._id}`}
+                      />
+                    ))}
                   </Picker>
                 </View>
                 <BorderButtom title="Guardar" onPress={() => saveNewRecord()} />

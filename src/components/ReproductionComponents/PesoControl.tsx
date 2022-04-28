@@ -62,7 +62,7 @@ export const PesoControl = ({record, currentPeso}: IPesoControlProps) => {
           <BorderButtom title="Modificar" onPress={updatePeso} />
         </View>
       </View>
-      <LoadingModal title="Actualizando peso..." openCloseModal={isLoading} />
+      <LoadingModal title="Actualizando..." openCloseModal={isLoading} />
     </View>
   );
 };

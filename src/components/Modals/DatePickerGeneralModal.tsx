@@ -75,7 +75,7 @@ export const DatePickerGeneralModal = (props: IDatePickerGeneralModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalDatePickerContainer}>
               <View style={styles.ModalDatePickerInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>

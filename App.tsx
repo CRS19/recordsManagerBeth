@@ -18,10 +18,6 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <StatusBar hidden={true} />
-        {/**<TopBar title="Datos Individuales" />**/}
-        {/**<StationScreen />**/}
-        {/**<LogIn />**/}
-        {/**<IndividualRecords />**/}
         {<LogInStack />}
       </NavigationContainer>
     </Provider>

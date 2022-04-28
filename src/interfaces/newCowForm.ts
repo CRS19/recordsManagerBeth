@@ -90,3 +90,37 @@ export const initialAddDrugDiagnosisForm: IAddDrugDiagnosisForm = {
   total: false,
   applicationWay: false,
 };
+
+export interface IVacunaFormValidations {
+  created: boolean;
+  drugId: boolean;
+  disease: boolean;
+  comercialName: boolean;
+  dosis: boolean;
+}
+
+export const initialVacunaValidation: IVacunaFormValidations = {
+  created: false,
+  drugId: false,
+  disease: false,
+  comercialName: false,
+  dosis: false,
+};
+
+export interface IDewormingValidations {
+  created: boolean;
+  drugId: boolean;
+  comertialName: boolean;
+  activePrincipal: boolean;
+  dosis: boolean;
+  applicationWay: boolean;
+}
+
+export const initialDewormingValidation: IDewormingValidations = {
+  created: false,
+  drugId: false,
+  comertialName: false,
+  activePrincipal: false,
+  dosis: false,
+  applicationWay: false,
+};

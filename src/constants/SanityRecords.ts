@@ -1,3 +1,4 @@
+import {IDewormingForm} from './../screens/TabsCowScreen/Sanity/Desparacitaciones/state/useDeworming';
 import {drugForm} from './../screens/TabsCowScreen/Sanity/Diagnostico/state/useDiagnosis';
 import {getTimestamp} from './../utils/time-utils';
 import {
@@ -6,14 +7,40 @@ import {
   applicationWayEnum,
   frequencyDiagnosisEnum,
   IDrugDiagnosis,
+  IVaccines,
+  diseasesEnum,
+  IVacunaFormKeys,
+  IDeworming,
+  IDewormingFormKeys,
 } from './../interfaces/SanityRecords';
 import {cloneDeep, defaultTo, set} from 'lodash';
-import {UnitTypeEnum} from './PresentationEnum';
 import {IDrug} from '../interfaces/Drug.interface';
+import {IVacunaForm} from '../screens/TabsCowScreen/Sanity/Vacunas/state/useVacunas';
 
-export const EMPTY_ADD_DRUG = {
+export interface ISelectedFilter {
+  diagonsis: boolean;
+  vaccines: boolean;
+  dewormings: boolean;
+}
+
+export const INITIAL_FILTERS_STATE: ISelectedFilter = {
+  diagonsis: false,
+  vaccines: false,
+  dewormings: false,
+};
+
+export enum filterKeysEnum {
+  DIAGNOSIS = 'diagonsis',
+  VACCINES = 'vaccines',
+  DEWORMINGS = 'dewormings',
+  UNDEFINED = 'undefined',
+}
+
+export const EMPTY_ADD_DRUG: IDrugDiagnosis = {
   drugId: '',
   dose: 0,
+  doseUnit: '',
+  comertialName: '',
   frequency: {times: 0, at: frequencyDiagnosisEnum.EMPTY},
   duration: 0,
   total: 0,
@@ -24,6 +51,23 @@ export const EMPTY_DIAGNOSIS: IDiagnosis = {
   diagnosisDescriptrion: '',
   created: getTimestamp(),
   drugs: [],
+};
+
+export const EMPTY_VACUNA: IVaccines = {
+  created: 0,
+  drugId: '',
+  disease: diseasesEnum.BRUCELOSIS,
+  comercialName: '',
+  dosis: 0,
+};
+
+export const EMPTY_DEWORMING: IDeworming = {
+  created: 0,
+  drugId: '',
+  comertialName: '',
+  activePrincipal: '',
+  dosis: 0,
+  applicationWay: applicationWayEnum.EMPTY,
 };
 
 export const FREQUENCY_PICKER_ITEMS = [
@@ -88,16 +132,50 @@ export const setPreviusValueInthatIndexGeneral = (
   index: number,
   itemValue: string,
   property: IDrugDiagnosisKey,
-  number: boolean,
+  isNumber: boolean,
 ): drugForm[] => {
   let valueClone = cloneDeep(previusValue);
   set(
     valueClone[index].newDrug,
     property,
-    number ? Number(itemValue) : String(itemValue),
+    isNumber ? Number(itemValue) : String(itemValue),
   );
 
   return valueClone;
+};
+
+export const setPreviusValue = (
+  previusFormValue: IVacunaForm,
+  itemValue: string | number,
+  property: IVacunaFormKeys,
+  isNumber: boolean,
+): IVacunaForm => {
+  let valueClone = cloneDeep(previusFormValue);
+
+  set(
+    valueClone.newVacuna,
+    property,
+    isNumber ? Number(itemValue) : String(itemValue),
+  );
+
+  return valueClone;
+};
+
+export const setDewormingFormValue = (
+  previousFormValue: IDewormingForm,
+  itemValue: string | number,
+  property: IDewormingFormKeys,
+  isNumber: boolean,
+) => {
+  let formValuesClone = cloneDeep(previousFormValue);
+
+  set(
+    formValuesClone.newDeworming,
+    property,
+    isNumber ? Number(itemValue) : String(itemValue),
+  );
+
+  return formValuesClone;
 };
 
 export const setFrequencyValues = (
@@ -112,6 +190,98 @@ export const setFrequencyValues = (
 };
 
 export const checkCardValidation = (form: drugForm): boolean => {
+  const validations = Object.values(form.formValidate).map(item => !!item);
+
+  const resp = validations.find(el => el === true);
+
+  return defaultTo(resp, false);
+};
+
+export const checkVacunaFormValidation = (form: IVacunaForm): boolean => {
+  const validations = Object.values(form.formValidate).map(item => !!item);
+
+  const resp = validations.find(el => el === true);
+
+  return defaultTo(resp, false);
+};
+
+export const checkVacunaFormValues = (
+  setVacunaForm: React.Dispatch<React.SetStateAction<IVacunaForm>>,
+  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>,
+) =>
+  setVacunaForm(vacunaForm => {
+    let formValues = cloneDeep(vacunaForm.newVacuna);
+    let formValidationValues = cloneDeep(vacunaForm.formValidate);
+    let isFormValid: boolean;
+
+    formValues.comercialName === ''
+      ? set(formValidationValues, 'comercialName', true)
+      : set(formValidationValues, 'comercialName', false);
+
+    formValues.created === 0
+      ? set(formValidationValues, 'created', true)
+      : set(formValidationValues, 'created', false);
+
+    formValues.disease === diseasesEnum.EMPTY
+      ? set(formValidationValues, 'disease', true)
+      : set(formValidationValues, 'disease', false);
+
+    formValues.dosis === 0
+      ? set(formValidationValues, 'dosis', true)
+      : set(formValidationValues, 'dosis', false);
+
+    formValues.drugId === ''
+      ? set(formValidationValues, 'drugId', true)
+      : set(formValidationValues, 'drugId', false);
+
+    isFormValid = !Object.values(formValidationValues).some(el => el === true);
+
+    if (isFormValid) setIsFormValid(true);
+
+    return {formValidate: formValidationValues, newVacuna: formValues};
+  });
+
+export const checkDewormingFormValues = (
+  setDewormingForm: React.Dispatch<React.SetStateAction<IDewormingForm>>,
+  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>,
+) =>
+  setDewormingForm(dewormingForm => {
+    let formValues = cloneDeep(dewormingForm.newDeworming);
+    let formValidationValues = cloneDeep(dewormingForm.formValidate);
+    let isFormValid: boolean;
+
+    formValues.activePrincipal === ''
+      ? set(formValidationValues, 'activePrincipal', true)
+      : set(formValidationValues, 'activePrincipal', false);
+
+    formValues.created === 0
+      ? set(formValidationValues, 'created', true)
+      : set(formValidationValues, 'created', false);
+
+    formValues.drugId === ''
+      ? set(formValidationValues, 'drugId', true)
+      : set(formValidationValues, 'drugId', false);
+
+    formValues.dosis === 0
+      ? set(formValidationValues, 'dosis', true)
+      : set(formValidationValues, 'dosis', false);
+
+    formValues.comertialName === ''
+      ? set(formValidationValues, 'comertialName', true)
+      : set(formValidationValues, 'comertialName', false);
+
+    formValues.applicationWay === ''
+      ? set(formValidationValues, 'applicationWay', true)
+      : set(formValidationValues, 'applicationWay', false);
+
+    isFormValid = !Object.values(formValidationValues).some(el => el === true);
+
+    if (isFormValid) setIsFormValid(true);
+
+    return {formValidate: formValidationValues, newDeworming: formValues};
+  });
+
+export const checkDewormingFormValidation = (form: IDewormingForm): boolean => {
   const validations = Object.values(form.formValidate).map(item => !!item);
 
   const resp = validations.find(el => el === true);

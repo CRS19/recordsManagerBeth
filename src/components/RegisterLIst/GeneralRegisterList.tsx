@@ -25,7 +25,7 @@ export const GeneralRegisterList = ({
           alignItems: 'center',
         }}>
         <ArrowList rigth={true} />
-        <View style={{marginHorizontal: 15, width: 300, height: 'auto'}}>
+        <View style={{marginHorizontal: 15, width: '80%', height: 'auto'}}>
           <FlatList
             horizontal={true}
             data={prodRecords}

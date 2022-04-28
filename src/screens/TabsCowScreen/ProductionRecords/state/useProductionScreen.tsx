@@ -37,8 +37,6 @@ export const useProductionScreen = (): IUseProductionScreen => {
       );
 
       if (!isNil(currentRecord)) {
-        //*********
-        console.log('DEBUG: obteniendo datos del registro CURRENT');
         const recordByDate = currentRecord.dailyRecords.filter(
           record => getDateOfDay(record.timestamp) === strDate,
         );
@@ -63,7 +61,6 @@ export const useProductionScreen = (): IUseProductionScreen => {
         );
 
         if (!isNil(lastRecord)) {
-          console.log('DEBUG: obteniendo datos del registro LAST');
           const recordByDate = lastRecord.dailyRecords.filter(
             record => getDateOfDay(record.timestamp) === strDate,
           );
@@ -99,13 +96,8 @@ export const useProductionScreen = (): IUseProductionScreen => {
     );
 
   useEffect(() => {
-    console.log('Debug: fecha: ', Object.keys(markedD)[0]);
     setIndivitualProdProps(getRecordByDate(Object.keys(markedD)[0]));
   }, [markedD]);
-
-  useEffect(() => {
-    console.log('obtener datos a graficar');
-  });
 
   return {
     cow,

@@ -43,21 +43,20 @@ export const AddImage = (props: AddImageProps) => {
     <View
       style={{
         ...styles.ImagenCardContainer,
-        height: 286,
+        width: 300,
+        height: 220,
+        marginTop: 5,
         padding: 5,
       }}>
       {tempUri !== 'empty' ? (
-        <Image
-          style={{width: 375, height: 270, backgroundColor: 'red'}}
-          source={{uri: tempUri}}
-        />
+        <Image style={{width: 300, height: 220}} source={{uri: tempUri}} />
       ) : (
         <Image style={{flex: 1}} source={img} />
       )}
       <TouchableOpacity
         style={{
           ...styles.ImageCardLoginFooter,
-          width: 375,
+          width: 300,
           left: 5,
           bottom: 5,
           height: 48,
@@ -73,7 +72,6 @@ export const AddImage = (props: AddImageProps) => {
             (resp: ImagePickerResponse) => {
               if (resp.didCancel) return;
               if (!resp.assets![0].uri) console.log(resp);
-              console.log(JSON.stringify(resp, null, 3));
               setTempUri(resp.assets![0].uri!);
               dispatch(setUploadImage(resp, props.index, props.newCow));
               props.setIsUploadPhotos({

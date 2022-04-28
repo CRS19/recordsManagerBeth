@@ -103,7 +103,7 @@ export const UpdateDailyMilkLab = (props: IUpdateDailyMilkLab) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={{...styles.ModalOneFieldContainer, height: 400}}>
               <View style={styles.ModalOneFieldInputPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>

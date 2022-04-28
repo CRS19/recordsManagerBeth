@@ -1,3 +1,5 @@
+import {IStraw} from './../interfaces/IStraws';
+import {IDeathCertificate} from './../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
 import {IPreniezDataReportInfo} from './../interfaces/ReproductionRecord';
 import {ISanityRecord} from './../interfaces/SanityRecords';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -16,6 +18,10 @@ import {IReproductoresList} from '../interfaces/ReproductoresList';
 import {ILoggedInfo, UserRolEnum} from '../interfaces/LoggedInfo';
 import {IProductorasArray} from '../interfaces/ProductorasId';
 import {IDailyMilkLab} from '../interfaces/DailyMilkLab';
+import {
+  IInventoryCowFirstTable,
+  IInventoryCowSecondTable,
+} from '../interfaces/InventoryCow.interface';
 
 export const INITIAL_STATE: IAppState = {
   isLoading: false,
@@ -47,6 +53,11 @@ export const INITIAL_STATE: IAppState = {
   allReproductionRecords: undefined,
   montaIaReportTableData: [],
   preniezReportTableData: [],
+  inventoryCowsFirstTable: [],
+  deathCertificateCounterDocument: undefined,
+  allDeathCertificates: undefined,
+  strawList: [],
+  inventoryCowsSecondTable: [],
 };
 
 export interface IAppState {
@@ -71,6 +82,11 @@ export interface IAppState {
   allReproductionRecords?: IReproductionRecord[];
   montaIaReportTableData?: IMontaIaReportTableInfo[];
   preniezReportTableData?: IPreniezDataReportInfo[];
+  inventoryCowsFirstTable?: IInventoryCowFirstTable[];
+  inventoryCowsSecondTable?: IInventoryCowSecondTable[];
+  deathCertificateCounterDocument?: number;
+  allDeathCertificates?: IDeathCertificate[];
+  strawList?: IStraw[];
 }
 
 export const reducer = (
@@ -183,6 +199,32 @@ export const reducer = (
       return {
         ...state,
         preniezReportTableData: action.preniezReportTableData,
+      };
+    case ActionTypes.SET_INVENTORY_FIRST_TABLE:
+      return {
+        ...state,
+        inventoryCowsFirstTable: action.inventoryCowsFirstTable,
+      };
+    case ActionTypes.SET_DEATH_CERTIFICATE_COUNTER:
+      return {
+        ...state,
+        deathCertificateCounterDocument: action.deathCertificateCounterDocument,
+      };
+    case ActionTypes.SET_DEATH_CERTIFICATES:
+      return {
+        ...state,
+        allDeathCertificates: action.allDeathCertificates,
+      };
+    case ActionTypes.SET_STRAWS_LIST:
+      return {
+        ...state,
+        strawList: action.strawList,
+      };
+
+    case ActionTypes.SET_INVENTORY_SECOND_TABLE:
+      return {
+        ...state,
+        inventoryCowsSecondTable: action.inventoryCowsSecondTable,
       };
     default:
       return state;

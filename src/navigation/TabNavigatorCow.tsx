@@ -35,6 +35,8 @@ import {OtroTipoVacuna} from '../screens/TabsCowScreen/Sanity/DirecciónVacunas/
 import {ProductionReportScreen} from '../screens/TabsCowScreen/ProductionRecords/productionReport/ProductionReportScreen';
 import {includes} from 'lodash';
 import {IDailyMilkRecord} from '../interfaces/DailyMilkRecord';
+import {Descarte} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Descarte';
+import {ICow} from '../interfaces/CowInterface';
 
 export type TabScreensParams = {
   MainRecord: undefined;
@@ -51,13 +53,13 @@ export type TabScreensParams = {
   OtroTpoVacuna: undefined;
   Desparacitaciones: undefined;
   HistoriaClinica: undefined;
+  Descarte: {currentCow: ICow};
   ProductionReportScreen: {record: IDailyMilkRecord; index: number};
 };
 
 const Tab = createBottomTabNavigator<TabScreensParams>();
 
 export const TabNavigatorCow = () => {
-  console.log('OPTIMIZATION: tabs render!');
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -78,6 +80,7 @@ export const TabNavigatorCow = () => {
       <Tab.Screen name="OtroTpoVacuna" component={OtroTipoVacuna} />
       <Tab.Screen name="Desparacitaciones" component={Desparacintaciones} />
       <Tab.Screen name="HistoriaClinica" component={HistoriaClinica} />
+      <Tab.Screen name="Descarte" component={Descarte} />
       <Tab.Screen
         name="ProductionReportScreen"
         component={ProductionReportScreen}
@@ -87,11 +90,6 @@ export const TabNavigatorCow = () => {
 };
 
 const MisTabs = (props: BottomTabBarProps<BottomTabBarOptions>) => {
-  console.log('DEBUG: tabs render!', '.. Current index: ', props.state.index!);
-  console.log(
-    'debe selecionar el prduction tab? ',
-    includes([1, 5], props.state.index),
-  );
   const isInsertingNewCow = useSelector(
     (state: IAppState) => state.insertNewCow!,
   );

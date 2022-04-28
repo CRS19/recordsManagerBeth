@@ -14,9 +14,7 @@ interface IUseInputCardDesteteStateProps {
 export const useInputCardDesteteState = (
   props: IUseInputCardDesteteStateProps,
 ): IUseInputCardDesteteState => {
-  const validateForm = () => {
-    console.log('validarForm');
-  };
+  const validateForm = () => {};
 
   return {validateForm};
 };

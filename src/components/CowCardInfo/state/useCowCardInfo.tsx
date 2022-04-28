@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ICow} from '../../../interfaces/CowInterface';
 import {
   getDrugsList,
+  getOnstokStrawList,
   getRecordsById,
   getReproductionRecord,
   getReproductorsList,
@@ -31,6 +32,7 @@ export const useCowCardInfo = (props: ICow): IuseCowCardInfo => {
     dispatch(getRecordsById(props.idVaca));
     dispatch(getSanityRecordById(props.idVaca));
     dispatch(getDrugsList());
+    dispatch(getOnstokStrawList());
     navigation.navigate('TabNavigatorCow');
     dispatch(getReproductorsList());
   };

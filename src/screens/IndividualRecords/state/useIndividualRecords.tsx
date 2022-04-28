@@ -61,8 +61,6 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
       setIsLoading(false);
       setRefresh(false);
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response);
       Alert.alert(
         'Servidor fuera de servicio',
         'Ocurrio un error al cargar la información!',
@@ -97,10 +95,7 @@ export const useIndividualRecords = (): IUseIndividualRecords => {
     setOpenCloseModalLeche(false);
   };
 
-  const printState = () => {
-    console.log(JSON.stringify(currentCow, null, 3));
-    console.log(price);
-  };
+  const printState = () => {};
 
   const onRefresh = () => {
     setRefresh(true);

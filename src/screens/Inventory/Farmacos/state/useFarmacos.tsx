@@ -53,7 +53,7 @@ export const useFarmacos = (): IUseFarmacos => {
   const onSaveNewDrug = (DrugToSave: IDrug) => {
     set(DrugToSave, 'created', getTimestamp());
     set(DrugToSave, 'available', DrugToSave.unitContent * DrugToSave.amount);
-    console.log('A ingresar: ', JSON.stringify(DrugToSave, null, 3));
+
     dispatch(createNewDrug(DrugToSave));
     setOpenDrugsModal(false);
   };

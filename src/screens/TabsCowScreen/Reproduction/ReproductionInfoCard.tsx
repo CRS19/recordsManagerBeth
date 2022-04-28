@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {InputTextView} from '../../../components/Views/InputTextView';
 import {
@@ -6,20 +6,30 @@ import {
   RecordReproductionType,
 } from '../../../interfaces/ReproductionRecord';
 import {isEmpty, get, last, isNil} from 'lodash';
+import {useDispatch, useSelector} from 'react-redux';
+import {IAppState} from '../../../store/reducer';
+import {updatePartialMainCowRecord} from '../../../store/actionCreators';
 
 export interface IReproductionInfoCardProps {
   record: IReproductionRecord;
 }
 
 export const getNumeroPartos = (record: IReproductionRecord) => {
-  const partos = record.records.filter(
-    el => el.recordType === RecordReproductionType.PARTO,
-  );
+  if (!isNil(record)) {
+    const partos = record.records.filter(
+      el => el.recordType === RecordReproductionType.PARTO,
+    );
 
-  return `${partos.length}`;
+    return `${partos.length}`;
+  }
+
+  return '0';
 };
 
 export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
+  const dispatch = useDispatch();
+  const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
+
   const getEstadoReproductivo = () => {
     const lastRecord = last(record.records);
 
@@ -28,16 +38,18 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         return record.records[record.records.length - 1].registrosPalp[
           record.records[record.records.length - 1].registrosPalp.length - 1
         ].registroPalpacion;
-      } else if (record.records.length > 2) {
+      }
+
+      if (record.records.length > 2) {
         return record.records[record.records.length - 2].registrosPalp[
           record.records[record.records.length - 2].registrosPalp.length - 1
         ].registroPalpacion;
-      } else {
-        return '';
       }
-    } else {
+
       return '';
     }
+
+    return '';
   };
 
   const getEdadPrimerParto = () => {
@@ -56,12 +68,12 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
         return record.records[
           record.records.length - 1
         ].gestationDays.toString();
-      } else {
-        return '0';
       }
-    } else {
+
       return '0';
     }
+
+    return '0';
   };
 
   const getNumeroAbortos = () => {
@@ -83,6 +95,42 @@ export const ReproductionInfoCard = ({record}: IReproductionInfoCardProps) => {
   const getServiciosXConcepcion = () => {
     return `${get(record, 'serviciosPorParto', 0)}`;
   };
+
+  useEffect(() => {
+    if (currentCow.estadoReproductivo !== getEstadoReproductivo()) {
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {estadoReproductivo: getEstadoReproductivo()},
+        }),
+      );
+    }
+
+    if (
+      currentCow.vacaInfo!.numeroDePartos !== Number(getNumeroPartos(record))
+    ) {
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {
+            'vacaInfo.numeroDePartos': Number(getNumeroPartos(record)),
+          },
+        }),
+      );
+    }
+
+    if (currentCow.vacaInfo!.numeroDeAbortos !== Number(getNumeroAbortos())) {
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: currentCow.idVaca,
+          // @ts-ignore
+          partialCow: {'vacaInfo.numeroDeAbortos': getNumeroAbortos()},
+        }),
+      );
+    }
+  }, []);
 
   return (
     <View

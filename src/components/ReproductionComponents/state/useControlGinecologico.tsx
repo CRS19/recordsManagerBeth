@@ -127,11 +127,6 @@ export const useControlGinecologico = (): IUseControlGinecologico => {
 
       return resposne.data.fechaNacimiento;
     } catch (e) {
-      console.log(
-        // @ts-ignore
-        `ENDPOINT ERROR RESPONSE: ${idVaca} : ${e.response.request._response}`,
-      );
-
       Alert.alert(
         'Error de base de datos',
         `El registro de ${idVaca} no pudo ser encontrado, porfavor contactese con el administrador`,

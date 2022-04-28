@@ -114,10 +114,9 @@ export const getDiffDays = (pastTs: number, futureTs: number): string => {
 
   if (futureTs !== 0) {
     const days = pastDate.diff(pastTs, 'days').toString();
-    console.log('dias de diferencia->', days);
+
     return days;
   } else {
-    console.log('futureTs es 0');
     return '0';
   }
 };

@@ -52,7 +52,7 @@ export const RazaPickerModal = (props: IDatePickerModal) => {
           <TouchableWithoutFeedback
             touchSoundDisabled={true}
             style={{backgroundColor: 'red'}}
-            onPress={() => console.log('no cerrar')}>
+            onPress={() => {}}>
             <View style={styles.ModalRazaPickerModalContainer}>
               <View style={styles.ModalRazPickerModalPosition}>
                 <Text style={styles.ModalOneFieldTitle}>{title}</Text>

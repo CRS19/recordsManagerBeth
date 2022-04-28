@@ -6,6 +6,7 @@ import {
   getDailyMilkLabRecordsByMonth,
   getDrugsList,
   getInseminacionesMontasByMonth,
+  getInventoryCows,
   getPreñezReportInfoByMonth,
   IAppAction,
 } from '../../../store/actionCreators';
@@ -48,6 +49,9 @@ export const useMonthYearButtom = ({
     [CalendarActionsEnum.GET_INSEMINACIONES_MONTAS]:
       getInseminacionesMontasByMonth(`${MONTHS[monthNumber]}-${year}`),
     [CalendarActionsEnum.GET_PREÑEZ_MONTA]: getPreñezReportInfoByMonth(
+      `${MONTHS[monthNumber]}-${year}`,
+    ),
+    [CalendarActionsEnum.GET_COWS_INVENTORY]: getInventoryCows(
       `${MONTHS[monthNumber]}-${year}`,
     ),
   };

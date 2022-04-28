@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {LineChart} from 'react-native-chart-kit';
 import {DatePickerGeneralModal} from '../../components/Modals/DatePickerGeneralModal';
@@ -71,6 +71,7 @@ export const Reproduction = () => {
     setIsOpenSexModal,
     setIsOpenTwoModal,
     setIsOpenMontaMontaModal,
+    strawList,
   } = useReproduction();
 
   const {getPosiblePartoDay} = useTime();
@@ -87,117 +88,93 @@ export const Reproduction = () => {
       />
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
-          <View style={styles.LeftGenericTabContainer}>
-            <Calendar
-              markingType={'multi-dot'}
-              markedDates={markedD}
-              onDayPress={day => {
-                const {dateString} = day;
-                console.log(dateString);
-                console.log(JSON.stringify(markedD, null, 3));
-                setMarkedD({
-                  [dateString]: {
-                    marked: true,
-                    selectedColor: 'orange',
-                    dots: [
-                      {key: 'vacation', color: 'orange'},
-                      {key: 'registro', color: 'green'},
-                      {key: 'registro2', color: 'blue'},
-                      {key: 'registro3', color: 'red'},
-                    ],
-                  },
-                });
-              }}
-              enableSwipeMonths={true}
-            />
-            {cow.sexo === 'HEMBRA' && (
-              <View>
-                <View style={{marginTop: 25}}>
-                  <RegisterList
-                    title={'Registro de chequeo general'}
-                    record={recordToUpdate}
-                    recordsList={recordsSplited[2]}
-                    recordType={RecordReproductionType.GENERAL}
-                    selectedRecord={selectedRecord!}
-                    onSelectCurrentRecord={onSelectCurrentRecord}
-                  />
-                </View>
-                <View style={{marginTop: 3}}>
-                  <RegisterList
-                    title={'Registro de parto'}
-                    record={recordToUpdate}
-                    recordsList={recordsSplited[0]}
-                    recordType={RecordReproductionType.PARTO}
-                    selectedRecord={selectedRecord!}
-                    onSelectCurrentRecord={onSelectCurrentRecord}
-                  />
-                </View>
-                <View style={{marginTop: 3}}>
-                  <RegisterList
-                    title={'Registro de aborto'}
-                    record={recordToUpdate}
-                    recordsList={recordsSplited[1]}
-                    recordType={RecordReproductionType.ABORTO}
-                    selectedRecord={selectedRecord!}
-                    onSelectCurrentRecord={onSelectCurrentRecord}
-                  />
-                </View>
-              </View>
-            )}
-          </View>
-          {/** CENTER **/}
-          <ScrollView>
+          <ScrollView style={{maxWidth: 255}}>
             <View
               style={{
                 ...styles.RigthGenericTabContainer,
-                flex: 0,
-                width: 185,
+                flex: 1,
+                width: 255,
               }}>
-              <CenterView
-                cow={cow}
-                recordNumber={recordNumber.current}
-                record={recordToUpdate}
-                isLoading={isLoading}
-                openCloseIaModal={openCloseModal}
-                selectedRecord={selectedRecord}
-                currentRecord={recordsSplited[3][0]}
-                setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
-                setIsOpenTipoPartoModal={setIsOpenTipoPartoModal}
-                setIsOpenMontaMontaModal={setIsOpenMontaMontaModal}
-                setIsLoading={setIsLoading}
+              <Calendar
+                style={{width: 255}}
+                markingType={'multi-dot'}
+                markedDates={markedD}
+                onDayPress={day => {
+                  const {dateString} = day;
+                  setMarkedD({
+                    [dateString]: {
+                      marked: true,
+                      selectedColor: 'orange',
+                      dots: [{key: 'vacation', color: 'orange'}],
+                    },
+                  });
+                }}
+                enableSwipeMonths={true}
               />
-              <TouchableOpacity
-                onPress={() => {
-                  getPosiblePartoDay();
-                }}>
-                <Text>Ver posible parto fecha</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(recordToUpdate, null, 3));
-                }}>
-                <Text>Ver registro del store</Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(selectedRecord, null, 3));
-                }}>
-                <Text>Ver Selected registro en el store</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(currentPalpations, null, 3));
-                }}>
-                <Text>Ver current palpations </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(JSON.stringify(recordsSplited[3], null, 3));
-                }}>
-                <Text>Ver current record sin tipo de registro </Text>
-              </TouchableOpacity>
+              {cow.sexo === 'HEMBRA' && (
+                <View>
+                  <View style={{marginTop: 25}}>
+                    <RegisterList
+                      title={'Registro de chequeo general'}
+                      record={recordToUpdate}
+                      recordsList={recordsSplited[2]}
+                      recordType={RecordReproductionType.GENERAL}
+                      selectedRecord={selectedRecord!}
+                      onSelectCurrentRecord={onSelectCurrentRecord}
+                    />
+                  </View>
+                  <View style={{marginTop: 3}}>
+                    <RegisterList
+                      title={'Registro de parto'}
+                      record={recordToUpdate}
+                      recordsList={recordsSplited[0]}
+                      recordType={RecordReproductionType.PARTO}
+                      selectedRecord={selectedRecord!}
+                      onSelectCurrentRecord={onSelectCurrentRecord}
+                    />
+                  </View>
+                  <View style={{marginTop: 3}}>
+                    <RegisterList
+                      title={'Registro de aborto'}
+                      record={recordToUpdate}
+                      recordsList={recordsSplited[1]}
+                      recordType={RecordReproductionType.ABORTO}
+                      selectedRecord={selectedRecord!}
+                      onSelectCurrentRecord={onSelectCurrentRecord}
+                    />
+                  </View>
+                </View>
+              )}
             </View>
+            <View style={{height: 180}} />
+          </ScrollView>
+
+          {/** CENTER **/}
+          <ScrollView style={{maxWidth: 385}}>
+            <ScrollView horizontal={true}>
+              <View
+                style={{
+                  ...styles.RigthGenericTabContainer,
+                  flex: 0,
+                  width: 385,
+                }}>
+                <CenterView
+                  cow={cow}
+                  recordNumber={recordNumber.current}
+                  record={recordToUpdate}
+                  isLoading={isLoading}
+                  openCloseIaModal={openCloseModal}
+                  selectedRecord={selectedRecord}
+                  currentRecord={recordsSplited[3][0]}
+                  setIsOpenPalpationTypeModal={setIsOpenPalpationTypeModal}
+                  setIsOpenTipoPartoModal={setIsOpenTipoPartoModal}
+                  setIsOpenMontaMontaModal={setIsOpenMontaMontaModal}
+                  setIsLoading={setIsLoading}
+                />
+              </View>
+              <View style={{width: 200}} />
+            </ScrollView>
             <View style={{height: 200}} />
           </ScrollView>
           {/** Rigth Part **/}
@@ -265,7 +242,7 @@ export const Reproduction = () => {
         title={'Ingrese el nombre del inseminador'}
         openCloseModal={isOpenIaModal}
         setOpenCloseModal={setIsOpenIaModal}
-        reproductorsList={reproductoresList}
+        strawList={strawList}
         recordToUpdate={recordToUpdate}
         getPosiblePartoDay={getPosiblePartoDay}
         setIsLoading={setIsLoading}

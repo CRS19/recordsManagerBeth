@@ -1,5 +1,12 @@
+import {IInventoryCowSecondTable} from './../interfaces/InventoryCow.interface';
+import {IStraw} from './../interfaces/IStraws';
 import {IDailyMilkLab, IDailyMilkLabData} from './../interfaces/DailyMilkLab';
-import {IDiagnosis} from './../interfaces/SanityRecords';
+import {
+  IDiagnosis,
+  IVaccines,
+  IDeworming,
+  ISanityRecord,
+} from './../interfaces/SanityRecords';
 import {getTimestamp} from './../utils/time-utils';
 import {IDrugsListResponse} from './../interfaces/getDrugsListResponse';
 import {IDrug} from './../interfaces/Drug.interface';
@@ -34,10 +41,55 @@ import {IDailyRecordResponse} from '../interfaces/getDailyProdRecordsResponse';
 import {GetSanityRecordResponse} from '../interfaces/httpInOutInterfaces/GetSanityRecordResponse';
 import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOneMainRecordResponse';
 import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
+import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
+import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
+import {AxiosError, AxiosResponse} from 'axios';
 
 export type IAppAction = {
   type: string;
 } & IAppState;
+
+export const setSecondTable = (payload: IInventoryCowSecondTable[]) => {
+  return {
+    type: ActionTypes.SET_INVENTORY_SECOND_TABLE,
+    inventoryCowsSecondTable: payload,
+  };
+};
+
+export const setStrawList = (payload: IStraw[]) => {
+  return {
+    type: ActionTypes.SET_STRAWS_LIST,
+    strawList: payload,
+  };
+};
+
+export const setSanityRecord = (payload: ISanityRecord) => {
+  return {
+    type: ActionTypes.SET_SANITY_RECORD,
+    sanityRecord: payload,
+  };
+};
+
+export const setAllDeathCertificates = (payload: IDeathCertificate[]) => {
+  return {
+    type: ActionTypes.SET_DEATH_CERTIFICATES,
+    allDeathCertificates: payload,
+  };
+};
+
+export const setDeathCertificateCounter = (payload: number | undefined) => {
+  return {
+    type: ActionTypes.SET_DEATH_CERTIFICATE_COUNTER,
+    deathCertificateCounterDocument: payload,
+  };
+};
+
+export const setInventoryFirstTable = (payload: IInventoryCowFirstTable[]) => {
+  return {
+    type: ActionTypes.SET_INVENTORY_FIRST_TABLE,
+    inventoryCowsFirstTable: payload,
+  };
+};
 
 export const setPreniezReportData = (payload: IPreniezDataReportInfo[]) => {
   return {
@@ -206,11 +258,11 @@ export const getMainRecordCowById = (
       const cowResoponse: GetOneMainRecordResponse = JSON.parse(
         response.request._response,
       );
-      console.log(JSON.stringify(cowResoponse.cow, null, 3));
+
       dispatch(setCow(cowResoponse.cow));
     } catch (e) {
       // @ts-ignore
-      console.log(JSON.stringify(e, null, 3));
+
       Alert.alert(
         'Error al obtener registro master de rumiante',
         `Posible error de conexión`,
@@ -231,11 +283,10 @@ export const updateDesteteCow = (
 
     try {
       const response = await axios.post(path, newCow);
-      console.log('respuesta de la actualización');
+
       dispatch(setCow(response.data.updateResponse));
     } catch (e) {
       // @ts-ignore
-      console.log(JSON.stringify(e, null, 3));
 
       Alert.alert('Error al ', `Posible error de conexión`);
     }
@@ -250,16 +301,10 @@ export const insertNewCow = (
   ): Promise<void> => {
     const path = `${API_BASE_PATH}/cow/create`;
 
-    console.log(
-      'ENPOINT CALL: creando registro master, idVaca',
-      payload.idVaca,
-    );
     try {
       const response = await axios.post(path, payload);
-      console.log(response);
     } catch (e) {
       // @ts-ignore
-      console.log(e.response.request._response);
     }
   };
 };
@@ -279,9 +324,7 @@ export const getReproductorsList = (): ThunkAction<
       const response = await axios.get(path);
       const reproductorsList: IGetReproductorsListResponse = response.data;
       dispatch(setReproductoresList(reproductorsList.list));
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 };
 
@@ -292,8 +335,6 @@ export const getReproductionRecord = (payload: {
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
     const path = `${API_BASE_PATH}/reproduction-register/get/${payload.idVaca}`;
-
-    console.log('trayendo registro de repoducción', payload);
 
     try {
       const response = await axios.get(path);
@@ -306,10 +347,6 @@ export const getReproductionRecord = (payload: {
         ),
       );
     } catch (e) {
-      console.log(
-        // @ts-ignore
-        `ENDPOINT ERROR RESPONSE: /reproduction-register/get/${payload.idVaca} : ${e.response.request._response}`,
-      );
       Alert.alert(
         'Error de base de datos',
         `Error al conseguir el registro de repducción del rumiante: ${payload.idVaca}`,
@@ -328,20 +365,9 @@ export const updateReproductionRecord = (
     const pathToUpdate = `${API_BASE_PATH}/reproduction-register/updateOne`;
     const pathToGet = `${API_BASE_PATH}/reproduction-register/get/${payload.idVaca}`;
     try {
-      console.log('ENPOINT CALL: actualizando registro');
       const response = await axios.post(pathToUpdate, payload);
 
-      console.log(
-        'INFO: registro de reproducción actualizado exitosamente',
-        response.data,
-      );
-
       const getResponse = await axios.get(pathToGet);
-
-      console.log(
-        'INFO: registro actualizado obtenido exitosamente',
-        getResponse.data,
-      );
 
       const reproductionRecord: IGetReproductionRecordResponse =
         getResponse.data;
@@ -353,7 +379,6 @@ export const updateReproductionRecord = (
         ),
       );
     } catch (e) {
-      console.log(e);
       Alert.alert(
         'Error de base de datos',
         `no se ha podido ingresar el registro, revise su conexión a internet`,
@@ -374,11 +399,6 @@ export const createReproductionRecord = (payload: {
   ): Promise<void> => {
     const path = `${API_BASE_PATH}/reproduction-register/create`;
 
-    console.log(
-      'ENPOINT CALL: creando registro de reproducción, idVaca:',
-      payload.idVaca,
-    );
-
     try {
       set(reproductionTemplate, 'idVaca', payload.idVaca);
       set(reproductionTemplate, 'historicoPeso', [
@@ -386,10 +406,8 @@ export const createReproductionRecord = (payload: {
       ]);
       set(reproductionTemplate, 'sex', payload.sex);
       const resposne = await axios.post(path, reproductionTemplate);
-      console.log('INFO: registro de reproducción creado exitosamente');
     } catch (e) {
       // @ts-ignore
-      console.log(e.response.request._response);
     }
   };
 };
@@ -411,38 +429,23 @@ export const setUploadImage = (
       name: payload.assets![0].fileName,
     };
 
-    console.log(fileToUpload);
-
     const formData = new FormData();
     formData.append('file', fileToUpload);
 
-    console.log('Intentando llamada al endpoint...');
     try {
       const response = await axios.post(path, formData);
-
-      console.log('EXITOSOO !');
-      console.log(response.request._response);
-      console.log('-----------');
 
       const resposne2: UploadImageResponse = JSON.parse(
         response.request._response,
       );
-
-      console.log(resposne2.imagePath);
-      console.log('-----------');
 
       imagePath[index] = resposne2.imagePath;
 
       set(updateNewCow, 'imagenPath', imagePath);
 
       dispatch(setNewCow(updateNewCow));
-      console.log(imagePath);
-      console.log('-----------');
-      console.log(JSON.stringify(updateNewCow, null, 3));
-      console.log('-----------');
     } catch (e) {
       // @ts-ignore
-      console.log(e.response.request._response);
     }
   };
 };
@@ -453,13 +456,11 @@ export const getLogIn = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log('Loggin request', payload);
     const path = `${API_BASE_PATH}/auth/login`;
 
     try {
-      console.log('Loggin request');
       const response = await axios.post(path, payload);
-      console.log(JSON.parse(response.request._response));
+
       const {access_token, rol} = JSON.parse(response.request._response);
 
       dispatch(
@@ -471,8 +472,6 @@ export const getLogIn = (
 
       await AsyncStorage.setItem('token', access_token);
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
       Alert.alert(
         'Correo o contraseña incorrectos',
         `Asegurese de colocar su correo y contraseña asignados, si necesita recuperar la contraseña contáctese con el administrador`,
@@ -491,19 +490,13 @@ export const getPoductorasIdList = (): ThunkAction<
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
     setIsLoading(true);
-    console.log('llamada a getProductors');
+
     const path = `${API_BASE_PATH}/cow/getProductors`;
     try {
       const response = await axios.get(path);
-      console.log(response.request._response);
+
       dispatch(setProductorasList(JSON.parse(response.request._response)));
-      console.log(
-        'actualizar lista de repro',
-        JSON.stringify(JSON.parse(response.request._response).list, null, 3),
-      );
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 };
 
@@ -522,7 +515,6 @@ export const getDailyProdRecords = (
       dispatch(setDailyRecords(records.records));
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
       setIsLoading(false);
     }
   };
@@ -537,12 +529,9 @@ export const saveDailyProducts = (
     const path = `${API_BASE_PATH}/daily-prod-record/updateRecords`;
     try {
       const response = await axios.post(path, recordsToSave);
-      console.log(response.request._response);
 
       dispatch(getPoductorasIdList());
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 };
 
@@ -556,11 +545,9 @@ export const changeProd = (payload: {
     const path = `${API_BASE_PATH}/cow/changeProductivity`;
     try {
       const response = await axios.post(path, payload);
-      console.log(response.request._response);
+
       dispatch(getPoductorasIdList());
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 };
 
@@ -573,17 +560,12 @@ export const getRecordsByDate = (
     const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistroPorFecha/${dateInTs}`;
     try {
       const response = await axios.get(path);
-      console.log(response.request._response);
+
       const records: IDailyRecordResponse = JSON.parse(
         response.request._response,
       );
       dispatch(setDailyRecordsByDate(records.records));
     } catch (e) {
-      console.log(
-        // @ts-ignore
-        `ENDPOINT ERROR RESPONSE: /daily-prod-record/obtenerRegistroPorFecha/${dateInTs} : ${e.response.request._response}`,
-      );
-
       Alert.alert(
         'Error al obtener los registros de producción',
         `Hubo un error al conseguir el los registros de producción diaria por fecha`,
@@ -598,18 +580,15 @@ export const getRecordsById = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log('trayendo los registros diarios de prod');
     const path = `${API_BASE_PATH}/daily-prod-record/obtenerRegistrosIndividuales/${idVaca}`;
     try {
       const response = await axios.get(path);
       const records: IDailyRecordResponse = JSON.parse(
         response.request._response,
       );
-      console.log(records);
+
       dispatch(setCurrentDailyRecords(records.records));
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 };
 
@@ -622,8 +601,6 @@ export const getDrugsList = (): ThunkAction<
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log('Obteniendo la lista de farmacos');
-
     const path = `${API_BASE_PATH}/drugs/getAll`;
 
     try {
@@ -636,8 +613,7 @@ export const getDrugsList = (): ThunkAction<
       dispatch(setIsLoading(false));
     } catch (e) {
       dispatch(setIsLoading(false));
-      // @ts-ignore
-      console.log(e.response.request._response);
+
       Alert.alert(
         'Error al obtener los fármacos',
         `Error de conexión, revise su conección a internet`,
@@ -665,7 +641,7 @@ export const getPrices = (): ThunkAction<
       dispatch(setPrice(resposne.data.prices[0].Prices));
     } catch (e) {
       // @ts-ignore
-      console.log(e);
+
       Alert.alert(
         'Error al los precios',
         `Error de conexión, revise su conección a internet`,
@@ -684,10 +660,7 @@ export const updatePrices = (
 
     try {
       const response = await axios.patch(path, prices);
-
-      console.log(response.data);
     } catch (e) {
-      console.log(e);
       Alert.alert(
         'Error al actualizar los precios',
         `Error de conexión, revise su conección a internet`,
@@ -712,7 +685,7 @@ export const createNewDrug = (
     } catch (e) {
       dispatch(setIsLoading(false));
       // @ts-ignore
-      console.log(e.response.request._response);
+
       Alert.alert(
         'Error al añadir nuevo farmaco',
         `Error de conexión, revise su conección a internet`,
@@ -753,11 +726,6 @@ export const createSanityRecord = (
     try {
       const response = await axios.post<ICreateSanityRecordResponse>(path);
     } catch (e) {
-      console.log(
-        // @ts-ignore
-        `ENDPOINT ERROR RESPONSE: /sanity-records/create${idVaca} : ${e.response.request._response}`,
-      );
-
       Alert.alert(
         'Error al crear registro de sanidad',
         `Hubo un error al crear el registro de ${idVaca}`,
@@ -776,12 +744,9 @@ export const getSanityRecordById = (
 
     try {
       const axiosResponse = await axios.get<GetSanityRecordResponse>(path);
-    } catch (e) {
-      console.log(
-        // @ts-ignore
-        `ENDPOINT ERROR RESPONSE: /sanity-records/get${idVaca} : ${e.response.request._response}`,
-      );
 
+      dispatch(setSanityRecord(axiosResponse.data.record));
+    } catch (e) {
       Alert.alert(
         'Error al obtener el registro de sanidad',
         `Hubo un error al conseguir el registro de ${idVaca}`,
@@ -806,7 +771,6 @@ export const updateDiagnosis = (
     try {
       const response = await axios.post(path, payload);
 
-      console.log(JSON.stringify(response.data));
       dispatch(setIsLoading(false));
       Alert.alert(
         'Diagnostico Ingresado exitosamente',
@@ -819,9 +783,9 @@ export const updateDiagnosis = (
           },
         ],
       );
+
+      dispatch(getSanityRecordById(payload.idVaca));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
       // @ts-ignore
       const drugsWithOutStock: {
         message: string;
@@ -846,7 +810,6 @@ export const getDailyMilkLabRecordsByMonth = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log('DEBUG: llamado........');
     const path = `${API_BASE_PATH}/daily-milk-lab-records/get/${monthYear}`;
 
     try {
@@ -859,9 +822,6 @@ export const getDailyMilkLabRecordsByMonth = (
 
       dispatch(setDailyMilkLab(dailyMilkLabRecord));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
-
       Alert.alert(
         `No se pudo obtener el registro del mes: ${monthYear}`,
         'El registro no existe o no hay un problema con la conexión',
@@ -881,12 +841,7 @@ export const updateMilkRegisterLab = (
 
     try {
       const response = await axios.patch(path, payload);
-
-      console.log(response.data);
-    } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
-    }
+    } catch (e) {}
   };
 };
 
@@ -909,8 +864,6 @@ export const getAllReproductionRecords = (): ThunkAction<
 
       dispatch(setAllReproductionRecords(response.data.records));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
       Alert.alert(
         `No se pudo obtener los registros de reproducción`,
         'El registro no existe o no hay un problema con la conexión',
@@ -925,7 +878,6 @@ export const getInseminacionesMontasByMonth = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
-    console.log('A buscar -> ', monthYear);
     const path = `${API_BASE_PATH}/reproduction-register/inseminacionesMontas/${monthYear}`;
 
     try {
@@ -938,8 +890,6 @@ export const getInseminacionesMontasByMonth = (
 
       dispatch(setMontaIaReportData(montaIaReportData));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
       Alert.alert(
         `No se pudo obtener el reporte de Monta / Ia`,
         'El reporte no pudo ser generado o no hay un problema con la conexión',
@@ -964,11 +914,260 @@ export const getPreñezReportInfoByMonth = (
 
       dispatch(setPreniezReportData(resposne.data.preniezDataReport));
     } catch (e) {
-      // @ts-ignore
-      console.log(e.response.request._response);
       Alert.alert(
         `No se pudo obtener el reporte de Preñez`,
         'El reporte no pudo ser generado o no hay un problema con la conexión',
+      );
+    }
+  };
+};
+
+export const updatePartialMainCowRecord = (payload: {
+  idVaca: string;
+  partialCow: Partial<ICow>;
+}): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/cow/update/updatePartial`;
+
+    try {
+      const response = await axios.patch(path, payload);
+
+      // @ts-ignore
+      dispatch(setCow(response.data.updatedCow));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo actualizar el registro master`,
+        'El registro master no pudo ser actualizado, porfavor contactese con el administrador',
+      );
+    }
+  };
+};
+
+export const getInventoryCows = (
+  monthYear: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/inventori-history-cows/getByMonth/${monthYear}`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        firstTableData: IInventoryCowFirstTable[];
+        secondTableReport: IInventoryCowSecondTable[];
+      }>(path);
+
+      dispatch(setInventoryFirstTable(response.data.firstTableData));
+
+      dispatch(setSecondTable(response.data.secondTableReport));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener la información`,
+        'Hubo un error al obtener los registros de inventario de animales, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const getDeathCertificateNumber = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/getCount`;
+
+    try {
+      const response = await axios.get<{
+        message: string;
+        counter: {counterId: string; count: number};
+      }>(path);
+
+      dispatch(setDeathCertificateCounter(response.data.counter.count));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener el número de documento`,
+        'Hubo un error al obtener el número de certificado, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveDeathCertificateInDB = (
+  payload: IDeathCertificate,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/createCertificate`;
+
+    try {
+      const response = await axios.post<
+        IDeathCertificate,
+        AxiosResponse<{
+          message: SVGFESpecularLightingElement;
+          createdCertificate: IDeathCertificate;
+          updatedCow: ICow;
+        }>
+      >(path, payload);
+
+      Alert.alert('Animal descartado con éxito');
+    } catch (e) {
+      Alert.alert(
+        `No se pudo crear el certificado`,
+        'Hubo un error al crear el certificado de defunción, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const getAllCertificates = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/death-certificates/certifiactes`;
+
+    try {
+      const repsonse = await axios.get<{
+        message: string;
+        deathCertificates: IDeathCertificate[];
+      }>(path);
+
+      dispatch(setAllDeathCertificates(repsonse.data.deathCertificates));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener los certificados de defunción`,
+        'Hubo un error al obtener los certificados de defunción, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveVacunaRecord = (
+  idVaca: string,
+  newVaccine: IVaccines,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/updateVaccines`;
+
+    try {
+      const saveRequest = {idVaca, newVaccine};
+
+      const response = await axios.post<
+        {idVaca: string; newVaccine: IVaccines},
+        AxiosResponse<{message: string}>
+      >(path, saveRequest);
+
+      Alert.alert('Vacuna ingresada exitosamente');
+      dispatch(getSanityRecordById(idVaca));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener crear las vacunas`,
+        'Hubo un error al intentar ingresar la vacuna, revise su conexión a internet',
+      );
+    }
+  };
+};
+
+export const saveDeworming = (
+  idVaca: string,
+  newDeworming: IDeworming,
+  navigateToMainRecord: () => void,
+  resetForm: () => void,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/sanity-records/updateDeworming`;
+
+    try {
+      const saveRequest = {idVaca, newDeworming};
+
+      const response = await axios.post<
+        {idVaca: string; newDeworming: IDeworming},
+        AxiosResponse<{message: string}>
+      >(path, saveRequest);
+
+      if (response.data.message === 'ok') {
+        navigateToMainRecord();
+        resetForm();
+      }
+
+      Alert.alert('Desparacitación ingresada exitosamente');
+      dispatch(getSanityRecordById(idVaca));
+    } catch (e) {
+      // @ts-ignore
+      if (e.request.status === 409) {
+        // @ts-ignore
+        const errorMesage = JSON.parse(e.request._response).message;
+        Alert.alert(`No se pudo guardar el desparacitante`, `${errorMesage}`);
+        return;
+      }
+
+      Alert.alert(
+        `No se pudo guardar el desparacitante`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
+      );
+    }
+  };
+};
+
+export const getOnstokStrawList = (): ThunkAction<
+  void,
+  IAppState,
+  undefined,
+  IAppAction
+> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/straws/onStock`;
+
+    try {
+      const response = await axios.get<{message: string; straws: IStraw[]}>(
+        path,
+      );
+
+      dispatch(setStrawList(response.data.straws));
+    } catch (e) {
+      Alert.alert(
+        `No se pudo obtener la lista de pajuelas`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
+      );
+    }
+  };
+};
+
+export const decrementStockStraw = (
+  idStraw: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    const path = `${API_BASE_PATH}/straws/decrement/${idStraw}`;
+
+    try {
+      await axios.patch(path);
+    } catch (e) {
+      // @ts-ignore
+      console.log(JSON.stringify(e.request._response));
+
+      Alert.alert(
+        `No se pudo registrar el uso de la pajuela`,
+        `Ocurrió un error desconocido, contactese con el administrador`,
       );
     }
   };

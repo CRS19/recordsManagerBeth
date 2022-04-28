@@ -19,52 +19,56 @@ export const ProductionDiaria = () => {
   return (
     <View>
       <TopBar title="Producción Diaria" backIcon={true} />
-      <ScrollView>
-        <View style={{marginTop: 10}}>
-          <GeneralTitle
-            title="Producción Total diaria estación tunshi"
-            width={1200}
-          />
-          <CalendarButtom calendarAction={CalendarActionsEnum.GET_DAILY_MILK} />
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <View style={{marginTop: 10}}>
+            <GeneralTitle
+              title="Producción Total diaria estación tunshi"
+              width={1200}
+            />
+            <CalendarButtom
+              calendarAction={CalendarActionsEnum.GET_DAILY_MILK}
+            />
 
-          <DailyMilkLabTable dataArray={get(labRecords, 'data', [])} />
-          <View style={{marginTop: 20, flexDirection: 'row'}}>
-            <View>
-              {MILK_COSTS.map((titulo, index) => (
-                <View key={`${titulo}`}>
-                  <InfoLabelView
-                    title={titulo}
-                    value={GET_ACTION[titulo]}
-                    hasBorderTop={index === 0}
-                  />
-                </View>
-              ))}
+            <DailyMilkLabTable dataArray={get(labRecords, 'data', [])} />
+            <View style={{marginTop: 20, flexDirection: 'row'}}>
+              <View>
+                {MILK_COSTS.map((titulo, index) => (
+                  <View key={`${titulo}`}>
+                    <InfoLabelView
+                      title={titulo}
+                      value={GET_ACTION[titulo]}
+                      hasBorderTop={index === 0}
+                    />
+                  </View>
+                ))}
+              </View>
+              <View style={{marginLeft: 45}}>
+                {PROD_INFO.map((titulo, index) => (
+                  <View key={`${titulo}`}>
+                    <InfoLabelView
+                      title={titulo}
+                      value={GET_ACTION[titulo]}
+                      hasBorderTop={index === 0}
+                    />
+                  </View>
+                ))}
+              </View>
             </View>
-            <View style={{marginLeft: 45}}>
-              {PROD_INFO.map((titulo, index) => (
-                <View key={`${titulo}`}>
-                  <InfoLabelView
-                    title={titulo}
-                    value={GET_ACTION[titulo]}
-                    hasBorderTop={index === 0}
-                  />
-                </View>
-              ))}
-            </View>
+            {!isNil(labRecords) && (
+              <View style={{marginTop: 20}}>
+                <BorderButtom
+                  title="Imprimir"
+                  onPress={() =>
+                    createProductionDiariaReport(labRecords, GET_ACTION)
+                  }
+                />
+              </View>
+            )}
           </View>
-          {!isNil(labRecords) && (
-            <View style={{marginTop: 20}}>
-              <BorderButtom
-                title="Imprimir"
-                onPress={() =>
-                  createProductionDiariaReport(labRecords, GET_ACTION)
-                }
-              />
-            </View>
-          )}
-        </View>
-        <View style={{height: 200}} />
-        <Text>pantalla de producción diaria</Text>
+          <View style={{height: 200}} />
+          <Text>pantalla de producción diaria</Text>
+        </ScrollView>
       </ScrollView>
     </View>
   );

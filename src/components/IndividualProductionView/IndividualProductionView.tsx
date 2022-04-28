@@ -74,7 +74,7 @@ export const IndividualProductionView = ({
           }}
         />
       </View>
-      <GeneralTitle title="Total" />
+      <GeneralTitle title="Total" width={270} />
       <TextInput
         editable={false}
         style={{

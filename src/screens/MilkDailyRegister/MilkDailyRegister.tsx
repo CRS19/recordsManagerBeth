@@ -12,6 +12,7 @@ import {styles} from '../../theme/GlobalStyles';
 import {getMaxDate} from '../../utils/time-utils';
 import {useMilkDailyRegister} from './state/useMilkDailyRegister';
 import {get} from 'lodash';
+import {FillButton} from '../../components/Buttoms/FillButton';
 
 export const MilkDailyRegister = () => {
   const {
@@ -39,7 +40,6 @@ export const MilkDailyRegister = () => {
               markedDates={markedD}
               onDayPress={day => {
                 const {dateString} = day;
-                console.log('fecha en string -> ', dateString);
                 setMarkedD({
                   [dateString]: {
                     selected: true,
@@ -52,21 +52,12 @@ export const MilkDailyRegister = () => {
               enableSwipeMonths={true}
             />
             <View style={{margin: 30}}>
-              <ErrorMarginBotton {...MarginButtomProps} />
-            </View>
-            <View>
-              <Text
-                onPress={() =>
-                  console.log(
-                    JSON.stringify(
-                      DailyTableProps.productorasList.productoras,
-                      null,
-                      3,
-                    ),
-                  )
-                }>
-                mostrar lista de reproductores
-              </Text>
+              {/** TODO: verificar si va  el margen de error o no */}
+              {/**<ErrorMarginBotton {...MarginButtomProps} />**/}
+              <FillButton
+                title="Laboratoreo de Lacteos"
+                onPress={() => modalLabActions.setOpenCloseModalLab()}
+              />
             </View>
           </View>
           <ScrollView>
@@ -81,7 +72,6 @@ export const MilkDailyRegister = () => {
                 {!DailyTableProps.isDateView && (
                   <BorderButtom
                     onPress={() => {
-                      console.log('guardar');
                       guardarInfo();
                     }}
                     title="Guardar"

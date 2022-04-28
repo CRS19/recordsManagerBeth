@@ -11,8 +11,6 @@ import {IAppState} from '../../../../../store/reducer';
 import {styles} from '../../../../../theme/GlobalStyles';
 
 export const Brucelosis = () => {
-  console.log('DEBUG: Brucelosis');
-
   const {nombre, numeroDeArete} = useSelector(
     (state: IAppState) => state.CurrentCow!,
   );
@@ -33,8 +31,7 @@ export const Brucelosis = () => {
               markingType={'multi-dot'}
               onDayPress={day => {
                 const {dateString} = day;
-                console.log(dateString);
-                console.log(JSON.stringify(Marker, null, 3));
+
                 ({
                   [dateString]: {
                     marked: true,

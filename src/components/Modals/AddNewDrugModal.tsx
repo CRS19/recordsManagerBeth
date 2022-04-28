@@ -47,8 +47,6 @@ export const AddNewDrugModal = ({
     expDate: DrugToInsert.expDate,
   });
 
-  console.log('DEBUG: main modal render');
-
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', e => {
       setKeyboardSize(e.endCoordinates.height);
@@ -66,9 +64,7 @@ export const AddNewDrugModal = ({
 
   const onSaveForm = () => {
     validateForm();
-    console.log(JSON.stringify(form.current));
     if (!Object.entries(form.current).some(el => el[1] === true)) {
-      console.log('Todo bien todo correcto y yo que me alegro');
       const DrugToSave = {
         ...DrugToInsert,
         name: drugP.name,
@@ -108,10 +104,6 @@ export const AddNewDrugModal = ({
                 height: 550,
               }}>
               <View style={styles.ModalOneFieldInputPosition}>
-                <TouchableOpacity
-                  onPress={() => console.log(JSON.stringify(drugP, null, 3))}>
-                  <Text>Ver nuevo farmaco</Text>
-                </TouchableOpacity>
                 <DrugGroupPickerInput
                   error={form.current.group}
                   errorMessage="Seleccione una grupo"

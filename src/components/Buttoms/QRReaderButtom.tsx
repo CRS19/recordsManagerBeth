@@ -7,7 +7,7 @@ export const QRReaderButtom = () => {
   return (
     <View>
       <View style={{marginTop: 20}}>
-        <TouchableOpacity style={{alignSelf: 'center'}}>
+        <TouchableOpacity activeOpacity={0.8} style={{alignSelf: 'center'}}>
           <CameraIconButtom />
           <View style={{position: 'absolute', top: 55, left: 125}}>
             <Image source={a} />

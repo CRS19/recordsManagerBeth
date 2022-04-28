@@ -17,17 +17,21 @@ export const Gestación = () => {
   return (
     <View>
       <TopBar backIcon={true} title="Preñez" />
-      <ScrollView>
-        <GeneralTitle title="Preñez" width={1080} />
-        <CalendarButtom calendarAction={CalendarActionsEnum.GET_PREÑEZ_MONTA} />
-        <PreniezReportTable preniezTableData={preniezTableData} />
-        <View style={{marginTop: 20}}>
-          <BorderButtom
-            title="Imprimir"
-            onPress={() => createPreniezReport(preniezTableData)}
+      <ScrollView horizontal={true}>
+        <ScrollView>
+          <GeneralTitle title="Preñez" width={1080} />
+          <CalendarButtom
+            calendarAction={CalendarActionsEnum.GET_PREÑEZ_MONTA}
           />
-        </View>
-        <View style={{...styles.LogInFooter, marginTop: 450}} />
+          <PreniezReportTable preniezTableData={preniezTableData} />
+          <View style={{marginTop: 20}}>
+            <BorderButtom
+              title="Imprimir"
+              onPress={() => createPreniezReport(preniezTableData)}
+            />
+          </View>
+          <View style={{...styles.LogInFooter, marginTop: 450}} />
+        </ScrollView>
       </ScrollView>
     </View>
   );

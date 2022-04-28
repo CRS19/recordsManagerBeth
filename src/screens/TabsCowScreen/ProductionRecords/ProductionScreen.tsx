@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {IndividualProductionView} from '../../../components/IndividualProductionView/IndividualProductionView';
 import {LabelIconChip} from '../../../components/LabelIconChip/LabelIconChip';
@@ -55,7 +55,6 @@ export const ProductionScreen = () => {
             <View
               style={{
                 ...styles.RigthGenericTabContainer,
-                maxWidth: 500,
               }}>
               <View>
                 <LabelIconChip
@@ -64,19 +63,19 @@ export const ProductionScreen = () => {
                 />
                 <GeneralTitle title="Registro de produccicón individual" />
                 <IndividualProductionView {...IndivitualProdProps} />
-                <View style={{height: 40}} />
               </View>
             </View>
             <View
               style={{
                 ...styles.RigthGenericTabContainer,
-                maxWidth: 500,
-
                 alignItems: 'center',
               }}>
-              <View style={{margin: 10, marginLeft: 50, marginTop: 20}}>
-                <LactanciaViewCard productionRecords={prodRecord} />
-              </View>
+              <ScrollView>
+                <View style={{margin: 10, marginLeft: 50, marginTop: 20}}>
+                  <LactanciaViewCard productionRecords={prodRecord} />
+                </View>
+                <View style={{height: 200}} />
+              </ScrollView>
             </View>
           </View>
         </View>

@@ -28,6 +28,7 @@ export const DiagnosisInputCard = ({
   const {drugsIdList, doseUnit, actions} = useDiagonsisInputCard({
     drugs,
     setForm,
+    formIndex,
   });
 
   const doseTotalCalculated =
