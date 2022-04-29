@@ -42,12 +42,13 @@ export enum tipoMonta {
   IA = 'IA',
 }
 
-export enum Categoria {
+export enum CategoriaEnum {
   TERNERA = 'Ternera',
+  TERNERO = 'Ternero',
   VACA_MEDIA = 'Vaca media',
   VACA_FIERRO = 'Vaca fierro',
   VACA_VIENTRE = 'Vaca vientre',
-  VACA = 'Vaca',
+  VACA = 'Vaca en producción',
   VACA_SECA = 'Vaca seca',
   TORO = 'Toro',
   TORETE = 'Torete',
@@ -94,7 +95,7 @@ export interface ICow {
   fechaDeNacimiento: number;
   raza: string;
   pesoNacimiento: number;
-  categoria: categoriaType;
+  categoria: CategoriaEnum;
   valorDelBovino: number;
   nombreDeMadre: string;
   numeroAreteMadre: string;
@@ -106,7 +107,7 @@ export interface ICow {
   estadoReproductivo: estadoReproductivoType;
   historialPeso: IHistorialPeso[];
   updatedAt?: number;
-  descartada?: boolean;
+  descartada: boolean;
   decarteType?: DESCARTE_ENUM;
   estadoProductivo?: estadoProductivoType;
   descarteTimestamp?: number;
