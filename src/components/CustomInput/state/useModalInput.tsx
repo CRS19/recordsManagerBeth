@@ -74,42 +74,52 @@ export const useModalInput = (props: IUseModalInputProps): IUseModalInput => {
 
   const getValue = (): string => {
     const value = get(initialValue, `${property}`, '');
+
     if (!!defaultValue) {
       return defaultValue!;
-    } else if (property.includes('fecha')) {
+    }
+
+    if (property.includes('fecha')) {
       return moment(value).format('DD/MM/YYYY');
-    } else if (property.includes('nombreDeMadre')) {
+    }
+
+    if (property.includes('nombreDeMadre')) {
       return `${initialValue.nombreDeMadre.toUpperCase()} / ${
         initialValue.numeroAreteMadre
       }`;
-    } else if (property.includes('nombreDePadre')) {
+    }
+
+    if (property.includes('nombreDePadre')) {
       return `${initialValue.nombreDePadre.toUpperCase()} / ${
         initialValue.numeroAretePadre
       }`;
-    } else if (property === 'pesoAlDestete' && endEditing) {
-      return value.toString().concat(' Kg');
-    } else if (
-      property === 'vacaInfo.duraciónLactanciaPromedio' &&
-      endEditing
-    ) {
-      return value!.toString().concat(' DÍAS');
-    } else if (
-      property === 'vacaInfo.produccionPromedioLactancias' &&
-      endEditing
-    ) {
-      return value!.toString().concat(' LITROS');
-    } else if (property === 'vacaInfo.diasSecosTotales' && endEditing) {
-      return value!.toString().concat(' DÍAS');
-    } else if (property.includes('peso') && endEditing) {
-      return value!.toString().concat(' Kg');
-    } else if (
-      property === 'vacaInfo.diasGestaci\u00F3nPromedio' &&
-      endEditing
-    ) {
-      return value!.toString().concat(' DÍAS');
-    } else {
-      return value!.toString().toUpperCase();
     }
+
+    if (property === 'pesoAlDestete' && endEditing) {
+      return value.toString().concat(' Kg');
+    }
+
+    if (property === 'vacaInfo.duraciónLactanciaPromedio' && endEditing) {
+      return value!.toString().concat(' DÍAS');
+    }
+
+    if (property === 'vacaInfo.produccionPromedioLactancias' && endEditing) {
+      return value!.toString().concat(' LITROS');
+    }
+
+    if (property === 'vacaInfo.diasSecosTotales' && endEditing) {
+      return value!.toString().concat(' DÍAS');
+    }
+
+    if (property.includes('peso') && endEditing) {
+      return value!.toString().concat(' Kg');
+    }
+
+    if (property === 'vacaInfo.diasGestaci\u00F3nPromedio' && endEditing) {
+      return value!.toString().concat(' DÍAS');
+    }
+
+    return value!.toString().toUpperCase();
   };
 
   return {

@@ -38,9 +38,9 @@ export const InventoryFirstTableHead = () => {
             PRECIO{'\n'}PESO VIVO
           </Text>
         </View>
-        <View style={{...styles.DailyMilkRow, width: 170}}>
+        {/**<View style={{...styles.DailyMilkRow, width: 170}}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>CATEGORIA</Text>
-        </View>
+      </View>*/}
         <View style={{...styles.DailyMilkRow, width: 170, borderRightWidth: 2}}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             ESTADO{'\n'}REPRODUCTIVO

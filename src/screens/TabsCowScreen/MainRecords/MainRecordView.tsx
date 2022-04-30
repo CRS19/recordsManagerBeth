@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Alert, Image, ScrollView, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
 import {GestacionInputCardView} from '../../../components/InputCard/GestacionInputCardView';
 import {InputCardCaracteristicsView} from '../../../components/InputCard/InputCardCaracteristicsView';
@@ -18,14 +18,18 @@ import {IAppState} from '../../../store/reducer';
 import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
 import {useNavigation} from '@react-navigation/native';
+import {LoadingModal} from '../../../components/Modals/LoadingModal';
+import {saveCowSale} from '../../../store/actionCreators';
 
 export const MainRecordView = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [cow, setCow] = useState<ICow>(emptyCow);
   const [open, setOpen] = useState<boolean>(false);
   const [propertyFecha, setPropertyFecha] = useState<ICowKeys>(
     ICowKeys.fechaDeNacimiento,
   );
+  const isLoading = useSelector((state: IAppState) => state.isLoading!);
   const currentCow = useSelector((state: IAppState) => state.CurrentCow!);
 
   const descarteCow = () => {
@@ -41,13 +45,13 @@ export const MainRecordView = () => {
           style: 'cancel',
         },
         {
-          text: 'TRASLADO',
+          text: 'CANCELAR',
           onPress: () => {},
           style: 'cancel',
         },
         {
           text: 'VENTA',
-          onPress: () => {},
+          onPress: () => dispatch(saveCowSale(currentCow.idVaca)),
           style: 'cancel',
         },
       ],
@@ -215,6 +219,7 @@ export const MainRecordView = () => {
           </ScrollView>
         </View>
       </View>
+      <LoadingModal title="Actualizando..." openCloseModal={isLoading} />
     </View>
   );
 };

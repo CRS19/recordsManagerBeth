@@ -1,9 +1,8 @@
 import React from 'react';
-import {Alert, Text, View, ScrollView} from 'react-native';
+import {Alert, View, ScrollView} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {ActivityIndicator} from 'react-native-paper';
 import {BorderButtom} from '../../components/Buttoms/BorderButtom';
-import {ErrorMarginBotton} from '../../components/Buttoms/ErrorMarginBotton';
 import {UpdateDailyMilkLab} from '../../components/Modals/UpdateDailyMilkLab';
 import {DailyTable} from '../../components/Tables/DailyMilkRegisterTable/DailyTable';
 import {GeneralTitle} from '../../components/Titles/GeneralTitle';
@@ -13,6 +12,7 @@ import {getMaxDate} from '../../utils/time-utils';
 import {useMilkDailyRegister} from './state/useMilkDailyRegister';
 import {get} from 'lodash';
 import {FillButton} from '../../components/Buttoms/FillButton';
+import {LoadingModal} from '../../components/Modals/LoadingModal';
 
 export const MilkDailyRegister = () => {
   const {
@@ -97,6 +97,7 @@ export const MilkDailyRegister = () => {
           get(DailyTableProps, 'productorasList.productoras', []).length
         }
       />
+      <LoadingModal title="Cargando..." openCloseModal={false} />
     </View>
   );
 };

@@ -43,7 +43,7 @@ import {GetOneMainRecordResponse} from '../interfaces/httpInOutInterfaces/GetOne
 import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/CreateSanityRecordResponse';
 import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
 import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 
 export type IAppAction = {
   type: string;
@@ -496,7 +496,10 @@ export const getPoductorasIdList = (): ThunkAction<
       const response = await axios.get(path);
 
       dispatch(setProductorasList(JSON.parse(response.request._response)));
-    } catch (e) {}
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+    }
   };
 };
 
@@ -526,12 +529,23 @@ export const saveDailyProducts = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    setIsLoading(true);
     const path = `${API_BASE_PATH}/daily-prod-record/updateRecords`;
     try {
       const response = await axios.post(path, recordsToSave);
 
       dispatch(getPoductorasIdList());
-    } catch (e) {}
+
+      Alert.alert('Datos de producción daria almacenados exitosamente');
+
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Alert.alert(
+        'Error al registrar los datos de producción',
+        `Hubo un error al registrar los datos de producción, porfavor revisa tu conexión a internet`,
+      );
+    }
   };
 };
 
@@ -951,6 +965,7 @@ export const getInventoryCows = (
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    dispatch(setIsLoading(true));
     const path = `${API_BASE_PATH}/inventori-history-cows/getByMonth/${monthYear}`;
 
     try {
@@ -968,6 +983,8 @@ export const getInventoryCows = (
         `No se pudo obtener la información`,
         'Hubo un error al obtener los registros de inventario de animales, revise su conexión a internet',
       );
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 };
@@ -1168,6 +1185,29 @@ export const decrementStockStraw = (
       Alert.alert(
         `No se pudo registrar el uso de la pajuela`,
         `Ocurrió un error desconocido, contactese con el administrador`,
+      );
+    }
+  };
+};
+
+export const saveCowSale = (
+  idVaca: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    dispatch(setIsLoading(true));
+    const path = `${API_BASE_PATH}/cow-sales/saveSale`;
+
+    try {
+      const resposne = await axios.post(path, {idVaca});
+      dispatch(setIsLoading(false));
+      Alert.alert('Animal descartado por VENTA registrado Exitosamente');
+    } catch (e) {
+      dispatch(setIsLoading(false));
+      Alert.alert(
+        `No se pudo registrar la venta del ejemplar`,
+        `Ocurrió un error al registrar la venta del animal, verifique su conexión a internet`,
       );
     }
   };
