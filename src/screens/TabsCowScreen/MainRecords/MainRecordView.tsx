@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Image, ScrollView, View} from 'react-native';
+import {Alert, Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
 import {GestacionInputCardView} from '../../../components/InputCard/GestacionInputCardView';
@@ -19,7 +19,12 @@ import {styles} from '../../../theme/GlobalStyles';
 import {emptyCow} from '../../../VaquitasPrueba/vacas';
 import {useNavigation} from '@react-navigation/native';
 import {LoadingModal} from '../../../components/Modals/LoadingModal';
-import {saveCowSale} from '../../../store/actionCreators';
+import {saveCowSale, updatePhoto} from '../../../store/actionCreators';
+
+import {
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 export const MainRecordView = () => {
   const dispatch = useDispatch();
@@ -58,43 +63,63 @@ export const MainRecordView = () => {
     );
   };
 
+  const updateImage = (indexImage: number) => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+        maxHeight: 286,
+        maxWidth: 400,
+      },
+      (resp: ImagePickerResponse) => {
+        if (resp.didCancel) return;
+        if (!resp.assets![0].uri) console.log(resp);
+        dispatch(updatePhoto(resp, indexImage, currentCow));
+      },
+    );
+  };
+
   return (
     <View style={{flexDirection: 'column'}}>
       <TopBar
         hamburguerDisplay={'none'}
         title={'Registro Master'}
         findIcon={false}
-        backIcon={false}
+        backIcon={true}
       />
       <View style={{flexDirection: 'row'}}>
         <View style={styles.GenericTabContainer}>
           <View style={styles.LeftGenericTabContainer}>
-            <Image
-              style={{
-                margin: 5,
-                width: 300,
-                height: 220,
-                backgroundColor: 'red',
-              }}
-              source={{
-                uri: `${API_BASE_PATH}/cow/getImage/${
-                  defaultTo(currentCow.imagenPath[0], 'a/').split('/')[2]
-                }`,
-              }}
-            />
-            <Image
-              style={{
-                margin: 5,
-                width: 300,
-                height: 220,
-                backgroundColor: 'red',
-              }}
-              source={{
-                uri: `${API_BASE_PATH}/cow/getImage/${
-                  defaultTo(currentCow.imagenPath[1], 'a/').split('/')[2]
-                }`,
-              }}
-            />
+            <TouchableOpacity onPress={() => updateImage(0)}>
+              <Image
+                style={{
+                  margin: 5,
+                  width: 300,
+                  height: 220,
+                  backgroundColor: 'red',
+                }}
+                source={{
+                  uri: `${API_BASE_PATH}/cow/getImage/${
+                    defaultTo(currentCow.imagenPath[0], 'a/').split('/')[2]
+                  }`,
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => updateImage(1)}>
+              <Image
+                style={{
+                  margin: 5,
+                  width: 300,
+                  height: 220,
+                  backgroundColor: 'red',
+                }}
+                source={{
+                  uri: `${API_BASE_PATH}/cow/getImage/${
+                    defaultTo(currentCow.imagenPath[1], 'a/').split('/')[2]
+                  }`,
+                }}
+              />
+            </TouchableOpacity>
           </View>
           {/* rigth part */}
           <ScrollView horizontal={true}>

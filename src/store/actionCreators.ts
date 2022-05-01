@@ -44,6 +44,7 @@ import {ICreateSanityRecordResponse} from '../interfaces/httpInOutInterfaces/Cre
 import {IInventoryCowFirstTable} from '../interfaces/InventoryCow.interface';
 import {IDeathCertificate} from '../screens/TabsCowScreen/MainRecords/DescarteScreen/Interfaces/Descarte.interface';
 import {AxiosResponse} from 'axios';
+import {get} from 'lodash';
 
 export type IAppAction = {
   type: string;
@@ -446,6 +447,85 @@ export const setUploadImage = (
       dispatch(setNewCow(updateNewCow));
     } catch (e) {
       // @ts-ignore
+    }
+  };
+};
+
+export const updatePhoto = (
+  payload: ImagePickerResponse,
+  indexPath: number,
+  cowToUpdate: ICow,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    dispatch(setIsLoading(true));
+    const path = `${API_BASE_PATH}/cow/uploadImage`;
+
+    const fileToUpload = {
+      uri: payload.assets![0].uri,
+      type: payload.assets![0].type,
+      name: payload.assets![0].fileName,
+    };
+
+    const formData = new FormData();
+    formData.append('file', fileToUpload);
+
+    try {
+      const response = await axios.post(path, formData);
+
+      const resposne2: UploadImageResponse = JSON.parse(
+        response.request._response,
+      );
+
+      let imagePaths: string[] = get(cowToUpdate, 'imagenPath', []);
+
+      dispatch(deleteOldImage(imagePaths[indexPath]));
+
+      imagePaths[indexPath] = resposne2.imagePath;
+
+      dispatch(
+        updatePartialMainCowRecord({
+          idVaca: cowToUpdate.idVaca,
+          partialCow: {imagenPath: imagePaths},
+        }),
+      );
+    } catch (e) {
+      Alert.alert(
+        'Error al actualizar la imagen',
+        'Por favor revise su conexión a internet',
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+};
+
+export const deleteOldImage = (
+  filePath: string,
+): ThunkAction<void, IAppState, undefined, IAppAction> => {
+  return async (
+    dispatch: ThunkDispatch<IAppState, any, IAppAction>,
+  ): Promise<void> => {
+    dispatch(setIsLoading(true));
+    try {
+      const fileName = filePath.split('/')[2];
+
+      const path = `${API_BASE_PATH}/cow/deleteImage/${fileName}`;
+
+      const resposne = await axios.delete(path);
+
+      Alert.alert('Imagen anterior eliminada exitosamente');
+    } catch (e) {
+      //@ts-ignore
+      console.log(e.request._response);
+
+      Alert.alert(
+        'Hubo un error al borrar la imagen',
+        'Asegurese de que la imagen anterior exista',
+      );
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 };
@@ -943,6 +1023,7 @@ export const updatePartialMainCowRecord = (payload: {
   return async (
     dispatch: ThunkDispatch<IAppState, any, IAppAction>,
   ): Promise<void> => {
+    dispatch(setIsLoading(true));
     const path = `${API_BASE_PATH}/cow/update/updatePartial`;
 
     try {
@@ -955,6 +1036,8 @@ export const updatePartialMainCowRecord = (payload: {
         `No se pudo actualizar el registro master`,
         'El registro master no pudo ser actualizado, porfavor contactese con el administrador',
       );
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 };

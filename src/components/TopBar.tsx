@@ -34,7 +34,14 @@ export const TopBar = (props: ITopBar) => {
           <View style={styles.TapBarBackIcon}>
             {hasBackIcon ? (
               <TouchableOpacity
-                style={{top: 5}}
+                style={{
+                  top: -4,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
                 activeOpacity={0.8}
                 onPress={() => navigation.goBack()}>
                 <BackDrawerIcon />
@@ -42,7 +49,12 @@ export const TopBar = (props: ITopBar) => {
             ) : (
               <TouchableOpacity
                 style={{
-                  top: 9,
+                  top: -10,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   display:
                     props.hamburguerDisplay === undefined
                       ? 'flex'
