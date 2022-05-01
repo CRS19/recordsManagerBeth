@@ -14,11 +14,14 @@ export const InventoryCowFirstTable = ({
   return (
     <View>
       <InventoryFirstTableHead />
-      {firstDataTable.map((rowData: IInventoryCowFirstTable, index) => (
-        <View key={`${rowData.areteNumber}-${index}`}>
-          <InventoryFirstTableRow index={index} rowData={rowData} />
-        </View>
-      ))}
+      {firstDataTable.map((rowData: IInventoryCowFirstTable, index) => {
+        if (rowData.areteNumber !== 'xD')
+          return (
+            <View key={`${rowData.areteNumber}-${index}`}>
+              <InventoryFirstTableRow index={index} rowData={rowData} />
+            </View>
+          );
+      })}
     </View>
   );
 };

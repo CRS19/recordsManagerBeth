@@ -52,11 +52,11 @@ export const InventoryFirstTableRow = ({
             {rowData.precioPesoVivo} USD
           </Text>
         </View>
-        <View style={{...styles.DailyMilkRow, width: 170, borderTopWidth: 0}}>
+        {/**<View style={{...styles.DailyMilkRow, width: 170, borderTopWidth: 0}}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             {rowData.categoria}
           </Text>
-        </View>
+      </View>*/}
         <View
           style={{
             ...styles.DailyMilkRow,

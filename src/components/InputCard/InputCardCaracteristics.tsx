@@ -103,7 +103,6 @@ export const InputCardCaracteristics = (props: IInputCardCaracteristics) => {
         editable={!hasMomDad}
         openModal={setOpenDadDataModal}
       />
-      {value.sexo === 'MACHO' ? <LabelChip text={'16'} width={50} /> : <View />}
     </View>
   );
 };

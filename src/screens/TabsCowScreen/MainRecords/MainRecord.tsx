@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, AlertButton, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, AlertButton, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {DescarteBottom} from '../../../components/Buttoms/DescarteBottom';
 import {SaveButtom} from '../../../components/Buttoms/SaveButtom';
 import {AddImage} from '../../../components/Images/AddImagesButtom/AddImage';
 import {GestacionInputCard} from '../../../components/InputCard/GestacionInputCard';
@@ -24,7 +23,6 @@ import {
   createReproductionRecord,
   createSanityRecord,
   insertNewCow,
-  setCow,
   setInsertNewCow,
   setIsNewborn,
   setNewCow,
@@ -66,7 +64,6 @@ export const MainRecord = () => {
   );
   // RECIBIR EL PARAMETRO INICIAL POR PROPSPARA SABER SI ES INICIADA POR PARTO O COMPRADA
   const [hasMomDad, setHasMomDad] = useState<boolean>(false);
-  const [validInfoCard, setValidInfoCard] = useState<boolean>(false);
 
   const [isUploadPhotos, setIsUploadPhotos] = useState<{
     phothoOne: Boolean;

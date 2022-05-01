@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {IDailyMilkRecord} from '../../../interfaces/DailyMilkRecord';
 import {IProductorasArray} from '../../../interfaces/ProductorasId';
 import {DailyRow} from '../DailyMilkRow/DailyRow';

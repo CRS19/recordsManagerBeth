@@ -62,7 +62,7 @@ export const AddImage = (props: AddImageProps) => {
           height: 48,
         }}
         onPress={() =>
-          launchCamera(
+          launchImageLibrary(
             {
               mediaType: 'photo',
               quality: 1,

@@ -4,7 +4,6 @@ import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {IDailyTableProps} from '../../../components/Tables/DailyMilkRegisterTable/DailyTable';
 import {IDailyMilkRecord} from '../../../interfaces/DailyMilkRecord';
-import {IProductorasArray} from '../../../interfaces/ProductorasId';
 import {
   changeProd,
   getDailyProdRecords,
@@ -15,7 +14,6 @@ import {IAppState} from '../../../store/reducer';
 import {
   getDateOfDay,
   getMaxDate,
-  getMomentOfDay,
   getTimestamp,
   getTimestampFromDate,
   isMorning,
@@ -61,7 +59,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
       activeOpacity: 0,
     },
   });
-  const isLoading = useSelector((state: IAppState) => state.isLoading!);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dailyProductionRecords = useSelector(
     (state: IAppState) => state.dailyProductionRecords!,
   );
@@ -76,6 +74,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
   };
 
   const guardarInfo = () => {
+    setIsLoading(true);
     let allCorrect = true;
     let vacasNoIngresadas: string[] = [];
     const dailyProdRecordsNoCalostro = dailyProductionRecords.filter(
@@ -119,6 +118,7 @@ export const useMilkDailyRegister = (): IUseMilkDailyRegister => {
         )}`,
       );
     }
+    setIsLoading(false);
   };
 
   const changeCalostroProductivaInfo = (

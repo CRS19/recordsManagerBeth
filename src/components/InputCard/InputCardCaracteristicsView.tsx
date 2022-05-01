@@ -12,7 +12,6 @@ import {AgeEnum} from '../../constants/ageTypeEnum';
 import {MomNameIconLabel} from '../../assets/MomNameIconLabel';
 import {DadNameIconLabel} from '../../assets/DadNameIconLabel';
 import {useGetPrice} from '../../utils/useGetPrice';
-import {LabelChip} from '../LabelChip/LabelChip';
 import {ViewInput} from '../ViewInput/ViewInput';
 
 interface IInputCardCaracteristicsView {
@@ -67,7 +66,11 @@ export const InputCardCaracteristicsView = (
         setValue={setValue}
         hasMask={false}
         mask="[A][-----------------------------------------------------]"
-        defaultValue={isInsert ? `${newCowPrice} $` : `${currentCowPrice} $`}
+        defaultValue={
+          isInsert
+            ? `${newCowPrice.toFixed(2)} $`
+            : `${currentCowPrice.toFixed(2)} $`
+        }
         editable={false}
       />
       <ViewInput
@@ -84,11 +87,6 @@ export const InputCardCaracteristicsView = (
           value.numeroAretePadre
         } `}
       />
-      {value.sexo.toUpperCase() === 'MACHO' ? (
-        <LabelChip text={'16'} width={50} />
-      ) : (
-        <View />
-      )}
     </View>
   );
 };

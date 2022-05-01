@@ -30,7 +30,7 @@ export const GestacionInputCardView = (props: IGestacionInputCardView) => {
   const edadMeses = value.vacaInfo!.edadPrimerParto.months;
   const edadAños = value.vacaInfo!.edadPrimerParto.years;
   const edadMesesA = value.vacaInfo!.edadPrimerParto.months + 12 * edadAños;
-  const edadDiasM = value.vacaInfo!.edadPrimerParto.days + 30 * edadMesesA;
+  const edadDiasM = value.vacaInfo!.edadPrimerParto.days;
 
   const [ageType, setageType] = useState<AgeEnum>(AgeEnum.MESES_DIAS);
   const form = useRef(initialFormGestation);
@@ -65,8 +65,8 @@ export const GestacionInputCardView = (props: IGestacionInputCardView) => {
           setValue={setValue}
           defaultValue={
             ageType === AgeEnum.MESES_DIAS
-              ? `${edadMesesA} MESES / ${edadDiasM} DIAS`
-              : `${edadAños} AÑOS / ${edadMeses} MESES`
+              ? `${edadMesesA.toFixed(0)} MESES / ${edadDiasM.toFixed(0)} DIAS`
+              : `${edadAños.toFixed(0)} AÑOS / ${edadMeses.toFixed(0)} MESES`
           }
           hasMask={false}
           hasLeftButtom={true}

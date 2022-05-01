@@ -15,7 +15,6 @@ import {IAppState} from '../../../store/reducer';
 import {cloneDeep, isNil} from 'lodash';
 import {RegistroPalp} from '../../../interfaces/ReproductionRecord';
 import {useTime} from '../../../custom/useTime';
-import moment from 'moment';
 import {
   ABORTO_SUB_TYPE,
   PALPATION_SUB_TYPE,
@@ -32,6 +31,7 @@ import {
 } from '../../../store/actionCreators';
 import {Alert} from 'react-native';
 import {IStraw} from '../../../interfaces/IStraws';
+import {getTimestamp} from '../../../utils/time-utils';
 
 interface IUseReproduction {
   cow: ICow;
@@ -185,6 +185,12 @@ export const useReproduction = (): IUseReproduction => {
 
     dispatch(setInsertNewCow(true));
     dispatch(setIsNewborn(true));
+
+    insertPalpation({
+      registroPalpacion: PalpEnum.RECENTINA,
+      fecha: getTimestamp(),
+    });
+
     updateCurrentRecordProperty(
       ReproductionRecordKeysEnum.estadoDeLaCria,
       estadoDeLaCriaEnum.NACIDA_VIVA,
@@ -196,6 +202,12 @@ export const useReproduction = (): IUseReproduction => {
   const onNatimortoPress = () => {
     setIsOpenTwoModal(false);
     setIsOpenSexModal(true);
+
+    insertPalpation({
+      registroPalpacion: PalpEnum.RECENTINA,
+      fecha: getTimestamp(),
+    });
+
     updateCurrentRecordProperty(
       ReproductionRecordKeysEnum.estadoDeLaCria,
       estadoDeLaCriaEnum.NATIMORTO,
